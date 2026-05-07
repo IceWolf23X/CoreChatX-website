@@ -1,0 +1,242 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Complete CoreChatX installation guide for standalone Paper servers and Velocity networks.">
+    <title>CoreChatX Installation Guide</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <meta name="theme-color" content="#070812">
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Main navigation">
+        <a class="brand" href="./index.html" aria-label="CoreChatX home"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+        <div class="nav-links" id="nav-links">
+          <a href="./index.html#features">Features</a>
+          <a href="./installation.html">Setup</a>
+          <a href="./docs.html">Docs</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a>
+          <a href="https://github.com/IceWolf23X/CoreChatX/releases">Download</a>
+        </div>
+        <a class="nav-cta" href="./configuration.html">Config Reference</a>
+      </nav>
+    </header>
+
+    <main id="main">
+      <section class="page-hero">
+        <div class="shell section-heading">
+          <p class="eyebrow">Complete installation guide</p>
+          <h1>Install CoreChatX cleanly on Paper or Velocity.</h1>
+          <p>
+            This guide keeps the operational rules in one place: artifacts, folders, deployment modes,
+            matching network values, reload boundaries, bridge notes, config regeneration, and validation.
+          </p>
+        </div>
+      </section>
+
+      <section class="section doc-page">
+        <div class="shell doc-layout">
+          <aside class="doc-sidebar" aria-label="Installation contents">
+            <strong>Contents</strong>
+            <a href="#requirements">Requirements</a>
+            <a href="#artifacts">Artifacts</a>
+            <a href="#standalone-paper">Standalone Paper</a>
+            <a href="#velocity-network">Velocity Network</a>
+            <a href="#bridges">Bridge Installs</a>
+            <a href="#placeholderapi">PlaceholderAPI Installs</a>
+            <a href="#chatitems-network">ChatItems On A Network</a>
+            <a href="#reload-restart">Reload vs Restart</a>
+            <a href="#file-layout">File Layout</a>
+            <a href="#regeneration">Regenerating Configs</a>
+            <a href="#validation">Production Validation</a>
+          </aside>
+
+          <article class="markdown-body">
+            <h2 id="requirements">Requirements</h2>
+            <ul>
+              <li>Java 21 runtime</li>
+              <li>Paper <code>1.21.11</code> for backend servers</li>
+              <li>Velocity for multi-backend network installs</li>
+              <li>LuckPerms is optional for rank/group metadata and permission assignment</li>
+              <li>PlaceholderAPI is optional for dynamic placeholders in server-controlled templates</li>
+              <li>Discord bot token and required gateway intents are optional for the Discord bridge</li>
+              <li>Telegram bot token is optional for the Telegram Bot API long-polling bridge</li>
+            </ul>
+
+            <h2 id="artifacts">Artifacts And Identity</h2>
+            <p>CoreChatX currently ships as two separate runtime jars. Install each jar only on the platform it was built for.</p>
+            <ul>
+              <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
+              <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
+              <li>Internal shared module: <code>corechatx-common-&lt;version&gt;.jar</code>, not a runtime jar to install</li>
+              <li>Paper plugin name: <code>CoreChatX</code></li>
+              <li>Velocity plugin id: <code>corechatx</code></li>
+              <li>Main Paper command: <code>/corechatx</code></li>
+              <li>Main command alias: <code>/ccx</code></li>
+              <li>Settings command alias: <code>/ccxsettings</code></li>
+              <li>Permission namespace: <code>corechatx.*</code></li>
+              <li>Default plugin messaging channel: <code>corechatx:main</code></li>
+            </ul>
+            <p>Do not mix old jars, old plugin ids, old permission namespaces, or old network channels with CoreChatX. For a clean setup, let the plugin generate fresh defaults and manually reapply only the settings you still want.</p>
+
+            <h2 id="standalone-paper">Standalone Paper</h2>
+            <p>Use this for one Paper server without cross-backend CoreChatX routing.</p>
+            <ol>
+              <li>Stop the Paper server.</li>
+              <li>Install <code>corechatx-paper-&lt;version&gt;.jar</code> on that Paper server.</li>
+              <li>Start the server once so CoreChatX can generate <code>plugins/CoreChatX/</code>.</li>
+              <li>Keep deployment mode as <code>STANDALONE</code>.</li>
+              <li>Keep <code>deployment.network-features-allowed</code> false.</li>
+              <li>Configure formats, channels, messages, moderation, ChatItems, keywords, bubbles, and optional bridges on that backend.</li>
+            </ol>
+            <pre class="code-block"><code>deployment:
+  mode: "STANDALONE"
+  server-id: "paper-1"
+  network-channel: "corechatx:main"
+  bridges-allowed: true
+  network-features-allowed: false</code></pre>
+            <p>In standalone mode, no Velocity module is required. <code>NETWORK</code> channels behave as normal local backend chat, cross-server PM routing is inactive, and network player directory features are inactive.</p>
+
+            <h2 id="velocity-network">Velocity Network</h2>
+            <p>Use this for Paper backends connected through Velocity.</p>
+            <ol>
+              <li>Stop the proxy and participating backends.</li>
+              <li>Install <code>corechatx-paper-&lt;version&gt;.jar</code> on every Paper backend that should use CoreChatX.</li>
+              <li>Install <code>corechatx-velocity-&lt;version&gt;.jar</code> on the Velocity proxy.</li>
+              <li>On each backend, set <code>deployment.mode</code> to <code>PROXY</code>.</li>
+              <li>Give every backend a unique <code>deployment.server-id</code>, such as <code>alpha</code>, <code>beta</code>, <code>survival-1</code>, or <code>hub</code>.</li>
+              <li>Use the exact same lowercase <code>deployment.network-channel</code> on every backend.</li>
+              <li>Use the exact same <code>network-channel</code> in <code>plugins/corechatx/velocity-config.properties</code>.</li>
+              <li>Set <code>deployment.network-features-allowed</code> true on every backend that should participate in cross-server features.</li>
+              <li>Restart the affected Paper backends and Velocity after changing identity or network channel values.</li>
+            </ol>
+            <pre class="code-block"><code>deployment:
+  mode: "PROXY"
+  server-id: "survival-1"
+  network-channel: "corechatx:main"
+  bridges-allowed: true
+  network-features-allowed: true</code></pre>
+            <pre class="code-block"><code># plugins/corechatx/velocity-config.properties
+network-channel=corechatx:main
+player-directory.chat-completions=true
+player-directory.tab-entries=true</code></pre>
+            <p>Network behavior enabled by this setup includes network channels, cross-server PM routing, synced communication settings, active channel state, ping toggles, PM toggle, social spy, mention notifications, locale, staff-chat state, ignore lists, global player name completions, TAB entries where available, rich Adventure component transport, ChatItem preview refs, mentions, and custom ping metadata across backends.</p>
+
+            <h2 id="bridges">Bridge Installs</h2>
+            <ul>
+              <li>Keep <code>deployment.bridges-allowed</code> true.</li>
+              <li>Enable only the bridge services you actually use.</li>
+              <li>Enable outbound export only on CoreChatX channels that should leave Minecraft.</li>
+              <li>Configure inbound routes so external messages land in intentional CoreChatX channels.</li>
+              <li>In proxy mode, run inbound bridge listeners only on backend instances that should locally display inbound messages.</li>
+              <li>For Discord inbound, configure a valid bot token, inbound route, and required intents including Message Content where needed.</li>
+              <li>For Telegram, use a bot token for Bot API long polling. Telegram does not use MTProto, Telegram4J, webhook mode, or an embedded HTTP server.</li>
+            </ul>
+
+            <h2 id="placeholderapi">PlaceholderAPI-Heavy Installs</h2>
+            <ul>
+              <li>Install PlaceholderAPI on every backend that must render placeholders.</li>
+              <li>Install the expansions required by your formats.</li>
+              <li>Keep raw player messages separate from admin templates.</li>
+              <li>Remember that mention token placeholders use the mentioned player as context.</li>
+              <li>Test offline-player placeholder behavior before relying on it for cross-backend hover text.</li>
+            </ul>
+
+            <h2 id="chatitems-network">ChatItems On A Network</h2>
+            <ul>
+              <li>Keep ChatItems enabled only on channels where previews are wanted.</li>
+              <li>Prefer the bundled on-demand snapshot flow over embedding huge item data into every network chat packet.</li>
+              <li>Accept that expired or rejected snapshots fail closed with the normal expired-preview feedback.</li>
+              <li>Tune byte limits only after checking the size of custom item metadata.</li>
+            </ul>
+
+            <h2 id="reload-restart">Reload vs Restart</h2>
+            <h3>Safe with <code>/corechatx reload</code></h3>
+            <ul>
+              <li>messages, chat formats, pings, filters, ChatItems, keywords, chat bubbles, channels, privacy, moderation, storage, Discord, Telegram, and locale files</li>
+              <li>non-identity runtime toggles such as debug, hooks, logging, bridge gates, join/quit, first-join, and reload summary behavior</li>
+            </ul>
+            <h3>Requires full restart</h3>
+            <ul>
+              <li><code>deployment.mode</code></li>
+              <li><code>deployment.server-id</code></li>
+              <li><code>deployment.network-channel</code></li>
+              <li>switching a backend between standalone and proxy deployment</li>
+              <li>changing Velocity <code>velocity-config.properties</code></li>
+              <li>changing Velocity <code>network-channel</code>, which also requires affected Paper backends to use the same new channel</li>
+            </ul>
+
+            <h2 id="file-layout">File Layout</h2>
+            <h3>Paper folder</h3>
+            <pre class="code-block"><code>plugins/CoreChatX/</code></pre>
+            <h3>Paper files created from bundled defaults</h3>
+            <pre class="code-block"><code>config.yml
+messages.yml
+chat.yml
+pings.yml
+filter.yml
+chatitems.yml
+keywords.yml
+chatbubbles.yml
+playerdata.yml
+state.yml
+channels.yml
+privacy.yml
+moderation.yml
+storage.yml
+discord.yml
+telegram.yml
+locales/en_us.yml</code></pre>
+            <h3>Additional Paper runtime files created on demand</h3>
+            <pre class="code-block"><code>channeldata.yml
+ignoredata.yml
+mutedata.yml</code></pre>
+            <h3>Velocity folder and file</h3>
+            <pre class="code-block"><code>plugins/corechatx/
+velocity-config.properties</code></pre>
+
+            <h2 id="regeneration">Regenerating A Clean Config Set</h2>
+            <p>Stop the server before deleting generated admin config files. CoreChatX recreates bundled defaults on next boot. Be careful with runtime data files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code>; those are live player/plugin state.</p>
+            <p>Before major changes, back up the whole CoreChatX folder. Keep private bridge tokens out of public backups and logs.</p>
+
+            <h2 id="validation">Production Validation Checklist</h2>
+            <ul>
+              <li>Boot every Paper backend and confirm the <code>CORECHATX</code> startup banner.</li>
+              <li>Boot Velocity and confirm the proxy-side startup banner when using proxy mode.</li>
+              <li>Run a normal public chat message.</li>
+              <li>Run a channel switch and verify send/receive permissions.</li>
+              <li>Test <code>/msg</code> and <code>/reply</code>.</li>
+              <li>Test mentions, custom pings, and notification toggles.</li>
+              <li>Test one PlaceholderAPI value in a server-controlled template.</li>
+              <li>Test one keyword hover/click action.</li>
+              <li>Test one ChatItem preview locally.</li>
+              <li>In proxy mode, test one network channel message from each backend.</li>
+              <li>In proxy mode, test one cross-backend PM.</li>
+              <li>In proxy mode, test one cross-backend ChatItem preview click.</li>
+              <li>Test Discord outbound and inbound if enabled.</li>
+              <li>Test Telegram outbound, inbound, and topic routing if enabled.</li>
+              <li>Test mute, mutechat, clear chat, social spy, ignore, and PM toggle behavior.</li>
+              <li>Run <code>/corechatx reload</code> after a harmless wording change and confirm it applies.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div><a class="brand footer-brand" href="./index.html"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a><p>Complete communication suite for Minecraft servers.</p></div>
+        <div class="footer-links"><a href="./index.html#features">Features</a><a href="./installation.html">Setup</a><a href="./docs.html">Docs</a><a href="./faq.html">FAQ</a><a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a><a href="https://github.com/IceWolf23X/CoreChatX/releases">Download</a></div>
+      </div>
+    </footer>
+
+    <script src="./assets/site.js"></script>
+  </body>
+</html>
