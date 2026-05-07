@@ -36,7 +36,7 @@ jobs:
               "faq.html": "./faq.html",
           }
 
-          def sidebar_for(filename: str) -> str:
+          def sidebar_for(filename):
               lines = [
                   '          <aside class="resource-sidebar" aria-label="Related resources">',
                   '            <strong>Resources</strong>',
@@ -192,8 +192,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          rm -f .github/workflows/apply-resource-sidebar.yml
-          git add features.html installation.html configuration.html faq.html assets/styles.css .github/workflows/apply-resource-sidebar.yml
+          git add features.html installation.html configuration.html faq.html assets/styles.css
           if git diff --cached --quiet; then
             echo "No resource sidebar changes to commit."
           else
