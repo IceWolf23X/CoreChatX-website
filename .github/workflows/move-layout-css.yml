@@ -16,7 +16,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Move static layout styles into CSS
+      - name: Add migrated static CSS
         run: |
           python3 <<'PY'
           from pathlib import Path
