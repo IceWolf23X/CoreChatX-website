@@ -1,0 +1,449 @@
+name: Apply light theme
+
+on:
+  push:
+    paths:
+      - .github/workflows/apply-light-theme.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply light theme changes
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+
+          const pages = [
+            'index.html',
+            'docs.html',
+            'features.html',
+            'installation.html',
+            'configuration.html',
+            'faq.html',
+          ];
+
+          const headScript = `    <script>
+      (() => {
+        try {
+          if (localStorage.getItem("corechatx-theme") === "light") {
+            document.documentElement.dataset.theme = "light";
+          }
+        } catch (_) {}
+      })();
+    </script>
+`;
+
+          for (const page of pages) {
+            let html = fs.readFileSync(page, 'utf8');
+            if (!html.includes('corechatx-theme')) {
+              html = html.replace(
+                '    <meta name="theme-color" content="#070812">\n',
+                '    <meta name="theme-color" content="#070812">\n' + headScript
+              );
+              fs.writeFileSync(page, html);
+            }
+          }
+
+          let js = fs.readFileSync('assets/site.js', 'utf8');
+          if (!js.includes('const themeKey = "corechatx-theme";')) {
+            const themeBlock = `
+const root = document.documentElement;
+const themeMeta = document.querySelector('meta[name="theme-color"]');
+const themeKey = "corechatx-theme";
+
+const getStoredTheme = () => {
+  try {
+    return localStorage.getItem(themeKey);
+  } catch (_) {
+    return null;
+  }
+};
+
+const setStoredTheme = (theme) => {
+  try {
+    localStorage.setItem(themeKey, theme);
+  } catch (_) {
+    // Ignore storage failures so the toggle still works for the current page.
+  }
+};
+
+const normalizeTheme = (theme) => (theme === "light" ? "light" : "dark");
+
+const applyTheme = (theme) => {
+  const nextTheme = normalizeTheme(theme);
+
+  if (nextTheme === "light") {
+    root.dataset.theme = "light";
+  } else {
+    root.removeAttribute("data-theme");
+  }
+
+  if (themeMeta) {
+    themeMeta.setAttribute("content", nextTheme === "light" ? "#f7f8ff" : "#070812");
+  }
+
+  document.querySelectorAll(".theme-toggle").forEach((button) => {
+    button.setAttribute("aria-pressed", String(nextTheme === "light"));
+    button.setAttribute(
+      "aria-label",
+      nextTheme === "light" ? "Switch to dark theme" : "Switch to light theme"
+    );
+    button.title = nextTheme === "light" ? "Switch to dark theme" : "Switch to light theme";
+
+    const label = button.querySelector(".theme-toggle-text");
+    if (label) {
+      label.textContent = nextTheme === "light" ? "Dark" : "Light";
+    }
+  });
+};
+
+applyTheme(root.dataset.theme === "light" ? "light" : getStoredTheme());
+`;
+
+            const toggleBlock = `
+if (navLinks && !navLinks.querySelector(".theme-toggle")) {
+  const themeToggle = document.createElement("button");
+  themeToggle.className = "theme-toggle";
+  themeToggle.type = "button";
+  themeToggle.innerHTML =
+    '<span class="theme-toggle-icon" aria-hidden="true"></span><span class="theme-toggle-text"></span>';
+
+  themeToggle.addEventListener("click", () => {
+    const currentTheme = root.dataset.theme === "light" ? "light" : "dark";
+    const nextTheme = currentTheme === "light" ? "dark" : "light";
+    setStoredTheme(nextTheme);
+    applyTheme(nextTheme);
+  });
+
+  navLinks.appendChild(themeToggle);
+  applyTheme(root.dataset.theme === "light" ? "light" : getStoredTheme());
+}
+`;
+
+            js = js.replace(
+              'const navToggle = document.querySelector(".nav-toggle");\nconst navLinks = document.querySelector(".nav-links");\n',
+              'const navToggle = document.querySelector(".nav-toggle");\nconst navLinks = document.querySelector(".nav-links");\n' + themeBlock
+            );
+            js = js.replace(
+              '\nconst moreToggle = document.querySelector(".more-toggle");',
+              '\n' + toggleBlock + '\nconst moreToggle = document.querySelector(".more-toggle");'
+            );
+            fs.writeFileSync('assets/site.js', js);
+          }
+
+          let css = fs.readFileSync('assets/styles.css', 'utf8');
+          if (!css.includes('color-scheme: dark;')) {
+            css = css.replace(':root {\n', ':root {\n  color-scheme: dark;\n');
+          }
+
+          if (!css.includes(':root[data-theme="light"] {')) {
+            const lightVars = `
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f7f8ff;
+  --bg-2: #eef2ff;
+  --surface: #ffffff;
+  --surface-2: #f4f6ff;
+  --surface-3: #eef2ff;
+  --line: rgba(79, 109, 255, 0.18);
+  --line-strong: rgba(126, 88, 255, 0.34);
+  --text: #111426;
+  --text-soft: #2f3652;
+  --muted: #687293;
+  --muted-2: #858ead;
+  --accent: #5368ff;
+  --accent-2: #7b52ff;
+  --accent-3: #315cff;
+  --success: #1f9f6d;
+  --warning: #a97822;
+  --danger: #c93d67;
+  --shadow: 0 24px 80px rgba(50, 61, 120, 0.16);
+}
+`;
+            css = css.replace('  --radius-sm: 12px;\n}\n', '  --radius-sm: 12px;\n}\n' + lightVars);
+          }
+
+          if (!css.includes(':root[data-theme="light"] * {')) {
+            const lightScrollbars = `
+:root[data-theme="light"] * {
+  scrollbar-color: rgba(83, 104, 255, 0.68) rgba(226, 231, 249, 0.9);
+}
+
+:root[data-theme="light"] *::-webkit-scrollbar-track {
+  background: rgba(226, 231, 249, 0.9);
+}
+
+:root[data-theme="light"] *::-webkit-scrollbar-thumb {
+  border-color: rgba(246, 248, 255, 0.95);
+}
+`;
+            css = css.replace(
+              '*::-webkit-scrollbar-thumb:hover {\n  background: linear-gradient(180deg, rgba(151, 163, 255, 0.95), rgba(172, 132, 255, 0.9));\n}\n',
+              '*::-webkit-scrollbar-thumb:hover {\n  background: linear-gradient(180deg, rgba(151, 163, 255, 0.95), rgba(172, 132, 255, 0.9));\n}\n' + lightScrollbars
+            );
+          }
+
+          if (!css.includes('.theme-toggle {')) {
+            const themeToggleCss = `
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text-soft);
+  cursor: pointer;
+  font-size: 0.88rem;
+  font-weight: 850;
+  line-height: 1;
+  padding: 0 11px;
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.theme-toggle:hover,
+.theme-toggle:focus-visible {
+  transform: translateY(-1px);
+  border-color: var(--line-strong);
+  background: rgba(139, 150, 255, 0.1);
+  color: var(--text);
+}
+
+.theme-toggle-icon {
+  width: 15px;
+  height: 15px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7c8cff, #9b6dff);
+  box-shadow: inset -4px -2px 0 rgba(7, 8, 18, 0.86);
+}
+
+:root[data-theme="light"] .theme-toggle-icon {
+  box-shadow: inset 0 0 0 4px rgba(255, 255, 255, 0.72);
+}
+`;
+            css = css.replace(
+              '.nav-links a:hover,\n.nav-links a:focus-visible {\n  background: rgba(139, 150, 255, 0.1);\n  color: var(--text);\n}\n',
+              '.nav-links a:hover,\n.nav-links a:focus-visible {\n  background: rgba(139, 150, 255, 0.1);\n  color: var(--text);\n}\n' + themeToggleCss
+            );
+          }
+
+          if (!css.includes(':root[data-theme="light"] body {')) {
+            const lightOverrides = `
+:root[data-theme="light"] body {
+  background:
+    radial-gradient(circle at 12% 8%, rgba(79, 109, 255, 0.13), transparent 30rem),
+    radial-gradient(circle at 86% 4%, rgba(126, 82, 255, 0.12), transparent 32rem),
+    linear-gradient(180deg, #f8faff 0%, #eef2ff 48%, #f7f8ff 100%);
+}
+
+:root[data-theme="light"] body::before {
+  background:
+    linear-gradient(rgba(79, 109, 255, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(79, 109, 255, 0.045) 1px, transparent 1px);
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.24), transparent 74%);
+}
+
+:root[data-theme="light"] code {
+  border-color: rgba(79, 109, 255, 0.18);
+  background: rgba(79, 109, 255, 0.08);
+  color: #26316d;
+}
+
+:root[data-theme="light"] .skip-link {
+  background: var(--text);
+  color: #ffffff;
+}
+
+:root[data-theme="light"] .site-header {
+  border-bottom-color: rgba(79, 109, 255, 0.14);
+  background: rgba(248, 250, 255, 0.82);
+}
+
+:root[data-theme="light"] .nav-links a:hover,
+:root[data-theme="light"] .nav-links a:focus-visible,
+:root[data-theme="light"] .nav-cta,
+:root[data-theme="light"] .theme-toggle,
+:root[data-theme="light"] .button-secondary,
+:root[data-theme="light"] .hero-facts li,
+:root[data-theme="light"] .compat-line span {
+  background: rgba(79, 109, 255, 0.07);
+}
+
+:root[data-theme="light"] .nav-toggle,
+:root[data-theme="light"] .nav-links {
+  background: rgba(248, 250, 255, 0.98);
+}
+
+:root[data-theme="light"] .button-primary {
+  box-shadow: 0 16px 38px rgba(79, 92, 220, 0.24);
+}
+
+:root[data-theme="light"] .product-frame,
+:root[data-theme="light"] .final-cta {
+  background:
+    radial-gradient(circle at 78% 6%, rgba(126, 82, 255, 0.16), transparent 18rem),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.94), rgba(239, 243, 255, 0.98));
+  box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+:root[data-theme="light"] .product-frame::after {
+  background: linear-gradient(115deg, rgba(255, 255, 255, 0.72), transparent 34%, transparent 72%, rgba(79, 109, 255, 0.1));
+}
+
+:root[data-theme="light"] .dot {
+  background: rgba(74, 84, 120, 0.28);
+}
+
+:root[data-theme="light"] .chat-console,
+:root[data-theme="light"] .mini-card,
+:root[data-theme="light"] .network-card,
+:root[data-theme="light"] .item-card,
+:root[data-theme="light"] .stat-strip article,
+:root[data-theme="light"] .feature-card,
+:root[data-theme="light"] .value-card,
+:root[data-theme="light"] .setup-card,
+:root[data-theme="light"] .resource-card,
+:root[data-theme="light"] details,
+:root[data-theme="light"] .page-card,
+:root[data-theme="light"] .doc-note,
+:root[data-theme="light"] .markdown-body,
+:root[data-theme="light"] .doc-sidebar,
+:root[data-theme="light"] .resource-sidebar,
+:root[data-theme="light"] .side-resource-card {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+:root[data-theme="light"] .feature-card,
+:root[data-theme="light"] .setup-card,
+:root[data-theme="light"] .resource-card,
+:root[data-theme="light"] .value-card,
+:root[data-theme="light"] .page-card,
+:root[data-theme="light"] .doc-note,
+:root[data-theme="light"] .markdown-body,
+:root[data-theme="light"] .doc-sidebar,
+:root[data-theme="light"] .resource-sidebar,
+:root[data-theme="light"] details {
+  box-shadow: 0 16px 46px rgba(51, 61, 120, 0.08);
+}
+
+:root[data-theme="light"] .feature-card::before {
+  background: linear-gradient(90deg, transparent, rgba(79, 109, 255, 0.34), transparent);
+}
+
+:root[data-theme="light"] .feature-card:hover,
+:root[data-theme="light"] .resource-card:hover,
+:root[data-theme="light"] .resource-card:focus-visible,
+:root[data-theme="light"] details:hover,
+:root[data-theme="light"] details:focus-within,
+:root[data-theme="light"] .side-resource-card:hover,
+:root[data-theme="light"] .side-resource-card:focus-visible {
+  background: rgba(249, 251, 255, 0.94);
+}
+
+:root[data-theme="light"] .why-section,
+:root[data-theme="light"] .docs-section {
+  background:
+    radial-gradient(circle at 82% 26%, rgba(126, 82, 255, 0.08), transparent 24rem),
+    linear-gradient(180deg, rgba(248, 250, 255, 0.78), rgba(238, 242, 255, 0.68));
+  border-block-color: rgba(79, 109, 255, 0.12);
+}
+
+:root[data-theme="light"] .stat-strip {
+  background: rgba(79, 109, 255, 0.16);
+}
+
+:root[data-theme="light"] .setup-card li::before {
+  background: linear-gradient(135deg, var(--accent-3), var(--accent-2));
+}
+
+:root[data-theme="light"] .network-node {
+  background: rgba(79, 109, 255, 0.06);
+}
+
+:root[data-theme="light"] .network-node.active,
+:root[data-theme="light"] .side-resource-card.is-current {
+  background: rgba(83, 104, 255, 0.11);
+}
+
+:root[data-theme="light"] .rank.owner,
+:root[data-theme="light"] .rank.player {
+  background: rgba(83, 104, 255, 0.11);
+  color: #3341a8;
+}
+
+:root[data-theme="light"] .rank.staff {
+  background: rgba(31, 159, 109, 0.12);
+  color: #14694c;
+}
+
+:root[data-theme="light"] .markdown-body a {
+  color: #3240ad;
+  text-decoration-color: rgba(83, 104, 255, 0.45);
+}
+
+:root[data-theme="light"] .markdown-body .config-jump a,
+:root[data-theme="light"] .resource-card span,
+:root[data-theme="light"] .side-resource-card span,
+:root[data-theme="light"] .setup-kicker {
+  background: rgba(83, 104, 255, 0.08);
+}
+
+:root[data-theme="light"] .code-block {
+  border-color: rgba(79, 109, 255, 0.18);
+  background: #f4f6ff;
+  color: #17203e;
+}
+
+:root[data-theme="light"] .site-footer {
+  border-top-color: rgba(79, 109, 255, 0.14);
+  background: rgba(248, 250, 255, 0.92);
+}
+`;
+            css = css.replace(
+              '.code-block code {\n  border: 0;\n  background: transparent;\n  color: inherit;\n  padding: 0;\n}\n',
+              '.code-block code {\n  border: 0;\n  background: transparent;\n  color: inherit;\n  padding: 0;\n}\n' + lightOverrides
+            );
+          }
+
+          if (!css.includes('.nav-links .theme-toggle {')) {
+            const mobileThemeToggle = `
+  .nav-links .theme-toggle {
+    width: 100%;
+    min-height: 44px;
+    justify-content: flex-start;
+    border-radius: var(--radius-sm);
+    padding: 0 12px;
+  }
+`;
+            css = css.replace(
+              '  .nav-links a {\n    border-radius: var(--radius-sm);\n    padding: 12px;\n  }\n',
+              '  .nav-links a {\n    border-radius: var(--radius-sm);\n    padding: 12px;\n  }\n' + mobileThemeToggle
+            );
+          }
+
+          fs.rmSync('.github/workflows/apply-light-theme.yml', { force: true });
+          fs.writeFileSync('assets/styles.css', css);
+          NODE
+
+          node --check assets/site.js
+          git diff --check
+
+      - name: Commit applied changes
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Add light theme toggle"
+            git push
+          fi
