@@ -1,0 +1,202 @@
+name: Apply resource sidebar
+
+on:
+  push:
+    paths:
+      - .github/workflows/apply-resource-sidebar.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apply-resource-sidebar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Add related resource sidebars
+        run: |
+          python3 <<'PY'
+          from pathlib import Path
+
+          resources = [
+              ("Product", "Product Overview", "Complete product view for server owners.", "./features.html"),
+              ("Setup", "Installation Guide", "Standalone Paper and Velocity network setup.", "./installation.html"),
+              ("Config", "Configuration Reference", "Exact files, defaults, permissions, and runtime notes.", "./configuration.html"),
+              ("FAQ", "Complete FAQ", "Common platform, setup, bridge, and storage questions.", "./faq.html"),
+              ("Ops", "Troubleshooting", "Startup, reload, routing, bridge, and data checks.", "./configuration.html#troubleshooting-quick-reference"),
+              ("Release", "Production Validation", "Pre-player checklist for final server checks.", "./configuration.html#production-validation-checklist"),
+          ]
+          current = {
+              "features.html": "./features.html",
+              "installation.html": "./installation.html",
+              "configuration.html": "./configuration.html",
+              "faq.html": "./faq.html",
+          }
+
+          def sidebar_for(filename: str) -> str:
+              lines = [
+                  '          <aside class="resource-sidebar" aria-label="Related resources">',
+                  '            <strong>Resources</strong>',
+              ]
+              for label, title, desc, href in resources:
+                  current_class = ' is-current' if current[filename] == href else ''
+                  lines.extend([
+                      f'            <a class="side-resource-card{current_class}" href="{href}">',
+                      f'              <span>{label}</span>',
+                      f'              <h3>{title}</h3>',
+                      f'              <p>{desc}</p>',
+                      '            </a>',
+                  ])
+              lines.append('          </aside>')
+              return '\n'.join(lines)
+
+          target = '          </article>\n        </div>\n      </section>'
+          for filename in current:
+              path = Path(filename)
+              html = path.read_text()
+              if 'resource-sidebar' not in html:
+                  html = html.replace(target, '          </article>\n' + sidebar_for(filename) + '\n        </div>\n      </section>', 1)
+                  path.write_text(html)
+
+          css_path = Path('assets/styles.css')
+          css = css_path.read_text()
+          css = css.replace(
+              '.doc-layout {\n  display: grid;\n  grid-template-columns: 270px minmax(0, 1fr);',
+              '.doc-layout {\n  display: grid;\n  grid-template-columns: 250px minmax(0, 1fr) 280px;',
+              1,
+          )
+          css = css.replace(
+              '.doc-sidebar {\n  position: sticky;',
+              '.doc-sidebar,\n.resource-sidebar {\n  position: sticky;',
+              1,
+          )
+          css = css.replace(
+              '.doc-sidebar strong {\n  color: var(--text);',
+              '.doc-sidebar strong,\n.resource-sidebar > strong {\n  color: var(--text);',
+              1,
+          )
+          marker = '''.doc-sidebar a:hover,
+.doc-sidebar a:focus-visible {
+  background: rgba(139, 150, 255, 0.1);
+  color: var(--text);
+}
+'''
+          addition = '''
+.resource-sidebar {
+  gap: 10px;
+}
+
+.side-resource-card {
+  display: block;
+  border: 1px solid rgba(139, 150, 255, 0.14);
+  border-radius: var(--radius-sm);
+  background: rgba(8, 11, 24, 0.34);
+  padding: 14px;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.side-resource-card:hover,
+.side-resource-card:focus-visible {
+  transform: translateY(-2px);
+  border-color: var(--line-strong);
+  background: rgba(24, 28, 49, 0.7);
+}
+
+.side-resource-card.is-current {
+  border-color: rgba(151, 126, 255, 0.46);
+  background: rgba(139, 150, 255, 0.1);
+}
+
+.side-resource-card span {
+  display: inline-block;
+  width: fit-content;
+  border: 1px solid rgba(151, 126, 255, 0.3);
+  border-radius: 999px;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 12px;
+  padding: 5px 8px;
+}
+
+.side-resource-card h3 {
+  margin-bottom: 7px;
+  font-size: 0.96rem;
+}
+
+.side-resource-card p {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.45;
+  margin: 0;
+}
+'''
+          if '.side-resource-card {' not in css:
+              css = css.replace(marker, marker + addition, 1)
+          css = css.replace(
+              '  .doc-sidebar {\n    position: static;',
+              '  .doc-sidebar,\n  .resource-sidebar {\n    position: static;',
+              1,
+          )
+          css_path.write_text(css)
+          PY
+
+      - name: Validate links and ids
+        run: |
+          node <<'NODE'
+          const fs = require('fs');
+          const files = fs.readdirSync('.').filter((file) => file.endsWith('.html'));
+          const missing = [];
+          const dupes = [];
+          const escapeRegExp = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+          for (const file of files) {
+            const html = fs.readFileSync(file, 'utf8');
+            const ids = [...html.matchAll(/\bid="([^"]+)"/g)].map((match) => match[1]);
+            const seen = new Set();
+            for (const id of ids) {
+              if (seen.has(id)) dupes.push(`${file}#${id}`);
+              seen.add(id);
+            }
+            for (const match of html.matchAll(/\bhref="([^"]+)"/g)) {
+              const href = match[1];
+              if (/^(https?:|mailto:)/.test(href)) continue;
+              if (href.startsWith('#')) {
+                if (!seen.has(href.slice(1))) missing.push(`${file} -> ${href}`);
+                continue;
+              }
+              const [target, hash] = href.replace(/^\.\//, '').split('#');
+              if (!fs.existsSync(target)) {
+                missing.push(`${file} -> ${href}`);
+                continue;
+              }
+              if (hash) {
+                const targetHtml = fs.readFileSync(target, 'utf8');
+                if (!new RegExp(`\\bid="${escapeRegExp(hash)}"`).test(targetHtml)) {
+                  missing.push(`${file} -> ${href}`);
+                }
+              }
+            }
+          }
+          if (missing.length || dupes.length) {
+            console.error(JSON.stringify({ missing, dupes }, null, 2));
+            process.exit(1);
+          }
+          NODE
+
+      - name: Commit resource sidebar changes
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          rm -f .github/workflows/apply-resource-sidebar.yml
+          git add features.html installation.html configuration.html faq.html assets/styles.css .github/workflows/apply-resource-sidebar.yml
+          if git diff --cached --quiet; then
+            echo "No resource sidebar changes to commit."
+          else
+            git commit -m "Add resource sidebar to documentation pages"
+            git push
+          fi
