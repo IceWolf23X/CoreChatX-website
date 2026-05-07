@@ -49,7 +49,15 @@ if (!document.querySelector("#corechatx-dynamic-layout")) {
     }
 
     .resource-sidebar {
+      position: sticky;
+      top: 98px;
+      max-height: calc(100svh - 120px);
+      overflow: auto;
       gap: 10px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgba(17, 20, 38, 0.82);
+      padding: 14px;
     }
 
     .side-resource-card {
@@ -108,6 +116,13 @@ if (!document.querySelector("#corechatx-dynamic-layout")) {
     @media (max-width: 720px) {
       .shell {
         width: min(100% - 28px, 1180px);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .resource-sidebar {
+        position: static;
+        max-height: none;
       }
     }
   `;
