@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="All current questions and answers for setup, platforms, formatting, channels, bridges, storage, and common problems.">
+    <title>CoreChatX FAQ</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <meta name="theme-color" content="#070812">
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Main navigation">
+        <a class="brand" href="./index.html" aria-label="CoreChatX home"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+        <div class="nav-links" id="nav-links">
+          <a href="./index.html#features">Features</a>
+          <a href="./installation.html">Setup</a>
+          <a href="./docs.html">Docs</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a>
+          <a href="https://github.com/IceWolf23X/CoreChatX/releases">Download</a>
+        </div>
+        <a class="nav-cta" href="./installation.html">Get Started</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="page-hero">
+        <div class="shell section-heading">
+          <p class="eyebrow">Complete FAQ</p>
+          <h1>FAQ</h1>
+          <p>All current questions and answers for setup, platforms, formatting, channels, bridges, storage, and common problems.</p>
+        </div>
+      </section>
+      <section class="section doc-page">
+        <div class="shell doc-layout">
+          <aside class="doc-sidebar" aria-label="Page contents">
+            <strong>Contents</strong>
+            <a href="#corechatx-faq">CoreChatX FAQ</a>
+<a href="#general">General</a>
+<a href="#setup">Setup</a>
+<a href="#formatting-and-placeholders">Formatting And Placeholders</a>
+<a href="#channels-pms-mentions-and-settings">Channels, PMs, Mentions, And Settings</a>
+<a href="#chatitems-and-chat-bubbles">ChatItems And Chat Bubbles</a>
+<a href="#discord-and-telegram">Discord And Telegram</a>
+<a href="#permissions-and-commands">Permissions And Commands</a>
+<a href="#storage-and-data">Storage And Data</a>
+<a href="#build-and-testing">Build And Testing</a>
+<a href="#common-problems">Common Problems</a>
+          </aside>
+          <article class="markdown-body">
+            <h2 id="corechatx-faq">CoreChatX FAQ</h2>
+<p>This FAQ answers the questions a server owner is most likely to ask before or during setup. For exact config keys and defaults, use <a href="./configuration.html"><code>Configuration Reference</code></a>. For a shorter feature overview, use <a href="./features.html"><code>Product Overview</code></a>.</p>
+<hr>
+<h2 id="general">General</h2>
+<h3 id="what-is-corechatx">What is CoreChatX?</h3>
+<p>CoreChatX is a communication suite for Minecraft servers. It combines public chat, private messages, channels, mentions, pings, chat item previews, chat bubbles, moderation tools, player settings, locales, Discord, Telegram, and Velocity network support into one system.</p>
+<h3 id="what-is-the-current-plugin-identity">What is the current plugin identity?</h3>
+<p>Current public identity:</p>
+<ul>
+<li>Paper plugin name: <code>CoreChatX</code></li>
+<li>Velocity plugin id: <code>corechatx</code></li>
+<li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
+<li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
+<li>main command: <code>/corechatx</code></li>
+<li>main command alias: <code>/ccx</code></li>
+<li>permission namespace: <code>corechatx.*</code></li>
+<li>default network channel: <code>corechatx:main</code></li>
+</ul>
+<h3 id="was-this-project-previously-named-differently">Was this project previously named differently?</h3>
+<p>The current project name is CoreChatX. Current docs, jars, package names, permissions, commands, plugin ids, and default network channels use CoreChatX/corechatx naming.</p>
+<p>For old installs, treat differently named folders and configs as previous install data. For a clean CoreChatX setup, let the plugin generate fresh defaults and manually reapply only the settings you still want.</p>
+<h3 id="is-corechatx-only-a-chat-formatting-plugin">Is CoreChatX only a chat formatting plugin?</h3>
+<p>No. Formatting is only one part of it. CoreChatX is designed to replace the usual stack of separate chat, PM, mention, channel, bridge, bubble, and item-preview plugins with one consistent communication layer.</p>
+<h3 id="which-platforms-does-it-support">Which platforms does it support?</h3>
+<p>The current project targets:</p>
+<ul>
+<li>Paper <code>1.21.11</code> for backend servers</li>
+<li>Velocity for proxy/network support</li>
+</ul>
+<p>It ships separate Paper and Velocity jars. Install each jar only on the platform it was built for.</p>
+<p>The <code>corechatx-common</code> jar is an internal shared build module. Do not install it directly on Paper or Velocity.</p>
+<h3 id="do-i-need-velocity">Do I need Velocity?</h3>
+<p>No. CoreChatX works on a standalone Paper server. Velocity is needed only if you want cross-backend network features such as network channels, cross-server private messages, synced communication settings, global completions, and remote ChatItem preview retrieval.</p>
+<h3 id="do-i-install-the-plugin-on-every-server">Do I install the plugin on every server?</h3>
+<p>For standalone Paper, install only the Paper jar on that server.</p>
+<p>For a Velocity network:</p>
+<ul>
+<li>install the Paper jar on every Paper backend that should use CoreChatX</li>
+<li>install the Velocity jar on the Velocity proxy</li>
+</ul>
+<p>Do not install the Paper jar on Velocity. Do not install the Velocity jar on Paper.</p>
+<hr>
+<h2 id="setup">Setup</h2>
+<h3 id="what-is-the-difference-between-standalone-and-proxy">What is the difference between <code>STANDALONE</code> and <code>PROXY</code>?</h3>
+<p><code>STANDALONE</code> is for one Paper server. Network transport is inactive, and <code>NETWORK</code> channels behave like local chat.</p>
+<p><code>PROXY</code> is for Paper backends connected through Velocity. It enables the backend to participate in cross-server CoreChatX features when <code>network-features-allowed</code> is also true.</p>
+<h3 id="what-must-match-on-every-network-backend">What must match on every network backend?</h3>
+<p>Every participating backend must share the same <code>deployment.network-channel</code>. Velocity must use the same value in <code>velocity-config.properties</code>.</p>
+<p>Every backend must also have a unique <code>deployment.server-id</code>. Duplicated server ids make routing ambiguous and should be fixed before testing with players.</p>
+<h3 id="why-do-some-config-changes-require-restart">Why do some config changes require restart?</h3>
+<p>Identity and transport settings are initialized at boot. Changing them with reload would leave parts of the runtime using old values.</p>
+<p>Restart after changing:</p>
+<ul>
+<li><code>deployment.mode</code></li>
+<li><code>deployment.server-id</code></li>
+<li><code>deployment.network-channel</code></li>
+<li>Velocity <code>network-channel</code></li>
+</ul>
+<p>Most wording, formatting, feature toggles, channel rules, filters, pings, keywords, bubbles, and bridge templates can be changed with <code>/corechatx reload</code>.</p>
+<h3 id="can-i-delete-configs-to-reset-them">Can I delete configs to reset them?</h3>
+<p>Yes, for generated admin config files. Stop the server, delete the config file you want to reset, then start again. CoreChatX recreates the bundled default.</p>
+<p>Be careful with runtime data files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code>. Those are live player/plugin state, not simple defaults.</p>
+<h3 id="what-does-bridges-allowed-do">What does <code>bridges-allowed</code> do?</h3>
+<p>It is the global master gate for Discord and Telegram runtime. When false, bridge outbound and inbound services do not run even if the individual bridge config says enabled.</p>
+<h3 id="what-does-network-features-allowed-do">What does <code>network-features-allowed</code> do?</h3>
+<p>It is the backend-side gate for proxy/network behavior. In <code>PROXY</code> mode, setting it to false keeps the backend bootable but disables cross-server CoreChatX features.</p>
+<hr>
+<h2 id="formatting-and-placeholders">Formatting And Placeholders</h2>
+<h3 id="does-corechatx-use-kyori-adventure">Does CoreChatX use Kyori Adventure?</h3>
+<p>Yes. CoreChatX is built around Kyori Adventure components for modern chat rendering.</p>
+<h3 id="does-corechatx-support-minimessage">Does CoreChatX support MiniMessage?</h3>
+<p>Yes. Server-controlled templates can use MiniMessage for colors, gradients, hover text, click actions, suggested commands, copied text, and rich component formatting.</p>
+<h3 id="does-corechatx-support-placeholderapi">Does CoreChatX support PlaceholderAPI?</h3>
+<p>Yes, where PlaceholderAPI is installed, enabled, and the string is a supported server-controlled template. This allows formats, hovers, keywords, and other configured text to react to ranks, stats, economy, worlds, progression, and installed expansions.</p>
+<h3 id="do-player-written-messages-parse-placeholderapi">Do player-written messages parse PlaceholderAPI?</h3>
+<p>No. Raw player chat bodies do not pass through PlaceholderAPI. That prevents players from typing arbitrary <code>%placeholder%</code> tokens and forcing the server to resolve them.</p>
+<h3 id="which-player-is-used-for-mention-placeholder-context">Which player is used for mention placeholder context?</h3>
+<p>Mention token rendering uses the mentioned player as PlaceholderAPI context. This is important for hover text and dynamic mention formatting.</p>
+<p>For cross-backend mentions, CoreChatX uses the mentioned player&#x27;s <code>OfflinePlayer</code> context where possible. That allows many offline-capable PlaceholderAPI expansions to resolve useful data even when the player is online on another backend.</p>
+<h3 id="why-does-a-placeholder-render-in-one-format-but-not-another">Why does a placeholder render in one format but not another?</h3>
+<p>Common causes:</p>
+<ul>
+<li>PlaceholderAPI is not installed on that backend</li>
+<li><code>hooks.placeholderapi</code> is false</li>
+<li>the required expansion is missing</li>
+<li>the placeholder does not support <code>OfflinePlayer</code></li>
+<li>the string is raw player input instead of a trusted server template</li>
+</ul>
+<hr>
+<h2 id="channels-pms-mentions-and-settings">Channels, PMs, Mentions, And Settings</h2>
+<h3 id="what-can-channels-control">What can channels control?</h3>
+<p>Channels can control send permissions, receive permissions, message format, scope, mention support, ChatItem support, chat bubble support, and bridge export eligibility.</p>
+<h3 id="can-only-some-channels-go-to-discord-or-telegram">Can only some channels go to Discord or Telegram?</h3>
+<p>Yes. Use channel routing and <code>export-to-bridges</code> so only intentional channels are exported. This avoids bridges acting like separate chat systems with their own rules.</p>
+<h3 id="do-private-messages-work-cross-server">Do private messages work cross-server?</h3>
+<p>In a correctly configured Velocity network, cross-server PM routing can use the proxy route. In standalone mode, PMs are local to the backend.</p>
+<h3 id="do-mentions-work-cross-server">Do mentions work cross-server?</h3>
+<p>CoreChatX can preserve mention metadata across network chat, and the proxy-side player directory helps find players on other backends. The final behavior still depends on channel settings, player notification settings, ignore/privacy settings, and permissions.</p>
+<h3 id="can-players-disable-parts-of-the-chat-experience">Can players disable parts of the chat experience?</h3>
+<p>Yes. Player settings include communication preferences such as PM toggle, mention notifications, ping behavior, locale, and chat bubble visibility. In proxy mode, these settings can follow backend switches.</p>
+<hr>
+<h2 id="chatitems-and-chat-bubbles">ChatItems And Chat Bubbles</h2>
+<h3 id="what-are-chatitems">What are ChatItems?</h3>
+<p>ChatItems let players type configured tokens such as item, inventory, or armor placeholders and expose interactive previews in chat.</p>
+<h3 id="do-chatitems-work-across-servers">Do ChatItems work across servers?</h3>
+<p>Yes, in network mode they use lightweight references in the rendered chat message and retrieve the needed snapshot on demand through Velocity. This avoids stuffing large item or inventory payloads into every network chat packet.</p>
+<h3 id="are-huge-custom-inventories-guaranteed-to-work-cross-server">Are huge custom inventories guaranteed to work cross-server?</h3>
+<p>They are protected by size and safety limits. The goal is to support real usage without letting oversized metadata destabilize proxy messaging. If a snapshot is too large, expired, rejected, or unavailable, the click fails closed with the configured expired-preview feedback.</p>
+<h3 id="what-is-max-snapshots-per-message">What is <code>max-snapshots-per-message</code>?</h3>
+<p>It is a defensive protocol bound for how many unique network snapshot bundle references one chat message may carry. Normal parsing usually produces one shared bundle for the message, even if several ChatItem tokens appear.</p>
+<h3 id="why-can-old-chatitem-previews-expire">Why can old ChatItem previews expire?</h3>
+<p>Snapshots are temporary. They exist so players can click a recent chat preview, not so the server stores every old item preview forever. Expiry limits memory usage and avoids stale data.</p>
+<h3 id="do-chat-bubbles-appear-across-the-whole-network">Do chat bubbles appear across the whole network?</h3>
+<p>No. In proxy mode, bubbles stay local to the backend where the sender is physically playing. An overhead bubble is a local visual effect, not something that can sensibly float above a player on another server.</p>
+<hr>
+<h2 id="discord-and-telegram">Discord And Telegram</h2>
+<h3 id="does-corechatx-support-discord">Does CoreChatX support Discord?</h3>
+<p>Yes. It supports outbound Minecraft-to-Discord messages and inbound Discord-to-Minecraft relay when configured.</p>
+<p>Discord inbound uses the Discord Gateway through JDA. It does not use REST polling for inbound chat.</p>
+<h3 id="what-does-discord-inbound-need">What does Discord inbound need?</h3>
+<p>At minimum:</p>
+<ul>
+<li>a valid bot token</li>
+<li>inbound enabled in <code>discord.yml</code></li>
+<li>a route to an existing CoreChatX channel</li>
+<li>the required Discord intents, including Message Content where message content is needed</li>
+</ul>
+<h3 id="does-corechatx-support-telegram">Does CoreChatX support Telegram?</h3>
+<p>Yes. It supports outbound Minecraft-to-Telegram messages, inbound Telegram-to-Minecraft relay, and Telegram forum topic routing.</p>
+<h3 id="does-telegram-use-mtproto-or-telegram4j">Does Telegram use MTProto or Telegram4J?</h3>
+<p>No. Telegram uses the Telegram Bot API with long polling through <code>getUpdates</code>. There is no MTProto bridge, no Telegram4J runtime, no webhook mode, and no embedded HTTP server.</p>
+<h3 id="can-telegram-messages-route-by-forum-topic">Can Telegram messages route by forum topic?</h3>
+<p>Yes. Outbound targets can include <code>message-thread-id</code>, and inbound routing can map chat ids and topic thread ids to CoreChatX channels.</p>
+<hr>
+<h2 id="permissions-and-commands">Permissions And Commands</h2>
+<h3 id="are-all-permissions-fixed-in-plugin-yml">Are all permissions fixed in <code>plugin.yml</code>?</h3>
+<p>No. Some permissions are intentionally configurable in YAML files. Examples include channel send/receive permissions, ping permissions, keyword permissions, privacy bypass permissions, and ChatItem token permissions.</p>
+<h3 id="what-happens-if-a-configured-permission-is-malformed">What happens if a configured permission is malformed?</h3>
+<p>Where validation exists, CoreChatX warns and disables only the affected binding or keyword. The whole plugin should not be treated as broken because one dynamic permission node is invalid.</p>
+<h3 id="are-player-commands-available-by-default">Are player commands available by default?</h3>
+<p>Player-facing commands such as <code>/corechatx</code>, <code>/corechatx settings</code>, <code>/corechatx locale</code>, private messages, replies, pings, channel access, ignore, PM toggle, and chat settings default to normal player access where appropriate. Administrative and moderation commands remain operator-only by default.</p>
+<hr>
+<h2 id="storage-and-data">Storage And Data</h2>
+<h3 id="is-sql-the-active-storage-backend">Is SQL the active storage backend?</h3>
+<p>No. SQL settings currently exist as groundwork for future storage work. The active public runtime behavior uses the current generated data files documented in the configuration instructions.</p>
+<h3 id="which-files-should-i-back-up">Which files should I back up?</h3>
+<p>Back up the whole CoreChatX folder before major changes. At minimum, preserve:</p>
+<ul>
+<li>config files you customized</li>
+<li><code>playerdata.yml</code></li>
+<li><code>channeldata.yml</code></li>
+<li><code>ignoredata.yml</code></li>
+<li><code>mutedata.yml</code></li>
+<li>bridge configs containing routing ids</li>
+</ul>
+<p>Keep private tokens out of public backups and logs.</p>
+<hr>
+<h2 id="build-and-testing">Build And Testing</h2>
+<h3 id="what-does-smoke-tested-mean">What does &quot;smoke tested&quot; mean?</h3>
+<p>It means a small practical test was run to prove the main path starts and behaves at a basic level. It is not the same as exhaustive QA. For example, starting the server, sending one message, checking one command, or verifying one bridge path can be a smoke test.</p>
+<h3 id="why-do-i-see-maven-shade-warnings-while-building">Why do I see Maven Shade warnings while building?</h3>
+<p>Shaded dependency jars can contain overlapping metadata or service resources. Some warnings are normal, but dependency changes should still be reviewed. The important checks are that tests pass, the package builds, and the produced jars start on the intended platform.</p>
+<h3 id="what-should-i-test-before-inviting-real-players">What should I test before inviting real players?</h3>
+<p>Test:</p>
+<ul>
+<li>startup on every backend and proxy</li>
+<li>public chat</li>
+<li>channels</li>
+<li>private messages and replies</li>
+<li>mentions and custom pings</li>
+<li>PlaceholderAPI templates</li>
+<li>keywords</li>
+<li>ChatItems</li>
+<li>chat bubbles</li>
+<li>moderation commands</li>
+<li>network chat if using Velocity</li>
+<li>cross-server PMs if using Velocity</li>
+<li>Discord and Telegram paths if enabled</li>
+</ul>
+<p>Do this before a public rollout, not after players find the broken route for you.</p>
+<hr>
+<h2 id="common-problems">Common Problems</h2>
+<h3 id="my-network-channel-does-not-work">&quot;My network channel does not work.&quot;</h3>
+<p>Check that every Paper backend and Velocity use the exact same lowercase namespaced key, for example <code>corechatx:main</code>. Also verify that every backend has <code>deployment.mode: &quot;PROXY&quot;</code> and <code>deployment.network-features-allowed: true</code>.</p>
+<h3 id="discord-or-telegram-is-duplicating-messages">&quot;Discord or Telegram is duplicating messages.&quot;</h3>
+<p>In proxy mode, outbound export should happen from the source backend only. Check that you did not also configure another plugin or another backend path to export the same channel independently.</p>
+<h3 id="a-placeholderapi-hover-shows-the-wrong-player">&quot;A PlaceholderAPI hover shows the wrong player.&quot;</h3>
+<p>For mentions, CoreChatX uses the mentioned player as context. If a hover still shows unexpected data, check the placeholder expansion itself and whether it supports offline player resolution.</p>
+<h3 id="chatitems-say-the-preview-expired">&quot;ChatItems say the preview expired.&quot;</h3>
+<p>The snapshot may have expired, been rejected by size limits, or failed to arrive before the network timeout. This is expected fail-closed behavior. Increase limits only after checking the size and complexity of the custom items involved.</p>
+<h3 id="can-i-use-corechatx-together-with-another-chat-plugin">&quot;Can I use CoreChatX together with another chat plugin?&quot;</h3>
+<p>Technically, maybe. Operationally, be careful. Two chat plugins trying to format, cancel, bridge, moderate, or route the same message will eventually disagree. CoreChatX is designed to own the communication flow so the result feels like one system.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div><a class="brand footer-brand" href="./index.html"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a><p>Complete communication suite for Minecraft servers.</p></div>
+        <div class="footer-links"><a href="./index.html#features">Features</a><a href="./installation.html">Setup</a><a href="./docs.html">Docs</a><a href="./faq.html">FAQ</a><a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a><a href="https://github.com/IceWolf23X/CoreChatX/releases">Download</a></div>
+      </div>
+    </footer>
+    <script src="./assets/site.js"></script>
+  </body>
+</html>

@@ -1,0 +1,469 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A complete product overview for server owners.">
+    <title>CoreChatX Product Overview</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <meta name="theme-color" content="#070812">
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <nav class="nav shell" aria-label="Main navigation">
+        <a class="brand" href="./index.html" aria-label="CoreChatX home"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a>
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
+        <div class="nav-links" id="nav-links">
+          <a href="./index.html#features">Features</a>
+          <a href="./installation.html">Setup</a>
+          <a href="./docs.html">Docs</a>
+          <a href="./faq.html">FAQ</a>
+          <a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a>
+          <a href="https://github.com/IceWolf23X/CoreChatX/releases">Download</a>
+        </div>
+        <a class="nav-cta" href="./installation.html">Get Started</a>
+      </nav>
+    </header>
+    <main id="main">
+      <section class="page-hero">
+        <div class="shell section-heading">
+          <p class="eyebrow">Complete Product Overview</p>
+          <h1>Product Overview</h1>
+          <p>A complete product overview for server owners.</p>
+        </div>
+      </section>
+      <section class="section doc-page">
+        <div class="shell doc-layout">
+          <aside class="doc-sidebar" aria-label="Page contents">
+            <strong>Contents</strong>
+            <a href="#corechatx-feature-list">CoreChatX Feature List</a>
+<a href="#why-corechatx">Why CoreChatX</a>
+<a href="#current-state">Current State</a>
+<a href="#one-suite-not-ten-plugins">One Suite, Not Ten Plugins</a>
+<a href="#polished-public-chat">Polished Public Chat</a>
+<a href="#kyori-adventure-and-minimessage">Kyori Adventure And MiniMessage</a>
+<a href="#placeholderapi-powered-interactions">PlaceholderAPI-Powered Interactions</a>
+<a href="#interactive-keywords">Interactive Keywords</a>
+<a href="#mentions-and-pings">Mentions And Pings</a>
+<a href="#channels">Channels</a>
+<a href="#private-messages">Private Messages</a>
+<a href="#moderation-tools">Moderation Tools</a>
+<a href="#chat-item-previews">Chat Item Previews</a>
+<a href="#chat-bubbles">Chat Bubbles</a>
+<a href="#player-controls">Player Controls</a>
+<a href="#locale-support">Locale Support</a>
+<a href="#discord-and-telegram-bridges">Discord And Telegram Bridges</a>
+<a href="#velocity-network-support">Velocity Network Support</a>
+<a href="#commands">Commands</a>
+<a href="#admin-experience">Admin Experience</a>
+<a href="#verified">Verified</a>
+<a href="#future-direction">Future Direction</a>
+<a href="#summary">Summary</a>
+          </aside>
+          <article class="markdown-body">
+            <h2 id="corechatx-feature-list">CoreChatX Feature List</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#before-you-configure">Configuration overview</a></p>
+<p>CoreChatX is a complete communication suite for Minecraft servers. It brings chat, private messages, channels, mentions, pings, chat item previews, chat bubbles, moderation, player settings, locales, and external bridges into one polished system.</p>
+<p>The idea is simple: server chat should feel like one product, not a stack of separate plugins that each need their own configuration, commands, and maintenance.</p>
+<p>This page is a commercial-style feature overview. Exact config keys, defaults, limits, and operational details are documented in <a href="./configuration.html"><code>Configuration Reference</code></a>.</p>
+<hr>
+<h2 id="why-corechatx">Why CoreChatX</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#practical-admin-notes">Practical admin notes</a></p>
+<p>Many servers end up installing one plugin for chat, another for private messages, another for mentions, another for channels, another for Discord, another for Telegram, another for chat bubbles, another for item previews, and then one more just to keep the whole setup consistent.</p>
+<p>That works, technically. It also turns chat into a maintenance hobby.</p>
+<p>CoreChatX is built for server owners who want the whole communication experience to feel consistent:</p>
+<ul>
+<li>one visual language</li>
+<li>one permission model</li>
+<li>one player settings flow</li>
+<li>one network-aware chat layer</li>
+<li>one place to manage public chat, PMs, channels, pings, bridges, moderation, and rich interactions</li>
+</ul>
+<p>It is not trying to be &quot;yet another chat plugin&quot;. It is trying to replace scattered chat-related plugin stacks with one clean, friendly, server-ready system.</p>
+<hr>
+<h2 id="current-state">Current State</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#corechatx-project-identity">Project identity</a><a href="./configuration.html#quick-install-patterns">Quick install patterns</a></p>
+<p>CoreChatX currently:</p>
+<ul>
+<li>supports Paper <code>1.21.11</code></li>
+<li>ships separate <code>corechatx-paper</code> and <code>corechatx-velocity</code> jars</li>
+<li>uses <code>CoreChatX</code> as the Paper plugin name</li>
+<li>uses <code>corechatx</code> as the Velocity plugin id</li>
+<li>works on standalone Paper servers</li>
+<li>works on Velocity networks with multiple Paper backends</li>
+<li>has been tested on a live Paper test server</li>
+<li>has been tested on a small live Velocity network</li>
+<li>supports Discord inbound and outbound messages</li>
+<li>supports Telegram inbound and outbound messages</li>
+<li>supports Telegram forum topic routing</li>
+<li>includes optional chat bubbles above players</li>
+<li>keeps player communication settings aligned across server switches</li>
+</ul>
+<hr>
+<h2 id="one-suite-not-ten-plugins">One Suite, Not Ten Plugins</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#before-you-configure">Runtime model</a><a href="./configuration.html#channels-yml">Channel routing</a></p>
+<p>CoreChatX covers the core communication stack:</p>
+<ul>
+<li>public chat</li>
+<li>private messages</li>
+<li>replies</li>
+<li>channels</li>
+<li>mentions</li>
+<li>custom pings</li>
+<li>interactive keywords</li>
+<li>chat item previews</li>
+<li>chat bubbles</li>
+<li>moderation tools</li>
+<li>player settings</li>
+<li>locale support</li>
+<li>Discord bridge</li>
+<li>Telegram bridge</li>
+<li>standalone and Velocity network setups</li>
+</ul>
+<p>The value is not just the feature count. The value is that these features know about each other.</p>
+<p>Channels can affect formatting and bridge export. Mentions can respect player settings. Private messages can work with social spy and ignore rules. Network chat can carry rich Adventure components and ChatItem preview references. Bridges can follow channel routing instead of acting like a separate side project.</p>
+<p>That is the difference between a chat system and separate plugins with overlapping commands and disconnected configuration.</p>
+<hr>
+<h2 id="polished-public-chat">Polished Public Chat</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#chat-yml">chat.yml</a><a href="./configuration.html#filter-yml">filter.yml</a><a href="./configuration.html#moderation-yml">moderation.yml</a></p>
+<p>CoreChatX gives public chat the kind of foundation players actually notice:</p>
+<ul>
+<li>clean chat formats</li>
+<li>rank-aware layouts</li>
+<li>channel-aware layouts</li>
+<li>LuckPerms prefix support</li>
+<li>PlaceholderAPI support in server-controlled templates</li>
+<li>join, quit, and first-join messages</li>
+<li>message cleanup and sanitization</li>
+<li>anti-repeat checks</li>
+<li>anti-caps checks</li>
+<li>word filtering</li>
+</ul>
+<p>Player-written messages stay safe. Server-owned templates can use dynamic placeholders, while normal player input is kept under control before it becomes a rich chat component.</p>
+<hr>
+<h2 id="kyori-adventure-and-minimessage">Kyori Adventure And MiniMessage</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#chat-yml">chat.yml</a><a href="./configuration.html#messages-yml">messages.yml</a></p>
+<p>CoreChatX is built around Kyori Adventure and MiniMessage formatting. That means server owners can create modern chat components without being trapped in old color-code-only formatting.</p>
+<p>MiniMessage support makes it easy to use:</p>
+<ul>
+<li>colors</li>
+<li>gradients</li>
+<li>hover text</li>
+<li>click actions</li>
+<li>suggested commands</li>
+<li>copy-to-clipboard actions</li>
+<li>reusable formatting patterns</li>
+<li>clean rich text across chat, messages, previews, and bridge output</li>
+</ul>
+<p>This gives CoreChatX a modern Paper-native feel instead of a legacy chat setup with richer formatting bolted on afterward.</p>
+<hr>
+<h2 id="placeholderapi-powered-interactions">PlaceholderAPI-Powered Interactions</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#config-yml">config.yml hooks</a><a href="./configuration.html#placeholderapi-placeholders-do-not-render">PlaceholderAPI troubleshooting</a></p>
+<p>CoreChatX can combine MiniMessage with PlaceholderAPI inside server-controlled templates.</p>
+<p>That opens the door to fast, flexible interactions based on:</p>
+<ul>
+<li>player data</li>
+<li>ranks and groups</li>
+<li>economy values</li>
+<li>server stats</li>
+<li>world data</li>
+<li>progression systems</li>
+<li>installed PlaceholderAPI expansions</li>
+<li>custom server logic exposed through placeholders</li>
+</ul>
+<p>In practice, this means server owners can build dynamic chat interactions without extra glue just to make a hover line or click action show something useful.</p>
+<p>If PlaceholderAPI can expose it, CoreChatX can help turn it into part of the chat experience.</p>
+<hr>
+<h2 id="interactive-keywords">Interactive Keywords</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#1-keywords-yml">keywords.yml</a></p>
+<p>Interactive keywords let players type simple tokens such as:</p>
+<ul>
+<li><code>[discord]</code></li>
+<li><code>[rules]</code></li>
+<li><code>[store]</code></li>
+<li><code>[vote]</code></li>
+<li><code>[map]</code></li>
+</ul>
+<p>CoreChatX can turn those tokens into polished clickable chat elements.</p>
+<p>They can include:</p>
+<ul>
+<li>hover text</li>
+<li>click commands</li>
+<li>suggested commands</li>
+<li>URLs</li>
+<li>copied text</li>
+<li>optional permissions</li>
+<li>channel restrictions</li>
+<li>optional PlaceholderAPI rendering</li>
+</ul>
+<p>This is the kind of small feature that often becomes &quot;add another plugin&quot;. Here, it is just part of the chat suite.</p>
+<hr>
+<h2 id="mentions-and-pings">Mentions And Pings</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#pings-yml">pings.yml</a><a href="./configuration.html#chat-yml">chat.yml mentions</a></p>
+<p>Mentions and pings are built directly into the message flow.</p>
+<p>They support:</p>
+<ul>
+<li>player mentions</li>
+<li><code>@Player</code> and exact-name mention behavior</li>
+<li>custom ping triggers</li>
+<li>sound notifications</li>
+<li>actionbar notifications</li>
+<li>per-player ping toggles</li>
+<li>staff-friendly ping rules</li>
+<li>cross-server mention awareness</li>
+<li>mention formatting based on the mentioned player</li>
+</ul>
+<p>Because mentions are part of CoreChatX itself, they can work with formatting, notifications, privacy choices, and Velocity network presence instead of pretending every server is isolated.</p>
+<hr>
+<h2 id="channels">Channels</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#channels-yml">channels.yml</a></p>
+<p>CoreChatX supports multiple channel styles:</p>
+<ul>
+<li>global chat</li>
+<li>local chat</li>
+<li>staff chat</li>
+<li>network-wide chat</li>
+<li>role-based chat spaces</li>
+<li>custom server-defined channels</li>
+</ul>
+<p>Channels can decide:</p>
+<ul>
+<li>who can send</li>
+<li>who can receive</li>
+<li>which features are enabled</li>
+<li>how messages look</li>
+<li>whether chat bubbles are allowed</li>
+<li>whether ChatItems are allowed</li>
+<li>whether messages can be exported to Discord or Telegram</li>
+</ul>
+<p>This keeps channel behavior centralized instead of scattered across several plugins with separate ideas of how chat should behave.</p>
+<hr>
+<h2 id="private-messages">Private Messages</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#privacy-yml">privacy.yml</a><a href="./configuration.html#playerdata-yml">playerdata.yml</a></p>
+<p>Private messaging is part of the same communication system as public chat.</p>
+<p>Included tools:</p>
+<ul>
+<li>direct messages</li>
+<li>reply command</li>
+<li>social spy</li>
+<li>ignore controls</li>
+<li>PM toggle</li>
+<li>delivery feedback</li>
+<li>cross-server private messages</li>
+</ul>
+<p>The result is a PM system that understands the rest of the plugin: privacy, moderation, network routing, formatting, and player settings all live in the same ecosystem.</p>
+<hr>
+<h2 id="moderation-tools">Moderation Tools</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#moderation-yml">moderation.yml</a><a href="./configuration.html#filter-yml">filter.yml</a></p>
+<p>CoreChatX includes the everyday moderation controls a real server needs:</p>
+<ul>
+<li>player mute</li>
+<li>unmute</li>
+<li>global chat mute</li>
+<li>clear chat</li>
+<li>anti-repeat checks</li>
+<li>anti-caps checks</li>
+<li>word filtering</li>
+<li>staff bypass permissions</li>
+</ul>
+<p>Moderation is handled inside the chat layer itself. That means it works naturally with channels, private messages, network behavior, and player settings.</p>
+<p>This avoids making separate moderation and chat tools duplicate or guess each other&#x27;s state.</p>
+<hr>
+<h2 id="chat-item-previews">Chat Item Previews</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#chatitems-yml">chatitems.yml</a></p>
+<p>Players can share clickable previews for:</p>
+<ul>
+<li>held items</li>
+<li>shulker contents</li>
+<li>armor</li>
+<li>hotbar</li>
+<li>inventory</li>
+<li>ender chest</li>
+</ul>
+<p>Multiple ChatItem tokens in the same message can reuse the same captured player state while still opening the correct view.</p>
+<p>On a Velocity network, players on another backend can still click and open the preview through lightweight snapshot references and on-demand retrieval. That keeps network chat cleaner and avoids stuffing heavy item data into the main chat packet.</p>
+<hr>
+<h2 id="chat-bubbles">Chat Bubbles</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#2-chatbubbles-yml">chatbubbles.yml</a></p>
+<p>CoreChatX can show recent chat messages above player heads.</p>
+<p>Bubble features include:</p>
+<ul>
+<li>player toggle</li>
+<li>channel rules</li>
+<li>world rules</li>
+<li>sneaking checks</li>
+<li>invisibility checks</li>
+<li>configurable duration</li>
+<li>message wrapping</li>
+<li>stacked recent messages</li>
+<li>distance-based visibility</li>
+<li>cleanup on quit, reload, and shutdown</li>
+</ul>
+<p>Chat bubbles use the already processed message, so filtering, channels, mentions, and keywords have already done their job.</p>
+<p>On a network, bubbles stay local to the server where the sender is physically playing. That keeps the feature useful without pretending an overhead bubble can float across servers.</p>
+<hr>
+<h2 id="player-controls">Player Controls</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#playerdata-yml">playerdata.yml</a><a href="./configuration.html#state-yml">state.yml</a><a href="./configuration.html#privacy-yml">privacy.yml</a></p>
+<p>Players get direct control over important communication preferences:</p>
+<ul>
+<li>settings menu</li>
+<li>ping toggles</li>
+<li>PM toggle</li>
+<li>channel switching</li>
+<li>chat bubble toggle</li>
+<li>locale selection</li>
+<li>ignore list controls</li>
+</ul>
+<p>This makes CoreChatX feel like a player-facing feature, not just an admin-side config file with a chat command attached.</p>
+<hr>
+<h2 id="locale-support">Locale Support</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#locales-en-us-yml">locales/en_us.yml</a><a href="./configuration.html#messages-yml">messages.yml fallback</a></p>
+<p>CoreChatX includes a practical locale foundation:</p>
+<ul>
+<li>per-player locale selection</li>
+<li>locale override files</li>
+<li>fallback to the main message file</li>
+<li>cleaner control over player-facing wording</li>
+</ul>
+<p>This is useful for multilingual communities and for servers that want every message to sound like it belongs to their brand.</p>
+<hr>
+<h2 id="discord-and-telegram-bridges">Discord And Telegram Bridges</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#discord-yml">discord.yml</a><a href="./configuration.html#telegram-yml">telegram.yml</a></p>
+<p>CoreChatX includes built-in bridge support.</p>
+<p>Important disclosure: Discord and Telegram bridges are optional and only run when the server owner enables and configures them. When enabled, CoreChatX can send selected chat content, player display names, channel labels, and related message formatting to the Discord or Telegram services configured by the server owner. Inbound bridge messages can also bring Discord or Telegram messages back into configured Minecraft channels.</p>
+<p>Bridge features include:</p>
+<ul>
+<li>Discord outbound messages</li>
+<li>Discord inbound messages</li>
+<li>Telegram outbound messages</li>
+<li>Telegram inbound messages</li>
+<li>Telegram forum topic routing</li>
+<li>per-channel bridge targets</li>
+<li>channel-level bridge export control</li>
+<li>global bridge master switch</li>
+<li>cleaner reload and shutdown behavior</li>
+<li>safe message length handling</li>
+</ul>
+<p>The bridge layer is treated as part of the chat system, not as a separate external pipe with unrelated routing rules.</p>
+<p>That matters because channel rules, formatting, network behavior, and bridge routing should agree with each other. If they do not, players notice. Admins notice faster.</p>
+<hr>
+<h2 id="velocity-network-support">Velocity Network Support</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#velocity-proxy">Velocity proxy</a><a href="./configuration.html#velocity-config-properties">velocity-config.properties</a></p>
+<p>CoreChatX supports both standalone Paper servers and Velocity networks.</p>
+<p>In network mode, it can keep these features working across servers:</p>
+<ul>
+<li>network-wide chat channels</li>
+<li>cross-server private messages</li>
+<li>player communication settings</li>
+<li>player name suggestions</li>
+<li>TAB entries where available</li>
+<li>mentions and pings</li>
+<li>interactive keyword behavior</li>
+<li>ChatItem preview access</li>
+<li>bridge export without duplicate network messages</li>
+</ul>
+<p>This is where the &quot;one suite&quot; approach matters most. A network setup should not require a separate plugin stack on every backend just to make messages, toggles, mentions, and PMs understand that players moved servers.</p>
+<hr>
+<h2 id="commands">Commands</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#config-driven-permissions">Config-driven permissions</a></p>
+<p>CoreChatX includes commands for:</p>
+<ul>
+<li>plugin management</li>
+<li><code>/corechatx</code> root command</li>
+<li><code>/ccx</code> root command alias</li>
+<li>private messages</li>
+<li>replies</li>
+<li>social spy</li>
+<li>broadcast</li>
+<li>ping controls</li>
+<li>channel controls</li>
+<li>ignore controls</li>
+<li>PM toggle</li>
+<li>settings menu</li>
+<li>mute and unmute</li>
+<li>global chat mute</li>
+<li>clear chat</li>
+</ul>
+<p>The commands are designed around the same communication layer, so they feel connected instead of random.</p>
+<hr>
+<h2 id="admin-experience">Admin Experience</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#practical-admin-notes">Practical admin notes</a><a href="./configuration.html#regenerating-a-clean-config-set">Regenerating configs</a></p>
+<p>CoreChatX includes practical behavior for server owners:</p>
+<ul>
+<li>clear startup information</li>
+<li>version and author shown on startup</li>
+<li>Paper or Velocity architecture shown on startup</li>
+<li><code>CORECHATX</code> startup banner</li>
+<li><code>corechatx.*</code> permission namespace</li>
+<li><code>corechatx:main</code> default network channel</li>
+<li>safer config validation</li>
+<li>cleaner failure handling</li>
+<li>safer network message handling</li>
+<li>bridge lifecycle handling on reload and shutdown</li>
+<li>config regeneration support</li>
+</ul>
+<p>These are not flashy player-facing features, but they make day-to-day operation much easier to trust and maintain.</p>
+<hr>
+<h2 id="verified">Verified</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#production-validation-checklist">Production validation checklist</a></p>
+<p>The current project state has been tested through:</p>
+<ul>
+<li>build and test passes</li>
+<li>standalone Paper startup</li>
+<li>Velocity startup</li>
+<li>Paper startup in network mode</li>
+<li>command checks</li>
+<li>config regeneration checks</li>
+<li>live Paper test environment checks</li>
+<li>live Velocity network test environment checks</li>
+</ul>
+<hr>
+<h2 id="future-direction">Future Direction</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#related-documents">Related documents</a></p>
+<p>CoreChatX is designed to grow into a broader communication hub for common server social systems, such as:</p>
+<ul>
+<li>clans and guilds</li>
+<li>towns and settlements</li>
+<li>lands and territories</li>
+<li>parties and lightweight groups</li>
+</ul>
+<p>The goal is to make chat aware of the communities players actually build, while keeping communication centralized, consistent, and pleasant to use.</p>
+<hr>
+<h2 id="summary">Summary</h2>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#corechatx-configuration-instructions">Configuration reference</a></p>
+<p>CoreChatX gives a server:</p>
+<ul>
+<li>polished public chat</li>
+<li>Kyori Adventure MiniMessage formatting</li>
+<li>PlaceholderAPI-powered dynamic templates</li>
+<li>interactive keywords</li>
+<li>mentions and pings</li>
+<li>channels</li>
+<li>private messages</li>
+<li>moderation tools</li>
+<li>ChatItem previews</li>
+<li>chat bubbles</li>
+<li>player settings</li>
+<li>locale support</li>
+<li>Discord and Telegram bridges</li>
+<li>standalone Paper support</li>
+<li>Velocity network support</li>
+</ul>
+<p>In short, CoreChatX is for servers that want communication to feel intentional.</p>
+<p>If your chat setup needs several plugins, multiple bridge configs, and extra placeholder glue just to produce one consistent message, CoreChatX is built to make that experience simpler.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer">
+      <div class="shell footer-grid">
+        <div><a class="brand footer-brand" href="./index.html"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a><p>Complete communication suite for Minecraft servers.</p></div>
+        <div class="footer-links"><a href="./index.html#features">Features</a><a href="./installation.html">Setup</a><a href="./docs.html">Docs</a><a href="./faq.html">FAQ</a><a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a><a href="https://github.com/IceWolf23X/CoreChatX/releases">Download</a></div>
+      </div>
+    </footer>
+    <script src="./assets/site.js"></script>
+  </body>
+</html>
