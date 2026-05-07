@@ -505,7 +505,7 @@ h3 {
 
 .mini-icon,
 .card-icon {
-  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 6.5A3.5 3.5 0 0 1 7.5 3h9A3.5 3.5 0 0 1 20 6.5v5A3.5 3.5 0 0 1 16.5 15H11l-5 4v-4.35A3.5 3.5 0 0 1 4 11.5v-5Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 8h8M8 11h5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M4 6.5A3.5 3.5 0 0 1 7.5 3h9A3.5 3.5 0 0 1 20 6.5v5A3.5 3.5 0 0 1 16.5 15H11l-5 4v-4.35A3.5 3.5 0 0 1 4 11.5v-5Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 8h8M8 11h5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
   position: relative;
   flex: 0 0 auto;
   display: inline-block;
@@ -526,8 +526,8 @@ h3 {
   inset: 8px;
   background: linear-gradient(135deg, #94a0ff, #9b6dff);
   opacity: 0.95;
-  -webkit-mask: var(--icon) center / contain no-repeat;
-  mask: var(--icon) center / contain no-repeat;
+  -webkit-mask: var(--icon) center / 92% 92% no-repeat;
+  mask: var(--icon) center / 92% 92% no-repeat;
 }
 
 .network-card {
@@ -691,27 +691,27 @@ h3 {
 }
 
 .chat-icon {
-  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 6.5A3.5 3.5 0 0 1 7.5 3h9A3.5 3.5 0 0 1 20 6.5v5A3.5 3.5 0 0 1 16.5 15H11l-5 4v-4.35A3.5 3.5 0 0 1 4 11.5v-5Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 8h8M8 11h5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M4 6.5A3.5 3.5 0 0 1 7.5 3h9A3.5 3.5 0 0 1 20 6.5v5A3.5 3.5 0 0 1 16.5 15H11l-5 4v-4.35A3.5 3.5 0 0 1 4 11.5v-5Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 8h8M8 11h5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .channel-icon,
 .channels-icon {
-  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6 8h12M6 16h12M9 4 7 20M17 4l-2 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M6 8h12M6 16h12M9 4 7 20M17 4l-2 16' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .ping-card-icon,
 .ping-icon {
-  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M16 8.5a4 4 0 1 0-1.15 2.8L17.5 14' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M18 4.5a8 8 0 0 1 0 11.3M20.5 2a11.5 11.5 0 0 1 0 16.3' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M16 8.5a4 4 0 1 0-1.15 2.8L17.5 14' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M18 4.5a8 8 0 0 1 0 11.3M20.5 2a11.5 11.5 0 0 1 0 16.3' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .item-icon,
 .item-preview-icon {
-  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m4.5 8 7.5 4.2L19.5 8M12 12.2V21M8 5.2l8 4.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='m12 3 8 4.5v9L12 21l-8-4.5v-9L12 3Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m4.5 8 7.5 4.2L19.5 8M12 12.2V21M8 5.2l8 4.5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
 .bridge-card-icon,
 .bridge-icon {
-  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='6' cy='12' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='18' cy='6' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='18' cy='18' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='m8.7 10.7 6.6-3.4M8.7 13.3l6.6 3.4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Ccircle cx='6' cy='12' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='18' cy='6' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='18' cy='18' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='m8.7 10.7 6.6-3.4M8.7 13.3l6.6 3.4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
 .more-features {
