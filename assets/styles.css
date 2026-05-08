@@ -158,7 +158,7 @@ code {
 }
 
 .shell {
-  width: min(1440px, calc(100% - clamp(40px, 5vw, 96px)));
+  width: min(1560px, calc(100% - clamp(32px, 4vw, 80px)));
   margin-inline: auto;
 }
 
@@ -1267,7 +1267,7 @@ details p {
 }
 
 .doc-page .shell {
-  width: min(1760px, calc(100% - clamp(48px, 5vw, 112px)));
+  width: min(1840px, calc(100% - clamp(40px, 4vw, 96px)));
 }
 
 .doc-layout {
