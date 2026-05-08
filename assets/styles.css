@@ -812,6 +812,46 @@ h3 {
   --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Ccircle cx='6' cy='12' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='18' cy='6' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='18' cy='18' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='m8.7 10.7 6.6-3.4M8.7 13.3l6.6 3.4' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 
+.format-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M5 17h14M7 13h10M9 9h6M7 5h10' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='m18 3 .7 1.8L20.5 5l-1.8.7L18 7.5l-.7-1.8L15.5 5l1.8-.7L18 3Z' fill='black'/%3E%3C/svg%3E");
+}
+
+.privacy-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M4 7h16v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m5 8 7 5 7-5M9 7V5a3 3 0 0 1 6 0v2' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.moderation-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M12 3 19 6v5c0 4.4-2.6 7.7-7 10-4.4-2.3-7-5.6-7-10V6l7-3Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='m9 12 2 2 4-5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.keyword-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M7 7H5a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h2M17 7h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2M10 16l4-8' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='m9 10-2 2 2 2M15 10l2 2-2 2' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+
+.bubble-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M4 7a4 4 0 0 1 4-4h8a4 4 0 0 1 4 4v3a4 4 0 0 1-4 4h-4l-5 4v-4.2A4 4 0 0 1 4 10V7Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 8h8M8 11h5' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.controls-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M5 7h14M5 12h14M5 17h14' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3Ccircle cx='9' cy='7' r='2' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='15' cy='12' r='2' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='11' cy='17' r='2' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+}
+
+.locale-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Ccircle cx='12' cy='12' r='9' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='M3.5 12h17M12 3c2.2 2.5 3.2 5.5 3.2 9S14.2 18.5 12 21M12 3C9.8 5.5 8.8 8.5 8.8 12S9.8 18.5 12 21' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.velocity-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Ccircle cx='6' cy='6' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='18' cy='6' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Ccircle cx='12' cy='18' r='3' fill='none' stroke='black' stroke-width='2'/%3E%3Cpath d='m8.5 7.4 2.3 7.8M15.5 7.4l-2.3 7.8M9 6h6' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.platform-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='M5 6h14v5H5V6ZM5 14h14v5H5v-5Z' fill='none' stroke='black' stroke-width='2' stroke-linejoin='round'/%3E%3Cpath d='M8 8.5h.1M8 16.5h.1M13 8.5h3M13 16.5h3' fill='none' stroke='black' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+.placeholder-icon {
+  --icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-2 -2 28 28'%3E%3Cpath d='m8 7-4 5 4 5M16 7l4 5-4 5M10 17l4-10' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Ccircle cx='12' cy='12' r='2' fill='none' stroke='black' stroke-width='2'/%3E%3C/svg%3E");
+}
+
 .more-features {
   margin-top: 28px;
   text-align: center;
@@ -823,10 +863,33 @@ h3 {
 
 .secondary-feature-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 14px;
   margin-top: 28px;
   text-align: left;
+}
+
+.secondary-feature-grid .feature-small {
+  grid-column: span 2;
+  min-height: 280px;
+}
+
+.secondary-feature-grid .feature-small:nth-child(1),
+.secondary-feature-grid .feature-small:nth-child(2),
+.secondary-feature-grid .feature-small:nth-child(6),
+.secondary-feature-grid .feature-small:nth-child(7) {
+  grid-column: span 3;
+}
+
+.secondary-feature-grid .card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  margin-bottom: 20px;
+}
+
+.secondary-feature-grid .card-icon::after {
+  inset: 9px;
 }
 
 .secondary-feature-grid[hidden] {
@@ -1596,10 +1659,6 @@ details p {
 }
 
 @media (max-width: 1120px) {
-  .secondary-feature-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .resource-grid,
   .page-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1681,6 +1740,18 @@ details p {
 
   .main-feature-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .secondary-feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .secondary-feature-grid .feature-small,
+  .secondary-feature-grid .feature-small:nth-child(1),
+  .secondary-feature-grid .feature-small:nth-child(2),
+  .secondary-feature-grid .feature-small:nth-child(6),
+  .secondary-feature-grid .feature-small:nth-child(7) {
+    grid-column: span 1;
   }
 
   .feature-large,
