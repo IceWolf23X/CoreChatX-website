@@ -24,6 +24,7 @@ jobs:
           if ! rg 'https://modrinth.com/plugin/corechatx' *.html; then
             exit 1
           fi
+          echo "Download links now point to Modrinth."
       - name: Commit applied changes
         run: |
           git config user.name "github-actions[bot]"
