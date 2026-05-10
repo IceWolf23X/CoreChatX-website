@@ -152,8 +152,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>Paper standalone</strong>
-            <span>single-server support</span>
+            <strong>2026.1.1</strong>
+            <span>compatibility fix release</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -163,6 +163,40 @@
             <strong>Discord + Telegram</strong>
             <span>optional bridge support</span>
           </article>
+        </div>
+      </section>
+
+      <section class="section" id="latest-release">
+        <div class="shell">
+          <div class="section-heading centered">
+            <p class="eyebrow">Latest release</p>
+            <h2>CoreChatX 2026.1.1 improves PlaceholderAPI and legacy nickname compatibility.</h2>
+            <p>
+              This compatibility release fixes public chat rendering when PlaceholderAPI, EssentialsX,
+              or another plugin returns legacy Minecraft formatting inside MiniMessage-based chat formats.
+            </p>
+          </div>
+
+          <div class="setup-grid">
+            <article class="setup-card">
+              <div class="setup-kicker">Fixed</div>
+              <h3>Legacy formatting is converted safely</h3>
+              <p>
+                Legacy ampersand codes, section-sign codes, and legacy hex colors are converted before
+                MiniMessage rendering, including formats such as <code>&amp;#ffa200</code> and verbose
+                hex color sequences.
+              </p>
+            </article>
+
+            <article class="setup-card featured-setup">
+              <div class="setup-kicker">Compatibility</div>
+              <h3>EssentialsX-style nicknames render reliably</h3>
+              <p>
+                Nicknames or prefixes produced through PlaceholderAPI with legacy hex colors no longer
+                break public chat messages when used in trusted server-controlled templates.
+              </p>
+            </article>
+          </div>
         </div>
       </section>
 
@@ -321,8 +355,8 @@
                 <h3>MiniMessage &amp; PlaceholderAPI</h3>
                 <p>
                   Trusted server-controlled templates can combine MiniMessage with PlaceholderAPI where
-                  installed and enabled. Raw player chat bodies do not parse PlaceholderAPI, keeping
-                  player input controlled.
+                  installed and enabled. Legacy color codes returned by placeholders are converted before
+                  rendering, while raw player chat bodies do not parse PlaceholderAPI.
                 </p>
               </article>
             </div>

@@ -81,6 +81,7 @@
 
             <h2 id="artifacts">Artifacts And Identity</h2>
             <p>CoreChatX currently ships as two separate runtime jars. Install each jar only on the platform it was built for.</p>
+            <p>Current release: <code>2026.1.1</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.1.jar</code> and <code>corechatx-velocity-2026.1.1.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
@@ -154,6 +155,8 @@ player-directory.tab-entries=true</code></pre>
               <li>Install PlaceholderAPI on every backend that must render placeholders.</li>
               <li>Install the expansions required by your formats.</li>
               <li>Keep raw player messages separate from admin templates.</li>
+              <li>CoreChatX converts legacy ampersand codes, section-sign codes, and legacy hex colors returned by placeholders before MiniMessage rendering.</li>
+              <li>This includes EssentialsX-style legacy hex nicknames used in public chat formats.</li>
               <li>Remember that mention token placeholders use the mentioned player as context.</li>
               <li>Test offline-player placeholder behavior before relying on it for cross-backend hover text.</li>
             </ul>

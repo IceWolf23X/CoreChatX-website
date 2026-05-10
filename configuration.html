@@ -513,6 +513,7 @@ cooldowns:
 <li>if LuckPerms is not available, group-specific formats are skipped and CoreChatX falls back to the base format</li>
 <li>if you already manage rank prefixes in LuckPerms, prefer <code>{rank_prefix}</code> over hardcoded titles in this file</li>
 <li>PlaceholderAPI placeholders can be used in most admin-controlled rendered strings, including chat formats and group formats, when PlaceholderAPI support is enabled</li>
+<li>legacy ampersand codes, section-sign codes, and legacy hex colors returned by PlaceholderAPI or nickname plugins are converted before MiniMessage parsing</li>
 <li>raw player-authored message bodies do not pass through PlaceholderAPI; this prevents players from resolving arbitrary <code>%placeholder%</code> tokens inside normal chat text</li>
 <li><code>mentions.token-format</code> resolves <code>{player_name}</code> to the mentioned player&#x27;s name</li>
 <li>PlaceholderAPI in <code>mentions.token-format</code> uses the mentioned player as context, not the sender</li>
@@ -1554,6 +1555,8 @@ locales/</code></pre>
 <li>the string being edited is a supported server-controlled template</li>
 </ul>
 <p>Raw player message bodies do not pass through PlaceholderAPI. Mention token PlaceholderAPI context is the mentioned player, using <code>OfflinePlayer</code> where possible for cross-backend mentions.</p>
+<h3 id="public-chat-fails-with-essentialsx-nicknames">Public chat fails with EssentialsX nicknames</h3>
+<p>Use CoreChatX <code>2026.1.1</code> or newer if PlaceholderAPI or a nickname plugin returns legacy color data inside a MiniMessage chat format. CoreChatX converts legacy ampersand codes, section-sign codes, <code>&amp;#rrggbb</code>, verbose ampersand hex, and verbose section-sign hex before rendering trusted templates.</p>
 <h3 id="mentions-do-not-notify-players">Mentions do not notify players</h3>
 <p>Verify:</p>
 <ul>

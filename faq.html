@@ -135,6 +135,8 @@
 <p>Yes. Server-controlled templates can use MiniMessage for colors, gradients, hover text, click actions, suggested commands, copied text, and rich component formatting.</p>
 <h3 id="does-corechatx-support-placeholderapi">Does CoreChatX support PlaceholderAPI?</h3>
 <p>Yes, where PlaceholderAPI is installed, enabled, and the string is a supported server-controlled template. This allows formats, hovers, keywords, and other configured text to react to ranks, stats, economy, worlds, progression, and installed expansions.</p>
+<h3 id="can-placeholderapi-return-legacy-color-codes">Can PlaceholderAPI return legacy color codes?</h3>
+<p>Yes. Since CoreChatX <code>2026.1.1</code>, legacy ampersand codes, section-sign codes, and legacy hex colors returned by PlaceholderAPI or nickname plugins are converted before MiniMessage rendering. This covers EssentialsX-style hex nicknames that previously could break public chat formats.</p>
 <h3 id="do-player-written-messages-parse-placeholderapi">Do player-written messages parse PlaceholderAPI?</h3>
 <p>No. Raw player chat bodies do not pass through PlaceholderAPI. That prevents players from typing arbitrary <code>%placeholder%</code> tokens and forcing the server to resolve them.</p>
 <h3 id="which-player-is-used-for-mention-placeholder-context">Which player is used for mention placeholder context?</h3>
