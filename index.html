@@ -152,8 +152,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.1.3</strong>
-            <span>config manager release</span>
+            <strong>2026.1.4</strong>
+            <span>bridge format release</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -170,29 +170,29 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.1.3 keeps existing configs up to date automatically.</h2>
+            <h2>CoreChatX 2026.1.4 gives bridge formats full channel-level control.</h2>
             <p>
-              This config manager release restores missing bundled default keys into existing config files
-              without overwriting the values server owners already changed.
+              Discord and Telegram bridge output can now be overridden from <code>channels.yml</code>,
+              while Discord inbound messages can keep channel prefixes, role names, and role colors in one format.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card">
-              <div class="setup-kicker">Added</div>
-              <h3>Missing config keys are restored</h3>
+              <div class="setup-kicker">Bridge formats</div>
+              <h3>Per-channel bridge templates</h3>
               <p>
-                Paper YAML files and the default locale are synchronized from bundled defaults when they
-                load, so older configs receive newly added keys automatically.
+                Discord and Telegram outbound and inbound formats can be set per CoreChatX channel, with
+                blank values falling back to the matching global bridge format.
               </p>
             </article>
 
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Safe</div>
-              <h3>Existing values stay untouched</h3>
+              <div class="setup-kicker">Safer relay</div>
+              <h3>Bridge text is validated and cleaned</h3>
               <p>
-                CoreChatX only fills missing entries. Runtime data files are left alone, invalid YAML is
-                not rewritten, and Velocity appends only missing properties.
+                Bridge templates are checked on load, bad placeholders warn instead of breaking startup,
+                and LuckPerms or PlaceholderAPI formatting codes are stripped before Discord or Telegram send.
               </p>
             </article>
           </div>
@@ -256,8 +256,8 @@
               <h3>External Bridges</h3>
               <p>
                 Optional Discord and Telegram bridges support inbound and outbound messages, per-channel
-                routing, bridge targets, fully formatted Discord inbound messages, PlaceholderAPI-aware
-                Discord output, rank-aware bridge formats, and safe message handling.
+                routing, bridge targets, per-channel bridge format overrides, PlaceholderAPI-aware
+                Discord output, role-aware inbound messages, and safe message handling.
               </p>
             </article>
           </div>
@@ -521,7 +521,7 @@
             </details>
             <details class="animated-details">
               <summary>Does it support Discord and Telegram?</summary>
-              <p>Yes. Both bridges are optional and support inbound and outbound messages when configured. Telegram also supports forum topic routing through Bot API long polling.</p>
+              <p>Yes. Both bridges are optional and support inbound and outbound messages, per-channel format overrides, and explicit routing when configured. Telegram also supports forum topic routing through Bot API long polling.</p>
             </details>
             <details class="animated-details">
               <summary>Are ChatItems supported across a network?</summary>

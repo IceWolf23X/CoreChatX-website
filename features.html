@@ -107,6 +107,7 @@
 <li>has been tested on a small live Velocity network</li>
 <li>supports Discord inbound and outbound messages</li>
 <li>supports Telegram inbound and outbound messages</li>
+<li>supports per-channel Discord and Telegram bridge format overrides</li>
 <li>supports Telegram forum topic routing</li>
 <li>includes optional chat bubbles above players</li>
 <li>keeps player communication settings aligned across server switches</li>
@@ -340,7 +341,7 @@
 <p>This is useful for multilingual communities and for servers that want every message to sound like it belongs to their brand.</p>
 <hr>
 <h2 id="discord-and-telegram-bridges">Discord And Telegram Bridges</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#discord-yml">discord.yml</a><a href="./configuration.html#telegram-yml">telegram.yml</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#channels-yml">channels.yml</a><a href="./configuration.html#discord-yml">discord.yml</a><a href="./configuration.html#telegram-yml">telegram.yml</a></p>
 <p>CoreChatX includes built-in bridge support.</p>
 <p>Important disclosure: Discord and Telegram bridges are optional and only run when the server owner enables and configures them. When enabled, CoreChatX can send selected chat content, player display names, channel labels, and related message formatting to the Discord or Telegram services configured by the server owner. Inbound bridge messages can also bring Discord or Telegram messages back into configured Minecraft channels.</p>
 <p>Bridge features include:</p>
@@ -351,11 +352,14 @@
 <li>Telegram inbound messages</li>
 <li>Telegram forum topic routing</li>
 <li>per-channel bridge targets</li>
+<li>per-channel Discord and Telegram bridge format overrides</li>
 <li>fully configurable Discord inbound format</li>
 <li>PlaceholderAPI and rank prefix support in Discord outbound format templates</li>
 <li>Discord role names and role colors available to Minecraft chat formats</li>
+<li>channel prefix support in Discord inbound format templates</li>
 <li>rank prefix support in Telegram outbound format templates</li>
 <li>channel-level bridge export control</li>
+<li>config-load warnings for bad bridge placeholders or inbound MiniMessage syntax</li>
 <li>global bridge master switch</li>
 <li>cleaner reload and shutdown behavior</li>
 <li>safe message length handling</li>

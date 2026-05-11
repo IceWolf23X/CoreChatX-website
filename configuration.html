@@ -101,6 +101,7 @@
 </ul>
 <p>If a config file is deleted, CoreChatX recreates the bundled default on next boot. That is the supported way to regenerate a clean config set.</p>
 <p>Since <code>2026.1.3</code>, existing Paper config files also receive missing bundled default keys automatically when they are loaded. CoreChatX adds only missing entries and does not overwrite existing configured values.</p>
+<p>Since <code>2026.1.4</code>, Discord and Telegram bridge formats can also be overridden per channel from <code>channels.yml</code>, and bridge format errors produce warnings instead of blocking startup.</p>
 <hr>
 <h2 id="before-you-configure">0. Before You Configure</h2>
 <p>Use this document as the operational reference for a real installation. It is intentionally more detailed than the feature list because it documents the files, runtime gates, restart requirements, and safety limits that matter when the plugin is already installed on a server.</p>
@@ -700,6 +701,24 @@ channels:
     # Leave blank to use chat.yml resolution.
     format: &quot;&quot;
 
+    discord:
+      # Optional Discord format for Minecraft -&gt; Discord messages from this channel.
+      # Leave blank to use discord.yml -&gt; discord.format.
+      outbound-format: &quot;&quot;
+
+      # Optional Discord format for Discord -&gt; Minecraft messages routed to this channel.
+      # Leave blank to use discord.yml -&gt; discord.inbound.format.
+      inbound-format: &quot;&quot;
+
+    telegram:
+      # Optional Telegram format for Minecraft -&gt; Telegram messages from this channel.
+      # Leave blank to use telegram.yml -&gt; telegram.format.
+      outbound-format: &quot;&quot;
+
+      # Optional Telegram format for Telegram -&gt; Minecraft messages routed to this channel.
+      # Leave blank to use the regular CoreChatX channel chat format.
+      inbound-format: &quot;&quot;
+
   local:
     enabled: true
     default: false
@@ -717,6 +736,12 @@ channels:
     allow-chat-bubbles: true
     export-to-bridges: false
     format: &quot;&quot;
+    discord:
+      outbound-format: &quot;&quot;
+      inbound-format: &quot;&quot;
+    telegram:
+      outbound-format: &quot;&quot;
+      inbound-format: &quot;&quot;
 
   staff:
     enabled: true
@@ -728,14 +753,32 @@ channels:
     allow-chatitems: false
     allow-chat-bubbles: false
     export-to-bridges: true
-    format: &quot;&quot;</code></pre>
+    format: &quot;&quot;
+    discord:
+      outbound-format: &quot;&quot;
+      inbound-format: &quot;&quot;
+    telegram:
+      outbound-format: &quot;&quot;
+      inbound-format: &quot;&quot;</code></pre>
 <p>Important behavior:</p>
 <ul>
 <li>invalid dynamic permission nodes are detected and warned during load</li>
 <li>only the broken binding is disabled; the plugin does not crash for one malformed permission</li>
 <li><code>export-to-bridges: true</code> means locally-originating messages in that channel are eligible for Discord/Telegram outbound export</li>
 <li>in proxy mode, outbound bridge export is performed only from the source backend so a network message is not exported once per backend</li>
+<li><code>discord.outbound-format</code> and <code>discord.inbound-format</code> override Discord bridge formats for that channel when non-blank</li>
+<li><code>telegram.outbound-format</code> and <code>telegram.inbound-format</code> override Telegram bridge formats for that channel when non-blank</li>
+<li>blank per-channel bridge formats fall back to the matching global bridge format</li>
 </ul>
+<p>Per-channel bridge format example:</p>
+<pre class="code-block"><code class="language-yml">channels:
+  mod:
+    discord:
+      outbound-format: &quot;[MOD] {rank_prefix}{sender_name}: {plain_text}&quot;
+      inbound-format: &quot;{channel_prefix}[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}&quot;
+    telegram:
+      outbound-format: &quot;[MOD] {rank_prefix}{sender_name}: {plain_text}&quot;
+      inbound-format: &quot;{channel_prefix}[Telegram] {sender_name}: {plain_text}&quot;</code></pre>
 <hr>
 <h2 id="pings-yml">4.5 <code>pings.yml</code></h2>
 <p>Purpose:</p>
@@ -1133,7 +1176,7 @@ discord:
   # Common placeholders:
   # {source_server}, {channel_id}, {rank_prefix}, {sender_name}, {plain_text}
   # PlaceholderAPI placeholders are supported when PlaceholderAPI is installed and enabled.
-  format: &quot;[{source_server}] [{channel_id}] {sender_name}: {plain_text}&quot;
+  format: &quot;[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}&quot;
 
   # Optional mapping from CoreChatX channel id -&gt; Discord channel id.
   channel-overrides: {}
@@ -1149,8 +1192,8 @@ discord:
     max-length: 400
 
     # Full format for inbound Discord messages shown in Minecraft.
-    # Available tokens: {source}, {source_type}, {sender_name}, {rank_prefix}, {role_color}, {plain_text}, {message}
-    format: &quot;[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}&quot;
+    # Available tokens: {source}, {source_type}, {channel_id}, {channel_prefix}, {sender_name}, {rank_prefix}, {role_color}, {plain_text}, {message}
+    format: &quot;{channel_prefix}[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}&quot;
 
     # Optional route map from Discord channel id -&gt; CoreChatX channel id.
     channel-routes: {}</code></pre>
@@ -1159,9 +1202,13 @@ discord:
 <li>Discord inbound requires <code>MESSAGE CONTENT</code> intent on the bot</li>
 <li>Discord inbound uses the Discord Gateway through JDA, not REST polling</li>
 <li><code>discord.inbound.format</code> controls the full Discord-to-Minecraft line; use it to remove or restyle the bridge source prefix</li>
-<li>Discord inbound format tokens include <code>{source}</code>, <code>{source_type}</code>, <code>{sender_name}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, <code>{plain_text}</code>, and <code>{message}</code></li>
+<li>Discord inbound format tokens include <code>{source}</code>, <code>{source_type}</code>, <code>{channel_id}</code>, <code>{channel_prefix}</code>, <code>{sender_name}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, <code>{plain_text}</code>, and <code>{message}</code></li>
+<li><code>{channel_prefix}</code> keeps the CoreChatX channel prefix in custom inbound bridge formats</li>
 <li><code>{rank_prefix}</code> is the sender&#x27;s highest Discord role name, and <code>{role_color}</code> is that role color as a MiniMessage color tag or <code>white</code></li>
 <li><code>discord.format</code> supports PlaceholderAPI placeholders and <code>{rank_prefix}</code> for Minecraft-to-Discord messages when PlaceholderAPI is installed and enabled</li>
+<li>Discord bridge formats can be overridden per channel from <code>channels.yml</code> with <code>discord.outbound-format</code> and <code>discord.inbound-format</code></li>
+<li>unknown placeholders and invalid inbound MiniMessage syntax produce warnings during config load instead of failing startup</li>
+<li>outbound Discord formatting strips Minecraft formatting codes from templates and rank prefixes while preserving the actual chat message text</li>
 <li><code>deployment.bridges-allowed: false</code> prevents Discord outbound and inbound runtime from starting even if <code>discord.enabled</code> or <code>discord.inbound.enabled</code> is true</li>
 <li><code>discord.enabled: false</code> disables Discord inbound even if <code>discord.inbound.enabled: true</code></li>
 <li>Discord outbound applies a small backoff when Discord responds with HTTP 429 rate limits</li>
@@ -1174,7 +1221,7 @@ discord:
 <p>Role-colored inbound example:</p>
 <pre class="code-block"><code class="language-yml">discord:
   inbound:
-    format: &quot;&lt;dark_gray&gt;[Discord]&lt;/dark_gray&gt; {role_color}{rank_prefix}&lt;/role_color&gt; &lt;white&gt;{sender_name}&lt;/white&gt;: {role_color}{plain_text}&lt;/role_color&gt;&quot;</code></pre>
+    format: &quot;{channel_prefix}&lt;dark_gray&gt;[Discord]&lt;/dark_gray&gt; {role_color}{rank_prefix}&lt;/role_color&gt; &lt;white&gt;{sender_name}&lt;/white&gt;: {role_color}{plain_text}&lt;/role_color&gt;&quot;</code></pre>
 <hr>
 <h2 id="telegram-yml">4.11 <code>telegram.yml</code></h2>
 <p>Purpose:</p>
@@ -1243,6 +1290,9 @@ telegram:
 <li>Telegram does not use MTProto</li>
 <li>Telegram does not use webhook mode and does not start an embedded HTTP server</li>
 <li>Telegram outbound formats can use <code>{rank_prefix}</code> when the token is present</li>
+<li>Telegram bridge formats can be overridden per channel from <code>channels.yml</code> with <code>telegram.outbound-format</code> and <code>telegram.inbound-format</code></li>
+<li>unknown placeholders produce config warnings instead of failing startup</li>
+<li>outbound Telegram formatting strips Minecraft formatting codes from templates and rank prefixes while preserving the actual chat message text</li>
 <li>no <code>api-id</code> or <code>api-hash</code> are required; only <code>telegram.bot-token</code> is needed</li>
 <li>outbound supports per-channel Telegram targets through <code>telegram.outbound.channel-targets</code></li>
 <li>outbound supports Telegram forum topics through <code>message-thread-id</code></li>
