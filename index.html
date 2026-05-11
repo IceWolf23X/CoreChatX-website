@@ -152,8 +152,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.1.1</strong>
-            <span>compatibility fix release</span>
+            <strong>2026.1.2</strong>
+            <span>bridge compatibility release</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -170,30 +170,29 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.1.1 improves PlaceholderAPI and legacy nickname compatibility.</h2>
+            <h2>CoreChatX 2026.1.2 improves Discord and Telegram bridge formatting.</h2>
             <p>
-              This compatibility release fixes public chat rendering when PlaceholderAPI, EssentialsX,
-              or another plugin returns legacy Minecraft formatting inside MiniMessage-based chat formats.
+              This bridge-focused release makes inbound display names configurable, lets Minecraft-to-Discord
+              formats use PlaceholderAPI, and carries Discord role names into Minecraft chat formats.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card">
               <div class="setup-kicker">Fixed</div>
-              <h3>Legacy formatting is converted safely</h3>
+              <h3>Inbound bridge names are configurable</h3>
               <p>
-                Legacy ampersand codes, section-sign codes, and legacy hex colors are converted before
-                MiniMessage rendering, including formats such as <code>&amp;#ffa200</code> and verbose
-                hex color sequences.
+                Discord-to-Minecraft messages no longer force a hardcoded <code>[Discord]</code> prefix.
+                Discord and Telegram now support inbound display name templates.
               </p>
             </article>
 
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Compatibility</div>
-              <h3>EssentialsX-style nicknames render reliably</h3>
+              <div class="setup-kicker">Formatting</div>
+              <h3>Discord formats can use server context</h3>
               <p>
-                Nicknames or prefixes produced through PlaceholderAPI with legacy hex colors no longer
-                break public chat messages when used in trusted server-controlled templates.
+                Minecraft-to-Discord output can resolve PlaceholderAPI placeholders, while inbound Discord
+                messages can fill <code>{rank_prefix}</code> from the sender's highest Discord role.
               </p>
             </article>
           </div>
@@ -257,8 +256,8 @@
               <h3>External Bridges</h3>
               <p>
                 Optional Discord and Telegram bridges support inbound and outbound messages, per-channel
-                routing, bridge targets, export controls, safe message handling, and bridge behavior that
-                follows CoreChatX channels.
+                routing, bridge targets, configurable inbound display names, PlaceholderAPI-aware Discord
+                output, safe message handling, and bridge behavior that follows CoreChatX channels.
               </p>
             </article>
           </div>

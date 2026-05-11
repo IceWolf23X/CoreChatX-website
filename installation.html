@@ -81,7 +81,7 @@
 
             <h2 id="artifacts">Artifacts And Identity</h2>
             <p>CoreChatX currently ships as two separate runtime jars. Install each jar only on the platform it was built for.</p>
-            <p>Current release: <code>2026.1.1</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.1.jar</code> and <code>corechatx-velocity-2026.1.1.jar</code>.</p>
+            <p>Current release: <code>2026.1.2</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.2.jar</code> and <code>corechatx-velocity-2026.1.2.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
@@ -147,6 +147,8 @@ player-directory.tab-entries=true</code></pre>
               <li>Configure inbound routes so external messages land in intentional CoreChatX channels.</li>
               <li>In proxy mode, run inbound bridge listeners only on backend instances that should locally display inbound messages.</li>
               <li>For Discord inbound, configure a valid bot token, inbound route, and required intents including Message Content where needed.</li>
+              <li>Customize inbound bridge names with <code>discord.inbound.display-name-format</code> or <code>telegram.inbound.display-name-format</code>.</li>
+              <li>Use PlaceholderAPI placeholders in <code>discord.format</code> when Minecraft-to-Discord output needs rank, economy, world, or other server data.</li>
               <li>For Telegram, use a bot token for Bot API long polling. Telegram does not use MTProto, Telegram4J, webhook mode, or an embedded HTTP server.</li>
             </ul>
 

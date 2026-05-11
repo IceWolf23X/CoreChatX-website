@@ -190,6 +190,12 @@
 <li>a route to an existing CoreChatX channel</li>
 <li>the required Discord intents, including Message Content where message content is needed</li>
 </ul>
+<h3 id="can-bridge-display-names-be-customized">Can bridge display names be customized?</h3>
+<p>Yes. Discord and Telegram inbound messages support <code>inbound.display-name-format</code>. Use <code>[{source}] {sender_name}</code> for a visible bridge label, or <code>{sender_name}</code> if you do not want a bridge prefix.</p>
+<h3 id="can-discord-output-use-placeholderapi">Can Minecraft-to-Discord output use PlaceholderAPI?</h3>
+<p>Yes. CoreChatX <code>2026.1.2</code> processes PlaceholderAPI placeholders in <code>discord.format</code>, so trusted outbound templates can include server-side rank, world, economy, or other expansion data.</p>
+<h3 id="can-discord-roles-appear-in-minecraft-chat">Can Discord roles appear in Minecraft chat?</h3>
+<p>For Discord-to-Minecraft messages, <code>{rank_prefix}</code> can be populated with the sender's highest Discord role name as plain text.</p>
 <h3 id="does-corechatx-support-telegram">Does CoreChatX support Telegram?</h3>
 <p>Yes. It supports outbound Minecraft-to-Telegram messages, inbound Telegram-to-Minecraft relay, and Telegram forum topic routing.</p>
 <h3 id="does-telegram-use-mtproto-or-telegram4j">Does Telegram use MTProto or Telegram4J?</h3>
