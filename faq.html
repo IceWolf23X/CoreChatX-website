@@ -123,6 +123,9 @@
 <h3 id="can-i-delete-configs-to-reset-them">Can I delete configs to reset them?</h3>
 <p>Yes, for generated admin config files. Stop the server, delete the config file you want to reset, then start again. CoreChatX recreates the bundled default.</p>
 <p>Be careful with runtime data files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code>. Those are live player/plugin state, not simple defaults.</p>
+<h3 id="what-happens-if-my-config-is-missing-a-new-key">What happens if my config is missing a new key?</h3>
+<p>Since CoreChatX <code>2026.1.3</code>, missing bundled default keys are added back to existing Paper config files and the default locale file when they load. Existing values are not overwritten, invalid YAML is not rewritten, and runtime data files are not treated as normal admin config.</p>
+<p>Velocity <code>velocity-config.properties</code> also appends missing bundled properties instead of rewriting the whole file.</p>
 <h3 id="what-does-bridges-allowed-do">What does <code>bridges-allowed</code> do?</h3>
 <p>It is the global master gate for Discord and Telegram runtime. When false, bridge outbound and inbound services do not run even if the individual bridge config says enabled.</p>
 <h3 id="what-does-network-features-allowed-do">What does <code>network-features-allowed</code> do?</h3>

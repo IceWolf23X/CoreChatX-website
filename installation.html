@@ -81,7 +81,7 @@
 
             <h2 id="artifacts">Artifacts And Identity</h2>
             <p>CoreChatX currently ships as two separate runtime jars. Install each jar only on the platform it was built for.</p>
-            <p>Current release: <code>2026.1.2</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.2.jar</code> and <code>corechatx-velocity-2026.1.2.jar</code>.</p>
+            <p>Current release: <code>2026.1.3</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.3.jar</code> and <code>corechatx-velocity-2026.1.3.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
@@ -219,6 +219,7 @@ velocity-config.properties</code></pre>
 
             <h2 id="regeneration">Regenerating A Clean Config Set</h2>
             <p>Stop the server before deleting generated admin config files. CoreChatX recreates bundled defaults on next boot. Be careful with runtime data files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code>; those are live player/plugin state.</p>
+            <p>When an existing admin config is only missing newer bundled keys, CoreChatX <code>2026.1.3</code> adds those missing keys automatically on load or reload without overwriting your current values.</p>
             <p>Before major changes, back up the whole CoreChatX folder. Keep private bridge tokens out of public backups and logs.</p>
 
             <h2 id="validation">Production Validation Checklist</h2>

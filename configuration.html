@@ -100,6 +100,7 @@
 <li><a href="./faq.html"><code>FAQ</code></a> answers the common admin and setup questions</li>
 </ul>
 <p>If a config file is deleted, CoreChatX recreates the bundled default on next boot. That is the supported way to regenerate a clean config set.</p>
+<p>Since <code>2026.1.3</code>, existing Paper config files also receive missing bundled default keys automatically when they are loaded. CoreChatX adds only missing entries and does not overwrite existing configured values.</p>
 <hr>
 <h2 id="before-you-configure">0. Before You Configure</h2>
 <p>Use this document as the operational reference for a real installation. It is intentionally more detailed than the feature list because it documents the files, runtime gates, restart requirements, and safety limits that matter when the plugin is already installed on a server.</p>
@@ -1471,6 +1472,7 @@ locales/</code></pre>
 <p>Delete:</p>
 <pre class="code-block"><code class="language-text">plugins/corechatx/velocity-config.properties</code></pre>
 <p>Then restart Velocity. The proxy module recreates its bundled default file.</p>
+<p>If the file already exists but is missing one of the bundled Velocity properties, CoreChatX appends the missing property instead of rewriting the whole file.</p>
 <hr>
 <h2 id="config-driven-permissions">8. Config-driven Permissions</h2>
 <p>Some permissions are defined in config files and can be changed by the server owner.</p>
