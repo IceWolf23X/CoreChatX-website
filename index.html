@@ -172,18 +172,19 @@
             <p class="eyebrow">Latest release</p>
             <h2>CoreChatX 2026.1.2 improves Discord and Telegram bridge formatting.</h2>
             <p>
-              This bridge-focused release makes inbound display names configurable, lets Minecraft-to-Discord
-              formats use PlaceholderAPI, and carries Discord role names into Minecraft chat formats.
+              This bridge-focused release lets Discord-to-Minecraft messages use one configurable format,
+              while outbound Discord and Telegram formats gain better rank context.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card">
               <div class="setup-kicker">Fixed</div>
-              <h3>Inbound bridge names are configurable</h3>
+              <h3>Discord inbound is fully format-controlled</h3>
               <p>
                 Discord-to-Minecraft messages no longer force a hardcoded <code>[Discord]</code> prefix.
-                Discord and Telegram now support inbound display name templates.
+                Use <code>discord.inbound.format</code> to control source labels, names, message text, role
+                names, and role colors.
               </p>
             </article>
 
@@ -192,7 +193,8 @@
               <h3>Discord formats can use server context</h3>
               <p>
                 Minecraft-to-Discord output can resolve PlaceholderAPI placeholders, while inbound Discord
-                messages can fill <code>{rank_prefix}</code> from the sender's highest Discord role.
+                messages expose <code>{rank_prefix}</code> and <code>{role_color}</code> from the sender's
+                highest Discord role.
               </p>
             </article>
           </div>
@@ -256,8 +258,8 @@
               <h3>External Bridges</h3>
               <p>
                 Optional Discord and Telegram bridges support inbound and outbound messages, per-channel
-                routing, bridge targets, configurable inbound display names, PlaceholderAPI-aware Discord
-                output, safe message handling, and bridge behavior that follows CoreChatX channels.
+                routing, bridge targets, fully formatted Discord inbound messages, PlaceholderAPI-aware
+                Discord output, rank-aware bridge formats, and safe message handling.
               </p>
             </article>
           </div>

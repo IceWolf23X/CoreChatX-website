@@ -1130,7 +1130,7 @@ discord:
 
   # Export format.
   # Common placeholders:
-  # {source_server}, {channel_id}, {sender_name}, {plain_text}
+  # {source_server}, {channel_id}, {rank_prefix}, {sender_name}, {plain_text}
   # PlaceholderAPI placeholders are supported when PlaceholderAPI is installed and enabled.
   format: &quot;[{source_server}] [{channel_id}] {sender_name}: {plain_text}&quot;
 
@@ -1147,9 +1147,9 @@ discord:
     # Maximum accepted inbound message length after sanitization/clamping.
     max-length: 400
 
-    # Display name shown for inbound Discord messages in Minecraft.
-    # Available tokens: {source}, {source_type}, {sender_name}
-    display-name-format: &quot;[{source}] {sender_name}&quot;
+    # Full format for inbound Discord messages shown in Minecraft.
+    # Available tokens: {source}, {source_type}, {sender_name}, {rank_prefix}, {role_color}, {plain_text}, {message}
+    format: &quot;[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}&quot;
 
     # Optional route map from Discord channel id -&gt; CoreChatX channel id.
     channel-routes: {}</code></pre>
@@ -1157,9 +1157,10 @@ discord:
 <ul>
 <li>Discord inbound requires <code>MESSAGE CONTENT</code> intent on the bot</li>
 <li>Discord inbound uses the Discord Gateway through JDA, not REST polling</li>
-<li><code>discord.inbound.display-name-format</code> controls the displayed Minecraft sender name for inbound Discord messages; use <code>{sender_name}</code> to remove the bridge source prefix</li>
-<li><code>discord.format</code> supports PlaceholderAPI placeholders for Minecraft-to-Discord messages when PlaceholderAPI is installed and enabled</li>
-<li>for Discord-to-Minecraft messages, <code>{rank_prefix}</code> can be filled with the sender&#x27;s highest Discord role name as plain text</li>
+<li><code>discord.inbound.format</code> controls the full Discord-to-Minecraft line; use it to remove or restyle the bridge source prefix</li>
+<li>Discord inbound format tokens include <code>{source}</code>, <code>{source_type}</code>, <code>{sender_name}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, <code>{plain_text}</code>, and <code>{message}</code></li>
+<li><code>{rank_prefix}</code> is the sender&#x27;s highest Discord role name, and <code>{role_color}</code> is that role color as a MiniMessage color tag or <code>white</code></li>
+<li><code>discord.format</code> supports PlaceholderAPI placeholders and <code>{rank_prefix}</code> for Minecraft-to-Discord messages when PlaceholderAPI is installed and enabled</li>
 <li><code>deployment.bridges-allowed: false</code> prevents Discord outbound and inbound runtime from starting even if <code>discord.enabled</code> or <code>discord.inbound.enabled</code> is true</li>
 <li><code>discord.enabled: false</code> disables Discord inbound even if <code>discord.inbound.enabled: true</code></li>
 <li>Discord outbound applies a small backoff when Discord responds with HTTP 429 rate limits</li>
@@ -1169,6 +1170,10 @@ discord:
 <li>inbound messages are sanitized and clamped by <code>discord.inbound.max-length</code> before they enter Minecraft chat</li>
 <li>in proxy mode, enable inbound on the backend instances that should locally display Discord messages</li>
 </ul>
+<p>Role-colored inbound example:</p>
+<pre class="code-block"><code class="language-yml">discord:
+  inbound:
+    format: &quot;&lt;dark_gray&gt;[Discord]&lt;/dark_gray&gt; {role_color}{rank_prefix}&lt;/role_color&gt; &lt;white&gt;{sender_name}&lt;/white&gt;: {role_color}{plain_text}&lt;/role_color&gt;&quot;</code></pre>
 <hr>
 <h2 id="telegram-yml">4.11 <code>telegram.yml</code></h2>
 <p>Purpose:</p>
@@ -1222,10 +1227,6 @@ telegram:
     max-length: 400
     default-channel: &quot;global&quot;
 
-    # Display name shown for inbound Telegram messages in Minecraft.
-    # Available tokens: {source}, {source_type}, {sender_name}
-    display-name-format: &quot;[{source}] {sender_name}&quot;
-
     # Logs detected safe route keys to help configure groups/topics.
     debug-route-detection: false
 
@@ -1240,7 +1241,7 @@ telegram:
 <li>Telegram does not use Telegram4J</li>
 <li>Telegram does not use MTProto</li>
 <li>Telegram does not use webhook mode and does not start an embedded HTTP server</li>
-<li><code>telegram.inbound.display-name-format</code> controls the displayed Minecraft sender name for inbound Telegram messages; use <code>{sender_name}</code> to remove the bridge source prefix</li>
+<li>Telegram outbound formats can use <code>{rank_prefix}</code> when the token is present</li>
 <li>no <code>api-id</code> or <code>api-hash</code> are required; only <code>telegram.bot-token</code> is needed</li>
 <li>outbound supports per-channel Telegram targets through <code>telegram.outbound.channel-targets</code></li>
 <li>outbound supports Telegram forum topics through <code>message-thread-id</code></li>

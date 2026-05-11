@@ -147,8 +147,9 @@ player-directory.tab-entries=true</code></pre>
               <li>Configure inbound routes so external messages land in intentional CoreChatX channels.</li>
               <li>In proxy mode, run inbound bridge listeners only on backend instances that should locally display inbound messages.</li>
               <li>For Discord inbound, configure a valid bot token, inbound route, and required intents including Message Content where needed.</li>
-              <li>Customize inbound bridge names with <code>discord.inbound.display-name-format</code> or <code>telegram.inbound.display-name-format</code>.</li>
-              <li>Use PlaceholderAPI placeholders in <code>discord.format</code> when Minecraft-to-Discord output needs rank, economy, world, or other server data.</li>
+              <li>Customize Discord inbound messages with <code>discord.inbound.format</code>, including <code>{source}</code>, <code>{sender_name}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, and <code>{plain_text}</code>.</li>
+              <li>Use PlaceholderAPI placeholders and <code>{rank_prefix}</code> in <code>discord.format</code> when Minecraft-to-Discord output needs rank, economy, world, or other server data.</li>
+              <li>Telegram outbound formats can also use <code>{rank_prefix}</code> when the token is present.</li>
               <li>For Telegram, use a bot token for Bot API long polling. Telegram does not use MTProto, Telegram4J, webhook mode, or an embedded HTTP server.</li>
             </ul>
 
