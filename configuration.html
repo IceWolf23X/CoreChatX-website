@@ -104,6 +104,7 @@
 <p>If a config file is deleted, CoreChatX recreates the bundled default on next boot. That is the supported way to regenerate a clean config set.</p>
 <p>Since <code>2026.1.3</code>, existing Paper config files also receive missing bundled default keys automatically when they are loaded. CoreChatX adds only missing entries and does not overwrite existing configured values.</p>
 <p>Since <code>2026.1.4</code>, Discord and Telegram bridge formats can also be overridden per channel from <code>channels.yml</code>, and bridge format errors produce warnings instead of blocking startup.</p>
+<p>Since <code>2026.1.5</code>, mention parsing can be enabled separately for Minecraft, Discord, and Telegram sources, and Discord custom pings require explicit role allow-lists.</p>
 <hr>
 <h2 id="before-you-configure">0. Before You Configure</h2>
 <p>Use this document as the operational reference for a real installation. It is intentionally more detailed than the feature list because it documents the files, runtime gates, restart requirements, and safety limits that matter when the plugin is already installed on a server.</p>
@@ -658,7 +659,7 @@ chatitems:
 <li>channel definitions</li>
 <li>delivery scope</li>
 <li>per-channel permission gates</li>
-<li>per-channel mention and chat-item behavior</li>
+<li>per-channel source-specific mention and chat-item behavior</li>
 <li>per-channel bridge export control</li>
 <li>optional per-channel chat format</li>
 </ul>
@@ -666,7 +667,7 @@ chatitems:
 <pre class="code-block"><code class="language-yml"># Channel defaults.
 # In STANDALONE mode, NETWORK still behaves as a normal local channel unless the proxy bridge is enabled.
 # In PROXY mode, only channels with scope NETWORK are forwarded cross-server.
-# SERVER and LOCAL_RADIUS always stay backend-local.
+# SERVER and RADIUS always stay backend-local.
 
 channels:
   global:
@@ -687,8 +688,11 @@ channels:
     # Blank means no extra receive permission is required.
     permission-receive: &quot;&quot;
 
-    # Enables mention parsing and custom ping rendering in this channel.
-    allow-mentions: true
+    # Controls whether player names and custom ping tokens are parsed by source.
+    allow-mentions:
+      from-minecraft: true
+      from-discord: true
+      from-telegram: true
 
     # Enables [item] / [inv] / [ec] style token processing in this channel.
     allow-chatitems: true
@@ -733,7 +737,10 @@ channels:
 
     permission-send: &quot;corechatx.channel.local&quot;
     permission-receive: &quot;&quot;
-    allow-mentions: true
+    allow-mentions:
+      from-minecraft: true
+      from-discord: true
+      from-telegram: true
     allow-chatitems: true
     allow-chat-bubbles: true
     export-to-bridges: false
@@ -751,7 +758,10 @@ channels:
     scope: &quot;NETWORK&quot;
     permission-send: &quot;corechatx.channel.staff&quot;
     permission-receive: &quot;corechatx.staff&quot;
-    allow-mentions: true
+    allow-mentions:
+      from-minecraft: true
+      from-discord: true
+      from-telegram: true
     allow-chatitems: false
     allow-chat-bubbles: false
     export-to-bridges: true
@@ -768,6 +778,10 @@ channels:
 <li>only the broken binding is disabled; the plugin does not crash for one malformed permission</li>
 <li><code>export-to-bridges: true</code> means locally-originating messages in that channel are eligible for Discord/Telegram outbound export</li>
 <li>in proxy mode, outbound bridge export is performed only from the source backend so a network message is not exported once per backend</li>
+<li><code>allow-mentions.from-minecraft</code> controls normal Minecraft chat and network chat from other Minecraft servers</li>
+<li><code>allow-mentions.from-discord</code> controls Discord-to-Minecraft player mentions and custom ping parsing for that channel</li>
+<li><code>allow-mentions.from-telegram</code> controls Telegram-to-Minecraft mention parsing for that channel</li>
+<li>old scalar values such as <code>allow-mentions: true</code> or <code>allow-mentions: false</code> are migrated to the new nested section on startup</li>
 <li><code>discord.outbound-format</code> and <code>discord.inbound-format</code> override Discord bridge formats for that channel when non-blank</li>
 <li><code>telegram.outbound-format</code> and <code>telegram.inbound-format</code> override Telegram bridge formats for that channel when non-blank</li>
 <li>blank per-channel bridge formats fall back to the matching global bridge format</li>
@@ -788,6 +802,7 @@ channels:
 <li>mention notification toggles</li>
 <li>custom ping definitions</li>
 <li>permission rules for custom pings</li>
+<li>Discord role allow-lists for bridge-origin custom pings</li>
 </ul>
 <p>Current bundled default:</p>
 <pre class="code-block"><code class="language-yml"># Mention and custom ping behaviour.
@@ -800,6 +815,13 @@ mentions:
   notify-actionbar: true
 
 custom-pings:
+  # Each entry is generic and fully data-driven:
+  # trigger = visible token matched in chat
+  # use-permission = who may activate it from Minecraft
+  # receive-permission = who may be targeted; leave blank for everyone online
+  # discord-roles = Discord role IDs allowed to activate this ping from Discord; empty blocks Discord usage
+  # bypass-toggle = if true, recipients are notified even when they disabled ping sound/actionbar
+  # token-format = how the token itself is rendered in chat
   all:
     # Visible token typed by players in chat.
     trigger: &quot;@all&quot;
@@ -811,6 +833,10 @@ custom-pings:
     # Blank means everyone online is a valid target.
     receive-permission: &quot;&quot;
 
+    # Discord role IDs allowed to activate this ping from Discord.
+    # Empty means Discord-origin messages keep the token as plain text.
+    discord-roles: []
+
     # If true, bypasses the recipient&#x27;s own ping sound/actionbar toggle.
     bypass-toggle: false
 
@@ -821,6 +847,7 @@ custom-pings:
     trigger: &quot;@help&quot;
     use-permission: &quot;corechatx.ping.use.help&quot;
     receive-permission: &quot;corechatx.ping.receive.help&quot;
+    discord-roles: []
     bypass-toggle: false
     token-format: &quot;&lt;#5aa9ff&gt;{trigger}&lt;/#5aa9ff&gt;&quot;
 
@@ -828,12 +855,16 @@ custom-pings:
     trigger: &quot;@staff&quot;
     use-permission: &quot;corechatx.ping.use.staff&quot;
     receive-permission: &quot;corechatx.staff&quot;
+    discord-roles: []
     bypass-toggle: true
     token-format: &quot;&lt;#ff8f8f&gt;{trigger}&lt;/#ff8f8f&gt;&quot;</code></pre>
 <p>Validation note:</p>
 <ul>
 <li><code>use-permission</code> and <code>receive-permission</code> are validated</li>
 <li>malformed dynamic permission nodes are warned and individually disabled</li>
+<li>Discord-origin custom pings require at least one configured matching <code>discord-roles</code> id</li>
+<li>empty or missing <code>discord-roles</code> keeps the token as plain text for Discord messages and does not notify Minecraft players</li>
+<li>Minecraft-origin custom pings still use <code>use-permission</code>, and recipients still use <code>receive-permission</code></li>
 </ul>
 <p>Network note:</p>
 <ul>
@@ -1629,7 +1660,8 @@ locales/</code></pre>
 <p>Verify:</p>
 <ul>
 <li>mentions are enabled in <code>chat.yml</code></li>
-<li>the channel has <code>allow-mentions: true</code></li>
+<li>the channel allows the message source through <code>allow-mentions.from-minecraft</code>, <code>allow-mentions.from-discord</code>, or <code>allow-mentions.from-telegram</code></li>
+<li>Discord-origin custom pings have a matching role id in <code>pings.yml -&gt; custom-pings.&lt;id&gt;.discord-roles</code></li>
 <li>the target player allows mention notifications</li>
 <li>ignore and privacy settings are not blocking the notification</li>
 <li>permissions and staff bypass rules are configured as intended</li>

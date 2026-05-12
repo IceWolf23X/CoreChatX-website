@@ -159,11 +159,13 @@
 <hr>
 <h2 id="channels-pms-mentions-and-settings">Channels, PMs, Mentions, And Settings</h2>
 <h3 id="what-can-channels-control">What can channels control?</h3>
-<p>Channels can control send permissions, receive permissions, message format, scope, mention support, ChatItem support, chat bubble support, and bridge export eligibility.</p>
+<p>Channels can control send permissions, receive permissions, message format, scope, source-specific mention support, ChatItem support, chat bubble support, and bridge export eligibility.</p>
 <h3 id="can-only-some-channels-go-to-discord-or-telegram">Can only some channels go to Discord or Telegram?</h3>
 <p>Yes. Use channel routing and <code>export-to-bridges</code> so only intentional channels are exported. This avoids bridges acting like separate chat systems with their own rules.</p>
 <h3 id="can-bridge-formats-be-different-per-channel">Can bridge formats be different per channel?</h3>
 <p>Yes. Since CoreChatX <code>2026.1.4</code>, <code>channels.yml</code> can override Discord and Telegram inbound and outbound bridge formats per channel. Blank per-channel formats fall back to the matching global bridge format.</p>
+<h3 id="can-mentions-be-controlled-by-message-source">Can mentions be controlled by message source?</h3>
+<p>Yes. Since CoreChatX <code>2026.1.5</code>, each channel uses <code>allow-mentions.from-minecraft</code>, <code>allow-mentions.from-discord</code>, and <code>allow-mentions.from-telegram</code>. Network chat from other Minecraft servers is treated as Minecraft-originated.</p>
 <h3 id="do-private-messages-work-cross-server">Do private messages work cross-server?</h3>
 <p>In a correctly configured Velocity network, cross-server PM routing can use the proxy route. In standalone mode, PMs are local to the backend.</p>
 <h3 id="do-mentions-work-cross-server">Do mentions work cross-server?</h3>
@@ -204,6 +206,9 @@
 <p>Yes. CoreChatX processes PlaceholderAPI placeholders and <code>{rank_prefix}</code> in <code>discord.format</code>, so trusted outbound templates can include server-side rank, world, economy, or other expansion data.</p>
 <h3 id="can-discord-roles-appear-in-minecraft-chat">Can Discord roles appear in Minecraft chat?</h3>
 <p>For Discord-to-Minecraft messages, <code>{rank_prefix}</code> exposes the sender's highest Discord role name, and <code>{role_color}</code> resolves to that role color as a MiniMessage color tag.</p>
+<h3 id="can-discord-users-trigger-custom-pings">Can Discord users trigger custom pings like <code>@staff</code>?</h3>
+<p>Only when the matching custom ping in <code>pings.yml</code> has at least one matching Discord role id in <code>discord-roles</code>. Empty or missing <code>discord-roles</code> keeps the token as plain text and does not notify Minecraft players.</p>
+<p>Minecraft-origin custom pings still use <code>use-permission</code>, and recipient checks still use <code>receive-permission</code>.</p>
 <h3 id="what-if-a-bridge-format-is-invalid">What if a bridge format is invalid?</h3>
 <p>Bridge formats are validated on config load. Unknown placeholders and invalid inbound MiniMessage syntax produce warnings instead of failing startup.</p>
 <p>For Minecraft-to-Discord and Minecraft-to-Telegram output, CoreChatX strips Minecraft formatting codes from templates and rank prefixes while preserving literal ampersands in the actual chat message.</p>

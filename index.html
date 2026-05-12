@@ -154,8 +154,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.1.4</strong>
-            <span>bridge format release</span>
+            <strong>2026.1.5</strong>
+            <span>mention safety release</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -172,29 +172,29 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.1.4 gives bridge formats full channel-level control.</h2>
+            <h2>CoreChatX 2026.1.5 adds source-specific mention control.</h2>
             <p>
-              Discord and Telegram bridge output can now be overridden from <code>channels.yml</code>,
-              while Discord inbound messages can keep channel prefixes, role names, and role colors in one format.
+              Channels can now decide whether mentions are parsed from Minecraft, Discord, and Telegram
+              separately, and Discord custom pings require explicit role allow-lists.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card">
-              <div class="setup-kicker">Bridge formats</div>
-              <h3>Per-channel bridge templates</h3>
+              <div class="setup-kicker">Mention gates</div>
+              <h3>Mentions are controlled by source</h3>
               <p>
-                Discord and Telegram outbound and inbound formats can be set per CoreChatX channel, with
-                blank values falling back to the matching global bridge format.
+                <code>channels.yml</code> now uses <code>allow-mentions.from-minecraft</code>,
+                <code>from-discord</code>, and <code>from-telegram</code> for each channel.
               </p>
             </article>
 
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Safer relay</div>
-              <h3>Bridge text is validated and cleaned</h3>
+              <div class="setup-kicker">Discord pings</div>
+              <h3>Role allow-lists protect custom pings</h3>
               <p>
-                Bridge templates are checked on load, bad placeholders warn instead of breaking startup,
-                and LuckPerms or PlaceholderAPI formatting codes are stripped before Discord or Telegram send.
+                Discord-origin custom pings such as <code>@staff</code> only activate when
+                <code>pings.yml</code> lists a matching Discord role id.
               </p>
             </article>
           </div>
