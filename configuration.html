@@ -80,11 +80,13 @@
 <a href="#velocity-proxy">6. Velocity Proxy</a>
 <a href="#velocity-config-properties">6.1 velocity-config.properties</a>
 <a href="#regenerating-a-clean-config-set">7. Regenerating a Clean Config Set</a>
-<a href="#config-driven-permissions">8. Config-driven Permissions</a>
-<a href="#practical-admin-notes">9. Practical Admin Notes</a>
-<a href="#troubleshooting-quick-reference">10. Troubleshooting Quick Reference</a>
-<a href="#production-validation-checklist">11. Production Validation Checklist</a>
-<a href="#related-documents">12. Related Documents</a>
+<a href="#plugin-yml">8. plugin.yml</a>
+<a href="#velocity-plugin-json">8.1 velocity-plugin.json</a>
+<a href="#config-driven-permissions">9. Config-driven Permissions</a>
+<a href="#practical-admin-notes">10. Practical Admin Notes</a>
+<a href="#troubleshooting-quick-reference">11. Troubleshooting Quick Reference</a>
+<a href="#production-validation-checklist">12. Production Validation Checklist</a>
+<a href="#related-documents">13. Related Documents</a>
           </aside>
           <article class="markdown-body">
             <h2 id="corechatx-configuration-instructions">CoreChatX Configuration Instructions</h2>
@@ -1557,7 +1559,249 @@ locales/</code></pre>
 <p>Then restart Velocity. The proxy module recreates its bundled default file.</p>
 <p>If the file already exists but is missing one of the bundled Velocity properties, CoreChatX appends the missing property instead of rewriting the whole file.</p>
 <hr>
-<h2 id="config-driven-permissions">8. Config-driven Permissions</h2>
+
+            <h2 id="plugin-yml">8. <code>plugin.yml</code></h2>
+            <p>Complete bundled plugin descriptor. Maven resolves <code>${project.version}</code> when the release jar is built.</p>
+            <pre class="code-block"><code>name: CoreChatX
+description: ${project.description}
+prefix: CoreChatX
+version: ${project.version}
+main: me.icewolf23.corechatx.paper.bootstrap.CoreChatXPaperPlugin
+api-version: '1.21'
+load: POSTWORLD
+authors: [ IceWolf23X ]
+softdepend: [ PlaceholderAPI, LuckPerms ]
+
+commands:
+  corechatx:
+    description: Main CoreChatX command.
+    aliases: [ ccx ]
+    usage: /corechatx &lt;reload|settings|locale [tag]&gt;
+  msg:
+    description: Send a private message.
+    aliases: [ tell, whisper, w ]
+    usage: /msg &lt;player&gt; &lt;message&gt;
+  reply:
+    description: Reply to your last private conversation.
+    aliases: [ r ]
+    usage: /reply &lt;message&gt;
+  socialspy:
+    description: Toggle private message spy mode.
+    aliases: [ spy ]
+    usage: /socialspy
+  broadcast:
+    description: Send a formatted staff broadcast.
+    aliases: [ bc ]
+    usage: /broadcast &lt;message&gt;
+  ping:
+    description: Manage ping notification preferences.
+    usage: /ping &lt;sound|actionbar&gt; [on|off|toggle|status]
+  channel:
+    description: Manage your active chat channel.
+    usage: /channel &lt;list|set &lt;id&gt;&gt;
+  ignore:
+    description: Ignore a player for private messages.
+    usage: /ignore &lt;player&gt;
+  unignore:
+    description: Remove a player from your ignore list.
+    usage: /unignore &lt;player&gt;
+  ignorelist:
+    description: Show your ignored players.
+    usage: /ignorelist
+  pmtoggle:
+    description: Toggle whether you can receive private messages.
+    usage: /pmtoggle
+  chatsettings:
+    description: Open the CoreChatX settings menu.
+    aliases: [ ccxsettings ]
+    usage: /chatsettings
+  mute:
+    description: Mute a player temporarily or permanently.
+    usage: /mute &lt;player&gt; [duration] [reason...]
+  unmute:
+    description: Remove a mute from a player.
+    usage: /unmute &lt;player&gt;
+  mutechat:
+    description: Toggle global chat mute.
+    usage: /mutechat
+  clearchat:
+    description: Clear visible chat for online players.
+    usage: /clearchat
+
+permissions:
+  corechatx.command.corechatx:
+    description: Access to the root CoreChatX command.
+    default: true
+  corechatx.command.reload:
+    description: Reload CoreChatX configuration files.
+    default: op
+  corechatx.command.settings:
+    description: Open the CoreChatX settings menu.
+    default: true
+  corechatx.command.locale:
+    description: Change your active CoreChatX locale.
+    default: true
+  corechatx.command.msg:
+    description: Send private messages.
+    default: true
+  corechatx.command.reply:
+    description: Reply to private messages.
+    default: true
+  corechatx.command.socialspy:
+    description: Toggle persistent PM spy mode.
+    default: op
+  corechatx.command.broadcast:
+    description: Send global staff broadcasts.
+    default: op
+  corechatx.command.ping:
+    description: Change ping notification preferences.
+    default: true
+  corechatx.command.channel:
+    description: Use channel switching commands.
+    default: true
+  corechatx.command.ignore:
+    description: Ignore players for private messages.
+    default: true
+  corechatx.command.unignore:
+    description: Remove ignored players.
+    default: true
+  corechatx.command.ignorelist:
+    description: View your ignore list.
+    default: true
+  corechatx.command.pmtoggle:
+    description: Toggle private message receiving.
+    default: true
+  corechatx.command.mute:
+    description: Mute a player.
+    default: op
+  corechatx.command.unmute:
+    description: Unmute a player.
+    default: op
+  corechatx.command.mutechat:
+    description: Toggle global chat mute.
+    default: op
+  corechatx.command.clearchat:
+    description: Clear visible chat.
+    default: op
+  corechatx.moderation.bypass.mutechat:
+    description: Bypass global chat mute.
+    default: op
+  corechatx.moderation.bypass.repeat:
+    description: Bypass anti-repeat checks.
+    default: op
+  corechatx.moderation.bypass.caps:
+    description: Bypass anti-caps checks.
+    default: op
+  corechatx.cooldown.bypass.public:
+    description: Bypass the public chat cooldown.
+    default: op
+  corechatx.cooldown.bypass.pm:
+    description: Bypass the private message cooldown.
+    default: op
+  corechatx.staff:
+    description: Example shared staff permission used by default custom ping configuration.
+    default: op
+  corechatx.chatbubbles.use:
+    description: Allows the player to use CoreChatX overhead chat bubbles.
+    default: op
+  corechatx.chatitem.item:
+    description: Use [item] and [i] chat item tokens.
+    default: op
+  corechatx.chatitem.shulker:
+    description: Allow [item] to upgrade to a shulker preview when holding a shulker box.
+    default: op
+  corechatx.chatitem.armor:
+    description: Use [armor] chat item tokens.
+    default: op
+  corechatx.chatitem.hotbar:
+    description: Use [hotbar] chat item tokens.
+    default: op
+  corechatx.chatitem.inventory:
+    description: Use [inventory] and [inv] chat item tokens.
+    default: op
+  corechatx.chatitem.enderchest:
+    description: Use [enderchest], [ender], and [ec] chat item tokens.
+    default: op
+  corechatx.format.color.black:
+    description: Use the color code &amp;0 in player-authored messages.
+    default: op
+  corechatx.format.color.dark_blue:
+    description: Use the color code &amp;1 in player-authored messages.
+    default: op
+  corechatx.format.color.dark_green:
+    description: Use the color code &amp;2 in player-authored messages.
+    default: op
+  corechatx.format.color.dark_aqua:
+    description: Use the color code &amp;3 in player-authored messages.
+    default: op
+  corechatx.format.color.dark_red:
+    description: Use the color code &amp;4 in player-authored messages.
+    default: op
+  corechatx.format.color.dark_purple:
+    description: Use the color code &amp;5 in player-authored messages.
+    default: op
+  corechatx.format.color.gold:
+    description: Use the color code &amp;6 in player-authored messages.
+    default: op
+  corechatx.format.color.gray:
+    description: Use the color code &amp;7 in player-authored messages.
+    default: op
+  corechatx.format.color.dark_gray:
+    description: Use the color code &amp;8 in player-authored messages.
+    default: op
+  corechatx.format.color.blue:
+    description: Use the color code &amp;9 in player-authored messages.
+    default: op
+  corechatx.format.color.green:
+    description: Use the color code &amp;a in player-authored messages.
+    default: op
+  corechatx.format.color.aqua:
+    description: Use the color code &amp;b in player-authored messages.
+    default: op
+  corechatx.format.color.red:
+    description: Use the color code &amp;c in player-authored messages.
+    default: op
+  corechatx.format.color.light_purple:
+    description: Use the color code &amp;d in player-authored messages.
+    default: op
+  corechatx.format.color.yellow:
+    description: Use the color code &amp;e in player-authored messages.
+    default: op
+  corechatx.format.color.white:
+    description: Use the color code &amp;f in player-authored messages.
+    default: op
+  corechatx.format.style.magic:
+    description: Use the format code &amp;k in player-authored messages.
+    default: op
+  corechatx.format.style.bold:
+    description: Use the format code &amp;l in player-authored messages.
+    default: op
+  corechatx.format.style.strikethrough:
+    description: Use the format code &amp;m in player-authored messages.
+    default: op
+  corechatx.format.style.underline:
+    description: Use the format code &amp;n in player-authored messages.
+    default: op
+  corechatx.format.style.italic:
+    description: Use the format code &amp;o in player-authored messages.
+    default: op
+  corechatx.format.style.reset:
+    description: Use the format code &amp;r in player-authored messages.
+    default: op</code></pre>
+            <h3 id="velocity-plugin-json"><code>velocity-plugin.json</code></h3>
+            <p>Complete bundled Velocity plugin descriptor. Maven resolves <code>${project.version}</code> when the proxy jar is built.</p>
+            <pre class="code-block"><code>{
+  "id": "corechatx",
+  "name": "CoreChatX",
+  "version": "${project.version}",
+  "description": "Proxy-side foundation module for optional CoreChatX network mode.",
+  "authors": [
+    "IceWolf23X"
+  ],
+  "main": "me.icewolf23.corechatx.velocity.bootstrap.CoreChatXVelocityPlugin"
+}</code></pre>
+
+<h2 id="config-driven-permissions">9. Config-driven Permissions</h2>
 <p>Some permissions are defined in config files and can be changed by the server owner.</p>
 <p>Examples:</p>
 <ul>
@@ -1582,7 +1826,7 @@ locales/</code></pre>
 <li>administrative and moderation commands such as reload, broadcast, social spy, mute, unmute, mutechat, and clearchat remain <code>op</code> by default</li>
 </ul>
 <hr>
-<h2 id="practical-admin-notes">9. Practical Admin Notes</h2>
+<h2 id="practical-admin-notes">10. Practical Admin Notes</h2>
 <ul>
 <li>Keep <code>messages.yml</code> as the main wording file unless you actively need locale-specific overrides.</li>
 <li>Use LuckPerms for rank titles/prefixes, and use CoreChatX for layout.</li>
@@ -1602,7 +1846,7 @@ locales/</code></pre>
 <li>back up runtime data before manually editing player settings, mutes, ignores, or active channel state</li>
 </ul>
 <hr>
-<h2 id="troubleshooting-quick-reference">10. Troubleshooting Quick Reference</h2>
+<h2 id="troubleshooting-quick-reference">11. Troubleshooting Quick Reference</h2>
 <h3 id="startup-banner-does-not-appear">Startup banner does not appear</h3>
 <p>Check that the correct jar is installed for the platform. The Paper jar must be on Paper, and the Velocity jar must be on Velocity. On startup, CoreChatX prints a <code>CORECHATX</code> banner with version, author, architecture, and a project-link placeholder.</p>
 <h3 id="corechatx-reload-does-not-apply-a-change"><code>/corechatx reload</code> does not apply a change</h3>
@@ -1699,7 +1943,7 @@ locales/</code></pre>
 <h3 id="a-runtime-data-file-looks-wrong">A runtime data file looks wrong</h3>
 <p>Stop the server, back up the file, then inspect it. Runtime files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code> are live state. Deleting or editing them changes player/plugin data.</p>
 <hr>
-<h2 id="production-validation-checklist">11. Production Validation Checklist</h2>
+<h2 id="production-validation-checklist">12. Production Validation Checklist</h2>
 <p>Before opening a server to players:</p>
 <ul>
 <li>boot every Paper backend once and confirm the <code>CORECHATX</code> startup banner</li>
@@ -1725,7 +1969,7 @@ mvn clean package -DskipTests
 git diff --check</code></pre>
 <p>Build-time warnings from Maven Shade about overlapping metadata/resources can be normal for shaded dependency jars. They should still be reviewed when dependencies change.</p>
 <hr>
-<h2 id="related-documents">12. Related Documents</h2>
+<h2 id="related-documents">13. Related Documents</h2>
 <ul>
 <li><a href="./features.html"><code>Product Overview</code></a>: feature overview written for server owners and presentation pages</li>
 <li><a href="./faq.html"><code>FAQ</code></a>: common questions and short answers</li>
