@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Every current config file, default, runtime rule, restart boundary, and troubleshooting note.">
+    <meta name="description" content="Complete CoreChatX 2026.1.6 configuration reference with full bundled YAML defaults, Velocity properties, proxy group notes, nickname rules, and operational guidance.">
     <title>CoreChatX Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
@@ -35,511 +35,281 @@
         <div class="nav-actions">
           <a class="nav-cta nav-download" href="https://modrinth.com/plugin/corechatx">Download</a>
           <a class="nav-cta" href="./installation.html">Get Started</a>
-        <a class="nav-cta" href="https://buymeacoffee.com/lcewolf23x">Buy Me a Coffee</a></div>
+          <a class="nav-cta" href="https://buymeacoffee.com/lcewolf23x">Buy Me a Coffee</a>
+        </div>
       </nav>
     </header>
     <main id="main">
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Complete Configuration Reference</p>
-          <h1>Configuration Reference</h1>
-          <p>Every current config file, default, runtime rule, restart boundary, and troubleshooting note.</p>
+          <h1>CoreChatX 2026.1.6 Configuration</h1>
+          <p>Full bundled Paper YAML defaults, Velocity proxy properties, restart boundaries, proxy group behavior, nickname rules, and troubleshooting notes aligned to the current plugin code.</p>
         </div>
       </section>
       <section class="section doc-page">
         <div class="shell doc-layout">
           <aside class="doc-sidebar" aria-label="Page contents">
             <strong>Contents</strong>
-            <a href="#corechatx-configuration-instructions">CoreChatX Configuration Instructions</a>
-<a href="#before-you-configure">0. Before You Configure</a>
-<a href="#layout-overview">1. Layout Overview</a>
-<a href="#reload-vs-restart">2. Reload vs Restart</a>
-<a href="#quick-install-patterns">3. Quick Install Patterns</a>
-<a href="#paper-backend-files">4. Paper Backend Files</a>
-<a href="#config-yml">4.1 config.yml</a>
-<a href="#chat-yml">4.2 chat.yml</a>
-<a href="#messages-yml">4.3 messages.yml</a>
-<a href="#channels-yml">4.4 channels.yml</a>
-<a href="#pings-yml">4.5 pings.yml</a>
-<a href="#privacy-yml">4.6 privacy.yml</a>
-<a href="#moderation-yml">4.7 moderation.yml</a>
-<a href="#filter-yml">4.8 filter.yml</a>
-<a href="#chatitems-yml">4.9 chatitems.yml</a>
-<a href="#1-keywords-yml">4.9.1 keywords.yml</a>
-<a href="#2-chatbubbles-yml">4.9.2 chatbubbles.yml</a>
-<a href="#discord-yml">4.10 discord.yml</a>
-<a href="#telegram-yml">4.11 telegram.yml</a>
-<a href="#storage-yml">4.12 storage.yml</a>
-<a href="#locales-en-us-yml">4.13 locales/en_us.yml</a>
-<a href="#paper-runtime-data-files">5. Paper Runtime Data Files</a>
-<a href="#playerdata-yml">5.1 playerdata.yml</a>
-<a href="#state-yml">5.2 state.yml</a>
-<a href="#channeldata-yml">5.3 channeldata.yml</a>
-<a href="#ignoredata-yml">5.4 ignoredata.yml</a>
-<a href="#mutedata-yml">5.5 mutedata.yml</a>
-<a href="#velocity-proxy">6. Velocity Proxy</a>
-<a href="#velocity-config-properties">6.1 velocity-config.properties</a>
-<a href="#regenerating-a-clean-config-set">7. Regenerating a Clean Config Set</a>
-<a href="#plugin-yml">8. plugin.yml</a>
-<a href="#velocity-plugin-json">8.1 velocity-plugin.json</a>
-<a href="#config-driven-permissions">9. Config-driven Permissions</a>
-<a href="#practical-admin-notes">10. Practical Admin Notes</a>
-<a href="#troubleshooting-quick-reference">11. Troubleshooting Quick Reference</a>
-<a href="#production-validation-checklist">12. Production Validation Checklist</a>
-<a href="#related-documents">13. Related Documents</a>
+            <a href="#overview">Overview</a>
+            <a href="#before-you-configure">Before You Configure</a>
+            <a href="#layout-overview">Layout Overview</a>
+            <a href="#release-2026-1-6">2026.1.6 Notes</a>
+            <a href="#reload-vs-restart">Reload vs Restart</a>
+            <a href="#quick-install-patterns">Quick Install Patterns</a>
+            <a href="#proxy-groups">Velocity Proxy Groups</a>
+            <a href="#nicknames">Nicknames</a>
+            <a href="#paper-yml-files">Paper YAML Files</a>
+            <a href="#config-yml">config.yml</a>
+            <a href="#messages-yml">messages.yml</a>
+            <a href="#chat-yml">chat.yml</a>
+            <a href="#channels-yml">channels.yml</a>
+            <a href="#pings-yml">pings.yml</a>
+            <a href="#privacy-yml">privacy.yml</a>
+            <a href="#moderation-yml">moderation.yml</a>
+            <a href="#filter-yml">filter.yml</a>
+            <a href="#chatitems-yml">chatitems.yml</a>
+            <a href="#keywords-yml">keywords.yml</a>
+            <a href="#chatbubbles-yml">chatbubbles.yml</a>
+            <a href="#discord-yml">discord.yml</a>
+            <a href="#telegram-yml">telegram.yml</a>
+            <a href="#storage-yml">storage.yml</a>
+            <a href="#playerdata-yml">playerdata.yml</a>
+            <a href="#state-yml">state.yml</a>
+            <a href="#locales-en-us-yml">locales/en_us.yml</a>
+            <a href="#plugin-yml">plugin.yml</a>
+            <a href="#velocity-properties">Velocity Properties</a>
+            <a href="#velocity-config-properties">velocity-config.properties</a>
+            <a href="#velocity-plugin-json">velocity-plugin.json</a>
+            <a href="#runtime-data">Runtime Data Files</a>
+            <a href="#config-driven-permissions">Config-driven Permissions</a>
+            <a href="#practical-admin-notes">Practical Admin Notes</a>
+            <a href="#troubleshooting-quick-reference">Troubleshooting</a>
+            <a href="#production-validation-checklist">Validation Checklist</a>
           </aside>
           <article class="markdown-body">
-            <h2 id="corechatx-configuration-instructions">CoreChatX Configuration Instructions</h2>
-<p>This file is a complete reference for the current public config shape of CoreChatX. It is intentionally split into <code>Paper backend</code> and <code>Velocity proxy</code> so the install remains readable.</p>
-<p>The goal of this document is simple:</p>
-<ul>
-<li>describe the files that actually exist today</li>
-<li>mirror the current defaults bundled in the jars</li>
-<li>explain what each line does</li>
-<li>call out what is reloadable and what still needs a restart</li>
-</ul>
-<p>Related documents:</p>
-<ul>
-<li><a href="./features.html"><code>Product Overview</code></a> gives the commercial feature overview</li>
-<li><a href="./faq.html"><code>FAQ</code></a> answers the common admin and setup questions</li>
-</ul>
-<p>If a config file is deleted, CoreChatX recreates the bundled default on next boot. That is the supported way to regenerate a clean config set.</p>
-<p>Since <code>2026.1.3</code>, existing Paper config files also receive missing bundled default keys automatically when they are loaded. CoreChatX adds only missing entries and does not overwrite existing configured values.</p>
-<p>Since <code>2026.1.4</code>, Discord and Telegram bridge formats can also be overridden per channel from <code>channels.yml</code>, and bridge format errors produce warnings instead of blocking startup.</p>
-<p>Since <code>2026.1.5</code>, mention parsing can be enabled separately for Minecraft, Discord, and Telegram sources, and Discord custom pings require explicit role allow-lists.</p>
-<hr>
-<h2 id="before-you-configure">0. Before You Configure</h2>
-<p>Use this document as the operational reference for a real installation. It is intentionally more detailed than the feature list because it documents the files, runtime gates, restart requirements, and safety limits that matter when the plugin is already installed on a server.</p>
-<p>Minimum expectations:</p>
-<ul>
-<li>Java 21 runtime</li>
-<li>Paper <code>1.21.11</code> for backend servers</li>
-<li>Velocity for multi-backend network installs</li>
-<li>the Paper CoreChatX jar installed only on Paper backends</li>
-<li>the Velocity CoreChatX jar installed only on Velocity</li>
-</ul>
-<p>Optional integrations:</p>
-<ul>
-<li>LuckPerms for rank/group metadata and permission assignment</li>
-<li>PlaceholderAPI for dynamic placeholders in server-controlled templates</li>
-<li>Discord bot token and required gateway intents for the Discord bridge</li>
-<li>Telegram bot token for the Telegram Bot API long-polling bridge</li>
-</ul>
-<p>Core terminology:</p>
-<ul>
-<li><code>Paper backend</code> means a real Minecraft server running the Paper jar</li>
-<li><code>Velocity proxy</code> means the proxy process running the Velocity jar</li>
-<li><code>STANDALONE</code> means one Paper server without cross-backend CoreChatX routing</li>
-<li><code>PROXY</code> means a Paper backend connected to a Velocity network</li>
-<li><code>server-id</code> is the unique CoreChatX identity of one Paper backend</li>
-<li><code>network-channel</code> is the plugin messaging channel shared by Paper and Velocity</li>
-<li><code>bridge</code> means Discord or Telegram inbound/outbound relay</li>
-<li><code>runtime data file</code> means generated player/plugin state, not a decorative default config</li>
-</ul>
-<p>High-level runtime model:</p>
-<ul>
-<li>Paper owns chat parsing, formatting, commands, moderation, player settings, chat items, bubbles, pings, and bridge rendering</li>
-<li>Velocity relays network packets, player directory data, global completions, TAB entries, and remote ChatItem snapshot requests</li>
-<li>external bridges are configured on Paper and can export only the channels that opt in</li>
-<li>player-authored chat is sanitized and controlled before it becomes a rendered Adventure component</li>
-<li>server-controlled templates can use MiniMessage and, where supported, PlaceholderAPI</li>
-</ul>
-<p>Keep this distinction in mind:</p>
-<ul>
-<li>admin config strings are trusted server templates</li>
-<li>raw player messages are untrusted input</li>
-<li>runtime data files are live state</li>
-</ul>
-<h3 id="corechatx-project-identity">CoreChatX project identity</h3>
-<p>Current public identity:</p>
-<ul>
-<li>product/plugin name: <code>CoreChatX</code></li>
-<li>Paper plugin name: <code>CoreChatX</code></li>
-<li>Velocity plugin id: <code>corechatx</code></li>
-<li>Java package root: <code>me.icewolf23.corechatx</code></li>
-<li>Maven parent artifact: <code>corechatx-parent</code></li>
-<li>Maven runtime artifacts: <code>corechatx-paper</code> and <code>corechatx-velocity</code></li>
-<li>shared common module: <code>corechatx-common</code></li>
-<li>default Paper command: <code>/corechatx</code></li>
-<li>default Paper command alias: <code>/ccx</code></li>
-<li>default settings command alias: <code>/ccxsettings</code></li>
-<li>default permission namespace: <code>corechatx.*</code></li>
-<li>default plugin messaging channel: <code>corechatx:main</code></li>
-</ul>
-<p>Clean install rule:</p>
-<ul>
-<li>install <code>corechatx-paper-&lt;version&gt;.jar</code> on Paper</li>
-<li>install <code>corechatx-velocity-&lt;version&gt;.jar</code> on Velocity</li>
-<li>keep Paper data in <code>plugins/CoreChatX/</code></li>
-<li>keep Velocity data in <code>plugins/corechatx/</code></li>
-</ul>
-<p>Old install rule:</p>
-<ul>
-<li>do not mix old jars, old plugin ids, old permission namespaces, or old network channels with CoreChatX</li>
-<li>treat older differently named config folders as old install data</li>
-<li>for a clean CoreChatX setup, let the plugin generate fresh defaults and manually reapply only the settings you still want</li>
-</ul>
-<hr>
-<h2 id="layout-overview">1. Layout Overview</h2>
-<h3 id="paper-backend-folder">Paper backend folder</h3>
-<pre class="code-block"><code class="language-text">plugins/CoreChatX/</code></pre>
-<h3 id="velocity-proxy-folder">Velocity proxy folder</h3>
-<pre class="code-block"><code class="language-text">plugins/corechatx/</code></pre>
-<h3 id="files-created-from-bundled-defaults-on-paper">Files created from bundled defaults on Paper</h3>
-<pre class="code-block"><code class="language-text">config.yml
+            <h2 id="overview">Overview</h2>
+            <p>This page is generated from the current CoreChatX bundled defaults in the plugin source tree. The YAML blocks below are complete file contents, including comments, so an admin can inspect the exact default shape before installing or resetting a file.</p>
+            <p>Paper config files live under <code>plugins/CoreChatX/</code>. Velocity config lives under <code>plugins/corechatx/</code>. The Paper jar belongs on Paper backends only, and the Velocity jar belongs on Velocity only.</p>
+            <ul>
+              <li>Current release: <code>2026.1.6</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.1.6.jar</code> and <code>corechatx-velocity-2026.1.6.jar</code></li>
+              <li>Paper target: <code>1.21.11</code></li>
+              <li>Java target: <code>21</code></li>
+              <li>Default Paper network channel: <code>corechatx:main</code></li>
+            </ul>
+            <h2 id="before-you-configure">Before You Configure</h2>
+            <p>Use this document as the operational reference for a real installation. It is intentionally more detailed than the feature list because it documents the files, runtime gates, restart requirements, proxy grouping, and safety limits that matter when the plugin is already installed on a server.</p>
+            <p>Minimum expectations:</p>
+            <ul>
+              <li>Java 21 runtime.</li>
+              <li>Paper <code>1.21.11</code> for backend servers.</li>
+              <li>Velocity for multi-backend network installs.</li>
+              <li>The Paper CoreChatX jar installed only on Paper backends.</li>
+              <li>The Velocity CoreChatX jar installed only on Velocity.</li>
+            </ul>
+            <p>Core terminology:</p>
+            <ul>
+              <li><code>STANDALONE</code> means one Paper server without cross-backend CoreChatX routing.</li>
+              <li><code>PROXY</code> means a Paper backend connected to a Velocity network.</li>
+              <li><code>server-id</code> is the unique CoreChatX identity of one Paper backend.</li>
+              <li><code>deployment.network-channel</code> is the Paper backend group identity used by Velocity.</li>
+              <li>A Velocity <code>network-channel</code> list defines one or more isolated CoreChatX proxy groups.</li>
+              <li>Runtime data files are live player/plugin state, not decorative default config.</li>
+            </ul>
+            <p>High-level runtime model:</p>
+            <ul>
+              <li>Paper owns chat parsing, formatting, commands, moderation, player settings, chat items, bubbles, pings, nicknames, and bridge rendering.</li>
+              <li>Velocity relays network packets, group player directory data, completions, TAB entries, state sync, true network join/leave, and remote ChatItem snapshot requests.</li>
+              <li>External bridges are configured on Paper and can export only the channels that opt in.</li>
+              <li>Player-authored chat is sanitized and controlled before it becomes a rendered Adventure component.</li>
+              <li>Server-controlled templates can use MiniMessage and, where supported, PlaceholderAPI.</li>
+            </ul>
+            <h2 id="layout-overview">Layout Overview</h2>
+            <h3>Paper backend folder</h3>
+            <pre class="code-block"><code class="language-text">plugins/CoreChatX/</code></pre>
+            <h3>Velocity proxy folder</h3>
+            <pre class="code-block"><code class="language-text">plugins/corechatx/</code></pre>
+            <h3>Files created from bundled defaults on Paper</h3>
+            <pre class="code-block"><code class="language-text">config.yml
 messages.yml
 chat.yml
+channels.yml
 pings.yml
+privacy.yml
+moderation.yml
 filter.yml
 chatitems.yml
 keywords.yml
 chatbubbles.yml
-playerdata.yml
-state.yml
-channels.yml
-privacy.yml
-moderation.yml
-storage.yml
 discord.yml
 telegram.yml
+storage.yml
+playerdata.yml
+state.yml
 locales/en_us.yml</code></pre>
-<h3 id="additional-paper-runtime-files-created-on-demand">Additional Paper runtime files created on demand</h3>
-<pre class="code-block"><code class="language-text">channeldata.yml
+            <h3>Additional Paper runtime files created on demand</h3>
+            <pre class="code-block"><code class="language-text">channeldata.yml
 ignoredata.yml
 mutedata.yml</code></pre>
-<h3 id="files-created-from-bundled-defaults-on-velocity">Files created from bundled defaults on Velocity</h3>
-<pre class="code-block"><code class="language-text">velocity-config.properties</code></pre>
-<hr>
-<h2 id="reload-vs-restart">2. Reload vs Restart</h2>
-<p>Safe with <code>/corechatx reload</code>:</p>
-<ul>
-<li><code>config.yml</code> for non-identity runtime toggles such as <code>debug</code>, hooks, logging, bridge/runtime gates, join/quit, first-join, and reload summary behavior</li>
-<li><code>messages.yml</code></li>
-<li><code>chat.yml</code></li>
-<li><code>pings.yml</code></li>
-<li><code>filter.yml</code></li>
-<li><code>chatitems.yml</code></li>
-<li><code>keywords.yml</code></li>
-<li><code>chatbubbles.yml</code></li>
-<li><code>channels.yml</code></li>
-<li><code>privacy.yml</code></li>
-<li><code>moderation.yml</code></li>
-<li><code>storage.yml</code></li>
-<li><code>discord.yml</code></li>
-<li><code>telegram.yml</code></li>
-<li>locale files under <code>locales/</code></li>
-</ul>
-<p>Requires full restart to truly take effect:</p>
-<ul>
-<li><code>config.yml -&gt; deployment.mode</code></li>
-<li><code>config.yml -&gt; deployment.server-id</code></li>
-<li><code>config.yml -&gt; deployment.network-channel</code></li>
-<li>switching a backend between standalone and proxy deployment</li>
-<li>changing Velocity <code>velocity-config.properties</code>; there is no proxy-side config reload command</li>
-<li>when Velocity <code>velocity-config.properties -&gt; network-channel</code> changes, affected Paper backends must also use the same new <code>deployment.network-channel</code></li>
-</ul>
-<p>Important deployment rule:</p>
-<ul>
-<li>Paper backends and the Velocity proxy must use the exact same network channel</li>
-</ul>
-<p>Artifact model:</p>
-<ul>
-<li>CoreChatX currently ships as two separate runtime jars.</li>
-<li>CoreChatX Paper jar: install <code>corechatx-paper-&lt;version&gt;.jar</code> on each Paper backend.</li>
-<li>CoreChatX Velocity jar: install <code>corechatx-velocity-&lt;version&gt;.jar</code> on the Velocity proxy.</li>
-<li>Do not install the Paper jar on Velocity, and do not install the Velocity jar on Paper.</li>
-<li>source builds also produce <code>corechatx-common-&lt;version&gt;.jar</code>, but that is an internal shared module and is not the runtime jar to install on servers</li>
-</ul>
-<hr>
-<h2 id="quick-install-patterns">3. Quick Install Patterns</h2>
-<h3 id="standalone-paper">Standalone Paper</h3>
-<p>Use the default backend config:</p>
-<pre class="code-block"><code class="language-yml">deployment:
+            <h3>Files created from bundled defaults on Velocity</h3>
+            <pre class="code-block"><code class="language-text">velocity-config.properties</code></pre>
+            <h2 id="release-2026-1-6">2026.1.6 Notes</h2>
+            <p>This release adds three operational features that affect configuration and setup.</p>
+            <ul>
+              <li><strong>Join/leave delivery mode:</strong> <code>config.yml -&gt; join-quit.mode</code> chooses <code>LOCAL</code> backend announcements or <code>NETWORK</code> proxy-routed announcements.</li>
+              <li><strong>Velocity proxy groups:</strong> <code>velocity-config.properties -&gt; network-channel</code> now accepts a comma-separated list. Each configured channel is an isolated CoreChatX group.</li>
+              <li><strong>Persistent nicknames:</strong> <code>/nick</code> stores a CoreChatX nickname, syncs it through player state in proxy mode, and can be limited to color/style-only changes through <code>nicknames.change-only-colors</code>.</li>
+            </ul>
+            <h2 id="reload-vs-restart">Reload vs Restart</h2>
+            <p>Safe with <code>/corechatx reload</code>:</p>
+            <ul>
+              <li>message wording, chat formats, pings, filters, ChatItems, keywords, chat bubbles, channel rules, privacy, moderation, storage, bridge formats, and locale files</li>
+              <li><code>join-quit.mode</code>, <code>join-quit.join-enabled</code>, and <code>join-quit.quit-enabled</code></li>
+              <li><code>nicknames.change-only-colors</code></li>
+              <li>non-identity runtime toggles such as debug, hooks, logging, bridge gates, first-join, and reload summary behavior</li>
+            </ul>
+            <p>Requires restart:</p>
+            <ul>
+              <li><code>config.yml -&gt; deployment.mode</code></li>
+              <li><code>config.yml -&gt; deployment.server-id</code></li>
+              <li><code>config.yml -&gt; deployment.network-channel</code></li>
+              <li>Velocity <code>velocity-config.properties</code>, including <code>network-channel</code> list changes</li>
+            </ul>
+            <p>Transport settings are identity settings. If a change affects which backend or which proxy group a server belongs to, restart the affected backend or proxy instead of relying on reload.</p>
+            <h2 id="quick-install-patterns">Quick Install Patterns</h2>
+            <h3>Standalone Paper</h3>
+            <p>Use the default backend config and keep <code>deployment.mode: &quot;STANDALONE&quot;</code>. No Velocity module is required, proxy PM routing is inactive, and network player directory/TAB data is inactive.</p>
+            <pre class="code-block"><code class="language-yml">deployment:
   mode: &quot;STANDALONE&quot;
   server-id: &quot;paper-1&quot;
   network-channel: &quot;corechatx:main&quot;
   bridges-allowed: true
   network-features-allowed: false</code></pre>
-<p>In this setup:</p>
-<ul>
-<li>no Velocity module is required</li>
-<li><code>NETWORK</code> channels behave as normal local backend chat</li>
-<li>cross-server PM routing is inactive</li>
-<li>network player directory, global TAB entries, and cross-backend chat completions are inactive</li>
-</ul>
-<h3 id="velocity-network">Velocity network</h3>
-<p>On each Paper backend:</p>
-<ul>
-<li>set <code>deployment.mode: &quot;PROXY&quot;</code></li>
-<li>set a unique <code>deployment.server-id</code></li>
-<li>keep the same <code>deployment.network-channel</code> on every backend</li>
-<li>set <code>deployment.network-features-allowed: true</code></li>
-</ul>
-<p>On Velocity:</p>
-<ul>
-<li>install the Velocity CoreChatX jar</li>
-<li>set the same <code>network-channel</code> in <code>velocity-config.properties</code></li>
-</ul>
-<p>Example backend identities:</p>
-<ul>
-<li><code>alpha</code></li>
-<li><code>beta</code></li>
-<li><code>survival-1</code></li>
-<li><code>hub</code></li>
-</ul>
-<p>Network behavior enabled by this setup:</p>
-<ul>
-<li><code>NETWORK</code> channels can cross backend boundaries</li>
-<li>cross-server PM delivery can use the proxy route</li>
-<li>player communication settings are synchronized through Velocity</li>
-<li>active channel state, ping toggles, PM toggle, social spy, mention notifications, locale, staff-chat state, and ignore lists can follow backend switches</li>
-<li>the proxy can provide global player name completions and TAB entries for players connected to configured backends</li>
-<li>network chat preserves rendered Adventure components, ChatItem preview refs, mentions, and activated custom ping metadata across backends</li>
-<li>Velocity treats the real backend connection as the source of truth for proxy packets; backend-declared source ids cannot override it</li>
-<li>malformed, oversized, or oversized-generated plugin-message payloads are rejected before routing</li>
-</ul>
-<h3 id="production-setup-checklist">Production setup checklist</h3>
-<p>For a clean standalone Paper install:</p>
-<ul>
-<li>install only the Paper jar</li>
-<li>keep <code>deployment.mode: &quot;STANDALONE&quot;</code></li>
-<li>keep <code>deployment.network-features-allowed: false</code></li>
-<li>configure formats, channels, messages, moderation, chat items, keywords, bubbles, and optional bridges on that backend</li>
-<li>restart after changing deployment identity fields</li>
-<li>use <code>/corechatx reload</code> for normal wording, formatting, channel, filter, and feature tuning</li>
-</ul>
-<p>For a clean Velocity network install:</p>
-<ul>
-<li>install the Paper jar on every backend</li>
-<li>install the Velocity jar on the proxy</li>
-<li>set every backend to <code>deployment.mode: &quot;PROXY&quot;</code></li>
-<li>give every backend a unique <code>deployment.server-id</code></li>
-<li>use the exact same lowercase <code>deployment.network-channel</code> on every backend</li>
-<li>use the exact same <code>network-channel</code> in <code>plugins/corechatx/velocity-config.properties</code></li>
-<li>set <code>deployment.network-features-allowed: true</code> on each backend that should participate in cross-server features</li>
-<li>restart the affected Paper backends and Velocity after changing identity or network channel values</li>
-</ul>
-<p>For bridge installs:</p>
-<ul>
-<li>keep <code>deployment.bridges-allowed: true</code></li>
-<li>enable only the bridge services you actually use</li>
-<li>enable outbound export only on the CoreChatX channels that should leave Minecraft</li>
-<li>configure inbound routes so external messages land in an intentional CoreChatX channel</li>
-<li>in proxy mode, run inbound bridge listeners only on the backend instances that should locally display inbound messages</li>
-</ul>
-<p>For PlaceholderAPI-heavy installs:</p>
-<ul>
-<li>install PlaceholderAPI on every backend that must render placeholders</li>
-<li>install the expansions required by your formats</li>
-<li>keep raw player messages separate from admin templates</li>
-<li>remember that mention token placeholders use the mentioned player as context</li>
-<li>test offline-player placeholder behavior before relying on it for cross-backend hover text</li>
-</ul>
-<p>For ChatItems on a network:</p>
-<ul>
-<li>keep ChatItems enabled only on the channels where previews are wanted</li>
-<li>tune byte limits only if you understand the size of your custom item metadata</li>
-<li>prefer the bundled on-demand snapshot flow over embedding huge item data into every network chat packet</li>
-<li>accept that expired or rejected snapshots should fail closed with a normal expired-preview message</li>
-</ul>
-<hr>
-<h2 id="paper-backend-files">4. Paper Backend Files</h2>
-<h2 id="config-yml">4.1 <code>config.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>deployment mode</li>
-<li>backend identity</li>
-<li>proxy transport gates</li>
-<li>bridge master switch</li>
-<li>hook toggles</li>
-<li>logging toggles</li>
-<li>general reload/save behavior</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Core plugin settings.
+            <h3>Single Velocity group</h3>
+            <p>This is the legacy network shape. Every participating Paper backend uses the same <code>deployment.network-channel</code>, and Velocity has one matching <code>network-channel</code> value.</p>
+            <pre class="code-block"><code class="language-properties">network-channel=corechatx:main</code></pre>
+            <h3>Multiple Velocity groups</h3>
+            <p>Use a comma-separated Velocity list. Each Paper backend stays unchanged and chooses its group through its own <code>deployment.network-channel</code>.</p>
+            <pre class="code-block"><code class="language-properties">network-channel=corechatx:survival,corechatx:minigames</code></pre>
+            <p>Example: survival Paper servers use <code>deployment.network-channel: &quot;corechatx:survival&quot;</code>, while minigame Paper servers use <code>deployment.network-channel: &quot;corechatx:minigames&quot;</code>.</p>
+            <h2 id="proxy-groups">Velocity Proxy Groups</h2>
+            <p>Paper still has one channel value: <code>config.yml -&gt; deployment.network-channel</code>. Velocity can now configure one or more accepted channels with a comma-separated list in <code>velocity-config.properties</code>.</p>
+            <pre class="code-block"><code class="language-properties">network-channel=corechatx:survival,corechatx:minigames</code></pre>
+            <p>Each channel is a separate group. Backends using <code>corechatx:survival</code> route only with other survival backends. Backends using <code>corechatx:minigames</code> route only with minigames backends.</p>
+            <ul>
+              <li>Network chat, PMs, player directory, TAB/completions, state sync, ChatItem snapshots, and join/leave routing stay inside the source group.</li>
+              <li>Private messages search only players known in the sender's group. A player on another group behaves like player-not-found.</li>
+              <li>A backend whose Paper channel is not configured on Velocity keeps local features, but proxy features for that backend are not routed.</li>
+              <li>Velocity learns backend membership through plugin messages and a registration handshake; servers without known membership do not receive network routing yet.</li>
+              <li>Server switches inside one group suppress artificial leave/join announcements. Switches between groups produce quit in the old group and join in the new group.</li>
+            </ul>
+            <h2 id="nicknames">Nicknames</h2>
+            <p><code>/nick</code> changes the CoreChatX display name only. It does not change the real Minecraft username or UUID identity used for lookup, replies, ignores, privacy, routing, or state sync.</p>
+            <ul>
+              <li><code>/nick &lt;nickname&gt;</code> sets your nickname.</li>
+              <li><code>/nick off</code>, <code>/nick clear</code>, or <code>/nick reset</code> clears it.</li>
+              <li><code>/nick &lt;player&gt; &lt;nickname|off&gt;</code> changes another online player's nickname with staff permission.</li>
+              <li><code>corechatx.command.nick</code> controls self-use.</li>
+              <li><code>corechatx.command.nick.others</code> controls editing other players.</li>
+              <li><code>corechatx.nick.color</code> and <code>corechatx.nick.format</code> grant all nickname colors/styles through child permissions.</li>
+              <li>Granular examples: <code>corechatx.nick.color.red</code>, <code>corechatx.nick.color.gold</code>, <code>corechatx.nick.format.bold</code>, <code>corechatx.nick.format.italic</code>.</li>
+            </ul>
+            <p>When <code>nicknames.change-only-colors: true</code>, the visible text after formatting is stripped must match the real Minecraft username exactly. For example, <code>&amp;cIceWolf23X</code> can be accepted for player <code>IceWolf23X</code>, while <code>&amp;cIceWolf</code> is rejected.</p>
+            <h2 id="paper-yml-files">Paper YAML Files</h2>
+            <p>These are the complete bundled YAML resources from the Paper jar source. Existing installs receive missing bundled default keys automatically when valid config files are loaded; existing values are not overwritten.</p>
+            <h3 id="config-yml"><code>config.yml</code></h3>
+            <p>Main Paper runtime settings: deployment identity, proxy transport gates, hooks, logging, nickname mode, join/leave mode, and reload summary.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Controls the Paper backend deployment mode and backend identity.</li>
+              <li>Defines <code>deployment.network-channel</code>, which is the group identity used by Velocity routing.</li>
+              <li>Holds proxy feature gates, Discord/Telegram bridge gates, hook toggles, logging toggles, player-data save behavior, nickname behavior, first-join behavior, join/quit behavior, and reload summary behavior.</li>
+            </ul>
+            <p>Operational notes:</p>
+            <ul>
+              <li><code>deployment.mode</code>, <code>deployment.server-id</code>, and <code>deployment.network-channel</code> are boot identity values and require restart.</li>
+              <li>In <code>PROXY</code> mode, <code>deployment.network-features-allowed: true</code> is still required before cross-server chat, PM routing, player directory sync, state sync, ChatItem snapshot routing, or network join/leave can run.</li>
+              <li><code>join-quit.mode: LOCAL</code> announces only on the current Paper backend. <code>NETWORK</code> routes true proxy join/leave through Velocity when proxy routing is available.</li>
+              <li><code>nicknames.change-only-colors: true</code> means <code>/nick</code> may only recolor/restyle the real Minecraft username; shortened or changed visible text is rejected.</li>
+              <li><code>deployment.pending-pm-timeout-seconds</code> protects remote PM requests from waiting forever if the proxy route cannot answer.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Core plugin settings.
 
 deployment:
   # STANDALONE = Paper-only local mode
   # PROXY = optional proxy-aware mode, requires full restart after changes
   mode: &quot;STANDALONE&quot;
-
-  # If the deployment mode changes across a reload, the plugin warns that a restart is required.
-  # Keep this true unless you are changing the code and deliberately redefining deployment semantics.
   require-full-restart-on-mode-change: true
-
-  # Logical backend id used in proxy mode.
-  # This value is included in proxy packets and bridge source labels.
-  # Every Paper backend in a network must use a unique value.
+  # Backend id used for proxy routing and bridge source labels.
   server-id: &quot;paper-1&quot;
-
-  # Shared plugin messaging channel between Paper and Velocity.
-  # Every backend and the proxy plugin must use the exact same value.
+  # Plugin messaging channel shared with the Velocity module.
   network-channel: &quot;corechatx:main&quot;
-
-  # Global master switch for all Discord and Telegram bridge runtime.
-  # If false, bridge configs may still exist, but outbound and inbound bridge services do not run.
+  # Global switch for all Discord / Telegram bridge runtime.
   bridges-allowed: true
-
-  # Proxy-network feature gate.
-  # If false, a backend can still boot in PROXY mode, but proxy transport is intentionally disabled.
+  # When false, Paper still boots in PROXY mode but proxy transport is intentionally disabled.
   # Cross-server chat, PM routing, player directory sync, and state sync will not run.
   network-features-allowed: false
-
-  # Timeout for remote PM requests that wait for proxy delivery/acknowledgement.
   pending-pm-timeout-seconds: 20
 
-# General debug flag.
-# Keep false in normal production use.
 debug: false
 
 hooks:
-  # If true and PlaceholderAPI is installed, supported config formats are passed through PlaceholderAPI.
-  # This applies to almost every player-facing configurable string that CoreChatX renders,
-  # including chat formats, message templates, bridge formats, and many GUI/feedback strings.
+  # If true, PlaceholderAPI placeholders inside CoreChatX config formats are parsed when the plugin is present.
   placeholderapi: true
-
-  # If true and LuckPerms is installed, CoreChatX reads primary-group and prefix data for rank-aware chat formatting.
+  # If true, LuckPerms group prefixes are read when the plugin is present.
   luckperms: true
 
 logging:
-  # Console logging for public chat events that CoreChatX chooses to log.
   public-chat: true
-
-  # Console logging for PM-related events that CoreChatX chooses to log.
   private-messages: true
-
-  # Console logging for /broadcast.
   broadcasts: true
-
-  # Console logging for reload actions.
   reload: true
-
-  # Console logging for plugin warnings/errors.
   errors: true
 
 player-data:
-  # Player toggles are saved immediately anyway.
-  # This flag controls the fallback save on plugin disable.
+  # Toggle commands still save immediately; this mainly controls the fallback save on plugin disable.
   auto-save-on-disable: true
 
-first-join:
-  # Enables the first-join system globally.
-  enabled: true
+nicknames:
+  # false = /nick can change the visible name text and styling, for example IceWolf23X -&gt; IceWolf.
+  # true = /nick can only change allowed colors/styles; the visible text after removing formatting must stay exactly the real Minecraft username.
+  # Example with true: IceWolf23X may use &amp;cIceWolf23X, but not &amp;cIceWolf.
+  change-only-colors: false
 
-  # Enables the numbered first-join counter stored in state.yml.
+first-join:
+  enabled: true
   counter-enabled: true
 
 join-quit:
-  # Enables join messages.
+  # LOCAL = announce only on the current Paper backend.
+  # NETWORK = in PROXY mode, announce true network join/leave through the Velocity module.
+  mode: &quot;LOCAL&quot;
   join-enabled: true
-
-  # Enables quit messages.
   quit-enabled: true
 
 reload:
-  # If true, /corechatx reload shows a short summary to the command sender.
-  show-summary: true</code></pre>
-<p>Operational notes:</p>
-<ul>
-<li><code>deployment.mode</code>, <code>deployment.server-id</code>, and <code>deployment.network-channel</code> require restart</li>
-<li>the startup log prints a <code>CORECHATX</code> banner with version, author, Paper architecture, project-link placeholder, then the deployment summary and transport state</li>
-<li>invalid proxy channel config does not crash the whole plugin; it degrades transport and logs the reason</li>
-<li>network channels must use lowercase Minecraft namespaced-key style, such as <code>corechatx:main</code> or <code>corechatx:network/main</code></li>
-<li>invalid channel examples include <code>CoreChatX:main</code>, <code>core chat x:main</code>, <code>corechatx</code>, and <code>corechatx:Main</code></li>
-<li><code>deployment.bridges-allowed: false</code> disables both outbound bridge dispatch and inbound Discord/Telegram runtime</li>
-<li><code>deployment.network-features-allowed: false</code> leaves <code>PROXY</code> deployment bootable but intentionally disables proxy transport and all cross-server features</li>
-<li><code>deployment.pending-pm-timeout-seconds</code> is clamped to at least 5 seconds</li>
-<li>with <code>hooks.placeholderapi: true</code>, almost every player-facing configurable string supports PlaceholderAPI placeholders when PlaceholderAPI is installed</li>
-</ul>
-<hr>
-<h2 id="chat-yml">4.2 <code>chat.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>public chat formatting</li>
-<li>group-specific format overrides</li>
-<li>mention token formatting</li>
-<li>public and PM cooldowns</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Public chat formatting and moderation settings.
-
-public-chat:
-  # Master switch for the normal public chat pipeline.
-  enabled: true
-
-  # Base public chat format.
-  # Supported placeholders:
-  # {plugin_prefix}, {channel_prefix}, {rank_prefix}, {player_name}, {message}
-  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-
-  # Optional group-specific format overrides keyed by LuckPerms primary group.
-  # These are used only when the active channel has no custom format in channels.yml.
-  # Keys should match the LuckPerms primary group in lowercase.
-  group-formats:
-    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_name}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-
-  # Decorative prefix component shown before public chat lines.
-  plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
-
-  # Prefix template used for non-global channels.
-  # {channel_name} is replaced with the current channel id.
-  channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
-
-  # Used only when LuckPerms prefix support is unavailable or disabled.
-  fallback-rank-prefix: &quot;&quot;
-
-mentions:
-  # Enables player-name mention detection and mention rendering.
-  enabled: true
-
-  # Visible token style for a matched mention target.
-  token-format: &quot;&lt;#79d6b8&gt;@{player_name}&lt;/#79d6b8&gt;&quot;
-
-cooldowns:
-  public:
-    # Enables public chat cooldowns.
-    enabled: true
-
-    # Required wait time in seconds between public messages unless the sender bypasses the cooldown.
-    seconds: 2
-
-  private-messages:
-    # Enables PM cooldowns.
-    enabled: false
-
-    # Required wait time between PMs when the PM cooldown is enabled.
-    seconds: 2</code></pre>
-<p>Format priority: 1. <code>channels.&lt;id&gt;.format</code> 2. <code>public-chat.group-formats.&lt;luckperms-primary-group&gt;</code> 3. <code>public-chat.format</code></p>
-<p>Important notes:</p>
-<ul>
-<li><code>{rank_prefix}</code> works in every <code>group-formats.&lt;group&gt;</code> entry</li>
-<li>if LuckPerms is not available, group-specific formats are skipped and CoreChatX falls back to the base format</li>
-<li>if you already manage rank prefixes in LuckPerms, prefer <code>{rank_prefix}</code> over hardcoded titles in this file</li>
-<li>PlaceholderAPI placeholders can be used in most admin-controlled rendered strings, including chat formats and group formats, when PlaceholderAPI support is enabled</li>
-<li>legacy ampersand codes, section-sign codes, and legacy hex colors returned by PlaceholderAPI or nickname plugins are converted before MiniMessage parsing</li>
-<li>raw player-authored message bodies do not pass through PlaceholderAPI; this prevents players from resolving arbitrary <code>%placeholder%</code> tokens inside normal chat text</li>
-<li><code>mentions.token-format</code> resolves <code>{player_name}</code> to the mentioned player&#x27;s name</li>
-<li>PlaceholderAPI in <code>mentions.token-format</code> uses the mentioned player as context, not the sender</li>
-<li>for cross-backend mentions, CoreChatX uses the mentioned player&#x27;s <code>OfflinePlayer</code> context so PlaceholderAPI expansions with offline support can still resolve</li>
-<li>negative cooldown seconds are treated as <code>0</code></li>
-</ul>
-<hr>
-<h2 id="messages-yml">4.3 <code>messages.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>general user-facing text</li>
-<li>command feedback</li>
-<li>PM layouts</li>
-<li>moderation messages</li>
-<li>join/quit messages</li>
-<li>chat item feedback</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Main message file.
+  # A short summary is shown to the command sender after a successful reload.
+  show-summary: true
+</code></pre>
+            <h3 id="messages-yml"><code>messages.yml</code></h3>
+            <p>Player-facing messages and command feedback. Nickname, PM, moderation, join/quit, and ChatItem wording live here.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Stores the visible text for command feedback, errors, settings, privacy, moderation, cooldowns, pings, private messages, join/quit, ChatItems, bubbles, channels, bridges, and nicknames.</li>
+              <li>Controls the MiniMessage templates used for PM display, social-spy display, network join/leave output, and nickname command responses.</li>
+              <li>Keeps wording centralized so admins can translate or restyle feedback without touching code.</li>
+            </ul>
+            <p>Important notes:</p>
+            <ul>
+              <li>Strings use MiniMessage in server-controlled templates. Keep tags valid when editing.</li>
+              <li>Placeholder availability is message-specific. The header comments list common placeholders, but not every placeholder applies to every message.</li>
+              <li>In proxy group mode, a PM target outside the sender group intentionally returns the normal player-not-found style response.</li>
+              <li>The nickname messages are used by <code>/nick</code>, including permission stripping, color-only rejection, and staff edits for other online players.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Main message file.
 # Supported placeholders vary by message, but common ones include:
 # {prefix}, {player_name}, {target_name}, {sender_name}, {message}, {seconds}, {count}, {setting}, {state}
 
@@ -561,10 +331,7 @@ reload:
 
 commands:
   corechatx-help:
-    # Header shown by /corechatx when the sender has permission to access the root help.
     header: &quot;{prefix} &lt;gray&gt;Available CoreChatX subcommands:&lt;/gray&gt;&quot;
-
-    # Individual help lines. The command executor only shows the lines the sender can actually use.
     reload: &quot;&lt;gray&gt;/corechatx reload&lt;/gray&gt;&quot;
     settings: &quot;&lt;gray&gt;/corechatx settings&lt;/gray&gt;&quot;
     locale: &quot;&lt;gray&gt;/corechatx locale [tag]&lt;/gray&gt;&quot;
@@ -601,7 +368,7 @@ moderation:
   chat-muted-toggled: &quot;{prefix} &lt;gray&gt;Global chat mute is now &lt;white&gt;{state}&lt;/white&gt;.&lt;/gray&gt;&quot;
   anti-repeat: &quot;{prefix} &lt;red&gt;Please do not repeat the same message.&lt;/red&gt;&quot;
   anti-caps: &quot;{prefix} &lt;red&gt;Please avoid excessive caps.&lt;/red&gt;&quot;
-  mute-success: &quot;{prefix} &lt;gray&gt;Muted &lt;white&gt;{target_name}&lt;/white&gt;.&lt;gray&gt; Reason: &lt;white&gt;{reason}&lt;/white&gt;&lt;/gray&gt;&quot;
+  mute-success: &quot;{prefix} &lt;gray&gt;Muted &lt;white&gt;{target_name}&lt;/white&gt;. Reason: &lt;white&gt;{reason}&lt;/white&gt;&lt;/gray&gt;&quot;
   unmute-success: &quot;{prefix} &lt;gray&gt;Unmuted &lt;white&gt;{target_name}&lt;/white&gt;.&lt;/gray&gt;&quot;
   clear-chat-notice: &quot;{prefix} &lt;gray&gt;Chat was cleared by &lt;white&gt;{sender_name}&lt;/white&gt;.&lt;/gray&gt;&quot;
   clear-chat-sender: &quot;{prefix} &lt;gray&gt;Cleared chat for &lt;white&gt;{count}&lt;/white&gt; online player(s).&lt;/gray&gt;&quot;
@@ -612,11 +379,13 @@ cooldown:
 
 ping:
   toggles:
+    # Used by /ping &lt;sound|actionbar&gt; status with placeholders {setting} and {state}.
     status: &quot;{prefix} &lt;gray&gt;Ping &lt;white&gt;{setting}&lt;/white&gt; notifications are currently &lt;white&gt;{state}&lt;/white&gt;.&lt;/gray&gt;&quot;
     sound-changed: &quot;{prefix} &lt;gray&gt;Ping sound notifications are now &lt;white&gt;{state}&lt;/white&gt;.&lt;/gray&gt;&quot;
     actionbar-changed: &quot;{prefix} &lt;gray&gt;Ping actionbar notifications are now &lt;white&gt;{state}&lt;/white&gt;.&lt;/gray&gt;&quot;
   state-on: &quot;&lt;green&gt;enabled&lt;/green&gt;&quot;
   state-off: &quot;&lt;red&gt;disabled&lt;/red&gt;&quot;
+  # Used when a player is pinged by a mention or a custom ping.
   notification-actionbar: &quot;&lt;gold&gt;Ping:&lt;/gold&gt; &lt;yellow&gt;{sender_name}&lt;/yellow&gt; mentioned you.&quot;
   notification-sound: &quot;ENTITY_EXPERIENCE_ORB_PICKUP&quot;
   notification-volume: 0.85
@@ -638,6 +407,15 @@ private-messages:
 broadcast:
   format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gold&gt;Broadcast&lt;/gold&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{sender_name}&lt;/white&gt;&lt;dark_gray&gt;: &lt;/dark_gray&gt;&lt;gold&gt;{message}&lt;/gold&gt;&quot;
 
+nickname:
+  changed: &quot;{prefix} &lt;gray&gt;Your nickname is now &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
+  cleared: &quot;{prefix} &lt;gray&gt;Your nickname has been cleared.&lt;/gray&gt;&quot;
+  changed-other: &quot;{prefix} &lt;gray&gt;Set &lt;white&gt;{target_name}&lt;/white&gt;&#39;s nickname to &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
+  cleared-other: &quot;{prefix} &lt;gray&gt;Cleared &lt;white&gt;{target_name}&lt;/white&gt;&#39;s nickname.&lt;/gray&gt;&quot;
+  invalid: &quot;{prefix} &lt;red&gt;That nickname is invalid. Use one visible word after formatting is removed.&lt;/red&gt;&quot;
+  name-change-disabled: &quot;{prefix} &lt;red&gt;Nicknames can only change colors/styles. The visible text must stay exactly the player&#39;s real Minecraft username.&lt;/red&gt;&quot;
+  too-long: &quot;{prefix} &lt;red&gt;Nicknames can be at most &lt;white&gt;{limit}&lt;/white&gt; visible characters.&lt;/red&gt;&quot;
+
 chat:
   no-message-sent: &quot;{prefix} &lt;yellow&gt;Nothing was sent because the message is empty after sanitization.&lt;/yellow&gt;&quot;
 
@@ -647,96 +425,124 @@ join-quit:
   first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
 
 chatitems:
+  # Hover shown on clickable chat preview tokens.
   click-to-open: &quot;&lt;gray&gt;Click to open the saved preview.&lt;/gray&gt;&quot;
-  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;</code></pre>
-<p>Locale note:</p>
-<ul>
-<li><code>messages.yml</code> remains the final fallback source for message keys</li>
-<li>locale files can override individual keys without forcing you to duplicate the whole file</li>
-</ul>
-<hr>
-<h2 id="channels-yml">4.4 <code>channels.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>channel definitions</li>
-<li>delivery scope</li>
-<li>per-channel permission gates</li>
-<li>per-channel source-specific mention and chat-item behavior</li>
-<li>per-channel bridge export control</li>
-<li>optional per-channel chat format</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Channel defaults.
+  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;
+</code></pre>
+            <h3 id="chat-yml"><code>chat.yml</code></h3>
+            <p>Public chat formatting, PlaceholderAPI behavior, cooldown defaults, mention defaults, and formatting permission behavior.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Defines the default public chat template and optional LuckPerms group format overrides.</li>
+              <li>Controls PlaceholderAPI expansion in trusted templates, public chat cooldowns, private-message cooldowns, mention formatting, and player-authored legacy color/style permission behavior.</li>
+              <li>Provides the fallback visual format used when a channel does not define its own format.</li>
+            </ul>
+            <p>Important notes:</p>
+            <ul>
+              <li>Server templates are trusted and may use MiniMessage. Raw player messages are sanitized and filtered before rendering.</li>
+              <li>Group format keys match the LuckPerms primary group in lowercase and are used only when the active channel does not override the format.</li>
+              <li>The <code>formatting.permissions</code> section controls player-authored message codes, not administrator-written config templates.</li>
+              <li>Public chat and private-message cooldowns are separate. Permission bypass nodes are declared in <code>plugin.yml</code>.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Public chat formatting and moderation settings.
+
+public-chat:
+  enabled: true
+  # Supported placeholders inside the format:
+  # {plugin_prefix}, {channel_prefix}, {rank_prefix}, {player_name}, {message}
+  # Layout inspired by the older NetworkChat proxy format:
+  # prefix + player name + italic separator + processed message.
+  # CoreChatX keeps its own default palette instead of copying the old colors verbatim.
+  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  # Optional group-specific format overrides keyed by LuckPerms primary group.
+  # These are used only when channels.yml -&gt; format is blank for the active channel.
+  # Keys must match the LuckPerms primary group in lowercase.
+  group-formats:
+    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_name}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
+  # Applied to non-global active channels such as local or staff.
+  channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
+  fallback-rank-prefix: &quot;&quot;
+
+mentions:
+  enabled: true
+  # Mention matching accepts both Steve and @Steve when the token matches a local or network-online player exactly.
+  # If disabled, names are left as normal text and no mention notification logic runs.
+  token-format: &quot;&lt;#79d6b8&gt;@{player_name}&lt;/#79d6b8&gt;&quot;
+
+cooldowns:
+  public:
+    enabled: true
+    seconds: 2
+  private-messages:
+    enabled: false
+    seconds: 2
+</code></pre>
+            <h3 id="channels-yml"><code>channels.yml</code></h3>
+            <p>Channel definitions, scopes, send/receive permissions, source-specific mentions, ChatItems, bubbles, and bridge export rules.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Defines named chat channels, their aliases, scopes, default channel, formats, permissions, mention behavior, ChatItem behavior, chat bubble behavior, and bridge export behavior.</li>
+              <li>Controls whether a channel is backend-local, network-routed, or staff-only.</li>
+              <li>Allows separate mention rules for Minecraft-origin, Discord-origin, and Telegram-origin messages.</li>
+            </ul>
+            <p>Important behavior:</p>
+            <ul>
+              <li><code>scope: NETWORK</code> can cross Paper backend boundaries only when the backend is in proxy mode and Velocity routing is active.</li>
+              <li>With Velocity multi-channel groups, network channel messages stay inside the sender CoreChatX channel group.</li>
+              <li><code>allow-mentions.from-discord</code> and <code>allow-mentions.from-telegram</code> prevent external bridges from automatically gaining the same mention power as Minecraft chat.</li>
+              <li><code>export-to-bridges</code> must be true before Discord or Telegram outbound relays use that CoreChatX channel.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Channel defaults.
 # In STANDALONE mode, NETWORK still behaves as a normal local channel unless the proxy bridge is enabled.
 # In PROXY mode, only channels with scope NETWORK are forwarded cross-server.
 # SERVER and RADIUS always stay backend-local.
 
 channels:
   global:
-    # Enables the channel.
     enabled: true
-
-    # Makes this the default active channel for players.
     default: true
-
-    # NETWORK means the channel can cross servers when proxy routing is active.
     scope: &quot;NETWORK&quot;
-
-    # Permission required to send into this channel.
-    # Blank means no special send permission is required.
     permission-send: &quot;&quot;
-
-    # Permission required to receive this channel.
-    # Blank means no extra receive permission is required.
     permission-receive: &quot;&quot;
-
     # Controls whether player names and custom ping tokens are parsed by source.
     allow-mentions:
       from-minecraft: true
       from-discord: true
       from-telegram: true
-
-    # Enables [item] / [inv] / [ec] style token processing in this channel.
+    # If false, [item]/[inv]/[ec] tokens stay plain text in this channel.
     allow-chatitems: true
-
-    # Enables overhead chat bubbles for successful player messages in this channel.
+    # If false, successful player chat in this channel does not create overhead chat bubbles.
     allow-chat-bubbles: true
-
-    # Allows outbound export to Discord/Telegram for locally-originating messages from this channel.
+    # If true, locally-sent messages in this channel may be exported to Discord / Telegram bridges.
     export-to-bridges: true
-
-    # Optional channel-specific format override.
-    # Leave blank to use chat.yml resolution.
+    # Optional per-channel format. Leave blank to use chat.yml -&gt; public-chat.format.
     format: &quot;&quot;
-
     discord:
       # Optional Discord format for Minecraft -&gt; Discord messages from this channel.
       # Leave blank to use discord.yml -&gt; discord.format.
       outbound-format: &quot;&quot;
-
       # Optional Discord format for Discord -&gt; Minecraft messages routed to this channel.
       # Leave blank to use discord.yml -&gt; discord.inbound.format.
       inbound-format: &quot;&quot;
-
     telegram:
       # Optional Telegram format for Minecraft -&gt; Telegram messages from this channel.
       # Leave blank to use telegram.yml -&gt; telegram.format.
       outbound-format: &quot;&quot;
-
       # Optional Telegram format for Telegram -&gt; Minecraft messages routed to this channel.
       # Leave blank to use the regular CoreChatX channel chat format.
       inbound-format: &quot;&quot;
-
   local:
     enabled: true
     default: false
-
-    # LOCAL_RADIUS restricts delivery to players near the sender on the same backend.
     scope: &quot;LOCAL_RADIUS&quot;
-
-    # Delivery radius used when scope is LOCAL_RADIUS.
     radius: 100
-
     permission-send: &quot;corechatx.channel.local&quot;
     permission-receive: &quot;&quot;
     allow-mentions:
@@ -753,7 +559,6 @@ channels:
     telegram:
       outbound-format: &quot;&quot;
       inbound-format: &quot;&quot;
-
   staff:
     enabled: true
     default: false
@@ -773,78 +578,45 @@ channels:
       inbound-format: &quot;&quot;
     telegram:
       outbound-format: &quot;&quot;
-      inbound-format: &quot;&quot;</code></pre>
-<p>Important behavior:</p>
-<ul>
-<li>invalid dynamic permission nodes are detected and warned during load</li>
-<li>only the broken binding is disabled; the plugin does not crash for one malformed permission</li>
-<li><code>export-to-bridges: true</code> means locally-originating messages in that channel are eligible for Discord/Telegram outbound export</li>
-<li>in proxy mode, outbound bridge export is performed only from the source backend so a network message is not exported once per backend</li>
-<li><code>allow-mentions.from-minecraft</code> controls normal Minecraft chat and network chat from other Minecraft servers</li>
-<li><code>allow-mentions.from-discord</code> controls Discord-to-Minecraft player mentions and custom ping parsing for that channel</li>
-<li><code>allow-mentions.from-telegram</code> controls Telegram-to-Minecraft mention parsing for that channel</li>
-<li>old scalar values such as <code>allow-mentions: true</code> or <code>allow-mentions: false</code> are migrated to the new nested section on startup</li>
-<li><code>discord.outbound-format</code> and <code>discord.inbound-format</code> override Discord bridge formats for that channel when non-blank</li>
-<li><code>telegram.outbound-format</code> and <code>telegram.inbound-format</code> override Telegram bridge formats for that channel when non-blank</li>
-<li>blank per-channel bridge formats fall back to the matching global bridge format</li>
-</ul>
-<p>Per-channel bridge format example:</p>
-<pre class="code-block"><code class="language-yml">channels:
-  mod:
-    discord:
-      outbound-format: &quot;[MOD] {rank_prefix}{sender_name}: {plain_text}&quot;
-      inbound-format: &quot;{channel_prefix}[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}&quot;
-    telegram:
-      outbound-format: &quot;[MOD] {rank_prefix}{sender_name}: {plain_text}&quot;
-      inbound-format: &quot;{channel_prefix}[Telegram] {sender_name}: {plain_text}&quot;</code></pre>
-<hr>
-<h2 id="pings-yml">4.5 <code>pings.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>mention notification toggles</li>
-<li>custom ping definitions</li>
-<li>permission rules for custom pings</li>
-<li>Discord role allow-lists for bridge-origin custom pings</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Mention and custom ping behaviour.
+      inbound-format: &quot;&quot;
+</code></pre>
+            <h3 id="pings-yml"><code>pings.yml</code></h3>
+            <p>Mention notifications and custom ping definitions, including Discord role allow-lists for Discord-origin pings.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Controls personal mention notifications, title/actionbar/sound feedback, and custom ping aliases.</li>
+              <li>Defines which permissions receive custom ping notifications.</li>
+              <li>Restricts Discord-origin role pings so bridge messages cannot trigger arbitrary in-game ping groups.</li>
+            </ul>
+            <p>Behavior notes:</p>
+            <ul>
+              <li>Players can still have personal notification state stored in runtime player data.</li>
+              <li>Custom pings should use explicit permission nodes so LuckPerms can control who receives them.</li>
+              <li>Bridge-origin pings are filtered by the source-specific rules before any notification is sent.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Mention and custom ping behaviour.
 
 mentions:
-  # Global switch for playing ping sounds when a valid ping is delivered.
+  # Global switches for notification delivery once a target is selected.
   notify-sound: true
-
-  # Global switch for actionbar ping notifications.
   notify-actionbar: true
 
 custom-pings:
   # Each entry is generic and fully data-driven:
   # trigger = visible token matched in chat
-  # use-permission = who may activate it from Minecraft
+  # use-permission = who may activate it
   # receive-permission = who may be targeted; leave blank for everyone online
   # discord-roles = Discord role IDs allowed to activate this ping from Discord; empty blocks Discord usage
   # bypass-toggle = if true, recipients are notified even when they disabled ping sound/actionbar
   # token-format = how the token itself is rendered in chat
   all:
-    # Visible token typed by players in chat.
     trigger: &quot;@all&quot;
-
-    # Permission required to use this token.
     use-permission: &quot;corechatx.ping.use.all&quot;
-
-    # Permission a recipient must have to be targeted.
-    # Blank means everyone online is a valid target.
     receive-permission: &quot;&quot;
-
-    # Discord role IDs allowed to activate this ping from Discord.
-    # Empty means Discord-origin messages keep the token as plain text.
     discord-roles: []
-
-    # If true, bypasses the recipient&#x27;s own ping sound/actionbar toggle.
     bypass-toggle: false
-
-    # Visible rendering of the token in chat.
     token-format: &quot;&lt;#79d6b8&gt;{trigger}&lt;/#79d6b8&gt;&quot;
-
   help:
     trigger: &quot;@help&quot;
     use-permission: &quot;corechatx.ping.use.help&quot;
@@ -852,255 +624,207 @@ custom-pings:
     discord-roles: []
     bypass-toggle: false
     token-format: &quot;&lt;#5aa9ff&gt;{trigger}&lt;/#5aa9ff&gt;&quot;
-
   staff:
     trigger: &quot;@staff&quot;
     use-permission: &quot;corechatx.ping.use.staff&quot;
     receive-permission: &quot;corechatx.staff&quot;
     discord-roles: []
     bypass-toggle: true
-    token-format: &quot;&lt;#ff8f8f&gt;{trigger}&lt;/#ff8f8f&gt;&quot;</code></pre>
-<p>Validation note:</p>
-<ul>
-<li><code>use-permission</code> and <code>receive-permission</code> are validated</li>
-<li>malformed dynamic permission nodes are warned and individually disabled</li>
-<li>Discord-origin custom pings require at least one configured matching <code>discord-roles</code> id</li>
-<li>empty or missing <code>discord-roles</code> keeps the token as plain text for Discord messages and does not notify Minecraft players</li>
-<li>Minecraft-origin custom pings still use <code>use-permission</code>, and recipients still use <code>receive-permission</code></li>
-</ul>
-<p>Network note:</p>
-<ul>
-<li>when a custom ping is activated in a <code>NETWORK</code> channel, CoreChatX forwards the activated ping metadata with the message so remote backends can deliver the matching actionbar/sound notification locally</li>
-</ul>
-<hr>
-<h2 id="privacy-yml">4.6 <code>privacy.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>PM defaults</li>
-<li>staff PM bypass behavior</li>
-<li>ignore system configuration</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Privacy defaults for Run 2.
+    token-format: &quot;&lt;#ff8f8f&gt;{trigger}&lt;/#ff8f8f&gt;&quot;
+</code></pre>
+            <h3 id="privacy-yml"><code>privacy.yml</code></h3>
+            <p>Private message defaults, staff bypass behavior, and ignore rules.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Defines default PM availability for new player data.</li>
+              <li>Controls supported staff bypass behavior for privacy checks.</li>
+              <li>Configures whether ignore affects public chat, private messages, or both.</li>
+            </ul>
+            <p>Behavior notes:</p>
+            <ul>
+              <li>PM toggle and ignore state are runtime player data, not static config defaults after a player has stored data.</li>
+              <li>In Velocity group mode, PM search is limited to the sender group before privacy checks are applied.</li>
+              <li>Ignore behavior remains player-identity based; nicknames do not change UUID identity or privacy routing.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Privacy defaults for Run 2.
 
 private-messages:
-  # Default PM state for players with no stored data yet.
   enabled-by-default: true
-
-  # If true, players with the configured permission may bypass supported PM privacy restrictions.
   allow-staff-bypass: true
-
-  # Permission node used for the staff bypass logic.
   staff-bypass-permission: &quot;corechatx.staff&quot;
 
 ignore:
-  # Enables /ignore, /unignore, and /ignorelist behavior.
   enabled: true
-
-  # Maximum ignore entries per player.
   max-ignored-players: 200
-
   # If true, ignored players also stop mention/custom-ping notifications.
-  block-mentions-from-ignored: true</code></pre>
-<p>Validation note:</p>
-<ul>
-<li><code>staff-bypass-permission</code> is also validated</li>
-<li>if malformed, only that bypass binding is disabled and the plugin logs a warning</li>
-<li><code>ignore.max-ignored-players</code> is clamped to <code>0</code> or higher</li>
-</ul>
-<hr>
-<h2 id="moderation-yml">4.7 <code>moderation.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>mute behavior</li>
-<li>mutechat master switch</li>
-<li>anti-repeat</li>
-<li>anti-caps</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Moderation defaults for Run 2.
+  block-mentions-from-ignored: true
+</code></pre>
+            <h3 id="moderation-yml"><code>moderation.yml</code></h3>
+            <p>Mute, mutechat, anti-repeat, anti-caps, and moderation bypass behavior.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Controls whether mute, mutechat, anti-repeat, anti-caps, and clear-chat style moderation features are enabled.</li>
+              <li>Defines bypass permission nodes and basic thresholds.</li>
+              <li>Separates public-chat moderation from private-message moderation where supported.</li>
+            </ul>
+            <p>Behavior notes:</p>
+            <ul>
+              <li>Mute and ignore data are live runtime files. Back them up before manual edits.</li>
+              <li>Bypass permissions are intentional operational controls and should be assigned narrowly.</li>
+              <li>Moderation applies before final message delivery, including network delivery.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Moderation defaults for Run 2.
 
 mute:
-  # Enables /mute and /unmute behavior.
   enabled: true
-
   # If true, active mutes also block /msg and /reply.
   block-private-messages: true
-
-  # Fallback reason used when a mute command is issued without a custom reason.
   default-reason: &quot;No reason provided&quot;
 
 mutechat:
-  # Enables the /mutechat feature globally.
   enabled: true
 
 anti-repeat:
-  # Enables anti-repeat checks for public chat.
   enabled: true
-
-  # Number of recent messages considered for exact duplicate comparison.
   history-window: 3
-
-  # If true, exact duplicates in the comparison window are blocked.
   block-identical: true
 
 anti-caps:
-  # Enables anti-caps checks.
   enabled: false
-
-  # Minimum plain-text message length before anti-caps is evaluated.
   min-length: 8
+  max-uppercase-ratio: 0.7
+</code></pre>
+            <h3 id="filter-yml"><code>filter.yml</code></h3>
+            <p>Word filter defaults and replacement behavior.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Defines blocked words and the replacement token used when filtering is enabled.</li>
+              <li>Controls whether matching should be case-insensitive.</li>
+              <li>Provides a simple first-pass filter before formatted output is sent.</li>
+            </ul>
+            <p>Important behavior:</p>
+            <ul>
+              <li>Use this as a lightweight chat filter, not as a replacement for full moderation policy.</li>
+              <li>Filtering happens before network routing, so the filtered result is what other servers receive.</li>
+              <li>Keep replacements short to avoid creating noisy formatted output.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Word filter configuration.
 
-  # Uppercase ratio threshold after which the message is blocked.
-  max-uppercase-ratio: 0.7</code></pre>
-<p>Bounds note:</p>
-<ul>
-<li><code>anti-repeat.history-window</code> is clamped to at least <code>1</code></li>
-<li><code>anti-caps.min-length</code> is clamped to at least <code>1</code></li>
-</ul>
-<hr>
-<h2 id="filter-yml">4.8 <code>filter.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>word filter behavior</li>
-<li>replacement style</li>
-<li>optional hover over censored words</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Word filter configuration.
-
-# Enables the word filter.
 enabled: true
 
-# The filter censors words and still sends the message.
+# The filter censors and still sends the message.
 blocked-words:
   - idiota
   - stupido
 
-# Character repeated across the blocked-word length.
 replacement-character: &quot;*&quot;
 
 hover-original:
-  # If true, the censored token can expose the original word in hover text.
   enabled: false
-
-  # Hover template shown when hover-original is enabled.
-  text: &quot;&lt;gray&gt;Original term:&lt;/gray&gt; &lt;red&gt;{word}&lt;/red&gt;&quot;</code></pre>
-<p>Important behavior:</p>
-<ul>
-<li>this is a censoring filter, not a whole-message dropper by default</li>
-</ul>
-<hr>
-<h2 id="chatitems-yml">4.9 <code>chatitems.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>token aliases</li>
-<li>permission nodes per token family</li>
-<li>visible token formatting</li>
-<li>preview expiration</li>
-<li>preview inventory titles</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Chat item token configuration.
+  text: &quot;&lt;gray&gt;Original term:&lt;/gray&gt; &lt;red&gt;{word}&lt;/red&gt;&quot;
+</code></pre>
+            <h3 id="chatitems-yml"><code>chatitems.yml</code></h3>
+            <p>ChatItem token permissions, preview behavior, network snapshot limits, and expiry behavior.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Controls item, armor, hotbar, inventory, ender chest, and shulker preview tokens.</li>
+              <li>Defines preview expiry, click/hover templates, token aliases, disabled channels, and snapshot routing limits.</li>
+              <li>Keeps potentially large inventory payloads bounded for local and proxy usage.</li>
+            </ul>
+            <p>Behavior notes:</p>
+            <ul>
+              <li>ChatItem token permissions are declared in <code>plugin.yml</code> and should be assigned only to players who may expose those previews.</li>
+              <li>In proxy mode, remote snapshot requests stay inside the source CoreChatX Velocity channel group.</li>
+              <li>Preview cache expiry and pending request limits protect the server from stale or excessive snapshot routes.</li>
+              <li>If a token is disabled in the active channel, it remains plain text instead of creating a preview.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Chat item token configuration.
+# Every token is matched on sanitized player text.
+# If the sender lacks the configured permission, the message is still sent
+# but that token stays plain text and no preview is created.
 
 tokens:
   item:
-    # Aliases that trigger held-item preview handling.
+    # [item] upgrades to [shulker] automatically when the held item is a shulker box
+    # and the sender has corechatx.chatitem.shulker.
+    # The snapshot stores the held item exactly as it looked when the message was sent.
     aliases: [ &quot;[item]&quot;, &quot;[i]&quot; ]
-
-    # Permission required to turn the token into a preview.
     permission: &quot;corechatx.chatitem.item&quot;
-
-    # Rendered token when a normal held item is previewed.
     token-format: &quot;&lt;#79d6b8&gt;[item]&lt;/#79d6b8&gt;&quot;
-
-    # Rendered token when the held item is a shulker box and the sender also has shulker permission.
     shulker-token-format: &quot;&lt;#5fc7c2&gt;[shulker]&lt;/#5fc7c2&gt;&quot;
-
   armor:
+    # Opens a read-only preview with helmet, chestplate, leggings, boots, and offhand.
     aliases: [ &quot;[armor]&quot; ]
     permission: &quot;corechatx.chatitem.armor&quot;
     token-format: &quot;&lt;#6fb6ff&gt;[armor]&lt;/#6fb6ff&gt;&quot;
-
   hotbar:
+    # Shows the first 9 inventory slots from the sender at message time.
     aliases: [ &quot;[hotbar]&quot; ]
     permission: &quot;corechatx.chatitem.hotbar&quot;
     token-format: &quot;&lt;#8bc8ff&gt;[hotbar]&lt;/#8bc8ff&gt;&quot;
-
   inventory:
+    # Includes the main inventory plus armor and offhand in a read-only snapshot.
     aliases: [ &quot;[inventory]&quot;, &quot;[inv]&quot; ]
     permission: &quot;corechatx.chatitem.inventory&quot;
     token-format: &quot;&lt;#5aa9ff&gt;[inventory]&lt;/#5aa9ff&gt;&quot;
-
   enderchest:
+    # Opens the sender ender chest snapshot captured when the message was sent.
     aliases: [ &quot;[enderchest]&quot;, &quot;[ender]&quot;, &quot;[ec]&quot; ]
     permission: &quot;corechatx.chatitem.enderchest&quot;
     token-format: &quot;&lt;#7db8ff&gt;[enderchest]&lt;/#7db8ff&gt;&quot;
 
 previews:
-  # Snapshot lifetime in minutes.
+  # Snapshots are ephemeral runtime data. Reload clears them to avoid mixing old and new state.
+  # Expired or cleared previews will no longer open from old chat messages.
   expire-after-minutes: 30
-
   titles:
-    # {player_name} is the owner of the snapshot, not the viewer.
-    item: &quot;&lt;#79d6b8&gt;{player_name}&#x27;s item&lt;/#79d6b8&gt;&quot;
-    shulker: &quot;&lt;#5fc7c2&gt;{player_name}&#x27;s shulker&lt;/#5fc7c2&gt;&quot;
-    armor: &quot;&lt;#6fb6ff&gt;{player_name}&#x27;s armor&lt;/#6fb6ff&gt;&quot;
-    hotbar: &quot;&lt;#8bc8ff&gt;{player_name}&#x27;s hotbar&lt;/#8bc8ff&gt;&quot;
-    inventory: &quot;&lt;#5aa9ff&gt;{player_name}&#x27;s inventory&lt;/#5aa9ff&gt;&quot;
-    enderchest: &quot;&lt;#7db8ff&gt;{player_name}&#x27;s ender chest&lt;/#7db8ff&gt;&quot;
+    # {player_name} is the owner of the saved snapshot, not the viewer who opens it.
+    item: &quot;&lt;#79d6b8&gt;{player_name}&#39;s item&lt;/#79d6b8&gt;&quot;
+    shulker: &quot;&lt;#5fc7c2&gt;{player_name}&#39;s shulker&lt;/#5fc7c2&gt;&quot;
+    armor: &quot;&lt;#6fb6ff&gt;{player_name}&#39;s armor&lt;/#6fb6ff&gt;&quot;
+    hotbar: &quot;&lt;#8bc8ff&gt;{player_name}&#39;s hotbar&lt;/#8bc8ff&gt;&quot;
+    inventory: &quot;&lt;#5aa9ff&gt;{player_name}&#39;s inventory&lt;/#5aa9ff&gt;&quot;
+    enderchest: &quot;&lt;#7db8ff&gt;{player_name}&#39;s ender chest&lt;/#7db8ff&gt;&quot;
 
 network:
-  # Network mode sends only lightweight snapshot bundle refs in chat packets.
-  # Multiple ChatItem tokens in the same message share one snapshot bundle with per-token preview views.
+  # Network mode sends only lightweight snapshot refs in chat packets.
+  # Multiple ChatItem tokens in the same message share one snapshot bundle with per-token views.
   # The full bundle is fetched from the source backend when a remote player clicks a view.
-
-  # How long a backend waits for Velocity to return a remote snapshot bundle after a click.
   request-timeout-seconds: 5
-
   # Maximum unique snapshot bundle refs attached to one network chat message.
-  # Normal player chat currently uses one shared bundle per message; this is a defensive cap.
   # The plugin-message protocol currently hard-caps the effective value to 3.
   max-snapshots-per-message: 3
-
-  # Hard payload limits for remote snapshot bundle serialization/import.
   max-compressed-bytes: 30000
   max-uncompressed-bytes: 2097152
-  max-item-bytes: 262144</code></pre>
-<p>Behavior notes:</p>
-<ul>
-<li>if the sender lacks the required permission, the token stays plain text</li>
-<li>snapshots are runtime objects and are cleared on reload/restart</li>
-<li>multiple ChatItem tokens in the same player message share one snapshot UUID/bundle; each token click carries the requested view, such as <code>item</code>, <code>armor</code>, or <code>inventory</code></li>
-<li>snapshot UUIDs are treated as short-lived capability ids: anyone who received the rendered chat component can open the available preview views until it expires, but ids are random, not listed, and not persisted</li>
-<li>in proxy mode, chat packets carry only lightweight ChatItem bundle refs; on click, Velocity requests the full bundle from the source backend and forwards the response to the requesting backend</li>
-<li>Velocity can cache a returned remote bundle until it expires, so later clicks on other views from the same message do not have to ask the source backend again</li>
-<li>because current per-message parsing shares one bundle, normal chat generally emits one bundle ref even when the message contains several ChatItem tokens; <code>network.max-snapshots-per-message</code> remains a defensive protocol bound</li>
-<li>if the remote bundle is missing, expired, rejected, or not returned before <code>network.request-timeout-seconds</code>, the player receives the normal expired-preview feedback</li>
-<li>oversized or invalid ChatItem bundle payloads are rejected without blocking the chat message itself</li>
-<li><code>network.max-compressed-bytes</code>, <code>network.max-uncompressed-bytes</code>, and <code>network.max-item-bytes</code> protect Paper-side bundle serialization and import during remote click handling</li>
-<li><code>network.request-timeout-seconds</code> is clamped to at least <code>1</code></li>
-<li>ChatItem byte limits are clamped to at least <code>1024</code> bytes</li>
-</ul>
-<hr>
-<h2 id="1-keywords-yml">4.9.1 <code>keywords.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>interactive reusable chat tokens</li>
-<li>one MiniMessage renderer per keyword</li>
-<li>optional permission gates</li>
-<li>optional PlaceholderAPI expansion per keyword</li>
-<li>optional channel restrictions</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Interactive keyword token configuration.
+  max-item-bytes: 262144
+</code></pre>
+            <h3 id="keywords-yml"><code>keywords.yml</code></h3>
+            <p>Interactive keyword aliases, MiniMessage renderers, permissions, and PlaceholderAPI allowance.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Defines interactive tokens such as link or info keywords that can render to MiniMessage components.</li>
+              <li>Controls per-keyword aliases, required permissions, disabled channels, and PlaceholderAPI behavior.</li>
+              <li>Lets admins add controlled interactive output without letting players write arbitrary MiniMessage.</li>
+            </ul>
+            <p>Behavior notes:</p>
+            <ul>
+              <li>Keyword renderers are admin templates. Keep hover and click actions deliberate.</li>
+              <li>Invalid keyword definitions should disable only that definition and log a warning rather than breaking the whole chat flow.</li>
+              <li>In proxy mode, rendered keyword output is part of the message component transported to other group members.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Interactive keyword token configuration.
 # Each keyword replaces one or more literal aliases with one MiniMessage renderer.
 
 keywords:
   discord:
     enabled: true
     tokens: [ &quot;[discord]&quot;, &quot;[dc]&quot; ]
-    renderer: &quot;&lt;blue&gt;&lt;hover:show_text:&#x27;&lt;gray&gt;Join our Discord&lt;/gray&gt;&#x27;&gt;&lt;click:open_url:&#x27;https://discord.gg/example&#x27;&gt;discord&lt;/click&gt;&lt;/hover&gt;&lt;/blue&gt;&quot;
+    renderer: &quot;&lt;blue&gt;&lt;hover:show_text:&#39;&lt;gray&gt;Join our Discord&lt;/gray&gt;&#39;&gt;&lt;click:open_url:&#39;https://discord.gg/example&#39;&gt;discord&lt;/click&gt;&lt;/hover&gt;&lt;/blue&gt;&quot;
     allow-placeholderapi: false
     permission: &quot;corechatx.keywords.use.discord&quot;
     enabled-channels: []
@@ -1109,33 +833,28 @@ keywords:
   rules:
     enabled: true
     tokens: [ &quot;[rules]&quot; ]
-    renderer: &quot;&lt;yellow&gt;&lt;hover:show_text:&#x27;&lt;gray&gt;Click to read the rules&lt;/gray&gt;&#x27;&gt;&lt;click:run_command:&#x27;/rules&#x27;&gt;rules&lt;/click&gt;&lt;/hover&gt;&lt;/yellow&gt;&quot;
+    renderer: &quot;&lt;yellow&gt;&lt;hover:show_text:&#39;&lt;gray&gt;Click to read the rules&lt;/gray&gt;&#39;&gt;&lt;click:run_command:&#39;/rules&#39;&gt;rules&lt;/click&gt;&lt;/hover&gt;&lt;/yellow&gt;&quot;
     allow-placeholderapi: false
     permission: &quot;&quot;
     enabled-channels: []
-    disabled-channels: []</code></pre>
-<p>Behavior notes:</p>
-<ul>
-<li>token aliases are matched literally and case-sensitively</li>
-<li>if a sender lacks the configured permission, the token remains plain text</li>
-<li>if <code>enabled-channels</code> is non-empty, the keyword only works in those channels</li>
-<li>if the current channel is listed in <code>disabled-channels</code>, the token remains plain text</li>
-<li>if <code>allow-placeholderapi: true</code>, PlaceholderAPI is applied to the renderer before MiniMessage deserialization when PlaceholderAPI is installed and enabled</li>
-<li>in proxy mode, network chat and remote PMs transport the rendered component from the source backend</li>
-<li>invalid keyword definitions only disable themselves and log a warning</li>
-</ul>
-<hr>
-<h2 id="2-chatbubbles-yml">4.9.2 <code>chatbubbles.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>optional overhead chat bubbles for successful player public chat</li>
-<li>per-player default toggle</li>
-<li>channel/world filtering</li>
-<li>TextDisplay visual settings</li>
-<li>lifetime, stacking, wrapping, and cleanup behavior</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Chat bubbles / overhead chat configuration.
+    disabled-channels: []
+</code></pre>
+            <h3 id="chatbubbles-yml"><code>chatbubbles.yml</code></h3>
+            <p>Overhead chat bubble visibility, duration, offset, range, and world filtering.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Controls whether nearby players see overhead chat bubbles for public chat.</li>
+              <li>Defines range, duration, vertical offset, line wrapping, and world allow/deny behavior.</li>
+              <li>Provides a per-player visual feature that is separate from network chat delivery.</li>
+            </ul>
+            <p>Behavior notes:</p>
+            <ul>
+              <li>Chat bubbles are Paper-side visuals. They do not display to players on another backend.</li>
+              <li>Player bubble preference is stored in player data and can be changed through settings when enabled.</li>
+              <li>World filters are useful for disabling bubbles in lobbies, minigames, or regions with dense chat.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Chat bubbles / overhead chat configuration.
 
 enabled: true
 default-enabled: true
@@ -1173,100 +892,67 @@ world-filter:
   disabled-worlds: []
 
 renderer:
-  format: &quot;{message}&quot;</code></pre>
-<p>Behavior notes:</p>
-<ul>
-<li>bubbles are created only after public chat passes normal CoreChatX checks</li>
-<li>the bubble text is derived from the already processed message body, not raw input</li>
-<li><code>allow-chat-bubbles: false</code> in <code>channels.yml</code> disables bubbles for that channel</li>
-<li>player settings include a persistent chat bubbles toggle</li>
-<li>in proxy mode, bubbles stay local to the Paper backend where the sender physically is</li>
-<li>bubble entities are removed on expiry, player quit, reload, and plugin disable</li>
-<li>numeric bubble limits are bounded defensively: counts and text lengths stay at least <code>1</code>, <code>ticks-per-character</code> stays at least <code>0</code>, and distances/offsets cannot become invalid negative values</li>
-</ul>
-<hr>
-<h2 id="discord-yml">4.10 <code>discord.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>Discord outbound formatting and routing</li>
-<li>Discord inbound gateway relay settings</li>
-<li>route mapping from Discord channels into CoreChatX channels</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Discord outbound bridge.
+  format: &quot;{message}&quot;
+</code></pre>
+            <h3 id="discord-yml"><code>discord.yml</code></h3>
+            <p>Discord bridge outbound/inbound settings, token placeholders, channel ids, route channel, role formatting, and intents.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Configures the Discord bot bridge, including token source, Minecraft-to-Discord output, Discord-to-Minecraft input, channel IDs, and gateway intents.</li>
+              <li>Defines the CoreChatX route channel used for inbound Discord messages.</li>
+              <li>Controls optional role formatting and avatar/name display in bridge templates.</li>
+            </ul>
+            <p>Important notes:</p>
+            <ul>
+              <li>Keep bot tokens out of public logs, screenshots, websites, and issue reports.</li>
+              <li>Discord bridge runtime also requires <code>deployment.bridges-allowed: true</code> in <code>config.yml</code>.</li>
+              <li>Outbound bridge messages require the CoreChatX channel to allow bridge export.</li>
+              <li>Discord-origin mentions are controlled by channel and ping config, not by Discord text alone.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Discord outbound bridge.
 # Only locally-sent messages from channels with export-to-bridges: true are forwarded.
 # In network mode, CoreChatX exports only once on the source backend to avoid duplicates.
 
 discord:
-  # Master switch for Discord support.
   enabled: false
-
-  # Bot token used for Discord API access.
   bot-token: &quot;&quot;
-
-  # Default Discord channel id used when no per-channel override exists.
   default-channel-id: &quot;&quot;
-
-  # Export format.
-  # Common placeholders:
-  # {source_server}, {channel_id}, {rank_prefix}, {sender_name}, {plain_text}
-  # PlaceholderAPI placeholders are supported when PlaceholderAPI is installed and enabled.
   format: &quot;[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}&quot;
-
-  # Optional mapping from CoreChatX channel id -&gt; Discord channel id.
+  # Optional per-channel overrides:
+  # channel-overrides:
+  #   global: &quot;123456789012345678&quot;
   channel-overrides: {}
-
   inbound:
-    # Enables inbound Discord relay.
     enabled: false
-
-    # Default CoreChatX channel used if no explicit route matches the Discord channel id.
     default-channel: &quot;global&quot;
-
-    # Maximum accepted inbound message length after sanitization/clamping.
     max-length: 400
-
-    # Full format for inbound Discord messages shown in Minecraft.
-    # Available tokens: {source}, {source_type}, {channel_id}, {channel_prefix}, {sender_name}, {rank_prefix}, {role_color}, {plain_text}, {message}
+    # Format used for Discord -&gt; Minecraft messages.
+    # Tokens: {source}, {source_type}, {channel_id}, {channel_prefix}, {sender_name}, {rank_prefix}, {role_color}, {plain_text}, {message}
+    # Use {role_color} as a MiniMessage color tag, for example: &quot;{role_color}{rank_prefix}&lt;/role_color&gt; &quot;
     format: &quot;{channel_prefix}[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}&quot;
-
-    # Optional route map from Discord channel id -&gt; CoreChatX channel id.
-    channel-routes: {}</code></pre>
-<p>Important operational note:</p>
-<ul>
-<li>Discord inbound requires <code>MESSAGE CONTENT</code> intent on the bot</li>
-<li>Discord inbound uses the Discord Gateway through JDA, not REST polling</li>
-<li><code>discord.inbound.format</code> controls the full Discord-to-Minecraft line; use it to remove or restyle the bridge source prefix</li>
-<li>Discord inbound format tokens include <code>{source}</code>, <code>{source_type}</code>, <code>{channel_id}</code>, <code>{channel_prefix}</code>, <code>{sender_name}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, <code>{plain_text}</code>, and <code>{message}</code></li>
-<li><code>{channel_prefix}</code> keeps the CoreChatX channel prefix in custom inbound bridge formats</li>
-<li><code>{rank_prefix}</code> is the sender&#x27;s highest Discord role name, and <code>{role_color}</code> is that role color as a MiniMessage color tag or <code>white</code></li>
-<li><code>discord.format</code> supports PlaceholderAPI placeholders and <code>{rank_prefix}</code> for Minecraft-to-Discord messages when PlaceholderAPI is installed and enabled</li>
-<li>Discord bridge formats can be overridden per channel from <code>channels.yml</code> with <code>discord.outbound-format</code> and <code>discord.inbound-format</code></li>
-<li>unknown placeholders and invalid inbound MiniMessage syntax produce warnings during config load instead of failing startup</li>
-<li>outbound Discord formatting strips Minecraft formatting codes from templates and rank prefixes while preserving the actual chat message text</li>
-<li><code>deployment.bridges-allowed: false</code> prevents Discord outbound and inbound runtime from starting even if <code>discord.enabled</code> or <code>discord.inbound.enabled</code> is true</li>
-<li><code>discord.enabled: false</code> disables Discord inbound even if <code>discord.inbound.enabled: true</code></li>
-<li>Discord outbound applies a small backoff when Discord responds with HTTP 429 rate limits</li>
-<li>Discord outbound clamps formatted messages to a safe API-sized payload and logs when truncation happens</li>
-<li>the bot must also have access to the guild channels listed in <code>discord.default-channel-id</code> or <code>discord.inbound.channel-routes</code></li>
-<li>CoreChatX ignores inbound messages from bots and webhooks</li>
-<li>inbound messages are sanitized and clamped by <code>discord.inbound.max-length</code> before they enter Minecraft chat</li>
-<li>in proxy mode, enable inbound on the backend instances that should locally display Discord messages</li>
-</ul>
-<p>Role-colored inbound example:</p>
-<pre class="code-block"><code class="language-yml">discord:
-  inbound:
-    format: &quot;{channel_prefix}&lt;dark_gray&gt;[Discord]&lt;/dark_gray&gt; {role_color}{rank_prefix}&lt;/role_color&gt; &lt;white&gt;{sender_name}&lt;/white&gt;: {role_color}{plain_text}&lt;/role_color&gt;&quot;</code></pre>
-<hr>
-<h2 id="telegram-yml">4.11 <code>telegram.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>Telegram outbound formatting and routing</li>
-<li>Telegram Bot API long-polling inbound relay settings</li>
-<li>route mapping from Telegram chats or forum topics into CoreChatX channels</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Telegram bridge.
+    # Map Discord channel ids to CoreChatX channel ids.
+    # channel-routes:
+    #   &quot;123456789012345678&quot;: &quot;staff&quot;
+    channel-routes: {}
+</code></pre>
+            <h3 id="telegram-yml"><code>telegram.yml</code></h3>
+            <p>Telegram Bot API long-polling bridge settings, outbound/inbound route, chat id, topic id, and formats.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Configures the Telegram bridge, including bot token, chat id, optional topic id, outbound format, inbound route, and polling behavior.</li>
+              <li>Defines how Telegram messages are represented inside Minecraft channels.</li>
+              <li>Keeps Telegram setup separate from Discord setup while using the same bridge gate in <code>config.yml</code>.</li>
+            </ul>
+            <p>Important notes:</p>
+            <ul>
+              <li>Keep Telegram bot tokens private.</li>
+              <li>Telegram bridge runtime also requires <code>deployment.bridges-allowed: true</code>.</li>
+              <li>The inbound route should point to a CoreChatX channel that exists and allows the behavior you expect.</li>
+              <li>Topic ids matter when using Telegram forum-style groups.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Telegram bridge.
 # Uses Telegram Bot API only.
 # Inbound uses long polling through getUpdates(timeout=...).
 # Outbound uses sendMessage.
@@ -1309,6 +995,10 @@ telegram:
     skip-pending-on-start: true
     max-length: 400
     default-channel: &quot;global&quot;
+    # Display name used for Telegram -&gt; Minecraft messages.
+    # Tokens: {source}, {source_type}, {sender_name}
+    # Set to &quot;{sender_name}&quot; to remove the [Telegram] prefix.
+    display-name-format: &quot;[{source}] {sender_name}&quot;
 
     # Logs detected safe route keys to help configure groups/topics.
     debug-route-detection: false
@@ -1317,69 +1007,91 @@ telegram:
     # Keys can be &quot;chatId&quot; or &quot;chatId:messageThreadId&quot;.
     routes:
       # &quot;-1001111111111&quot;: &quot;global&quot;
-      # &quot;-1001111111111:25&quot;: &quot;staff&quot;</code></pre>
-<p>Important operational note:</p>
-<ul>
-<li>Telegram uses Telegram Bot API long polling through <code>getUpdates</code></li>
-<li>Telegram does not use Telegram4J</li>
-<li>Telegram does not use MTProto</li>
-<li>Telegram does not use webhook mode and does not start an embedded HTTP server</li>
-<li>Telegram outbound formats can use <code>{rank_prefix}</code> when the token is present</li>
-<li>Telegram bridge formats can be overridden per channel from <code>channels.yml</code> with <code>telegram.outbound-format</code> and <code>telegram.inbound-format</code></li>
-<li>unknown placeholders produce config warnings instead of failing startup</li>
-<li>outbound Telegram formatting strips Minecraft formatting codes from templates and rank prefixes while preserving the actual chat message text</li>
-<li>no <code>api-id</code> or <code>api-hash</code> are required; only <code>telegram.bot-token</code> is needed</li>
-<li>outbound supports per-channel Telegram targets through <code>telegram.outbound.channel-targets</code></li>
-<li>outbound supports Telegram forum topics through <code>message-thread-id</code></li>
-<li>Telegram outbound clamps formatted messages to a safe Bot API-sized payload and logs when truncation happens</li>
-<li>inbound routes can use <code>chatId</code> or <code>chatId:messageThreadId</code></li>
-<li><code>debug-route-detection: true</code> logs safe detected route keys to help admins configure group/topic routing</li>
-<li><code>deployment.bridges-allowed: false</code> prevents Telegram outbound and inbound runtime from starting even if <code>telegram.enabled</code> or <code>telegram.inbound.enabled</code> is true</li>
-<li><code>skip-pending-on-start: true</code> prevents old queued updates from flooding Minecraft when the bridge starts</li>
-<li>Telegram long-polling requests use a bounded HTTP timeout so reloads cannot leave an old polling request hanging indefinitely</li>
-<li>Telegram inbound timing values are clamped: <code>timeout-seconds</code> to <code>1..60</code>, <code>retry-delay-seconds</code> to <code>0..30</code>, and <code>error-backoff-seconds</code> to <code>1..300</code></li>
-<li>inbound messages are sanitized and clamped by <code>telegram.inbound.max-length</code> before they enter Minecraft chat</li>
-</ul>
-<hr>
-<h2 id="storage-yml">4.12 <code>storage.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>storage backend declaration</li>
-<li>future-facing SQL config placeholders</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Storage foundation for Run 1.
+      # &quot;-1001111111111:25&quot;: &quot;staff&quot;
+</code></pre>
+            <h3 id="storage-yml"><code>storage.yml</code></h3>
+            <p>Storage backend config. YAML remains the active public backend; SQL fields are groundwork.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Defines the storage backend choice and future SQL connection fields.</li>
+              <li>Keeps player and runtime data persistence behavior explicit.</li>
+              <li>Provides a stable place for future storage expansion without changing every runtime file.</li>
+            </ul>
+            <p>Operational notes:</p>
+            <ul>
+              <li>Treat YAML as the current public storage path unless the plugin release explicitly documents another backend as active.</li>
+              <li>Do not paste SQL credentials into public support tickets.</li>
+              <li>Back up runtime YAML files before manual migrations or resets.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Storage foundation for Run 1.
 # YAML remains the active backend in this phase.
 
 storage:
-  # Current public implementation uses YAML repositories.
   backend: &quot;YAML&quot;
-
   sql:
-    # Placeholder section for future SQL work.
     enabled: false
     type: &quot;SQLITE&quot;
     host: &quot;localhost&quot;
     port: 3306
     database: &quot;corechatx&quot;
     username: &quot;user&quot;
-    password: &quot;password&quot;</code></pre>
-<p>Important accuracy note:</p>
-<ul>
-<li>SQL settings exist as groundwork</li>
-<li>the active implementation in the codebase is still YAML-backed</li>
-<li>YAML runtime stores are saved through a temporary file and replace move to reduce corruption risk during writes</li>
-</ul>
-<hr>
-<h2 id="locales-en-us-yml">4.13 <code>locales/en_us.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>locale override file</li>
-<li>per-key localized message overrides</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-yml"># Locale foundation for later locale-aware messaging.
-# The plugin currently still uses messages.yml as the active source of truth.
+    password: &quot;password&quot;
+</code></pre>
+            <h3 id="playerdata-yml"><code>playerdata.yml</code></h3>
+            <p>Bundled initial player-data file. Live installs store player settings here, including nickname state.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Starts as an empty player-data root in the bundled defaults.</li>
+              <li>Stores per-player runtime state after players use CoreChatX features.</li>
+              <li>Includes settings such as PM toggle, ping toggles, social spy state, locale, chat bubble preference, and nickname.</li>
+            </ul>
+            <p>Runtime notes:</p>
+            <ul>
+              <li>This file is live state, not a decorative sample. Back it up before editing.</li>
+              <li>Persistent nicknames are stored by player identity, so the real UUID/name remains the lookup base.</li>
+              <li>In proxy mode, relevant player communication state is synchronized within the CoreChatX group.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml">players: {}
+</code></pre>
+            <h3 id="state-yml"><code>state.yml</code></h3>
+            <p>Bundled initial global state file.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Stores global CoreChatX runtime state that is not tied to one player.</li>
+              <li>Starts minimal in the bundled defaults and is populated by runtime behavior when needed.</li>
+              <li>Keeps mutable plugin state out of static admin configuration files.</li>
+            </ul>
+            <p>Runtime notes:</p>
+            <ul>
+              <li>Back it up before manual edits or resets.</li>
+              <li>Do not replace a live state file with an example unless you intentionally want to reset that state.</li>
+              <li>State synchronization in proxy mode is scoped to the relevant CoreChatX channel group.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml">first-joins:
+  count: 0
+chat:
+  muted: false
+</code></pre>
+            <h3 id="locales-en-us-yml"><code>locales/en_us.yml</code></h3>
+            <p>Default locale labels and settings UI text.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Provides the default English locale foundation.</li>
+              <li>Stores labels used by locale-aware settings and interface text.</li>
+              <li>Keeps future translations separate from the main message file.</li>
+            </ul>
+            <p>Operational notes:</p>
+            <ul>
+              <li>Use valid YAML and valid MiniMessage where formatting tags are present.</li>
+              <li>Locale selection is player state once a player changes it.</li>
+              <li>The main <code>messages.yml</code> still contains the primary command and chat feedback templates.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml"># Locale overrides for player-facing messages.
+# Missing keys fall back to messages.yml.
 
 general:
   player_not_found: &quot;&lt;red&gt;Player not found.&lt;/red&gt;&quot;
@@ -1399,175 +1111,30 @@ privacy:
     success: &quot;&lt;gray&gt;You are now ignoring &lt;white&gt;{target_name}&lt;/white&gt;.&lt;/gray&gt;&quot;
 
 moderation:
-  clear-chat-sender: &quot;{prefix} &lt;gray&gt;Cleared chat for &lt;white&gt;{count}&lt;/white&gt; online player(s).&lt;/gray&gt;&quot;</code></pre>
-<p>How locale resolution works now: 1. selected player locale file 2. <code>en_us.yml</code> 3. <code>messages.yml</code></p>
-<p>That means locale files are override layers, not the only message source.</p>
-<hr>
-<h2 id="paper-runtime-data-files">5. Paper Runtime Data Files</h2>
-<p>These files are not your main admin-facing config, but they are part of the live plugin state.</p>
-<h2 id="playerdata-yml">5.1 <code>playerdata.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>per-player saved settings</li>
-</ul>
-<p>Bundled default:</p>
-<pre class="code-block"><code class="language-yml">players: {}</code></pre>
-<p>Typical keys written at runtime per UUID:</p>
-<ul>
-<li><code>ping-sound</code></li>
-<li><code>ping-actionbar</code></li>
-<li><code>social-spy</code></li>
-<li><code>pm-enabled</code></li>
-<li><code>mention-notifications</code></li>
-<li><code>staff-chat-enabled</code></li>
-<li><code>chat-bubbles-enabled</code></li>
-<li><code>locale</code></li>
-</ul>
-<p>This file is normally not edited by hand.</p>
-<p>Proxy sync note:</p>
-<ul>
-<li>in <code>PROXY</code> mode, the saved communication state is published through Velocity when supported settings change</li>
-<li>receiving backends still respect their own permissions; a synced active channel is not forced if the player cannot use that channel on the destination backend</li>
-</ul>
-<hr>
-<h2 id="state-yml">5.2 <code>state.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>global runtime state</li>
-</ul>
-<p>Bundled default:</p>
-<pre class="code-block"><code class="language-yml">first-joins:
-  count: 0
-chat:
-  muted: false</code></pre>
-<p>This file stores:</p>
-<ul>
-<li>first-join counter</li>
-<li>current global chat-muted state</li>
-</ul>
-<hr>
-<h2 id="channeldata-yml">5.3 <code>channeldata.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>per-player active channel selection</li>
-</ul>
-<p>Created:</p>
-<ul>
-<li>on demand, when players actually switch away from the implicit default</li>
-</ul>
-<p>Typical structure:</p>
-<pre class="code-block"><code class="language-yml">players:
-  00000000-0000-0000-0000-000000000000:
-    active-channel: &quot;staff&quot;</code></pre>
-<hr>
-<h2 id="ignoredata-yml">5.4 <code>ignoredata.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>ignore lists</li>
-</ul>
-<p>Created:</p>
-<ul>
-<li>on demand, when ignore data exists</li>
-</ul>
-<p>Typical structure:</p>
-<pre class="code-block"><code class="language-yml">players:
-  00000000-0000-0000-0000-000000000000:
-    - &quot;11111111-1111-1111-1111-111111111111&quot;
-    - &quot;22222222-2222-2222-2222-222222222222&quot;</code></pre>
-<hr>
-<h2 id="mutedata-yml">5.5 <code>mutedata.yml</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>active mute records</li>
-</ul>
-<p>Created:</p>
-<ul>
-<li>on demand, when mute data exists</li>
-</ul>
-<p>Typical structure:</p>
-<pre class="code-block"><code class="language-yml">players:
-  00000000-0000-0000-0000-000000000000:
-    created-at: 1710000000000
-    until: 1710003600000
-    reason: &quot;Spam&quot;
-    actor: &quot;33333333-3333-3333-3333-333333333333&quot;
-    blocks-private-messages: true</code></pre>
-<p>For permanent mutes, <code>until</code> may be missing or non-positive depending on how the record was created.</p>
-<hr>
-<h2 id="velocity-proxy">6. Velocity Proxy</h2>
-<p>The proxy side is intentionally minimal.</p>
-<p>Folder:</p>
-<pre class="code-block"><code class="language-text">plugins/corechatx/</code></pre>
-<h2 id="velocity-config-properties">6.1 <code>velocity-config.properties</code></h2>
-<p>Purpose:</p>
-<ul>
-<li>declare the shared plugin messaging channel used by the Velocity module</li>
-<li>control proxy-provided player chat completions and TAB entries</li>
-</ul>
-<p>Current bundled default:</p>
-<pre class="code-block"><code class="language-properties"># CoreChatX Velocity proxy settings.
-# Keep this value aligned with deployment.network-channel on all Paper backends.
-network-channel=corechatx:main
-
-# Adds global player names and @names to client chat completions.
-player-directory.chat-completions=true
-
-# Adds proxy-wide online players to TAB where Velocity exposes them.
-player-directory.tab-entries=true</code></pre>
-<p>Important rules:</p>
-<ul>
-<li>this must exactly match every backend <code>deployment.network-channel</code></li>
-<li>changing this file requires a Velocity restart</li>
-<li>changing <code>network-channel</code> also requires restart on affected backends after their <code>deployment.network-channel</code> is aligned</li>
-<li>Velocity startup prints the same <code>CORECHATX</code> banner shape with version, author, Velocity architecture, and project-link placeholder</li>
-<li>if invalid, the proxy logs degraded routing state instead of silently pretending everything is fine</li>
-<li>the same lowercase namespaced-key validation used by Paper is applied here</li>
-<li>Velocity normalizes packet source identity to the real backend connection and logs mismatches</li>
-<li><code>player-directory.chat-completions: false</code> leaves client chat completions untouched by CoreChatX</li>
-<li><code>player-directory.tab-entries: false</code> leaves client TAB entries untouched by CoreChatX</li>
-</ul>
-<hr>
-<h2 id="regenerating-a-clean-config-set">7. Regenerating a Clean Config Set</h2>
-<p>If you want a clean reset:</p>
-<h3 id="paper-backend">Paper backend</h3>
-<p>Delete the generated admin config files:</p>
-<pre class="code-block"><code class="language-text">config.yml
-messages.yml
-chat.yml
-channels.yml
-privacy.yml
-moderation.yml
-pings.yml
-filter.yml
-chatitems.yml
-keywords.yml
-chatbubbles.yml
-discord.yml
-telegram.yml
-storage.yml
-locales/</code></pre>
-<p>Then restart the server. CoreChatX recreates the bundled defaults automatically.</p>
-<p>If you are using proxy mode, you must then reapply:</p>
-<ul>
-<li><code>deployment.mode: &quot;PROXY&quot;</code></li>
-<li>unique <code>deployment.server-id</code></li>
-<li><code>deployment.network-features-allowed: true</code></li>
-</ul>
-<h3 id="velocity-proxy-2">Velocity proxy</h3>
-<p>Delete:</p>
-<pre class="code-block"><code class="language-text">plugins/corechatx/velocity-config.properties</code></pre>
-<p>Then restart Velocity. The proxy module recreates its bundled default file.</p>
-<p>If the file already exists but is missing one of the bundled Velocity properties, CoreChatX appends the missing property instead of rewriting the whole file.</p>
-<hr>
-
-            <h2 id="plugin-yml">8. <code>plugin.yml</code></h2>
-            <p>Complete bundled plugin descriptor. Maven resolves <code>${project.version}</code> when the release jar is built.</p>
-            <pre class="code-block"><code>name: CoreChatX
+  clear-chat-sender: &quot;{prefix} &lt;gray&gt;Cleared chat for &lt;white&gt;{count}&lt;/white&gt; online player(s).&lt;/gray&gt;&quot;
+</code></pre>
+            <h3 id="plugin-yml"><code>plugin.yml</code></h3>
+            <p>Paper plugin descriptor: commands and fixed permission declarations. This is bundled inside the jar, not a user config file.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Declares the Paper plugin entrypoint, commands, aliases, soft dependencies, and fixed permission nodes.</li>
+              <li>Documents command permissions for chat, settings, PM, reply, ignore, moderation, ChatItems, formatting, and nicknames.</li>
+              <li>Includes granular nickname child permissions for color and style control.</li>
+            </ul>
+            <p>Permission notes:</p>
+            <ul>
+              <li><code>corechatx.command.nick</code> controls self nickname usage. <code>corechatx.command.nick.others</code> controls changing another online player.</li>
+              <li><code>corechatx.nick.color</code> and <code>corechatx.nick.format</code> are parent permissions for all nickname colors/styles.</li>
+              <li>Granular child permissions such as <code>corechatx.nick.color.red</code> or <code>corechatx.nick.format.bold</code> allow narrower LuckPerms setups.</li>
+              <li>This descriptor is packaged inside the jar. Admins normally edit permission assignments in their permission plugin, not this file.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-yml">name: CoreChatX
 description: ${project.description}
 prefix: CoreChatX
 version: ${project.version}
 main: me.icewolf23.corechatx.paper.bootstrap.CoreChatXPaperPlugin
-api-version: '1.21'
+api-version: &#39;1.21&#39;
 load: POSTWORLD
 authors: [ IceWolf23X ]
 softdepend: [ PlaceholderAPI, LuckPerms ]
@@ -1593,6 +1160,9 @@ commands:
     description: Send a formatted staff broadcast.
     aliases: [ bc ]
     usage: /broadcast &lt;message&gt;
+  nick:
+    description: Set or clear a persistent CoreChatX nickname.
+    usage: /nick &lt;nickname|off&gt;
   ping:
     description: Manage ping notification preferences.
     usage: /ping &lt;sound|actionbar&gt; [on|off|toggle|status]
@@ -1653,6 +1223,108 @@ permissions:
   corechatx.command.broadcast:
     description: Send global staff broadcasts.
     default: op
+  corechatx.command.nick:
+    description: Set or clear your own CoreChatX nickname.
+    default: true
+  corechatx.command.nick.others:
+    description: Set or clear another online player&#39;s CoreChatX nickname.
+    default: op
+  corechatx.nick.color:
+    description: Use legacy color codes in CoreChatX nicknames.
+    default: op
+    children:
+      corechatx.nick.color.black: true
+      corechatx.nick.color.dark-blue: true
+      corechatx.nick.color.dark-green: true
+      corechatx.nick.color.dark-aqua: true
+      corechatx.nick.color.dark-red: true
+      corechatx.nick.color.dark-purple: true
+      corechatx.nick.color.gold: true
+      corechatx.nick.color.gray: true
+      corechatx.nick.color.dark-gray: true
+      corechatx.nick.color.blue: true
+      corechatx.nick.color.green: true
+      corechatx.nick.color.aqua: true
+      corechatx.nick.color.red: true
+      corechatx.nick.color.light-purple: true
+      corechatx.nick.color.yellow: true
+      corechatx.nick.color.white: true
+  corechatx.nick.color.black:
+    description: &quot;Use the &amp;0 black color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.dark-blue:
+    description: &quot;Use the &amp;1 dark blue color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.dark-green:
+    description: &quot;Use the &amp;2 dark green color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.dark-aqua:
+    description: &quot;Use the &amp;3 dark aqua color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.dark-red:
+    description: &quot;Use the &amp;4 dark red color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.dark-purple:
+    description: &quot;Use the &amp;5 dark purple color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.gold:
+    description: &quot;Use the &amp;6 gold color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.gray:
+    description: &quot;Use the &amp;7 gray color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.dark-gray:
+    description: &quot;Use the &amp;8 dark gray color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.blue:
+    description: &quot;Use the &amp;9 blue color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.green:
+    description: &quot;Use the &amp;a green color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.aqua:
+    description: &quot;Use the &amp;b aqua color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.red:
+    description: &quot;Use the &amp;c red color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.light-purple:
+    description: &quot;Use the &amp;d light purple color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.yellow:
+    description: &quot;Use the &amp;e yellow color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.white:
+    description: &quot;Use the &amp;f white color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.format:
+    description: Use legacy style codes in CoreChatX nicknames.
+    default: op
+    children:
+      corechatx.nick.format.obfuscated: true
+      corechatx.nick.format.bold: true
+      corechatx.nick.format.strikethrough: true
+      corechatx.nick.format.underline: true
+      corechatx.nick.format.italic: true
+      corechatx.nick.format.reset: true
+  corechatx.nick.format.obfuscated:
+    description: &quot;Use the &amp;k obfuscated style code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.format.bold:
+    description: &quot;Use the &amp;l bold style code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.format.strikethrough:
+    description: &quot;Use the &amp;m strikethrough style code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.format.underline:
+    description: &quot;Use the &amp;n underline style code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.format.italic:
+    description: &quot;Use the &amp;o italic style code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.format.reset:
+    description: &quot;Use the &amp;r reset style code in CoreChatX nicknames.&quot;
+    default: false
   corechatx.command.ping:
     description: Change ping notification preferences.
     default: true
@@ -1787,195 +1459,133 @@ permissions:
     default: op
   corechatx.format.style.reset:
     description: Use the format code &amp;r in player-authored messages.
-    default: op</code></pre>
+    default: op
+</code></pre>
+            <h2 id="velocity-properties">Velocity Properties</h2>
+            <p>Velocity uses a properties file rather than YAML. It is included here because it is required for proxy groups and network routing.</p>
+            <h3 id="velocity-config-properties"><code>velocity-config.properties</code></h3>
+            <p>Velocity-side proxy routing config. network-channel accepts one value or a comma-separated list of isolated CoreChatX groups.</p>
+            <p>Purpose:</p>
+            <ul>
+              <li>Registers one or more CoreChatX plugin messaging channels on the proxy.</li>
+              <li>Creates one isolated Velocity router per configured channel.</li>
+              <li>Controls whether group player names are added to chat completions and TAB entries where Velocity exposes them.</li>
+            </ul>
+            <p>Important rules:</p>
+            <ul>
+              <li>Legacy format remains valid: <code>network-channel=corechatx:main</code>.</li>
+              <li>Multi-group format is comma-separated: <code>network-channel=corechatx:survival,corechatx:minigames</code>.</li>
+              <li>The group is the channel itself. There is no separate <code>servers=</code> list.</li>
+              <li>A Paper backend joins the group matching its own <code>deployment.network-channel</code>.</li>
+              <li>Private messages search only the sender group. They do not search proxy-wide.</li>
+              <li>Invalid channel values are skipped with warnings. If none are valid, Velocity routing is disabled.</li>
+              <li>Changing this file requires a Velocity restart.</li>
+            </ul>
+            <p>Current bundled default:</p>
+            <pre class="code-block"><code class="language-properties"># CoreChatX Velocity proxy settings.
+# Comma-separate values to split this proxy into isolated CoreChatX network groups.
+# Each Paper backend joins the group matching its deployment.network-channel.
+network-channel=corechatx:main
+
+# Adds group player names and @names to client chat completions.
+player-directory.chat-completions=true
+
+# Adds group online players to TAB where Velocity exposes them.
+player-directory.tab-entries=true
+</code></pre>
             <h3 id="velocity-plugin-json"><code>velocity-plugin.json</code></h3>
             <p>Complete bundled Velocity plugin descriptor. Maven resolves <code>${project.version}</code> when the proxy jar is built.</p>
-            <pre class="code-block"><code>{
-  "id": "corechatx",
-  "name": "CoreChatX",
-  "version": "${project.version}",
-  "description": "Proxy-side foundation module for optional CoreChatX network mode.",
-  "authors": [
-    "IceWolf23X"
+            <pre class="code-block"><code class="language-json">{
+  &quot;id&quot;: &quot;corechatx&quot;,
+  &quot;name&quot;: &quot;CoreChatX&quot;,
+  &quot;version&quot;: &quot;${project.version}&quot;,
+  &quot;description&quot;: &quot;Proxy-side foundation module for optional CoreChatX network mode.&quot;,
+  &quot;authors&quot;: [
+    &quot;IceWolf23X&quot;
   ],
-  "main": "me.icewolf23.corechatx.velocity.bootstrap.CoreChatXVelocityPlugin"
-}</code></pre>
-
-<h2 id="config-driven-permissions">9. Config-driven Permissions</h2>
-<p>Some permissions are defined in config files and can be changed by the server owner.</p>
-<p>Examples:</p>
-<ul>
-<li><code>pings.yml -&gt; custom-pings.&lt;id&gt;.use-permission</code></li>
-<li><code>pings.yml -&gt; custom-pings.&lt;id&gt;.receive-permission</code></li>
-<li><code>keywords.yml -&gt; keywords.&lt;id&gt;.permission</code></li>
-<li><code>channels.yml -&gt; channels.&lt;id&gt;.permission-send</code></li>
-<li><code>channels.yml -&gt; channels.&lt;id&gt;.permission-receive</code></li>
-<li><code>privacy.yml -&gt; private-messages.staff-bypass-permission</code></li>
-<li><code>chatitems.yml -&gt; tokens.&lt;type&gt;.permission</code></li>
-</ul>
-<p>These nodes may not all be listed in <code>plugin.yml</code> because they are configurable values, not fixed plugin API.</p>
-<p>Validation behavior:</p>
-<ul>
-<li><code>channels.yml</code>, <code>pings.yml</code>, and <code>privacy.yml</code> validate malformed dynamic permission nodes and disable only the broken binding through an internal disabled permission node</li>
-<li><code>keywords.yml</code> validates <code>keywords.&lt;id&gt;.permission</code>; an invalid permission disables that keyword definition</li>
-<li><code>chatitems.yml</code> token permissions are read as configured, so keep them as valid Bukkit permission nodes</li>
-</ul>
-<p>Bundled fixed command permissions are intentionally split:</p>
-<ul>
-<li>player-facing commands such as <code>/corechatx</code>, <code>/corechatx settings</code>, <code>/corechatx locale</code>, <code>/msg</code>, <code>/reply</code>, <code>/ping</code>, <code>/channel</code>, <code>/ignore</code>, <code>/unignore</code>, <code>/ignorelist</code>, <code>/pmtoggle</code>, and <code>/chatsettings</code> default to <code>true</code></li>
-<li>administrative and moderation commands such as reload, broadcast, social spy, mute, unmute, mutechat, and clearchat remain <code>op</code> by default</li>
-</ul>
-<hr>
-<h2 id="practical-admin-notes">10. Practical Admin Notes</h2>
-<ul>
-<li>Keep <code>messages.yml</code> as the main wording file unless you actively need locale-specific overrides.</li>
-<li>Use LuckPerms for rank titles/prefixes, and use CoreChatX for layout.</li>
-<li>Keep <code>group-formats</code> keyed to the LuckPerms primary group in lowercase.</li>
-<li>Treat SQL settings as groundwork, not as the active public storage backend.</li>
-<li>When testing a network, always verify backend <code>server-id</code> values are unique.</li>
-<li>If a custom permission node in <code>channels.yml</code>, <code>pings.yml</code>, or <code>privacy.yml</code> is malformed, CoreChatX warns and disables only that specific binding; malformed keyword permissions disable only that keyword.</li>
-<li>If you delete runtime data files such as <code>playerdata.yml</code> or <code>mutedata.yml</code>, you are deleting live player/plugin state, not just decorative cache.</li>
-</ul>
-<p>Operational guidance:</p>
-<ul>
-<li>treat <code>config.yml -&gt; deployment.*</code> and <code>velocity-config.properties -&gt; network-channel</code> as boot identity, not casual reload settings</li>
-<li>keep one source of truth for each visual decision; do not duplicate the same format across many plugins</li>
-<li>use channels for routing rules instead of hardcoding bridge behavior in several places</li>
-<li>use PlaceholderAPI in trusted templates, not as a way to let players execute arbitrary placeholder expansion through chat</li>
-<li>keep bridge tokens private and never paste them into public support logs</li>
-<li>back up runtime data before manually editing player settings, mutes, ignores, or active channel state</li>
-</ul>
-<hr>
-<h2 id="troubleshooting-quick-reference">11. Troubleshooting Quick Reference</h2>
-<h3 id="startup-banner-does-not-appear">Startup banner does not appear</h3>
-<p>Check that the correct jar is installed for the platform. The Paper jar must be on Paper, and the Velocity jar must be on Velocity. On startup, CoreChatX prints a <code>CORECHATX</code> banner with version, author, architecture, and a project-link placeholder.</p>
-<h3 id="corechatx-reload-does-not-apply-a-change"><code>/corechatx reload</code> does not apply a change</h3>
-<p>Some settings are identity or transport settings and require restart:</p>
-<ul>
-<li><code>deployment.mode</code></li>
-<li><code>deployment.server-id</code></li>
-<li><code>deployment.network-channel</code></li>
-<li>Velocity <code>network-channel</code></li>
-</ul>
-<p>If the change affects runtime transport, restart the affected backend or proxy instead of relying on reload.</p>
-<h3 id="network-messages-do-not-cross-servers">Network messages do not cross servers</h3>
-<p>Verify:</p>
-<ul>
-<li>every backend uses <code>deployment.mode: &quot;PROXY&quot;</code></li>
-<li>every backend has a unique <code>deployment.server-id</code></li>
-<li>every backend has <code>deployment.network-features-allowed: true</code></li>
-<li>every backend and Velocity use the exact same lowercase <code>network-channel</code></li>
-<li>the Velocity jar is installed and started</li>
-<li>at least one eligible player connection exists for plugin-message transport when Paper needs a packet carrier</li>
-</ul>
-<p>Also check that the channel itself is configured as <code>scope: NETWORK</code>. In standalone mode, <code>NETWORK</code> channels fall back to normal local chat behavior.</p>
-<h3 id="discord-or-telegram-messages-do-not-send">Discord or Telegram messages do not send</h3>
-<p>Verify:</p>
-<ul>
-<li><code>deployment.bridges-allowed: true</code></li>
-<li>the specific bridge <code>enabled</code> value is true</li>
-<li>the CoreChatX channel has <code>export-to-bridges: true</code></li>
-<li>tokens, channel ids, chat ids, and topic ids are valid</li>
-<li>outbound routing points to the intended external target</li>
-</ul>
-<p>In proxy mode, outbound export is performed only from the source backend to avoid duplicate external messages.</p>
-<h3 id="discord-or-telegram-inbound-does-not-appear-in-minecraft">Discord or Telegram inbound does not appear in Minecraft</h3>
-<p>Verify:</p>
-<ul>
-<li>inbound is enabled for that bridge</li>
-<li>the inbound route points to an existing CoreChatX channel</li>
-<li>the backend running the inbound listener is one that should locally display the message</li>
-<li>for Discord, the bot has the required Message Content intent when message content is needed</li>
-<li>for Telegram, the bot is reachable through Bot API long polling</li>
-</ul>
-<p>Telegram uses Bot API <code>getUpdates</code>. It does not use MTProto, Telegram4J, webhook mode, or an embedded HTTP server.</p>
-<h3 id="placeholderapi-placeholders-do-not-render">PlaceholderAPI placeholders do not render</h3>
-<p>Verify:</p>
-<ul>
-<li>PlaceholderAPI is installed on that backend</li>
-<li><code>hooks.placeholderapi: true</code></li>
-<li>the expansion that owns the placeholder is installed and working</li>
-<li>the string being edited is a supported server-controlled template</li>
-</ul>
-<p>Raw player message bodies do not pass through PlaceholderAPI. Mention token PlaceholderAPI context is the mentioned player, using <code>OfflinePlayer</code> where possible for cross-backend mentions.</p>
-<h3 id="public-chat-fails-with-essentialsx-nicknames">Public chat fails with EssentialsX nicknames</h3>
-<p>Use CoreChatX <code>2026.1.1</code> or newer if PlaceholderAPI or a nickname plugin returns legacy color data inside a MiniMessage chat format. CoreChatX converts legacy ampersand codes, section-sign codes, <code>&amp;#rrggbb</code>, verbose ampersand hex, and verbose section-sign hex before rendering trusted templates.</p>
-<h3 id="mentions-do-not-notify-players">Mentions do not notify players</h3>
-<p>Verify:</p>
-<ul>
-<li>mentions are enabled in <code>chat.yml</code></li>
-<li>the channel allows the message source through <code>allow-mentions.from-minecraft</code>, <code>allow-mentions.from-discord</code>, or <code>allow-mentions.from-telegram</code></li>
-<li>Discord-origin custom pings have a matching role id in <code>pings.yml -&gt; custom-pings.&lt;id&gt;.discord-roles</code></li>
-<li>the target player allows mention notifications</li>
-<li>ignore and privacy settings are not blocking the notification</li>
-<li>permissions and staff bypass rules are configured as intended</li>
-</ul>
-<h3 id="chatitems-work-locally-but-not-across-servers">ChatItems work locally but not across servers</h3>
-<p>Verify:</p>
-<ul>
-<li>backend and Velocity network settings match</li>
-<li>ChatItems are enabled for the channel</li>
-<li>remote snapshot request limits are not rejecting the item bundle</li>
-<li>the snapshot has not expired</li>
-<li><code>network-features-allowed</code> is true on participating backends</li>
-</ul>
-<p>Cross-server ChatItems use lightweight refs in chat and on-demand snapshot retrieval through Velocity. They intentionally avoid embedding a full inventory payload into every chat packet.</p>
-<h3 id="chat-bubbles-are-missing">Chat bubbles are missing</h3>
-<p>Verify:</p>
-<ul>
-<li>chat bubbles are enabled in <code>chatbubbles.yml</code></li>
-<li>the player has the bubble permission</li>
-<li>the player has not disabled bubbles in settings</li>
-<li>the channel has <code>allow-chat-bubbles: true</code></li>
-<li>the message passed normal CoreChatX checks</li>
-</ul>
-<p>In proxy mode, bubbles stay local to the backend where the sender is physically playing.</p>
-<h3 id="a-config-permission-warning-appears">A config permission warning appears</h3>
-<p>Check dynamic permission nodes in:</p>
-<ul>
-<li><code>channels.yml</code></li>
-<li><code>pings.yml</code></li>
-<li><code>privacy.yml</code></li>
-<li><code>keywords.yml</code></li>
-<li><code>chatitems.yml</code></li>
-</ul>
-<p>Malformed nodes disable only the affected binding or keyword where validation is available. They do not require deleting the whole config.</p>
-<h3 id="a-runtime-data-file-looks-wrong">A runtime data file looks wrong</h3>
-<p>Stop the server, back up the file, then inspect it. Runtime files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code> are live state. Deleting or editing them changes player/plugin data.</p>
-<hr>
-<h2 id="production-validation-checklist">12. Production Validation Checklist</h2>
-<p>Before opening a server to players:</p>
-<ul>
-<li>boot every Paper backend once and confirm the <code>CORECHATX</code> startup banner</li>
-<li>boot Velocity once and confirm the proxy-side <code>CORECHATX</code> startup banner</li>
-<li>run a normal public chat message</li>
-<li>run a channel switch and verify send/receive permissions</li>
-<li>test <code>/msg</code> and <code>/reply</code></li>
-<li>test mentions, custom pings, and notification toggles</li>
-<li>test one PlaceholderAPI value in a server-controlled template</li>
-<li>test one keyword hover/click action</li>
-<li>test one ChatItem preview locally</li>
-<li>in proxy mode, test one network channel message from each backend</li>
-<li>in proxy mode, test one cross-backend PM</li>
-<li>in proxy mode, test one cross-backend ChatItem preview click</li>
-<li>test Discord outbound and inbound if enabled</li>
-<li>test Telegram outbound, inbound, and topic routing if enabled</li>
-<li>test mute, mutechat, clear chat, social spy, ignore, and PM toggle behavior</li>
-<li>run <code>/corechatx reload</code> after a harmless wording change and confirm it applies</li>
-</ul>
-<p>For source builds, useful checks are:</p>
-<pre class="code-block"><code class="language-bash">mvn clean test
-mvn clean package -DskipTests
-git diff --check</code></pre>
-<p>Build-time warnings from Maven Shade about overlapping metadata/resources can be normal for shaded dependency jars. They should still be reviewed when dependencies change.</p>
-<hr>
-<h2 id="related-documents">13. Related Documents</h2>
-<ul>
-<li><a href="./features.html"><code>Product Overview</code></a>: feature overview written for server owners and presentation pages</li>
-<li><a href="./faq.html"><code>FAQ</code></a>: common questions and short answers</li>
-<li>this file: exact config keys, defaults, restart rules, and operational notes</li>
-</ul>
-<p>This document is aligned to the current codebase and bundled defaults as of the present project state.</p>
+  &quot;main&quot;: &quot;me.icewolf23.corechatx.velocity.bootstrap.CoreChatXVelocityPlugin&quot;
+}
+</code></pre>
+            <h2 id="runtime-data">Runtime Data Files</h2>
+            <p>Some files are generated by live server activity and are not bundled as full default templates. Do not paste example data over live files unless you are deliberately resetting state.</p>
+            <ul>
+              <li><code>channeldata.yml</code>: generated active channel state.</li>
+              <li><code>ignoredata.yml</code>: generated ignore state.</li>
+              <li><code>mutedata.yml</code>: generated mute state.</li>
+              <li><code>playerdata.yml</code>: bundled as an empty root, then populated with player settings such as PM toggle, ping toggles, social spy, locale, bubble preference, and nickname.</li>
+              <li><code>state.yml</code>: bundled initial global state.</li>
+            </ul>
+            <h2 id="config-driven-permissions">Config-driven Permissions</h2>
+            <p>Most fixed command and feature permissions are declared in <code>plugin.yml</code>. Some feature permissions also come from config values so admins can choose their own nodes.</p>
+            <ul>
+              <li><code>channels.yml</code> can define per-channel send/receive permissions.</li>
+              <li><code>pings.yml</code> can define custom ping receiver permissions.</li>
+              <li><code>privacy.yml</code>, <code>moderation.yml</code>, <code>chatitems.yml</code>, and <code>chat.yml</code> expose behavior-specific permission nodes.</li>
+              <li><code>/nick</code> uses fixed command permissions plus fixed granular color/style child permissions from <code>plugin.yml</code>.</li>
+              <li>Use LuckPerms or another permission plugin as the source of truth for assignments.</li>
+            </ul>
+            <h2 id="practical-admin-notes">Practical Admin Notes</h2>
+            <ul>
+              <li>Treat <code>deployment.*</code> and Velocity <code>network-channel</code> as boot identity, not casual reload settings.</li>
+              <li>Keep one source of truth for each visual decision. Avoid letting multiple chat plugins format the same message.</li>
+              <li>Use CoreChatX channels for routing rules instead of hardcoding bridge behavior in several places.</li>
+              <li>Use PlaceholderAPI in trusted templates, not as a way to let players execute arbitrary placeholder expansion through raw chat.</li>
+              <li>Back up runtime data files before manual edits. Runtime data is user/plugin state, not a sample config.</li>
+            </ul>
+            <h2 id="troubleshooting-quick-reference">Troubleshooting Quick Reference</h2>
+            <h3>Network messages do not cross servers</h3>
+            <ul>
+              <li>Verify the Paper backend uses <code>deployment.mode: &quot;PROXY&quot;</code>.</li>
+              <li>Verify <code>deployment.network-features-allowed: true</code>.</li>
+              <li>Verify Paper <code>deployment.network-channel</code> is present in Velocity <code>network-channel</code>.</li>
+              <li>Verify the Velocity jar is installed and has been restarted after channel list changes.</li>
+              <li>In multi-group mode, verify the sender and target backend are intentionally on the same channel group.</li>
+            </ul>
+            <h3>Private messages cannot find a player on another server</h3>
+            <p>In 2026.1.6, PM lookup is group-local by design. The target must be inside the same CoreChatX proxy group as the sender. Different Velocity channel groups are intentionally isolated.</p>
+            <h3>Join/leave messages are duplicated or missing</h3>
+            <ul>
+              <li>Use <code>join-quit.mode: &quot;LOCAL&quot;</code> for backend-local behavior.</li>
+              <li>Use <code>join-quit.mode: &quot;NETWORK&quot;</code> only when the Paper backend participates in proxy mode and Velocity routing is available.</li>
+              <li>Server switches inside one group suppress fake leave/join announcements; switches between groups announce leave in the old group and join in the new group.</li>
+            </ul>
+            <h3>Nicknames reject a shortened name</h3>
+            <p>Check <code>nicknames.change-only-colors</code>. When true, CoreChatX accepts only color/style changes around the real Minecraft username.</p>
+            <h3>Nickname colors or styles disappear</h3>
+            <p>Check the sender's permissions. Without the relevant child permission, CoreChatX strips that legacy code from the stored nickname.</p>
+            <h3>Discord or Telegram messages do not send</h3>
+            <ul>
+              <li>Verify <code>deployment.bridges-allowed: true</code>.</li>
+              <li>Verify the specific bridge config is enabled.</li>
+              <li>Verify the CoreChatX channel has <code>export-to-bridges: true</code>.</li>
+              <li>Keep private tokens out of public logs and support screenshots.</li>
+            </ul>
+            <h3>PlaceholderAPI placeholders do not render</h3>
+            <ul>
+              <li>Verify PlaceholderAPI is installed on the Paper backend.</li>
+              <li>Verify <code>hooks.placeholderapi: true</code>.</li>
+              <li>Verify the specific config area supports PlaceholderAPI expansion.</li>
+              <li>Reload after changing trusted templates; restart only if changing deployment identity.</li>
+            </ul>
+            <h3>ChatItems work locally but not across servers</h3>
+            <ul>
+              <li>Verify proxy mode and network features are enabled.</li>
+              <li>Verify both backends are in the same CoreChatX Velocity channel group.</li>
+              <li>Check <code>chatitems.yml</code> expiry and network snapshot limits.</li>
+              <li>Check that the player has the relevant ChatItem permission.</li>
+            </ul>
+            <h3>A runtime data file looks wrong</h3>
+            <p>Stop the server, back up the file, then inspect it. Runtime files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code> are live state. Deleting or editing them changes player/plugin data.</p>
+            <h2 id="production-validation-checklist">Production Validation Checklist</h2>
+            <p>Before opening a server to players:</p>
+            <ul>
+              <li>Start one Paper backend and confirm the CoreChatX startup banner and deployment summary.</li>
+              <li>Run <code>/corechatx reload</code> after a harmless wording change and confirm it applies.</li>
+              <li>Test public chat, one channel switch, one PM, one ignore, one PM toggle, and one ping toggle.</li>
+              <li>Test <code>/nick</code> with allowed and disallowed color/style permissions.</li>
+              <li>If using proxy mode, test network chat, same-group PM, cross-group PM rejection, state sync, ChatItem snapshot click, and network join/leave.</li>
+              <li>If using bridges, test outbound and inbound Discord/Telegram routes only after tokens and channel ids are configured privately.</li>
+            </ul>
           </article>
         </div>
       </section>

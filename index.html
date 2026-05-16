@@ -155,8 +155,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.1.5</strong>
-            <span>mention safety release</span>
+            <strong>2026.1.6</strong>
+            <span>proxy groups + nicknames</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -173,29 +173,31 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.1.5 adds source-specific mention control.</h2>
+            <h2>CoreChatX 2026.1.6 adds proxy groups, network join/leave, and persistent nicknames.</h2>
             <p>
-              Channels can now decide whether mentions are parsed from Minecraft, Discord, and Telegram
-              separately, and Discord custom pings require explicit role allow-lists.
+              Velocity can now split CoreChatX routing into isolated channel groups, Paper can choose
+              local or proxy-routed join/leave announcements, and players can use persistent nicknames
+              with granular color and style permissions.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card">
-              <div class="setup-kicker">Mention gates</div>
-              <h3>Mentions are controlled by source</h3>
+              <div class="setup-kicker">Proxy groups</div>
+              <h3>One Velocity, isolated CoreChatX groups</h3>
               <p>
-                <code>channels.yml</code> now uses <code>allow-mentions.from-minecraft</code>,
-                <code>from-discord</code>, and <code>from-telegram</code> for each channel.
+                <code>velocity-config.properties</code> accepts comma-separated
+                <code>network-channel</code> values. PMs, chat, player directory data, state sync,
+                and ChatItem snapshots stay inside the source group.
               </p>
             </article>
 
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Discord pings</div>
-              <h3>Role allow-lists protect custom pings</h3>
+              <div class="setup-kicker">Nicknames</div>
+              <h3>Persistent names with controlled formatting</h3>
               <p>
-                Discord-origin custom pings such as <code>@staff</code> only activate when
-                <code>pings.yml</code> lists a matching Discord role id.
+                <code>/nick</code> stores a CoreChatX display name, syncs it cross-server, and can
+                be limited to color/style-only changes with <code>nicknames.change-only-colors</code>.
               </p>
             </article>
           </div>
@@ -336,11 +338,11 @@
               </article>
               <article class="feature-card feature-small">
                 <span class="card-icon velocity-icon" aria-hidden="true"></span>
-                <h3>Velocity Network Support</h3>
-                <p>
-                  Network mode can carry network chat, cross-server PMs, player settings, global
-                  completions, TAB entries, mention metadata, custom ping metadata, and ChatItem preview
-                  references across backends.
+              <h3>Velocity Network Support</h3>
+              <p>
+                  Network mode can carry group-isolated chat, group-local cross-server PMs, player
+                  settings, global completions, TAB entries, mention metadata, custom ping metadata,
+                  and ChatItem preview references across matching backends.
                 </p>
               </article>
               <article class="feature-card feature-small">
@@ -400,7 +402,8 @@
               <h3>Built for Real Networks</h3>
               <p>
                 Standalone Paper servers and Velocity networks are both supported, with network-aware
-                chat, synced settings, cross-server PMs, global completions, and remote ChatItem access.
+                chat, synced settings, group-local cross-server PMs, global completions, and remote
+                ChatItem access.
               </p>
             </article>
           </div>
@@ -438,11 +441,12 @@
               <h3>Velocity Network</h3>
               <p>
                 Install the Paper jar on participating backends and the Velocity jar on the proxy.
-                Backends use unique server ids and the same shared network channel.
+                Backends use unique server ids and join the CoreChatX group matching their Paper
+                <code>deployment.network-channel</code>.
               </p>
               <ul>
-                <li>Cross-backend network channels</li>
-                <li>Cross-server PM routing</li>
+                <li>Single or comma-separated Velocity channels</li>
+                <li>Group-local cross-server PM routing</li>
                 <li>Synced communication settings</li>
               </ul>
             </article>
@@ -512,7 +516,7 @@
           <div class="faq-list faq-preview-list" data-animated-details>
             <details class="animated-details" open>
               <summary>Do I need Velocity?</summary>
-              <p>No. CoreChatX works on standalone Paper. Velocity is only needed for cross-backend features such as network channels, cross-server PMs, synced settings, global completions, and remote ChatItem previews.</p>
+              <p>No. CoreChatX works on standalone Paper. Velocity is only needed for cross-backend features such as network channels, group-local cross-server PMs, synced settings, global completions, proxy join/leave, and remote ChatItem previews.</p>
             </details>
             <details class="animated-details">
               <summary>Does CoreChatX work on standalone Paper?</summary>

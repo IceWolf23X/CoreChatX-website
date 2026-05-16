@@ -110,7 +110,8 @@
 <p><code>STANDALONE</code> is for one Paper server. Network transport is inactive, and <code>NETWORK</code> channels behave like local chat.</p>
 <p><code>PROXY</code> is for Paper backends connected through Velocity. It enables the backend to participate in cross-server CoreChatX features when <code>network-features-allowed</code> is also true.</p>
 <h3 id="what-must-match-on-every-network-backend">What must match on every network backend?</h3>
-<p>Every participating backend must share the same <code>deployment.network-channel</code>. Velocity must use the same value in <code>velocity-config.properties</code>.</p>
+<p>Every participating backend chooses one CoreChatX group with <code>deployment.network-channel</code>. Velocity must list that channel in <code>velocity-config.properties</code>.</p>
+<p>For a single shared network, use one value everywhere, such as <code>corechatx:main</code>. For isolated groups, set Velocity to a comma-separated list, such as <code>corechatx:survival,corechatx:minigames</code>, and give each Paper backend the matching single channel.</p>
 <p>Every backend must also have a unique <code>deployment.server-id</code>. Duplicated server ids make routing ambiguous and should be fixed before testing with players.</p>
 <h3 id="why-do-some-config-changes-require-restart">Why do some config changes require restart?</h3>
 <p>Identity and transport settings are initialized at boot. Changing them with reload would leave parts of the runtime using old values.</p>
@@ -119,7 +120,7 @@
 <li><code>deployment.mode</code></li>
 <li><code>deployment.server-id</code></li>
 <li><code>deployment.network-channel</code></li>
-<li>Velocity <code>network-channel</code></li>
+<li>Velocity <code>network-channel</code> list</li>
 </ul>
 <p>Most wording, formatting, feature toggles, channel rules, filters, pings, keywords, bubbles, and bridge templates can be changed with <code>/corechatx reload</code>.</p>
 <h3 id="can-i-delete-configs-to-reset-them">Can I delete configs to reset them?</h3>
@@ -167,11 +168,15 @@
 <h3 id="can-mentions-be-controlled-by-message-source">Can mentions be controlled by message source?</h3>
 <p>Yes. Since CoreChatX <code>2026.1.5</code>, each channel uses <code>allow-mentions.from-minecraft</code>, <code>allow-mentions.from-discord</code>, and <code>allow-mentions.from-telegram</code>. Network chat from other Minecraft servers is treated as Minecraft-originated.</p>
 <h3 id="do-private-messages-work-cross-server">Do private messages work cross-server?</h3>
-<p>In a correctly configured Velocity network, cross-server PM routing can use the proxy route. In standalone mode, PMs are local to the backend.</p>
+<p>In a correctly configured Velocity network, cross-server PM routing can use the proxy route inside the sender's CoreChatX proxy group. In standalone mode, PMs are local to the backend.</p>
+<p>PM lookup is intentionally group-local. A target connected to another Velocity <code>network-channel</code> group behaves like player-not-found.</p>
 <h3 id="do-mentions-work-cross-server">Do mentions work cross-server?</h3>
 <p>CoreChatX can preserve mention metadata across network chat, and the proxy-side player directory helps find players on other backends. The final behavior still depends on channel settings, player notification settings, ignore/privacy settings, and permissions.</p>
 <h3 id="can-players-disable-parts-of-the-chat-experience">Can players disable parts of the chat experience?</h3>
 <p>Yes. Player settings include communication preferences such as PM toggle, mention notifications, ping behavior, locale, and chat bubble visibility. In proxy mode, these settings can follow backend switches.</p>
+<h3 id="does-corechatx-have-nicknames">Does CoreChatX have nicknames?</h3>
+<p>Yes. <code>/nick</code> sets a persistent CoreChatX display name. It can sync through proxy state sync and appears in chat, PMs, spy output, broadcasts, join/quit, first-join, and network chat formatting.</p>
+<p>It does not change the real Minecraft username or UUID identity used for lookup, replies, ignores, privacy, and routing. Server owners can allow specific nickname colors/styles with child permissions and can set <code>nicknames.change-only-colors: true</code> if players should only recolor/restyle their exact username.</p>
 <hr>
 <h2 id="chatitems-and-chat-bubbles">ChatItems And Chat Bubbles</h2>
 <h3 id="what-are-chatitems">What are ChatItems?</h3>
@@ -225,7 +230,7 @@
 <h3 id="what-happens-if-a-configured-permission-is-malformed">What happens if a configured permission is malformed?</h3>
 <p>Where validation exists, CoreChatX warns and disables only the affected binding or keyword. The whole plugin should not be treated as broken because one dynamic permission node is invalid.</p>
 <h3 id="are-player-commands-available-by-default">Are player commands available by default?</h3>
-<p>Player-facing commands such as <code>/corechatx</code>, <code>/corechatx settings</code>, <code>/corechatx locale</code>, private messages, replies, pings, channel access, ignore, PM toggle, and chat settings default to normal player access where appropriate. Administrative and moderation commands remain operator-only by default.</p>
+<p>Player-facing commands such as <code>/corechatx</code>, <code>/corechatx settings</code>, <code>/corechatx locale</code>, private messages, replies, nicknames, pings, channel access, ignore, PM toggle, and chat settings default to normal player access where appropriate. Administrative, staff-targeted nickname editing, and moderation commands remain operator-only by default.</p>
 <hr>
 <h2 id="storage-and-data">Storage And Data</h2>
 <h3 id="is-sql-the-active-storage-backend">Is SQL the active storage backend?</h3>
@@ -261,14 +266,19 @@
 <li>chat bubbles</li>
 <li>moderation commands</li>
 <li>network chat if using Velocity</li>
-<li>cross-server PMs if using Velocity</li>
+<li>group-local cross-server PMs if using Velocity</li>
 <li>Discord and Telegram paths if enabled</li>
 </ul>
 <p>Do this before a public rollout, not after players find the broken route for you.</p>
 <hr>
 <h2 id="common-problems">Common Problems</h2>
 <h3 id="my-network-channel-does-not-work">&quot;My network channel does not work.&quot;</h3>
-<p>Check that every Paper backend and Velocity use the exact same lowercase namespaced key, for example <code>corechatx:main</code>. Also verify that every backend has <code>deployment.mode: &quot;PROXY&quot;</code> and <code>deployment.network-features-allowed: true</code>.</p>
+<p>Check that the Paper backend's <code>deployment.network-channel</code> is listed in Velocity <code>network-channel</code>. For one shared group, every backend and Velocity can use the same value, for example <code>corechatx:main</code>. For multiple groups, Velocity lists all groups and each backend uses one matching value.</p>
+<p>Also verify that every participating backend has <code>deployment.mode: &quot;PROXY&quot;</code> and <code>deployment.network-features-allowed: true</code>.</p>
+<h3 id="my-private-message-target-is-online-but-not-found">&quot;My private message target is online but not found.&quot;</h3>
+<p>Check the CoreChatX proxy group. In 2026.1.6, PM lookup is limited to the sender's group. A player on another configured Velocity channel group is intentionally hidden from that PM route.</p>
+<h3 id="nick-only-changes-colors">&quot;/nick only changes colors.&quot;</h3>
+<p>Check <code>config.yml -&gt; nicknames.change-only-colors</code>. When true, the visible text after stripping color and style codes must exactly match the real Minecraft username.</p>
 <h3 id="discord-or-telegram-is-duplicating-messages">&quot;Discord or Telegram is duplicating messages.&quot;</h3>
 <p>In proxy mode, outbound export should happen from the source backend only. Check that you did not also configure another plugin or another backend path to export the same channel independently.</p>
 <h3 id="a-placeholderapi-hover-shows-the-wrong-player">&quot;A PlaceholderAPI hover shows the wrong player.&quot;</h3>

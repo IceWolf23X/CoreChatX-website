@@ -76,13 +76,13 @@
           </aside>
           <article class="markdown-body">
             <h2 id="corechatx-feature-list">CoreChatX Feature List</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#before-you-configure">Configuration overview</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#overview">Configuration overview</a></p>
 <p>CoreChatX is a complete communication suite for Minecraft servers. It brings chat, private messages, channels, mentions, pings, chat item previews, chat bubbles, moderation, player settings, locales, and external bridges into one polished system.</p>
 <p>The idea is simple: server chat should feel like one product, not a stack of separate plugins that each need their own configuration, commands, and maintenance.</p>
 <p>This page is a commercial-style feature overview. Exact config keys, defaults, limits, and operational details are documented in <a href="./configuration.html"><code>Configuration Reference</code></a>.</p>
 <hr>
 <h2 id="why-corechatx">Why CoreChatX</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#practical-admin-notes">Practical admin notes</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#troubleshooting-quick-reference">Practical admin notes</a></p>
 <p>Many servers end up installing one plugin for chat, another for private messages, another for mentions, another for channels, another for Discord, another for Telegram, another for chat bubbles, another for item previews, and then one more just to keep the whole setup consistent.</p>
 <p>That works, technically. It also turns chat into a maintenance hobby.</p>
 <p>CoreChatX is built for server owners who want the whole communication experience to feel consistent:</p>
@@ -96,7 +96,7 @@
 <p>It is not trying to be &quot;yet another chat plugin&quot;. It is trying to replace scattered chat-related plugin stacks with one clean, friendly, server-ready system.</p>
 <hr>
 <h2 id="current-state">Current State</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#corechatx-project-identity">Project identity</a><a href="./configuration.html#quick-install-patterns">Quick install patterns</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#overview">Project identity</a><a href="./configuration.html#release-2026-1-6">2026.1.6 notes</a></p>
 <p>CoreChatX currently:</p>
 <ul>
 <li>supports Paper <code>1.21.11</code></li>
@@ -104,7 +104,7 @@
 <li>uses <code>CoreChatX</code> as the Paper plugin name</li>
 <li>uses <code>corechatx</code> as the Velocity plugin id</li>
 <li>works on standalone Paper servers</li>
-<li>works on Velocity networks with multiple Paper backends</li>
+<li>works on Velocity networks with single-channel or multi-channel CoreChatX proxy groups</li>
 <li>has been tested on a live Paper test server</li>
 <li>has been tested on a small live Velocity network</li>
 <li>supports Discord inbound and outbound messages</li>
@@ -113,15 +113,18 @@
 <li>supports per-channel Discord and Telegram bridge format overrides</li>
 <li>supports Telegram forum topic routing</li>
 <li>includes optional chat bubbles above players</li>
+<li>includes persistent CoreChatX nicknames with granular color/style permissions</li>
+<li>supports local or proxy-routed join/leave announcements</li>
 <li>keeps player communication settings aligned across server switches</li>
 </ul>
 <hr>
 <h2 id="one-suite-not-ten-plugins">One Suite, Not Ten Plugins</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#before-you-configure">Runtime model</a><a href="./configuration.html#channels-yml">Channel routing</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#overview">Runtime model</a><a href="./configuration.html#channels-yml">Channel routing</a></p>
 <p>CoreChatX covers the core communication stack:</p>
 <ul>
 <li>public chat</li>
 <li>private messages</li>
+<li>persistent nicknames</li>
 <li>replies</li>
 <li>channels</li>
 <li>mentions</li>
@@ -174,7 +177,7 @@
 <p>This gives CoreChatX a modern Paper-native feel instead of a legacy chat setup with richer formatting bolted on afterward.</p>
 <hr>
 <h2 id="placeholderapi-powered-interactions">PlaceholderAPI-Powered Interactions</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#config-yml">config.yml hooks</a><a href="./configuration.html#placeholderapi-placeholders-do-not-render">PlaceholderAPI troubleshooting</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#config-yml">config.yml hooks</a><a href="./configuration.html#troubleshooting-quick-reference">PlaceholderAPI troubleshooting</a></p>
 <p>CoreChatX can combine MiniMessage with PlaceholderAPI inside server-controlled templates.</p>
 <p>That opens the door to fast, flexible interactions based on:</p>
 <ul>
@@ -191,7 +194,7 @@
 <p>If PlaceholderAPI can expose it, CoreChatX can help turn it into part of the chat experience.</p>
 <hr>
 <h2 id="interactive-keywords">Interactive Keywords</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#1-keywords-yml">keywords.yml</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#keywords-yml">keywords.yml</a></p>
 <p>Interactive keywords let players type simple tokens such as:</p>
 <ul>
 <li><code>[discord]</code></li>
@@ -300,7 +303,7 @@
 <p>On a Velocity network, players on another backend can still click and open the preview through lightweight snapshot references and on-demand retrieval. That keeps network chat cleaner and avoids stuffing heavy item data into the main chat packet.</p>
 <hr>
 <h2 id="chat-bubbles">Chat Bubbles</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#2-chatbubbles-yml">chatbubbles.yml</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#chatbubbles-yml">chatbubbles.yml</a></p>
 <p>CoreChatX can show recent chat messages above player heads.</p>
 <p>Bubble features include:</p>
 <ul>
@@ -325,6 +328,7 @@
 <li>settings menu</li>
 <li>ping toggles</li>
 <li>PM toggle</li>
+<li>nickname management</li>
 <li>channel switching</li>
 <li>chat bubble toggle</li>
 <li>locale selection</li>
@@ -373,24 +377,26 @@
 <p>That matters because channel rules, formatting, network behavior, and bridge routing should agree with each other. If they do not, players notice. Admins notice faster.</p>
 <hr>
 <h2 id="velocity-network-support">Velocity Network Support</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#velocity-proxy">Velocity proxy</a><a href="./configuration.html#velocity-config-properties">velocity-config.properties</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#proxy-groups">Velocity proxy groups</a><a href="./configuration.html#velocity-config-properties">velocity-config.properties</a></p>
 <p>CoreChatX supports both standalone Paper servers and Velocity networks.</p>
 <p>In network mode, it can keep these features working across servers:</p>
 <ul>
-<li>network-wide chat channels</li>
-<li>cross-server private messages</li>
+<li>group-local network chat channels</li>
+<li>group-local cross-server private messages</li>
 <li>player communication settings</li>
 <li>player name suggestions</li>
 <li>TAB entries where available</li>
 <li>mentions and pings</li>
 <li>interactive keyword behavior</li>
 <li>ChatItem preview access</li>
+<li>proxy-routed join/leave announcements</li>
 <li>bridge export without duplicate network messages</li>
 </ul>
-<p>This is where the &quot;one suite&quot; approach matters most. A network setup should not require a separate plugin stack on every backend just to make messages, toggles, mentions, and PMs understand that players moved servers.</p>
+<p>In multi-channel mode, each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Chat, PMs, player directory data, state sync, and ChatItem snapshot routing stay inside the matching group.</p>
+<p>This is where the &quot;one suite&quot; approach matters most. A network setup should not require a separate plugin stack on every backend just to make messages, toggles, mentions, nicknames, join/leave behavior, and PMs understand that players moved servers.</p>
 <hr>
 <h2 id="commands">Commands</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#config-driven-permissions">Config-driven permissions</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#plugin-yml">Plugin permissions</a></p>
 <p>CoreChatX includes commands for:</p>
 <ul>
 <li>plugin management</li>
@@ -400,6 +406,7 @@
 <li>replies</li>
 <li>social spy</li>
 <li>broadcast</li>
+<li>nicknames</li>
 <li>ping controls</li>
 <li>channel controls</li>
 <li>ignore controls</li>
@@ -412,7 +419,7 @@
 <p>The commands are designed around the same communication layer, so they feel connected instead of random.</p>
 <hr>
 <h2 id="admin-experience">Admin Experience</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#practical-admin-notes">Practical admin notes</a><a href="./configuration.html#regenerating-a-clean-config-set">Regenerating configs</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#troubleshooting-quick-reference">Practical admin notes</a><a href="./configuration.html#paper-yml-files">Regenerating configs</a></p>
 <p>CoreChatX includes practical behavior for server owners:</p>
 <ul>
 <li>clear startup information</li>
@@ -430,7 +437,7 @@
 <p>These are not flashy player-facing features, but they make day-to-day operation much easier to trust and maintain.</p>
 <hr>
 <h2 id="verified">Verified</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#production-validation-checklist">Production validation checklist</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#troubleshooting-quick-reference">Troubleshooting checklist</a></p>
 <p>The current project state has been tested through:</p>
 <ul>
 <li>build and test passes</li>
@@ -444,7 +451,7 @@
 </ul>
 <hr>
 <h2 id="future-direction">Future Direction</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#related-documents">Related documents</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#overview">Related documents</a></p>
 <p>CoreChatX is designed to grow into a broader communication hub for common server social systems, such as:</p>
 <ul>
 <li>clans and guilds</li>
@@ -455,7 +462,7 @@
 <p>The goal is to make chat aware of the communities players actually build, while keeping communication centralized, consistent, and pleasant to use.</p>
 <hr>
 <h2 id="summary">Summary</h2>
-<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#corechatx-configuration-instructions">Configuration reference</a></p>
+<p class="config-jump"><span>Configuration:</span><a href="./configuration.html#overview">Configuration reference</a></p>
 <p>CoreChatX gives a server:</p>
 <ul>
 <li>polished public chat</li>

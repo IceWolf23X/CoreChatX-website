@@ -83,7 +83,7 @@
 
             <h2 id="artifacts">Artifacts And Identity</h2>
             <p>CoreChatX currently ships as two separate runtime jars. Install each jar only on the platform it was built for.</p>
-            <p>Current release: <code>2026.1.5</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.5.jar</code> and <code>corechatx-velocity-2026.1.5.jar</code>.</p>
+            <p>Current release: <code>2026.1.6</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.6.jar</code> and <code>corechatx-velocity-2026.1.6.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
@@ -124,22 +124,36 @@
               <li>Install <code>corechatx-velocity-&lt;version&gt;.jar</code> on the Velocity proxy.</li>
               <li>On each backend, set <code>deployment.mode</code> to <code>PROXY</code>.</li>
               <li>Give every backend a unique <code>deployment.server-id</code>, such as <code>alpha</code>, <code>beta</code>, <code>survival-1</code>, or <code>hub</code>.</li>
-              <li>Use the exact same lowercase <code>deployment.network-channel</code> on every backend.</li>
-              <li>Use the exact same <code>network-channel</code> in <code>plugins/corechatx/velocity-config.properties</code>.</li>
+              <li>Choose the backend's CoreChatX group with <code>deployment.network-channel</code>.</li>
+              <li>List every accepted group channel in Velocity <code>plugins/corechatx/velocity-config.properties</code>.</li>
               <li>Set <code>deployment.network-features-allowed</code> true on every backend that should participate in cross-server features.</li>
               <li>Restart the affected Paper backends and Velocity after changing identity or network channel values.</li>
             </ol>
             <pre class="code-block"><code>deployment:
   mode: "PROXY"
   server-id: "survival-1"
-  network-channel: "corechatx:main"
+  network-channel: "corechatx:survival"
   bridges-allowed: true
   network-features-allowed: true</code></pre>
             <pre class="code-block"><code># plugins/corechatx/velocity-config.properties
-network-channel=corechatx:main
+network-channel=corechatx:survival,corechatx:minigames
 player-directory.chat-completions=true
 player-directory.tab-entries=true</code></pre>
-            <p>Network behavior enabled by this setup includes network channels, cross-server PM routing, synced communication settings, active channel state, ping toggles, PM toggle, social spy, mention notifications, locale, staff-chat state, ignore lists, global player name completions, TAB entries where available, rich Adventure component transport, ChatItem preview refs, mentions, and custom ping metadata across backends.</p>
+            <p>Each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Network chat, PM lookup, player directory data, TAB/completions, state sync, ChatItem snapshot routing, and join/leave routing stay inside the source group. For a single legacy-style network, keep one value such as <code>corechatx:main</code> on Velocity and every participating backend.</p>
+            <p>Network behavior enabled by this setup includes group-local network channels, group-local cross-server PM routing, synced communication settings, active channel state, ping toggles, PM toggle, social spy, mention notifications, locale, staff-chat state, ignore lists, group player name completions, TAB entries where available, rich Adventure component transport, ChatItem preview refs, mentions, custom ping metadata, and optional proxy-routed join/leave announcements.</p>
+
+            <h3>Network join/leave mode</h3>
+            <pre class="code-block"><code>join-quit:
+  mode: "NETWORK"
+  join-enabled: true
+  quit-enabled: true</code></pre>
+            <p>Use <code>LOCAL</code> for backend-local join and quit messages. Use <code>NETWORK</code> only when the backend participates in proxy routing. Server switches inside the same CoreChatX group do not create fake leave/join announcements; switches between groups announce leave in the old group and join in the new group.</p>
+
+            <h3>Persistent nicknames</h3>
+            <p><code>/nick</code> is available on Paper. Nicknames are stored in player data, synchronized through state sync in proxy mode, and displayed in chat, PMs, spy output, broadcast, join/quit, first-join, and network chat formatting. Real player lookup and routing still use UUIDs and real names.</p>
+            <pre class="code-block"><code>nicknames:
+  change-only-colors: false</code></pre>
+            <p>Set <code>change-only-colors</code> to true if players may only recolor or restyle their exact Minecraft username instead of shortening or changing the visible name text.</p>
 
             <h2 id="bridges">Bridge Installs</h2>
             <ul>
@@ -191,7 +205,7 @@ player-directory.tab-entries=true</code></pre>
               <li><code>deployment.network-channel</code></li>
               <li>switching a backend between standalone and proxy deployment</li>
               <li>changing Velocity <code>velocity-config.properties</code></li>
-              <li>changing Velocity <code>network-channel</code>, which also requires affected Paper backends to use the same new channel</li>
+              <li>changing the Velocity <code>network-channel</code> list, which also requires affected Paper backends to use one of the configured channels</li>
             </ul>
 
             <h2 id="file-layout">File Layout</h2>
@@ -240,7 +254,7 @@ velocity-config.properties</code></pre>
               <li>Test one keyword hover/click action.</li>
               <li>Test one ChatItem preview locally.</li>
               <li>In proxy mode, test one network channel message from each backend.</li>
-              <li>In proxy mode, test one cross-backend PM.</li>
+              <li>In proxy mode, test one group-local cross-backend PM.</li>
               <li>In proxy mode, test one cross-backend ChatItem preview click.</li>
               <li>Test Discord outbound and inbound if enabled.</li>
               <li>Test Telegram outbound, inbound, and topic routing if enabled.</li>

@@ -193,9 +193,9 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "Production Validation",
-    copy: "Pre-player checklist for final server checks.",
-    href: "./configuration.html#production-validation-checklist",
+    title: "2026.1.6 Notes",
+    copy: "Proxy groups, join/leave routing, and nickname behavior.",
+    href: "./configuration.html#release-2026-1-6",
   },
 ];
 
