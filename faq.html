@@ -175,8 +175,10 @@
 <h3 id="can-players-disable-parts-of-the-chat-experience">Can players disable parts of the chat experience?</h3>
 <p>Yes. Player settings include communication preferences such as PM toggle, mention notifications, ping behavior, locale, and chat bubble visibility. In proxy mode, these settings can follow backend switches.</p>
 <h3 id="does-corechatx-have-nicknames">Does CoreChatX have nicknames?</h3>
-<p>Yes. <code>/nick</code> sets a persistent CoreChatX display name. It can sync through proxy state sync and appears in chat, PMs, spy output, broadcasts, join/quit, first-join, and network chat formatting.</p>
-<p>It does not change the real Minecraft username or UUID identity used for lookup, replies, ignores, privacy, and routing. Server owners can allow specific nickname colors/styles with child permissions and can set <code>nicknames.change-only-colors: true</code> if players should only recolor/restyle their exact username.</p>
+<p>Yes. <code>/nick</code> sets a persistent CoreChatX display name. It can sync through same-group proxy state sync and appears in chat, PMs, spy output, broadcasts, join/quit, first-join, ChatItem titles, and network chat formatting.</p>
+<p>It does not change the real Minecraft username or UUID identity used for routing and privacy. <code>{player_name}</code> always means the real Minecraft username, while <code>{player_nickname}</code> means the custom nickname when set, with the configured nickname prefix included.</p>
+<p>Nicknames support legacy <code>&amp;</code> colors, legacy hex such as <code>&amp;#ff0000</code>, and safe MiniMessage color, format, hex, and gradient tags. Unsupported MiniMessage tags are stripped. Admins can grant narrow child permissions for named colors, formats, hex, and gradients, and can set <code>nicknames.change-only-colors: true</code> if players should only recolor/restyle their exact username.</p>
+<p><code>/realname &lt;nickname&gt;</code> resolves a custom nickname back to the real Minecraft username. CoreChatX also rejects custom plain nicknames that duplicate another custom nickname or another player's real username.</p>
 <hr>
 <h2 id="chatitems-and-chat-bubbles">ChatItems And Chat Bubbles</h2>
 <h3 id="what-are-chatitems">What are ChatItems?</h3>
@@ -276,7 +278,7 @@
 <p>Check that the Paper backend's <code>deployment.network-channel</code> is listed in Velocity <code>network-channel</code>. For one shared group, every backend and Velocity can use the same value, for example <code>corechatx:main</code>. For multiple groups, Velocity lists all groups and each backend uses one matching value.</p>
 <p>Also verify that every participating backend has <code>deployment.mode: &quot;PROXY&quot;</code> and <code>deployment.network-features-allowed: true</code>.</p>
 <h3 id="my-private-message-target-is-online-but-not-found">&quot;My private message target is online but not found.&quot;</h3>
-<p>Check the CoreChatX proxy group. In 2026.1.6, PM lookup is limited to the sender's group. A player on another configured Velocity channel group is intentionally hidden from that PM route.</p>
+<p>Check the CoreChatX proxy group. PM lookup is limited to the sender's group. A player on another configured Velocity channel group is intentionally hidden from that PM route.</p>
 <h3 id="nick-only-changes-colors">&quot;/nick only changes colors.&quot;</h3>
 <p>Check <code>config.yml -&gt; nicknames.change-only-colors</code>. When true, the visible text after stripping color and style codes must exactly match the real Minecraft username.</p>
 <h3 id="discord-or-telegram-is-duplicating-messages">&quot;Discord or Telegram is duplicating messages.&quot;</h3>

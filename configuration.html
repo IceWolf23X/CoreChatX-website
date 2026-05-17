@@ -1,9 +1,9 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Complete CoreChatX 2026.1.6 configuration reference with full bundled YAML defaults, Velocity properties, proxy group notes, nickname rules, and operational guidance.">
+    <meta name="description" content="Complete CoreChatX 2026.1.7 configuration reference with full bundled YAML defaults, Velocity properties, proxy group notes, nickname rules, and operational guidance.">
     <title>CoreChatX Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
@@ -43,7 +43,7 @@
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Complete Configuration Reference</p>
-          <h1>CoreChatX 2026.1.6 Configuration</h1>
+          <h1>CoreChatX 2026.1.7 Configuration</h1>
           <p>Full bundled Paper YAML defaults, Velocity proxy properties, restart boundaries, proxy group behavior, nickname rules, and troubleshooting notes aligned to the current plugin code.</p>
         </div>
       </section>
@@ -54,7 +54,7 @@
             <a href="#overview">Overview</a>
             <a href="#before-you-configure">Before You Configure</a>
             <a href="#layout-overview">Layout Overview</a>
-            <a href="#release-2026-1-6">2026.1.6 Notes</a>
+            <a href="#release-2026-1-7">2026.1.7 Notes</a>
             <a href="#reload-vs-restart">Reload vs Restart</a>
             <a href="#quick-install-patterns">Quick Install Patterns</a>
             <a href="#proxy-groups">Velocity Proxy Groups</a>
@@ -92,8 +92,8 @@
             <p>This page is generated from the current CoreChatX bundled defaults in the plugin source tree. The YAML blocks below are complete file contents, including comments, so an admin can inspect the exact default shape before installing or resetting a file.</p>
             <p>Paper config files live under <code>plugins/CoreChatX/</code>. Velocity config lives under <code>plugins/corechatx/</code>. The Paper jar belongs on Paper backends only, and the Velocity jar belongs on Velocity only.</p>
             <ul>
-              <li>Current release: <code>2026.1.6</code></li>
-              <li>Installable jars: <code>corechatx-paper-2026.1.6.jar</code> and <code>corechatx-velocity-2026.1.6.jar</code></li>
+              <li>Current release: <code>2026.1.7</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.1.7.jar</code> and <code>corechatx-velocity-2026.1.7.jar</code></li>
               <li>Paper target: <code>1.21.11</code></li>
               <li>Java target: <code>21</code></li>
               <li>Default Paper network channel: <code>corechatx:main</code></li>
@@ -154,19 +154,23 @@ ignoredata.yml
 mutedata.yml</code></pre>
             <h3>Files created from bundled defaults on Velocity</h3>
             <pre class="code-block"><code class="language-text">velocity-config.properties</code></pre>
-            <h2 id="release-2026-1-6">2026.1.6 Notes</h2>
-            <p>This release adds three operational features that affect configuration and setup.</p>
+            <h2 id="release-2026-1-7">2026.1.7 Notes</h2>
+            <p>This release consolidates the nickname refinement work and the Velocity player-state sync hotfix.</p>
             <ul>
               <li><strong>Join/leave delivery mode:</strong> <code>config.yml -&gt; join-quit.mode</code> chooses <code>LOCAL</code> backend announcements or <code>NETWORK</code> proxy-routed announcements.</li>
               <li><strong>Velocity proxy groups:</strong> <code>velocity-config.properties -&gt; network-channel</code> now accepts a comma-separated list. Each configured channel is an isolated CoreChatX group.</li>
-              <li><strong>Persistent nicknames:</strong> <code>/nick</code> stores a CoreChatX nickname, syncs it through player state in proxy mode, and can be limited to color/style-only changes through <code>nicknames.change-only-colors</code>.</li>
+              <li><strong>Persistent nicknames:</strong> <code>/nick</code> stores a CoreChatX nickname, syncs it through same-group player state in proxy mode, and can be limited to color/style-only changes through <code>nicknames.change-only-colors</code>.</li>
+              <li><strong>Nickname placeholders:</strong> <code>{player_name}</code> always means the real Minecraft username. <code>{player_nickname}</code> uses the custom nickname when present and includes <code>nicknames.prefix</code>.</li>
+              <li><strong>Safe nickname formatting:</strong> nicknames accept legacy colors, legacy hex, safe MiniMessage colors, formats, hex, and gradients. Unsupported MiniMessage tags are stripped.</li>
+              <li><strong>Real-name lookup:</strong> <code>/realname &lt;nickname&gt;</code> resolves a saved custom nickname back to the real Minecraft username.</li>
+              <li><strong>Velocity state sync fix:</strong> nickname and player-state updates fan out to the other registered backends in the same group without crossing other channel groups.</li>
             </ul>
             <h2 id="reload-vs-restart">Reload vs Restart</h2>
             <p>Safe with <code>/corechatx reload</code>:</p>
             <ul>
               <li>message wording, chat formats, pings, filters, ChatItems, keywords, chat bubbles, channel rules, privacy, moderation, storage, bridge formats, and locale files</li>
               <li><code>join-quit.mode</code>, <code>join-quit.join-enabled</code>, and <code>join-quit.quit-enabled</code></li>
-              <li><code>nicknames.change-only-colors</code></li>
+              <li><code>nicknames.prefix</code> and <code>nicknames.change-only-colors</code></li>
               <li>non-identity runtime toggles such as debug, hooks, logging, bridge gates, first-join, and reload summary behavior</li>
             </ul>
             <p>Requires restart:</p>
@@ -273,6 +277,10 @@ player-data:
   auto-save-on-disable: true
 
 nicknames:
+  # Prefix prepended to {player_nickname} only when the player has a custom nickname.
+  # Leave empty to show the nickname exactly as set with /nick.
+  # Example: &quot;~&quot; makes {player_nickname} render as ~Nick while {player_name} still renders the real Minecraft username.
+  prefix: &quot;&quot;
   # false = /nick can change the visible name text and styling, for example IceWolf23X -&gt; IceWolf.
   # true = /nick can only change allowed colors/styles; the visible text after removing formatting must stay exactly the real Minecraft username.
   # Example with true: IceWolf23X may use &amp;cIceWolf23X, but not &amp;cIceWolf.
@@ -291,8 +299,7 @@ join-quit:
 
 reload:
   # A short summary is shown to the command sender after a successful reload.
-  show-summary: true
-</code></pre>
+  show-summary: true</code></pre>
             <h3 id="messages-yml"><code>messages.yml</code></h3>
             <p>Player-facing messages and command feedback. Nickname, PM, moderation, join/quit, and ChatItem wording live here.</p>
             <p>Purpose:</p>
@@ -306,12 +313,12 @@ reload:
               <li>Strings use MiniMessage in server-controlled templates. Keep tags valid when editing.</li>
               <li>Placeholder availability is message-specific. The header comments list common placeholders, but not every placeholder applies to every message.</li>
               <li>In proxy group mode, a PM target outside the sender group intentionally returns the normal player-not-found style response.</li>
-              <li>The nickname messages are used by <code>/nick</code>, including permission stripping, color-only rejection, and staff edits for other online players.</li>
+              <li>The nickname messages are used by <code>/nick</code> and <code>/realname</code>, including permission stripping, duplicate rejection, color-only rejection, and staff edits for other online players.</li>
             </ul>
             <p>Current bundled default:</p>
             <pre class="code-block"><code class="language-yml"># Main message file.
 # Supported placeholders vary by message, but common ones include:
-# {prefix}, {player_name}, {target_name}, {sender_name}, {message}, {seconds}, {count}, {setting}, {state}
+# {prefix}, {player_name}, {player_nickname}, {target_name}, {sender_name}, {message}, {seconds}, {count}, {setting}, {state}
 
 prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;CoreChatX&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
 
@@ -413,22 +420,24 @@ nickname:
   changed-other: &quot;{prefix} &lt;gray&gt;Set &lt;white&gt;{target_name}&lt;/white&gt;&#39;s nickname to &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
   cleared-other: &quot;{prefix} &lt;gray&gt;Cleared &lt;white&gt;{target_name}&lt;/white&gt;&#39;s nickname.&lt;/gray&gt;&quot;
   invalid: &quot;{prefix} &lt;red&gt;That nickname is invalid. Use one visible word after formatting is removed.&lt;/red&gt;&quot;
+  duplicate: &quot;{prefix} &lt;red&gt;That nickname is already used by another player or matches another player&#39;s real username.&lt;/red&gt;&quot;
   name-change-disabled: &quot;{prefix} &lt;red&gt;Nicknames can only change colors/styles. The visible text must stay exactly the player&#39;s real Minecraft username.&lt;/red&gt;&quot;
   too-long: &quot;{prefix} &lt;red&gt;Nicknames can be at most &lt;white&gt;{limit}&lt;/white&gt; visible characters.&lt;/red&gt;&quot;
+  realname: &quot;{prefix} &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt;&#39;s real name is &lt;/gray&gt;&lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
+  realname-not-found: &quot;{prefix} &lt;red&gt;No custom nickname matches that value.&lt;/red&gt;&quot;
 
 chat:
   no-message-sent: &quot;{prefix} &lt;yellow&gt;Nothing was sent because the message is empty after sanitization.&lt;/yellow&gt;&quot;
 
 join-quit:
-  join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;green&gt;+&lt;/green&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_name}&lt;/white&gt;&quot;
-  quit: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;red&gt;-&lt;/red&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_name}&lt;/white&gt;&quot;
-  first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
+  join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;green&gt;+&lt;/green&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&quot;
+  quit: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;red&gt;-&lt;/red&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&quot;
+  first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
 
 chatitems:
   # Hover shown on clickable chat preview tokens.
   click-to-open: &quot;&lt;gray&gt;Click to open the saved preview.&lt;/gray&gt;&quot;
-  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;
-</code></pre>
+  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;</code></pre>
             <h3 id="chat-yml"><code>chat.yml</code></h3>
             <p>Public chat formatting, PlaceholderAPI behavior, cooldown defaults, mention defaults, and formatting permission behavior.</p>
             <p>Purpose:</p>
@@ -450,20 +459,22 @@ chatitems:
 public-chat:
   enabled: true
   # Supported placeholders inside the format:
-  # {plugin_prefix}, {channel_prefix}, {rank_prefix}, {player_name}, {message}
+  # {plugin_prefix}, {channel_prefix}, {rank_prefix}, {player_name}, {player_nickname}, {message}
+  # {player_name} is always the real Minecraft username.
+  # {player_nickname} is the custom nickname when set, otherwise the real Minecraft username.
   # Layout inspired by the older NetworkChat proxy format:
   # prefix + player name + italic separator + processed message.
   # CoreChatX keeps its own default palette instead of copying the old colors verbatim.
-  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   # Optional group-specific format overrides keyed by LuckPerms primary group.
   # These are used only when channels.yml -&gt; format is blank for the active channel.
   # Keys must match the LuckPerms primary group in lowercase.
   group-formats:
-    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_name}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_name}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
   # Applied to non-global active channels such as local or staff.
   channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
@@ -481,8 +492,7 @@ cooldowns:
     seconds: 2
   private-messages:
     enabled: false
-    seconds: 2
-</code></pre>
+    seconds: 2</code></pre>
             <h3 id="channels-yml"><code>channels.yml</code></h3>
             <p>Channel definitions, scopes, send/receive permissions, source-specific mentions, ChatItems, bubbles, and bridge export rules.</p>
             <p>Purpose:</p>
@@ -782,13 +792,14 @@ previews:
   # Expired or cleared previews will no longer open from old chat messages.
   expire-after-minutes: 30
   titles:
-    # {player_name} is the owner of the saved snapshot, not the viewer who opens it.
-    item: &quot;&lt;#79d6b8&gt;{player_name}&#39;s item&lt;/#79d6b8&gt;&quot;
-    shulker: &quot;&lt;#5fc7c2&gt;{player_name}&#39;s shulker&lt;/#5fc7c2&gt;&quot;
-    armor: &quot;&lt;#6fb6ff&gt;{player_name}&#39;s armor&lt;/#6fb6ff&gt;&quot;
-    hotbar: &quot;&lt;#8bc8ff&gt;{player_name}&#39;s hotbar&lt;/#8bc8ff&gt;&quot;
-    inventory: &quot;&lt;#5aa9ff&gt;{player_name}&#39;s inventory&lt;/#5aa9ff&gt;&quot;
-    enderchest: &quot;&lt;#7db8ff&gt;{player_name}&#39;s ender chest&lt;/#7db8ff&gt;&quot;
+    # {player_name} is always the real snapshot owner&#39;s username.
+    # {player_nickname} uses the owner&#39;s custom nickname when available.
+    item: &quot;&lt;#79d6b8&gt;{player_nickname}&#39;s item&lt;/#79d6b8&gt;&quot;
+    shulker: &quot;&lt;#5fc7c2&gt;{player_nickname}&#39;s shulker&lt;/#5fc7c2&gt;&quot;
+    armor: &quot;&lt;#6fb6ff&gt;{player_nickname}&#39;s armor&lt;/#6fb6ff&gt;&quot;
+    hotbar: &quot;&lt;#8bc8ff&gt;{player_nickname}&#39;s hotbar&lt;/#8bc8ff&gt;&quot;
+    inventory: &quot;&lt;#5aa9ff&gt;{player_nickname}&#39;s inventory&lt;/#5aa9ff&gt;&quot;
+    enderchest: &quot;&lt;#7db8ff&gt;{player_nickname}&#39;s ender chest&lt;/#7db8ff&gt;&quot;
 
 network:
   # Network mode sends only lightweight snapshot refs in chat packets.
@@ -800,8 +811,7 @@ network:
   max-snapshots-per-message: 3
   max-compressed-bytes: 30000
   max-uncompressed-bytes: 2097152
-  max-item-bytes: 262144
-</code></pre>
+  max-item-bytes: 262144</code></pre>
             <h3 id="keywords-yml"><code>keywords.yml</code></h3>
             <p>Interactive keyword aliases, MiniMessage renderers, permissions, and PlaceholderAPI allowance.</p>
             <p>Purpose:</p>
@@ -1118,14 +1128,15 @@ moderation:
             <p>Purpose:</p>
             <ul>
               <li>Declares the Paper plugin entrypoint, commands, aliases, soft dependencies, and fixed permission nodes.</li>
-              <li>Documents command permissions for chat, settings, PM, reply, ignore, moderation, ChatItems, formatting, and nicknames.</li>
-              <li>Includes granular nickname child permissions for color and style control.</li>
+              <li>Documents command permissions for chat, settings, PM, reply, ignore, moderation, ChatItems, formatting, nicknames, and real-name lookup.</li>
+              <li>Includes granular nickname child permissions for color, style, hex, and gradient control.</li>
             </ul>
             <p>Permission notes:</p>
             <ul>
               <li><code>corechatx.command.nick</code> controls self nickname usage. <code>corechatx.command.nick.others</code> controls changing another online player.</li>
-              <li><code>corechatx.nick.color</code> and <code>corechatx.nick.format</code> are parent permissions for all nickname colors/styles.</li>
-              <li>Granular child permissions such as <code>corechatx.nick.color.red</code> or <code>corechatx.nick.format.bold</code> allow narrower LuckPerms setups.</li>
+              <li><code>corechatx.command.realname</code> controls <code>/realname &lt;nickname&gt;</code>.</li>
+              <li><code>corechatx.nick.color</code> and <code>corechatx.nick.format</code> are parent permissions for all nickname colors/styles, including hex and gradients under the color parent.</li>
+              <li>Granular child permissions such as <code>corechatx.nick.color.red</code>, <code>corechatx.nick.color.hex</code>, <code>corechatx.nick.color.gradient</code>, or <code>corechatx.nick.format.bold</code> allow narrower LuckPerms setups.</li>
               <li>This descriptor is packaged inside the jar. Admins normally edit permission assignments in their permission plugin, not this file.</li>
             </ul>
             <p>Current bundled default:</p>
@@ -1163,6 +1174,9 @@ commands:
   nick:
     description: Set or clear a persistent CoreChatX nickname.
     usage: /nick &lt;nickname|off&gt;
+  realname:
+    description: Resolve a CoreChatX nickname to the player&#39;s real Minecraft username.
+    usage: /realname &lt;nickname&gt;
   ping:
     description: Manage ping notification preferences.
     usage: /ping &lt;sound|actionbar&gt; [on|off|toggle|status]
@@ -1229,8 +1243,11 @@ permissions:
   corechatx.command.nick.others:
     description: Set or clear another online player&#39;s CoreChatX nickname.
     default: op
+  corechatx.command.realname:
+    description: Resolve a CoreChatX nickname to a real Minecraft username.
+    default: true
   corechatx.nick.color:
-    description: Use legacy color codes in CoreChatX nicknames.
+    description: Use color codes and safe color tags in CoreChatX nicknames.
     default: op
     children:
       corechatx.nick.color.black: true
@@ -1249,6 +1266,8 @@ permissions:
       corechatx.nick.color.light-purple: true
       corechatx.nick.color.yellow: true
       corechatx.nick.color.white: true
+      corechatx.nick.color.hex: true
+      corechatx.nick.color.gradient: true
   corechatx.nick.color.black:
     description: &quot;Use the &amp;0 black color code in CoreChatX nicknames.&quot;
     default: false
@@ -1296,6 +1315,12 @@ permissions:
     default: false
   corechatx.nick.color.white:
     description: &quot;Use the &amp;f white color code in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.hex:
+    description: &quot;Use hex color codes like &amp;#ff0000 and &lt;#ff0000&gt; in CoreChatX nicknames.&quot;
+    default: false
+  corechatx.nick.color.gradient:
+    description: &quot;Use safe MiniMessage gradient tags in CoreChatX nicknames.&quot;
     default: false
   corechatx.nick.format:
     description: Use legacy style codes in CoreChatX nicknames.
@@ -1459,8 +1484,7 @@ permissions:
     default: op
   corechatx.format.style.reset:
     description: Use the format code &amp;r in player-authored messages.
-    default: op
-</code></pre>
+    default: op</code></pre>
             <h2 id="velocity-properties">Velocity Properties</h2>
             <p>Velocity uses a properties file rather than YAML. It is included here because it is required for proxy groups and network routing.</p>
             <h3 id="velocity-config-properties"><code>velocity-config.properties</code></h3>
@@ -1542,7 +1566,7 @@ player-directory.tab-entries=true
               <li>In multi-group mode, verify the sender and target backend are intentionally on the same channel group.</li>
             </ul>
             <h3>Private messages cannot find a player on another server</h3>
-            <p>In 2026.1.6, PM lookup is group-local by design. The target must be inside the same CoreChatX proxy group as the sender. Different Velocity channel groups are intentionally isolated.</p>
+            <p>PM lookup is group-local by design. The target must be inside the same CoreChatX proxy group as the sender. Different Velocity channel groups are intentionally isolated.</p>
             <h3>Join/leave messages are duplicated or missing</h3>
             <ul>
               <li>Use <code>join-quit.mode: &quot;LOCAL&quot;</code> for backend-local behavior.</li>
@@ -1552,7 +1576,13 @@ player-directory.tab-entries=true
             <h3>Nicknames reject a shortened name</h3>
             <p>Check <code>nicknames.change-only-colors</code>. When true, CoreChatX accepts only color/style changes around the real Minecraft username.</p>
             <h3>Nickname colors or styles disappear</h3>
-            <p>Check the sender's permissions. Without the relevant child permission, CoreChatX strips that legacy code from the stored nickname.</p>
+            <p>Check the sender's permissions. Without the relevant child permission, CoreChatX strips that legacy code or safe MiniMessage tag from the stored nickname. Hex and gradients require <code>corechatx.nick.color.hex</code> and <code>corechatx.nick.color.gradient</code>.</p>
+            <h3>Nickname does not sync to another backend</h3>
+            <ul>
+              <li>Verify Paper and Velocity are both running the same current release.</li>
+              <li>Verify both backends are in the same CoreChatX Velocity channel group.</li>
+              <li>Verify another online player is available on the receiving backend, because plugin messages need a carrier.</li>
+            </ul>
             <h3>Discord or Telegram messages do not send</h3>
             <ul>
               <li>Verify <code>deployment.bridges-allowed: true</code>.</li>

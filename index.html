@@ -155,8 +155,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.1.6</strong>
-            <span>proxy groups + nicknames</span>
+            <strong>2026.1.7</strong>
+            <span>nicknames + sync fix</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -173,11 +173,11 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.1.6 adds proxy groups, network join/leave, and persistent nicknames.</h2>
+            <h2>CoreChatX 2026.1.7 consolidates persistent nicknames and same-group proxy state sync.</h2>
             <p>
-              Velocity can now split CoreChatX routing into isolated channel groups, Paper can choose
-              local or proxy-routed join/leave announcements, and players can use persistent nicknames
-              with granular color and style permissions.
+              The latest stable release brings the nickname refinement work together with the Velocity
+              state-sync fix, so nickname data stays group-local while still reaching other backends in
+              the same CoreChatX proxy group.
             </p>
           </div>
 
@@ -188,7 +188,7 @@
               <p>
                 <code>velocity-config.properties</code> accepts comma-separated
                 <code>network-channel</code> values. PMs, chat, player directory data, state sync,
-                and ChatItem snapshots stay inside the source group.
+                nickname updates, and ChatItem snapshots stay inside the source group.
               </p>
             </article>
 
@@ -196,8 +196,8 @@
               <div class="setup-kicker">Nicknames</div>
               <h3>Persistent names with controlled formatting</h3>
               <p>
-                <code>/nick</code> stores a CoreChatX display name, syncs it cross-server, and can
-                be limited to color/style-only changes with <code>nicknames.change-only-colors</code>.
+                <code>/nick</code> supports legacy colors, safe MiniMessage colors, hex, gradients,
+                duplicate-name protection, optional prefixes, and <code>/realname</code> lookup.
               </p>
             </article>
           </div>
