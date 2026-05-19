@@ -83,7 +83,7 @@
 
             <h2 id="artifacts">Artifacts And Identity</h2>
             <p>CoreChatX currently ships as two separate runtime jars. Install each jar only on the platform it was built for.</p>
-            <p>Current release: <code>2026.1.7</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.7.jar</code> and <code>corechatx-velocity-2026.1.7.jar</code>.</p>
+            <p>Current release: <code>2026.1.8</code>. For this release, the installable jars are <code>corechatx-paper-2026.1.8.jar</code> and <code>corechatx-velocity-2026.1.8.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
@@ -165,7 +165,11 @@ player-directory.tab-entries=true</code></pre>
               <li>Use source-specific <code>allow-mentions</code> keys in <code>channels.yml</code> to decide whether Minecraft, Discord, and Telegram messages may activate mentions in each channel.</li>
               <li>In proxy mode, run inbound bridge listeners only on backend instances that should locally display inbound messages.</li>
               <li>For Discord inbound, configure a valid bot token, inbound route, and required intents including Message Content where needed.</li>
-              <li>Customize Discord inbound messages with <code>discord.inbound.format</code>, including <code>{source}</code>, <code>{channel_id}</code>, <code>{channel_prefix}</code>, <code>{sender_name}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, and <code>{plain_text}</code>.</li>
+              <li>Customize Discord inbound messages with <code>discord.inbound.format</code>, including <code>{source}</code>, <code>{channel_id}</code>, <code>{channel_prefix}</code>, <code>{sender_name}</code>, <code>{player_name}</code>, <code>{player_nickname}</code>, <code>{discord_name}</code>, <code>{discord_id}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, and <code>{plain_text}</code>.</li>
+              <li>Enable <code>discord.inbound.account-linking.enabled</code> only when you want Discord users to link to Minecraft accounts.</li>
+              <li>Use <code>discord.inbound.account-linking.require-linked</code> to block unlinked Discord users from writing into routed Minecraft channels.</li>
+              <li>Use <code>discord.inbound.account-linking.require-linked-to-play</code> if unlinked Minecraft players should be kicked with a temporary Discord <code>/link code:&lt;code&gt;</code> reason. Enforcement only runs when the Discord inbound bot and slash commands are available, so players are not locked out by an unusable code.</li>
+              <li>Use <code>discord.inbound.route-overrides</code> and per-channel <code>discord.require-linked-inbound</code> values when only some routes should require linking.</li>
               <li>Configure <code>discord-roles</code> in <code>pings.yml</code> before letting Discord-origin custom pings notify Minecraft players.</li>
               <li>Use PlaceholderAPI placeholders and <code>{rank_prefix}</code> in <code>discord.format</code> when Minecraft-to-Discord output needs rank, economy, world, or other server data.</li>
               <li>Telegram outbound formats can also use <code>{rank_prefix}</code> when the token is present.</li>
@@ -232,13 +236,14 @@ locales/en_us.yml</code></pre>
             <h3>Additional Paper runtime files created on demand</h3>
             <pre class="code-block"><code>channeldata.yml
 ignoredata.yml
-mutedata.yml</code></pre>
+mutedata.yml
+discordlinks.yml</code></pre>
             <h3>Velocity folder and file</h3>
             <pre class="code-block"><code>plugins/corechatx/
 velocity-config.properties</code></pre>
 
             <h2 id="regeneration">Regenerating A Clean Config Set</h2>
-            <p>Stop the server before deleting generated admin config files. CoreChatX recreates bundled defaults on next boot. Be careful with runtime data files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code>; those are live player/plugin state.</p>
+            <p>Stop the server before deleting generated admin config files. CoreChatX recreates bundled defaults on next boot. Be careful with runtime data files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, <code>mutedata.yml</code>, and <code>discordlinks.yml</code>; those are live player/plugin state.</p>
             <p>When an existing admin config is only missing newer bundled keys, CoreChatX <code>2026.1.3</code> adds those missing keys automatically on load or reload without overwriting your current values.</p>
             <p>Before major changes, back up the whole CoreChatX folder. Keep private bridge tokens out of public backups and logs.</p>
 
@@ -257,6 +262,7 @@ velocity-config.properties</code></pre>
               <li>In proxy mode, test one group-local cross-backend PM.</li>
               <li>In proxy mode, test one cross-backend ChatItem preview click.</li>
               <li>Test Discord outbound and inbound if enabled.</li>
+              <li>Test Discord account linking, unlinking, blocked unlinked messages, slash command registration, and link-to-play kicks if enabled.</li>
               <li>Test Telegram outbound, inbound, and topic routing if enabled.</li>
               <li>Test mute, mutechat, clear chat, social spy, ignore, and PM toggle behavior.</li>
               <li>Run <code>/corechatx reload</code> after a harmless wording change and confirm it applies.</li>

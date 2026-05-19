@@ -193,9 +193,9 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "2026.1.7 Notes",
-    copy: "Nickname refinements, group-local routing, and proxy state sync.",
-    href: "./configuration.html#release-2026-1-7",
+    title: "2026.1.8 Notes",
+    copy: "Discord linking, link-to-play, nickname lookup, and sync fixes.",
+    href: "./configuration.html#release-2026-1-8",
   },
 ];
 

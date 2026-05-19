@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Complete CoreChatX 2026.1.7 configuration reference with full bundled YAML defaults, Velocity properties, proxy group notes, nickname rules, and operational guidance.">
+    <meta name="description" content="Complete CoreChatX 2026.1.8 configuration reference with full bundled YAML defaults, Velocity properties, proxy group notes, Discord account linking, nickname rules, and operational guidance.">
     <title>CoreChatX Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
@@ -43,8 +43,8 @@
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Complete Configuration Reference</p>
-          <h1>CoreChatX 2026.1.7 Configuration</h1>
-          <p>Full bundled Paper YAML defaults, Velocity proxy properties, restart boundaries, proxy group behavior, nickname rules, and troubleshooting notes aligned to the current plugin code.</p>
+          <h1>CoreChatX 2026.1.8 Configuration</h1>
+          <p>Full bundled Paper YAML defaults, Velocity proxy properties, restart boundaries, proxy group behavior, Discord account linking, nickname rules, and troubleshooting notes aligned to the current plugin code.</p>
         </div>
       </section>
       <section class="section doc-page">
@@ -54,7 +54,7 @@
             <a href="#overview">Overview</a>
             <a href="#before-you-configure">Before You Configure</a>
             <a href="#layout-overview">Layout Overview</a>
-            <a href="#release-2026-1-7">2026.1.7 Notes</a>
+            <a href="#release-2026-1-8">2026.1.8 Notes</a>
             <a href="#reload-vs-restart">Reload vs Restart</a>
             <a href="#quick-install-patterns">Quick Install Patterns</a>
             <a href="#proxy-groups">Velocity Proxy Groups</a>
@@ -92,8 +92,8 @@
             <p>This page is generated from the current CoreChatX bundled defaults in the plugin source tree. The YAML blocks below are complete file contents, including comments, so an admin can inspect the exact default shape before installing or resetting a file.</p>
             <p>Paper config files live under <code>plugins/CoreChatX/</code>. Velocity config lives under <code>plugins/corechatx/</code>. The Paper jar belongs on Paper backends only, and the Velocity jar belongs on Velocity only.</p>
             <ul>
-              <li>Current release: <code>2026.1.7</code></li>
-              <li>Installable jars: <code>corechatx-paper-2026.1.7.jar</code> and <code>corechatx-velocity-2026.1.7.jar</code></li>
+              <li>Current release: <code>2026.1.8</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.1.8.jar</code> and <code>corechatx-velocity-2026.1.8.jar</code></li>
               <li>Paper target: <code>1.21.11</code></li>
               <li>Java target: <code>21</code></li>
               <li>Default Paper network channel: <code>corechatx:main</code></li>
@@ -151,19 +151,24 @@ locales/en_us.yml</code></pre>
             <h3>Additional Paper runtime files created on demand</h3>
             <pre class="code-block"><code class="language-text">channeldata.yml
 ignoredata.yml
-mutedata.yml</code></pre>
+mutedata.yml
+discordlinks.yml</code></pre>
             <h3>Files created from bundled defaults on Velocity</h3>
             <pre class="code-block"><code class="language-text">velocity-config.properties</code></pre>
-            <h2 id="release-2026-1-7">2026.1.7 Notes</h2>
-            <p>This release consolidates the nickname refinement work and the Velocity player-state sync hotfix.</p>
+            <h2 id="release-2026-1-8">2026.1.8 Notes</h2>
+            <p>This release rolls the 2026.1.7.1 hotfix line forward into a stable release focused on Discord account linking, safer group-local sync, and nickname-aware lookup.</p>
             <ul>
               <li><strong>Join/leave delivery mode:</strong> <code>config.yml -&gt; join-quit.mode</code> chooses <code>LOCAL</code> backend announcements or <code>NETWORK</code> proxy-routed announcements.</li>
               <li><strong>Velocity proxy groups:</strong> <code>velocity-config.properties -&gt; network-channel</code> now accepts a comma-separated list. Each configured channel is an isolated CoreChatX group.</li>
               <li><strong>Persistent nicknames:</strong> <code>/nick</code> stores a CoreChatX nickname, syncs it through same-group player state in proxy mode, and can be limited to color/style-only changes through <code>nicknames.change-only-colors</code>.</li>
               <li><strong>Nickname placeholders:</strong> <code>{player_name}</code> always means the real Minecraft username. <code>{player_nickname}</code> uses the custom nickname when present and includes <code>nicknames.prefix</code>.</li>
               <li><strong>Safe nickname formatting:</strong> nicknames accept legacy colors, legacy hex, safe MiniMessage colors, formats, hex, and gradients. Unsupported MiniMessage tags are stripped.</li>
-              <li><strong>Real-name lookup:</strong> <code>/realname &lt;nickname&gt;</code> resolves a saved custom nickname back to the real Minecraft username.</li>
-              <li><strong>Velocity state sync fix:</strong> nickname and player-state updates fan out to the other registered backends in the same group without crossing other channel groups.</li>
+              <li><strong>Real-name lookup:</strong> <code>/realname &lt;nickname&gt;</code> resolves a saved custom nickname back to the real Minecraft username, with proxy-group nickname suggestions when network directory sync is available.</li>
+              <li><strong>Nickname-aware mentions:</strong> chat suggestions include real names and custom nicknames, and mention tokens can display the target's custom nickname.</li>
+              <li><strong>Discord account linking:</strong> optional linking adds Minecraft-side <code>/discord link</code>, Discord slash <code>/link code:&lt;code&gt;</code>, unlink commands, <code>discordlinks.yml</code>, linked Minecraft identity rendering, mute checks, and channel permission checks for Discord inbound.</li>
+              <li><strong>Discord link-to-play:</strong> <code>discord.inbound.account-linking.require-linked-to-play</code> can kick unlinked Minecraft players with a temporary Discord link code, but only when the Discord inbound bridge is running and the bot can expose the configured slash commands.</li>
+              <li><strong>State safety fixes:</strong> settings updates preserve saved nicknames, local player-state updates reject stale remote sync, and Discord link sync ignores stale remote link/unlink packets inside the same proxy group.</li>
+              <li><strong>Protocol compatibility:</strong> plugin-message protocol is <code>13</code>; Paper and Velocity must run matching <code>2026.1.8</code> jars.</li>
             </ul>
             <h2 id="reload-vs-restart">Reload vs Restart</h2>
             <p>Safe with <code>/corechatx reload</code>:</p>
@@ -214,12 +219,14 @@ mutedata.yml</code></pre>
               <li><code>/nick &lt;nickname&gt;</code> sets your nickname.</li>
               <li><code>/nick off</code>, <code>/nick clear</code>, or <code>/nick reset</code> clears it.</li>
               <li><code>/nick &lt;player&gt; &lt;nickname|off&gt;</code> changes another online player's nickname with staff permission.</li>
+              <li><code>/realname &lt;nickname&gt;</code> resolves a saved custom nickname to the real Minecraft username.</li>
               <li><code>corechatx.command.nick</code> controls self-use.</li>
               <li><code>corechatx.command.nick.others</code> controls editing other players.</li>
               <li><code>corechatx.nick.color</code> and <code>corechatx.nick.format</code> grant all nickname colors/styles through child permissions.</li>
               <li>Granular examples: <code>corechatx.nick.color.red</code>, <code>corechatx.nick.color.gold</code>, <code>corechatx.nick.format.bold</code>, <code>corechatx.nick.format.italic</code>.</li>
             </ul>
             <p>When <code>nicknames.change-only-colors: true</code>, the visible text after formatting is stripped must match the real Minecraft username exactly. For example, <code>&amp;cIceWolf23X</code> can be accepted for player <code>IceWolf23X</code>, while <code>&amp;cIceWolf</code> is rejected.</p>
+            <p>Mentions and tab suggestions understand both real names and custom nicknames. In proxy mode, this includes players known through the same Velocity channel group, so nickname suggestions and <code>/realname</code> completions do not stop at the current backend.</p>
             <h2 id="paper-yml-files">Paper YAML Files</h2>
             <p>These are the complete bundled YAML resources from the Paper jar source. Existing installs receive missing bundled default keys automatically when valid config files are loaded; existing values are not overwritten.</p>
             <h3 id="config-yml"><code>config.yml</code></h3>
@@ -299,13 +306,14 @@ join-quit:
 
 reload:
   # A short summary is shown to the command sender after a successful reload.
-  show-summary: true</code></pre>
+  show-summary: true
+</code></pre>
             <h3 id="messages-yml"><code>messages.yml</code></h3>
             <p>Player-facing messages and command feedback. Nickname, PM, moderation, join/quit, and ChatItem wording live here.</p>
             <p>Purpose:</p>
             <ul>
               <li>Stores the visible text for command feedback, errors, settings, privacy, moderation, cooldowns, pings, private messages, join/quit, ChatItems, bubbles, channels, bridges, and nicknames.</li>
-              <li>Controls the MiniMessage templates used for PM display, social-spy display, network join/leave output, and nickname command responses.</li>
+              <li>Controls the MiniMessage templates used for PM display, social-spy display, network join/leave output, nickname command responses, and Discord link feedback.</li>
               <li>Keeps wording centralized so admins can translate or restyle feedback without touching code.</li>
             </ul>
             <p>Important notes:</p>
@@ -314,6 +322,7 @@ reload:
               <li>Placeholder availability is message-specific. The header comments list common placeholders, but not every placeholder applies to every message.</li>
               <li>In proxy group mode, a PM target outside the sender group intentionally returns the normal player-not-found style response.</li>
               <li>The nickname messages are used by <code>/nick</code> and <code>/realname</code>, including permission stripping, duplicate rejection, color-only rejection, and staff edits for other online players.</li>
+              <li>The Discord messages are used by Minecraft-side account-link commands and the optional link-required kick reason.</li>
             </ul>
             <p>Current bundled default:</p>
             <pre class="code-block"><code class="language-yml"># Main message file.
@@ -426,6 +435,17 @@ nickname:
   realname: &quot;{prefix} &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt;&#39;s real name is &lt;/gray&gt;&lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
   realname-not-found: &quot;{prefix} &lt;red&gt;No custom nickname matches that value.&lt;/red&gt;&quot;
 
+discord:
+  link-code: &quot;{prefix} &lt;gray&gt;Use Discord command &lt;white&gt;/link code:{code}&lt;/white&gt; within &lt;white&gt;{minutes}&lt;/white&gt; minute(s) to link your account.&lt;/gray&gt;&quot;
+  link-required-kick: &quot;&lt;red&gt;You must link your Discord account to play.&lt;/red&gt;\n&lt;gray&gt;Use Discord command &lt;/gray&gt;&lt;white&gt;/link code:{code}&lt;/white&gt;&lt;gray&gt; within &lt;/gray&gt;&lt;white&gt;{minutes}&lt;/white&gt;&lt;gray&gt; minute(s).&lt;/gray&gt;&quot;
+  already-linked: &quot;{prefix} &lt;yellow&gt;Your Minecraft account is already linked to Discord. Use &lt;white&gt;/discord unlink&lt;/white&gt; first.&lt;/yellow&gt;&quot;
+  linking-disabled: &quot;{prefix} &lt;red&gt;Discord account linking is currently disabled.&lt;/red&gt;&quot;
+  linked-status: &quot;{prefix} &lt;gray&gt;Your Minecraft account is linked to Discord user id &lt;white&gt;{discord_id}&lt;/white&gt;.&lt;/gray&gt;&quot;
+  not-linked: &quot;{prefix} &lt;yellow&gt;No Discord account is linked.&lt;/yellow&gt;&quot;
+  unlinked: &quot;{prefix} &lt;gray&gt;Discord account link removed.&lt;/gray&gt;&quot;
+  admin-linked: &quot;{prefix} &lt;gray&gt;Linked &lt;white&gt;{player_name}&lt;/white&gt; to Discord user id &lt;white&gt;{discord_id}&lt;/white&gt;.&lt;/gray&gt;&quot;
+  invalid-discord-id: &quot;{prefix} &lt;red&gt;That Discord user id is invalid.&lt;/red&gt;&quot;
+
 chat:
   no-message-sent: &quot;{prefix} &lt;yellow&gt;Nothing was sent because the message is empty after sanitization.&lt;/yellow&gt;&quot;
 
@@ -437,7 +457,8 @@ join-quit:
 chatitems:
   # Hover shown on clickable chat preview tokens.
   click-to-open: &quot;&lt;gray&gt;Click to open the saved preview.&lt;/gray&gt;&quot;
-  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;</code></pre>
+  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;
+</code></pre>
             <h3 id="chat-yml"><code>chat.yml</code></h3>
             <p>Public chat formatting, PlaceholderAPI behavior, cooldown defaults, mention defaults, and formatting permission behavior.</p>
             <p>Purpose:</p>
@@ -465,16 +486,16 @@ public-chat:
   # Layout inspired by the older NetworkChat proxy format:
   # prefix + player name + italic separator + processed message.
   # CoreChatX keeps its own default palette instead of copying the old colors verbatim.
-  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   # Optional group-specific format overrides keyed by LuckPerms primary group.
   # These are used only when channels.yml -&gt; format is blank for the active channel.
   # Keys must match the LuckPerms primary group in lowercase.
   group-formats:
-    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;&#194;&#187; &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
   # Applied to non-global active channels such as local or staff.
   channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
@@ -492,7 +513,8 @@ cooldowns:
     seconds: 2
   private-messages:
     enabled: false
-    seconds: 2</code></pre>
+    seconds: 2
+</code></pre>
             <h3 id="channels-yml"><code>channels.yml</code></h3>
             <p>Channel definitions, scopes, send/receive permissions, source-specific mentions, ChatItems, bubbles, and bridge export rules.</p>
             <p>Purpose:</p>
@@ -541,6 +563,9 @@ channels:
       # Optional Discord format for Discord -&gt; Minecraft messages routed to this channel.
       # Leave blank to use discord.yml -&gt; discord.inbound.format.
       inbound-format: &quot;&quot;
+      # Account-link requirement override for Discord -&gt; Minecraft messages routed to this CoreChatX channel.
+      # Values: inherit, true, false.
+      require-linked-inbound: &quot;inherit&quot;
     telegram:
       # Optional Telegram format for Minecraft -&gt; Telegram messages from this channel.
       # Leave blank to use telegram.yml -&gt; telegram.format.
@@ -566,6 +591,7 @@ channels:
     discord:
       outbound-format: &quot;&quot;
       inbound-format: &quot;&quot;
+      require-linked-inbound: &quot;inherit&quot;
     telegram:
       outbound-format: &quot;&quot;
       inbound-format: &quot;&quot;
@@ -586,6 +612,7 @@ channels:
     discord:
       outbound-format: &quot;&quot;
       inbound-format: &quot;&quot;
+      require-linked-inbound: &quot;inherit&quot;
     telegram:
       outbound-format: &quot;&quot;
       inbound-format: &quot;&quot;
@@ -811,7 +838,8 @@ network:
   max-snapshots-per-message: 3
   max-compressed-bytes: 30000
   max-uncompressed-bytes: 2097152
-  max-item-bytes: 262144</code></pre>
+  max-item-bytes: 262144
+</code></pre>
             <h3 id="keywords-yml"><code>keywords.yml</code></h3>
             <p>Interactive keyword aliases, MiniMessage renderers, permissions, and PlaceholderAPI allowance.</p>
             <p>Purpose:</p>
@@ -905,12 +933,13 @@ renderer:
   format: &quot;{message}&quot;
 </code></pre>
             <h3 id="discord-yml"><code>discord.yml</code></h3>
-            <p>Discord bridge outbound/inbound settings, token placeholders, channel ids, route channel, role formatting, and intents.</p>
+            <p>Discord bridge outbound/inbound settings, account linking, token placeholders, channel ids, route channel, role formatting, and intents.</p>
             <p>Purpose:</p>
             <ul>
               <li>Configures the Discord bot bridge, including token source, Minecraft-to-Discord output, Discord-to-Minecraft input, channel IDs, and gateway intents.</li>
               <li>Defines the CoreChatX route channel used for inbound Discord messages.</li>
               <li>Controls optional role formatting and avatar/name display in bridge templates.</li>
+              <li>Controls optional Discord-Minecraft account linking for inbound Discord chat and link-to-play enforcement.</li>
             </ul>
             <p>Important notes:</p>
             <ul>
@@ -918,6 +947,10 @@ renderer:
               <li>Discord bridge runtime also requires <code>deployment.bridges-allowed: true</code> in <code>config.yml</code>.</li>
               <li>Outbound bridge messages require the CoreChatX channel to allow bridge export.</li>
               <li>Discord-origin mentions are controlled by channel and ping config, not by Discord text alone.</li>
+              <li>Account linking is disabled by default and has its own master switch at <code>discord.inbound.account-linking.enabled</code>.</li>
+              <li><code>require-linked</code> controls Discord-to-Minecraft chat. <code>require-linked-to-play</code> controls Minecraft join kicks for unlinked players.</li>
+              <li><code>require-linked-to-play</code> only enforces when the Discord inbound bridge is available: <code>deployment.bridges-allowed: true</code>, <code>discord.enabled: true</code>, <code>discord.inbound.enabled: true</code>, a non-empty bot token, and a bot connected to at least one Discord guild. If the slash command bridge is unavailable, CoreChatX skips the kick and logs a warning to avoid locking players out.</li>
+              <li>Route overrides in <code>discord.inbound.route-overrides</code> are checked before channel overrides in <code>channels.yml</code>; both can use <code>inherit</code>, <code>true</code>, or <code>false</code>.</li>
             </ul>
             <p>Current bundled default:</p>
             <pre class="code-block"><code class="language-yml"># Discord outbound bridge.
@@ -938,9 +971,50 @@ discord:
     default-channel: &quot;global&quot;
     max-length: 400
     # Format used for Discord -&gt; Minecraft messages.
-    # Tokens: {source}, {source_type}, {channel_id}, {channel_prefix}, {sender_name}, {rank_prefix}, {role_color}, {plain_text}, {message}
+    # Tokens: {source}, {source_type}, {channel_id}, {channel_prefix}, {sender_name}, {player_name}, {player_nickname}, {discord_name}, {discord_id}, {rank_prefix}, {role_color}, {plain_text}, {message}
+    # When account-linking is enabled and the Discord user is linked, {sender_name}, {player_name}, {player_nickname}, and {rank_prefix} use the linked Minecraft identity.
     # Use {role_color} as a MiniMessage color tag, for example: &quot;{role_color}{rank_prefix}&lt;/role_color&gt; &quot;
     format: &quot;{channel_prefix}[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}&quot;
+    account-linking:
+      # Master switch for Discord -&gt; Minecraft account linking.
+      # When false, Discord inbound behaves exactly like the normal bridge and linked identities are ignored.
+      enabled: false
+      # If true, unlinked Discord users cannot write through routed Discord inbound channels.
+      # Route and channel overrides can still force true/false for specific destinations.
+      require-linked: false
+      # If true, unlinked Minecraft players are kicked after joining the backend with a code to use in Discord command /link code:&lt;code&gt;.
+      require-linked-to-play: false
+      # Deletes blocked unlinked messages when the bot has Discord&#39;s Manage Messages permission.
+      delete-unlinked-messages: true
+      # Sends a private Discord DM explaining why the message was blocked.
+      dm-unlinked-users: true
+      # Link codes generated by /discord link expire after this many minutes.
+      code-expire-minutes: 10
+      # If true, linked Discord users may chat while the Minecraft account is offline when stored data and LuckPerms data can be resolved.
+      allow-offline-linked-players: true
+      # If true, Minecraft mute state blocks linked Discord inbound messages.
+      enforce-minecraft-mutes: true
+      # If true, the linked Minecraft account must have permission to send to the target CoreChatX channel.
+      enforce-channel-send-permission: true
+      # Rate limit for warnings when CoreChatX cannot delete a Discord message because the bot lacks Manage Messages.
+      missing-manage-messages-warning-seconds: 300
+      # Discord slash command names registered by the bot.
+      link-command-name: &quot;link&quot;
+      unlink-command-name: &quot;unlink&quot;
+      messages:
+        unlinked-dm: &quot;Link your Minecraft account before chatting in this channel. Run /discord link in-game, then use the Discord /link command with that code here.&quot;
+        linked: &quot;Your Discord account is now linked to {player_name}.&quot;
+        unlinked: &quot;Your Discord account has been unlinked.&quot;
+        not-linked: &quot;This Discord account is not linked to a Minecraft account.&quot;
+        already-linked: &quot;This Discord account or Minecraft account is already linked. Unlink it first.&quot;
+        code-not-found: &quot;That link code is invalid or expired.&quot;
+        minecraft-denied: &quot;Your linked Minecraft account cannot send messages to that channel right now.&quot;
+    # Optional per Discord route account-link override.
+    # Values: inherit, true, false.
+    # route-overrides:
+    #   &quot;123456789012345678&quot;:
+    #     require-linked: true
+    route-overrides: {}
     # Map Discord channel ids to CoreChatX channel ids.
     # channel-routes:
     #   &quot;123456789012345678&quot;: &quot;staff&quot;
@@ -1128,13 +1202,14 @@ moderation:
             <p>Purpose:</p>
             <ul>
               <li>Declares the Paper plugin entrypoint, commands, aliases, soft dependencies, and fixed permission nodes.</li>
-              <li>Documents command permissions for chat, settings, PM, reply, ignore, moderation, ChatItems, formatting, nicknames, and real-name lookup.</li>
+              <li>Documents command permissions for chat, settings, PM, reply, ignore, moderation, ChatItems, formatting, nicknames, Discord linking, and real-name lookup.</li>
               <li>Includes granular nickname child permissions for color, style, hex, and gradient control.</li>
             </ul>
             <p>Permission notes:</p>
             <ul>
               <li><code>corechatx.command.nick</code> controls self nickname usage. <code>corechatx.command.nick.others</code> controls changing another online player.</li>
               <li><code>corechatx.command.realname</code> controls <code>/realname &lt;nickname&gt;</code>.</li>
+              <li><code>corechatx.command.discord.link</code>, <code>corechatx.command.discord.unlink</code>, and <code>corechatx.command.discord.linked</code> control player Discord-link commands. <code>corechatx.command.discord.admin</code> controls admin override linking.</li>
               <li><code>corechatx.nick.color</code> and <code>corechatx.nick.format</code> are parent permissions for all nickname colors/styles, including hex and gradients under the color parent.</li>
               <li>Granular child permissions such as <code>corechatx.nick.color.red</code>, <code>corechatx.nick.color.hex</code>, <code>corechatx.nick.color.gradient</code>, or <code>corechatx.nick.format.bold</code> allow narrower LuckPerms setups.</li>
               <li>This descriptor is packaged inside the jar. Admins normally edit permission assignments in their permission plugin, not this file.</li>
@@ -1177,6 +1252,9 @@ commands:
   realname:
     description: Resolve a CoreChatX nickname to the player&#39;s real Minecraft username.
     usage: /realname &lt;nickname&gt;
+  discord:
+    description: Link or unlink your Discord account.
+    usage: /discord &lt;link|unlink|linked|linkadmin&gt;
   ping:
     description: Manage ping notification preferences.
     usage: /ping &lt;sound|actionbar&gt; [on|off|toggle|status]
@@ -1246,6 +1324,18 @@ permissions:
   corechatx.command.realname:
     description: Resolve a CoreChatX nickname to a real Minecraft username.
     default: true
+  corechatx.command.discord.link:
+    description: Generate a Discord account link code.
+    default: true
+  corechatx.command.discord.unlink:
+    description: Unlink your Discord account.
+    default: true
+  corechatx.command.discord.linked:
+    description: View your Discord link status.
+    default: true
+  corechatx.command.discord.admin:
+    description: Force or remove Discord account links for other players.
+    default: op
   corechatx.nick.color:
     description: Use color codes and safe color tags in CoreChatX nicknames.
     default: op
@@ -1484,7 +1574,8 @@ permissions:
     default: op
   corechatx.format.style.reset:
     description: Use the format code &amp;r in player-authored messages.
-    default: op</code></pre>
+    default: op
+</code></pre>
             <h2 id="velocity-properties">Velocity Properties</h2>
             <p>Velocity uses a properties file rather than YAML. It is included here because it is required for proxy groups and network routing.</p>
             <h3 id="velocity-config-properties"><code>velocity-config.properties</code></h3>
@@ -1536,6 +1627,7 @@ player-directory.tab-entries=true
               <li><code>channeldata.yml</code>: generated active channel state.</li>
               <li><code>ignoredata.yml</code>: generated ignore state.</li>
               <li><code>mutedata.yml</code>: generated mute state.</li>
+              <li><code>discordlinks.yml</code>: generated Discord account-link mappings between Minecraft UUIDs and Discord user ids.</li>
               <li><code>playerdata.yml</code>: bundled as an empty root, then populated with player settings such as PM toggle, ping toggles, social spy, locale, bubble preference, and nickname.</li>
               <li><code>state.yml</code>: bundled initial global state.</li>
             </ul>
@@ -1546,6 +1638,7 @@ player-directory.tab-entries=true
               <li><code>pings.yml</code> can define custom ping receiver permissions.</li>
               <li><code>privacy.yml</code>, <code>moderation.yml</code>, <code>chatitems.yml</code>, and <code>chat.yml</code> expose behavior-specific permission nodes.</li>
               <li><code>/nick</code> uses fixed command permissions plus fixed granular color/style child permissions from <code>plugin.yml</code>.</li>
+              <li><code>/discord</code> link commands use fixed command permissions from <code>plugin.yml</code>.</li>
               <li>Use LuckPerms or another permission plugin as the source of truth for assignments.</li>
             </ul>
             <h2 id="practical-admin-notes">Practical Admin Notes</h2>
@@ -1553,6 +1646,7 @@ player-directory.tab-entries=true
               <li>Treat <code>deployment.*</code> and Velocity <code>network-channel</code> as boot identity, not casual reload settings.</li>
               <li>Keep one source of truth for each visual decision. Avoid letting multiple chat plugins format the same message.</li>
               <li>Use CoreChatX channels for routing rules instead of hardcoding bridge behavior in several places.</li>
+              <li>Back up <code>discordlinks.yml</code> with the rest of the runtime data if account linking is enabled.</li>
               <li>Use PlaceholderAPI in trusted templates, not as a way to let players execute arbitrary placeholder expansion through raw chat.</li>
               <li>Back up runtime data files before manual edits. Runtime data is user/plugin state, not a sample config.</li>
             </ul>
@@ -1590,6 +1684,16 @@ player-directory.tab-entries=true
               <li>Verify the CoreChatX channel has <code>export-to-bridges: true</code>.</li>
               <li>Keep private tokens out of public logs and support screenshots.</li>
             </ul>
+            <h3>Discord users cannot write into Minecraft channels</h3>
+            <ul>
+              <li>Check <code>discord.inbound.account-linking.enabled</code> and <code>require-linked</code>.</li>
+              <li>Check route overrides in <code>discord.yml</code> and channel overrides in <code>channels.yml</code>.</li>
+              <li>If linked users are blocked, verify Minecraft mute state and channel send permission requirements.</li>
+              <li>If unlinked messages are not deleted, verify the bot has Discord's Manage Messages permission.</li>
+            </ul>
+            <h3>Players are kicked with a Discord link code</h3>
+            <p><code>discord.inbound.account-linking.require-linked-to-play</code> is enabled and the Discord inbound bridge is available. The player must use the Discord slash command shown in the kick reason before joining normally.</p>
+            <p>If this setting is enabled but players are not kicked, check <code>deployment.bridges-allowed</code>, <code>discord.enabled</code>, <code>discord.inbound.enabled</code>, the bot token, and whether the bot is in a Discord guild. CoreChatX intentionally skips enforcement when slash commands are unavailable so players are not locked out with an unusable code.</p>
             <h3>PlaceholderAPI placeholders do not render</h3>
             <ul>
               <li>Verify PlaceholderAPI is installed on the Paper backend.</li>

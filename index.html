@@ -155,8 +155,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.1.7</strong>
-            <span>nicknames + sync fix</span>
+            <strong>2026.1.8</strong>
+            <span>linking + nickname mentions</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -173,15 +173,25 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.1.7 consolidates persistent nicknames and same-group proxy state sync.</h2>
+            <h2>CoreChatX 2026.1.8 adds Discord account linking and nickname-aware network lookup.</h2>
             <p>
-              The latest stable release brings the nickname refinement work together with the Velocity
-              state-sync fix, so nickname data stays group-local while still reaching other backends in
-              the same CoreChatX proxy group.
+              The latest stable release includes optional Discord-Minecraft linking, guarded link-to-play
+              enforcement, safer same-group link sync, and nickname-aware mentions and real-name lookup
+              across the current CoreChatX proxy group.
             </p>
           </div>
 
           <div class="setup-grid">
+            <article class="setup-card featured-setup">
+              <div class="setup-kicker">Discord linking</div>
+              <h3>Require linked Minecraft identity where you need it</h3>
+              <p>
+                Discord inbound can require linked users, render messages with the player's Minecraft
+                nickname and rank, and optionally kick unlinked Minecraft joins when the Discord slash
+                command bridge is available.
+              </p>
+            </article>
+
             <article class="setup-card">
               <div class="setup-kicker">Proxy groups</div>
               <h3>One Velocity, isolated CoreChatX groups</h3>
@@ -192,12 +202,13 @@
               </p>
             </article>
 
-            <article class="setup-card featured-setup">
+            <article class="setup-card">
               <div class="setup-kicker">Nicknames</div>
-              <h3>Persistent names with controlled formatting</h3>
+              <h3>Persistent names in chat lookup too</h3>
               <p>
                 <code>/nick</code> supports legacy colors, safe MiniMessage colors, hex, gradients,
-                duplicate-name protection, optional prefixes, and <code>/realname</code> lookup.
+                duplicate-name protection, optional prefixes, nickname mention suggestions, and
+                group-aware <code>/realname</code> lookup.
               </p>
             </article>
           </div>
