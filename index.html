@@ -155,8 +155,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.1.8</strong>
-            <span>linking + nickname mentions</span>
+            <strong>2026.2.0</strong>
+            <span>Velocity data authority</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -173,42 +173,42 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.1.8 adds Discord account linking and nickname-aware network lookup.</h2>
+            <h2>CoreChatX 2026.2.0 moves proxy runtime data and Discord authority to Velocity.</h2>
             <p>
-              The latest stable release includes optional Discord-Minecraft linking, guarded link-to-play
-              enforcement, safer same-group link sync, and nickname-aware mentions and real-name lookup
-              across the current CoreChatX proxy group.
+              The latest stable release makes Velocity the owner of proxy-mode runtime data, moves the
+              Discord bot to Velocity for proxy networks, adds group-specific required Discord role gates,
+              and includes a PlaceholderAPI nickname placeholder. A clean setup is recommended.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Discord linking</div>
-              <h3>Require linked Minecraft identity where you need it</h3>
+              <div class="setup-kicker">Proxy authority</div>
+              <h3>Velocity owns shared runtime state</h3>
               <p>
-                Discord inbound can require linked users, render messages with the player's Minecraft
-                nickname and rank, and optionally kick unlinked Minecraft joins when the Discord slash
-                command bridge is available.
+                In <code>PROXY</code>, player settings, nicknames, ignores, active channels, mutes,
+                global state, Discord links, and pending link codes are stored per Velocity
+                <code>network-channel</code> group.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">Proxy groups</div>
-              <h3>One Velocity, isolated CoreChatX groups</h3>
+              <div class="setup-kicker">Discord on Velocity</div>
+              <h3>One proxy-side bot for network installs</h3>
               <p>
-                <code>velocity-config.properties</code> accepts comma-separated
-                <code>network-channel</code> values. PMs, chat, player directory data, state sync,
-                nickname updates, and ChatItem snapshots stay inside the source group.
+                Proxy deployments configure Discord bridge I/O, account linking,
+                <code>require-linked-to-play</code>, and required role checks in
+                <code>velocity-discord.yml</code>, not on individual Paper backends.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">Nicknames</div>
-              <h3>Persistent names in chat lookup too</h3>
+              <div class="setup-kicker">Migration</div>
+              <h3>Clean setup recommended</h3>
               <p>
-                <code>/nick</code> supports legacy colors, safe MiniMessage colors, hex, gradients,
-                duplicate-name protection, optional prefixes, nickname mention suggestions, and
-                group-aware <code>/realname</code> lookup.
+                Regenerate fresh Paper and Velocity config files for <code>2026.2.0</code>,
+                then reapply deployment identity, channel formats, Discord routes, tokens,
+                and required role IDs manually.
               </p>
             </article>
           </div>
@@ -504,7 +504,7 @@
               <h3>Complete FAQ</h3>
               <p>Full FAQ for setup, formatting, channels, bridges, storage, and common problems.</p>
             </a>
-            <a class="resource-card" href="./configuration.html#troubleshooting-quick-reference">
+            <a class="resource-card" href="./configuration.html#troubleshooting">
               <span>Ops</span>
               <h3>Troubleshooting</h3>
               <p>Startup, reload, network routing, bridge, PlaceholderAPI, ChatItems, bubble, and data-file checks.</p>

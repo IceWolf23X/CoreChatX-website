@@ -189,13 +189,13 @@ const resourceLinks = [
     label: "Ops",
     title: "Troubleshooting",
     copy: "Startup, reload, routing, bridge, and data checks.",
-    href: "./configuration.html#troubleshooting-quick-reference",
+    href: "./configuration.html#troubleshooting",
   },
   {
     label: "Release",
-    title: "2026.1.8 Notes",
-    copy: "Discord linking, link-to-play, nickname lookup, and sync fixes.",
-    href: "./configuration.html#release-2026-1-8",
+    title: "2026.2.0 Notes",
+    copy: "Velocity data authority, proxy Discord bot, role gates, and clean setup guidance.",
+    href: "./configuration.html#clean-setup",
   },
 ];
 
@@ -223,3 +223,121 @@ if (docLayout && docArticle && resourcePages[currentPage]) {
     docArticle.insertAdjacentElement("afterend", resourceSidebar);
   }
 }
+
+const escapeCodeHtml = (value) =>
+  value.replace(
+    /[&<>"']/g,
+    (char) =>
+      ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[char])
+  );
+
+// Lightweight highlighting for generated config blocks; the underlying text remains copy/paste friendly.
+const highlightConfigValue = (value) => {
+  const leading = value.match(/^\s*/)?.[0] || "";
+  const trailing = value.match(/\s*$/)?.[0] || "";
+  const trimmed = value.trim();
+
+  if (!trimmed) {
+    return escapeCodeHtml(value);
+  }
+
+  let className = "config-token-value";
+
+  if (/^(true|false|null)$/i.test(trimmed)) {
+    className = "config-token-literal";
+  } else if (/^-?\d+(?:\.\d+)?$/.test(trimmed)) {
+    className = "config-token-number";
+  } else if (
+    (trimmed.startsWith('"') && trimmed.endsWith('"')) ||
+    (trimmed.startsWith("'") && trimmed.endsWith("'"))
+  ) {
+    className = "config-token-string";
+  }
+
+  return `${escapeCodeHtml(leading)}<span class="${className}">${escapeCodeHtml(
+    trimmed
+  )}</span>${escapeCodeHtml(trailing)}`;
+};
+
+const highlightYamlLine = (line) => {
+  const keyMatch = line.match(/^(\s*)(-\s+)?((?:"[^"]+"|'[^']+'|[^:#\s][^:]*?))(:)(.*)$/);
+
+  if (!keyMatch) {
+    return escapeCodeHtml(line);
+  }
+
+  const [, indent, dash = "", key, colon, value] = keyMatch;
+
+  return `${escapeCodeHtml(indent)}${escapeCodeHtml(
+    dash
+  )}<span class="config-token-key">${escapeCodeHtml(
+    key.trimEnd()
+  )}</span><span class="config-token-punctuation">${colon}</span>${highlightConfigValue(value)}`;
+};
+
+const highlightPropertiesLine = (line) => {
+  const propertyMatch = line.match(/^(\s*)([A-Za-z0-9_.-]+)(\s*=\s*)(.*)$/);
+
+  if (!propertyMatch) {
+    return escapeCodeHtml(line);
+  }
+
+  const [, indent, key, separator, value] = propertyMatch;
+
+  return `${escapeCodeHtml(indent)}<span class="config-token-key">${escapeCodeHtml(
+    key
+  )}</span><span class="config-token-punctuation">${escapeCodeHtml(
+    separator
+  )}</span>${highlightConfigValue(value)}`;
+};
+
+const highlightJsonLine = (line) => {
+  const match = line.match(/^(\s*)("[^"]+")(\s*:\s*)(.*?)(,?\s*)$/);
+
+  if (!match) {
+    return escapeCodeHtml(line);
+  }
+
+  const [, indent, key, separator, value, suffix] = match;
+
+  return `${escapeCodeHtml(indent)}<span class="config-token-key">${escapeCodeHtml(
+    key
+  )}</span><span class="config-token-punctuation">${escapeCodeHtml(
+    separator
+  )}</span>${highlightConfigValue(value)}${escapeCodeHtml(suffix)}`;
+};
+
+document
+  .querySelectorAll(".code-block code.language-yml, .code-block code.language-yaml, .code-block code.language-properties, .code-block code.language-json")
+  .forEach((code) => {
+    if (code.dataset.highlighted === "true") {
+      return;
+    }
+
+    const language = [...code.classList].find((className) => className.startsWith("language-")) || "";
+    const highlighter = language.includes("properties")
+      ? highlightPropertiesLine
+      : language.includes("json")
+        ? highlightJsonLine
+        : highlightYamlLine;
+
+    code.dataset.highlighted = "true";
+    code.innerHTML = code.textContent
+      .replace(/\r\n/g, "\n")
+      .split("\n")
+      .map((line) => {
+        const comment = /^\s*#/.test(line);
+        const content = comment
+          ? `<span class="config-token-comment">${escapeCodeHtml(line)}</span>`
+          : highlighter(line);
+
+        return `<span class="config-code-line${comment ? " is-comment" : ""}">${content}</span>`;
+      })
+      .join("");
+  });

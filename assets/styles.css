@@ -1492,10 +1492,10 @@ details p {
   overflow-x: auto;
   max-width: 100%;
   scrollbar-gutter: stable;
-  border: 1px solid rgba(139, 150, 255, 0.18);
+  border: 1px solid rgba(139, 150, 255, 0.24);
   border-radius: var(--radius-sm);
-  background: #090c18;
-  color: #e9ecff;
+  background: #080b16;
+  color: #dfe6ff;
   line-height: 1.55;
   padding: 18px;
   white-space: pre;
@@ -1505,7 +1505,46 @@ details p {
   border: 0;
   background: transparent;
   color: inherit;
+  display: block;
+  min-width: max-content;
   padding: 0;
+}
+
+.config-code-line {
+  display: block;
+  min-height: 1.55em;
+}
+
+.config-code-line.is-comment {
+  color: #8290b3;
+}
+
+.config-token-comment {
+  color: #8290b3;
+}
+
+.config-token-key {
+  color: #83d7ff;
+}
+
+.config-token-punctuation {
+  color: #8995bd;
+}
+
+.config-token-string {
+  color: #ffd479;
+}
+
+.config-token-literal {
+  color: #7fe3b2;
+}
+
+.config-token-number {
+  color: #f0b87a;
+}
+
+.config-token-value {
+  color: #f3f6ff;
 }
 
 :root[data-theme="light"] body {
@@ -1673,9 +1712,38 @@ details p {
 }
 
 :root[data-theme="light"] .code-block {
-  border-color: rgba(79, 109, 255, 0.18);
-  background: #f4f6ff;
-  color: #17203e;
+  border-color: rgba(79, 109, 255, 0.24);
+  background: #f7f9ff;
+  color: #18213f;
+}
+
+:root[data-theme="light"] .config-code-line.is-comment,
+:root[data-theme="light"] .config-token-comment {
+  color: #6c7590;
+}
+
+:root[data-theme="light"] .config-token-key {
+  color: #195fc4;
+}
+
+:root[data-theme="light"] .config-token-punctuation {
+  color: #66718e;
+}
+
+:root[data-theme="light"] .config-token-string {
+  color: #8a5514;
+}
+
+:root[data-theme="light"] .config-token-literal {
+  color: #147351;
+}
+
+:root[data-theme="light"] .config-token-number {
+  color: #9b4b18;
+}
+
+:root[data-theme="light"] .config-token-value {
+  color: #202943;
 }
 
 :root[data-theme="light"] .site-footer {
