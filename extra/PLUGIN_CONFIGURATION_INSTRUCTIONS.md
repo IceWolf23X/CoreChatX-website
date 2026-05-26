@@ -369,6 +369,7 @@ Operational notes:
 - `deployment.network-features-allowed: false` leaves `PROXY` deployment bootable but intentionally disables proxy transport and all cross-server features
 - `deployment.pending-pm-timeout-seconds` is clamped to at least 5 seconds
 - with `hooks.placeholderapi: true`, almost every player-facing configurable string supports PlaceholderAPI placeholders when PlaceholderAPI is installed
+- CoreChatX also registers `%corechatx_player_nickname%`, `%corechatx_first_join_date%` and `%corechatx_messages_count%` for other plugins when PlaceholderAPI is installed
 
 ---
 
