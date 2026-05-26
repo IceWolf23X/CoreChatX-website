@@ -130,53 +130,39 @@ backend-groups.minigames-1=corechatx:minigames
               </tbody>
             </table>
 
-            <section class="placeholder-reference" id="placeholderapi-values">
-              <div class="placeholder-reference__header">
-                <p class="setup-kicker">PlaceholderAPI expansion</p>
-                <h2>CoreChatX PlaceholderAPI Values</h2>
-                <p>When PlaceholderAPI is installed and <code>config.yml -> hooks.placeholderapi</code> is enabled, CoreChatX exposes these values for other PlaceholderAPI-aware plugins.</p>
-              </div>
+            <h2 id="placeholderapi-values">PlaceholderAPI Values</h2>
+            <p>When PlaceholderAPI is installed and <code>config.yml -> hooks.placeholderapi</code> is enabled, CoreChatX exposes the following values to other PlaceholderAPI-aware plugins.</p>
 
-              <div class="placeholder-reference__list" aria-label="CoreChatX PlaceholderAPI values">
-                <article class="placeholder-reference__item">
-                  <div class="placeholder-reference__token">
-                    <code>%corechatx_player_nickname%</code>
-                  </div>
-                  <div class="placeholder-reference__copy">
-                    <h3>Visible CoreChatX nickname</h3>
-                    <p>Returns the same display value as the internal <code>{player_nickname}</code> placeholder.</p>
-                    <p class="placeholder-reference__note">If the player has a custom nickname, the configured <code>nicknames.prefix</code> is included. Without a custom nickname, it falls back to the real Minecraft name.</p>
-                  </div>
-                </article>
+            <div class="placeholder-reference" aria-label="CoreChatX PlaceholderAPI values">
+              <article class="placeholder-card">
+                <span class="placeholder-card__label">Nickname display</span>
+                <code>%corechatx_player_nickname%</code>
+                <h3>Visible CoreChatX nickname</h3>
+                <p>Returns the same display value as the internal <code>{player_nickname}</code> placeholder.</p>
+                <p class="placeholder-card__note">Uses the configured <code>nicknames.prefix</code> only when the player has a custom nickname. Otherwise it returns the real Minecraft name.</p>
+              </article>
 
-                <article class="placeholder-reference__item">
-                  <div class="placeholder-reference__token">
-                    <code>%corechatx_first_join_date%</code>
-                  </div>
-                  <div class="placeholder-reference__copy">
-                    <h3>Recorded first join date</h3>
-                    <p>Returns the player's first recorded join date formatted as <code>yyyy-MM-dd HH:mm:ss</code>.</p>
-                    <p class="placeholder-reference__note">Returns an empty value when CoreChatX has not recorded a first join date for that player yet.</p>
-                  </div>
-                </article>
+              <article class="placeholder-card">
+                <span class="placeholder-card__label">Join tracking</span>
+                <code>%corechatx_first_join_date%</code>
+                <h3>Recorded first join date</h3>
+                <p>Returns the player's first recorded join date formatted as <code>yyyy-MM-dd HH:mm:ss</code>.</p>
+                <p class="placeholder-card__note">Returns an empty value when CoreChatX has not recorded a first join date for that player yet.</p>
+              </article>
 
-                <article class="placeholder-reference__item">
-                  <div class="placeholder-reference__token">
-                    <code>%corechatx_messages_count%</code>
-                  </div>
-                  <div class="placeholder-reference__copy">
-                    <h3>Public chat message count</h3>
-                    <p>Returns the persisted number of public chat messages CoreChatX has counted for that player.</p>
-                    <p class="placeholder-reference__note">The counter follows the same runtime data owner as the rest of the player state.</p>
-                  </div>
-                </article>
-              </div>
+              <article class="placeholder-card">
+                <span class="placeholder-card__label">Chat stats</span>
+                <code>%corechatx_messages_count%</code>
+                <h3>Public message count</h3>
+                <p>Returns the persisted number of public chat messages CoreChatX has counted for that player.</p>
+                <p class="placeholder-card__note">The counter follows the same runtime data owner as the rest of the player state.</p>
+              </article>
+            </div>
 
-              <aside class="placeholder-reference__runtime">
-                <strong>Runtime source</strong>
-                <p><code>STANDALONE</code> reads from Paper runtime YAML. <code>PROXY</code> reads from Velocity-owned data inside the player's <code>network-channel</code> group, so the values stay aligned across servers in the same group.</p>
-              </aside>
-            </section>
+            <aside class="placeholder-runtime-note">
+              <strong>Runtime source</strong>
+              <p><code>STANDALONE</code> reads from Paper runtime YAML. <code>PROXY</code> reads from Velocity-owned data inside the player's <code>network-channel</code> group, so these values stay aligned across servers in the same group.</p>
+            </aside>
 
             <h2 id="paper-files">Paper Files</h2>
             <p>The following blocks are the complete bundled Paper defaults, including comments.</p>

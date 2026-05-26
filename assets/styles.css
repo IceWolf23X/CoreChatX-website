@@ -1488,56 +1488,40 @@ details p {
   background: rgba(139, 150, 255, 0.15);
 }
 
+.markdown-body h2#placeholderapi-values {
+  font-size: clamp(1.85rem, 2.7vw, 2.65rem);
+}
+
 .placeholder-reference {
-  margin: 44px 0;
-  border: 1px solid rgba(139, 150, 255, 0.18);
-  border-radius: 18px;
-  background:
-    radial-gradient(circle at 88% 8%, rgba(79, 109, 255, 0.1), transparent 17rem),
-    rgba(8, 11, 24, 0.48);
-  padding: 24px;
-}
-
-.placeholder-reference__header {
-  max-width: 780px;
-  margin-bottom: 20px;
-}
-
-.markdown-body .placeholder-reference h2 {
-  margin: 10px 0 10px;
-  padding: 0;
-  font-size: clamp(1.65rem, 2.4vw, 2.35rem);
-}
-
-.markdown-body .placeholder-reference h3 {
-  margin: 0 0 8px;
-  font-size: 1rem;
-}
-
-.placeholder-reference__list {
   display: grid;
-  gap: 0;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 22px 0 16px;
 }
 
-.placeholder-reference__item {
-  display: grid;
-  grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.45fr);
-  gap: 18px;
-  border-top: 1px solid rgba(139, 150, 255, 0.14);
-  padding: 16px 0;
+.placeholder-card {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 10px;
+  border: 1px solid rgba(139, 150, 255, 0.16);
+  border-radius: 14px;
+  background: rgba(8, 11, 24, 0.46);
+  padding: 16px;
 }
 
-.placeholder-reference__item:first-child {
-  border-top: 0;
-  padding-top: 0;
+.placeholder-card__label {
+  width: fit-content;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
-.placeholder-reference__item:last-child {
-  padding-bottom: 0;
-}
-
-.placeholder-reference__token code {
+.placeholder-card > code {
   display: inline-flex;
+  align-self: flex-start;
   max-width: 100%;
   border-color: rgba(151, 126, 255, 0.34);
   background: rgba(139, 150, 255, 0.12);
@@ -1546,33 +1530,38 @@ details p {
   white-space: normal;
 }
 
-.placeholder-reference__copy p {
-  margin: 0 0 8px;
+.markdown-body .placeholder-card h3 {
+  margin: 4px 0 0;
+  font-size: 1rem;
 }
 
-.placeholder-reference__copy p:last-child {
-  margin-bottom: 0;
+.placeholder-card p {
+  margin: 0;
 }
 
-.placeholder-reference__note {
+.placeholder-card__note {
+  border-top: 1px solid rgba(139, 150, 255, 0.12);
   color: var(--muted);
-  font-size: 0.94rem;
+  font-size: 0.92rem;
+  padding-top: 10px;
 }
 
-.placeholder-reference__runtime {
-  margin-top: 20px;
-  border-top: 1px solid rgba(139, 150, 255, 0.14);
-  padding-top: 16px;
+.placeholder-runtime-note {
+  margin: 0 0 42px;
+  border: 1px solid rgba(139, 150, 255, 0.14);
+  border-radius: 14px;
+  background: rgba(139, 150, 255, 0.06);
+  padding: 14px 16px;
 }
 
-.placeholder-reference__runtime strong {
+.placeholder-runtime-note strong {
   display: block;
   color: var(--text);
   font-size: 0.9rem;
   margin-bottom: 6px;
 }
 
-.placeholder-reference__runtime p {
+.placeholder-runtime-note p {
   margin: 0;
 }
 
@@ -1799,22 +1788,24 @@ details p {
   background: rgba(83, 104, 255, 0.08);
 }
 
-:root[data-theme="light"] .placeholder-reference {
+:root[data-theme="light"] .placeholder-card {
   border-color: rgba(79, 109, 255, 0.18);
-  background:
-    radial-gradient(circle at 88% 8%, rgba(79, 109, 255, 0.08), transparent 17rem),
-    rgba(247, 249, 255, 0.76);
+  background: rgba(247, 249, 255, 0.72);
 }
 
-:root[data-theme="light"] .placeholder-reference__item,
-:root[data-theme="light"] .placeholder-reference__runtime {
+:root[data-theme="light"] .placeholder-card__note,
+:root[data-theme="light"] .placeholder-runtime-note {
   border-color: rgba(79, 109, 255, 0.14);
 }
 
-:root[data-theme="light"] .placeholder-reference__token code {
+:root[data-theme="light"] .placeholder-card > code {
   border-color: rgba(79, 109, 255, 0.24);
   background: rgba(83, 104, 255, 0.08);
   color: #253168;
+}
+
+:root[data-theme="light"] .placeholder-runtime-note {
+  background: rgba(83, 104, 255, 0.06);
 }
 
 :root[data-theme="light"] .code-block {
@@ -2058,12 +2049,7 @@ details p {
   }
 
   .placeholder-reference {
-    padding: 18px;
-  }
-
-  .placeholder-reference__item {
     grid-template-columns: 1fr;
-    gap: 8px;
   }
 }
 
