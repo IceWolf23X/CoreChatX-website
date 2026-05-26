@@ -46,8 +46,8 @@
           <p class="eyebrow">Complete installation guide</p>
           <h1>Install CoreChatX cleanly on Paper or Velocity.</h1>
           <p>
-            This guide keeps the operational rules in one place: artifacts, folders, deployment modes,
-            matching network values, reload boundaries, bridge notes, config regeneration, and validation.
+            Choose a standalone Paper setup or a Velocity network setup first. Then walk through each
+            config area in order, with the full key-by-key reference linked when you need exact defaults.
           </p>
         </div>
       </section>
@@ -57,56 +57,65 @@
           <aside class="doc-sidebar" aria-label="Installation contents">
             <strong>Contents</strong>
             <a href="#requirements">Requirements</a>
-            <a href="#artifacts">Artifacts</a>
+            <a href="#choose-mode">Choose A Mode</a>
+            <a href="#artifacts">Artifacts And Folders</a>
             <a href="#standalone-paper">Standalone Paper</a>
             <a href="#velocity-network">Velocity Network</a>
-            <a href="#bridges">Bridge Installs</a>
-            <a href="#placeholderapi">PlaceholderAPI Installs</a>
-            <a href="#chatitems-network">ChatItems On A Network</a>
+            <a href="#config-walkthrough">Config Walkthrough</a>
+            <a href="#bridge-decisions">Discord And Telegram</a>
+            <a href="#runtime-data">Runtime Data</a>
             <a href="#reload-restart">Reload vs Restart</a>
-            <a href="#file-layout">File Layout</a>
-            <a href="#regeneration">Regenerating Configs</a>
-            <a href="#validation">Production Validation</a>
+            <a href="#regeneration">Clean Configs</a>
+            <a href="#validation">Validation</a>
           </aside>
 
           <article class="markdown-body">
             <h2 id="requirements">Requirements</h2>
+            <p>Start here before editing any files. CoreChatX has two install shapes, but both use the same Paper config folder and the same basic dependencies.</p>
             <ul>
               <li>Java 21 runtime</li>
               <li>Paper <code>1.21.11</code> for backend servers</li>
-              <li>Velocity for multi-backend network installs</li>
-              <li>LuckPerms is optional for rank/group metadata and permission assignment</li>
-              <li>PlaceholderAPI is optional for dynamic placeholders in server-controlled templates</li>
-              <li>Discord bot token and required gateway intents are optional for the Discord bridge</li>
-              <li>Telegram bot token is optional for the Telegram Bot API long-polling bridge</li>
+              <li>Velocity only when you want one CoreChatX network across multiple Paper backends</li>
+              <li>LuckPerms is optional for rank prefixes and permission assignment</li>
+              <li>PlaceholderAPI is optional for placeholders inside trusted server-controlled templates</li>
+              <li>Discord and Telegram bot tokens are optional and needed only when those bridges are enabled</li>
             </ul>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#overview">configuration overview</a><a href="./configuration.html#clean-setup">clean setup notes</a></p>
 
-            <h2 id="artifacts">Artifacts And Identity</h2>
-            <p>CoreChatX currently ships as two separate runtime jars. Install each jar only on the platform it was built for.</p>
+            <h2 id="choose-mode">Choose A Mode First</h2>
+            <h3>Standalone Paper</h3>
+            <p>Use <code>STANDALONE</code> when CoreChatX runs on one Paper server. Runtime player data, nicknames, settings, mutes, ignores and Discord links are stored by that Paper backend.</p>
+            <p>Choose this mode when you do not need cross-backend chat, cross-server PMs, proxy join/leave handling or Velocity-owned data.</p>
+
+            <h3>Velocity Network</h3>
+            <p>Use <code>PROXY</code> when multiple Paper backends should share CoreChatX behavior through Velocity. In this mode, Velocity owns runtime data per <code>network-channel</code> group and Paper backends act as runtime clients.</p>
+            <p>Choose this mode for group-local network chat, cross-server PMs, synced settings, proxy join/leave, network player directory, cross-backend ChatItem previews, and proxy-side Discord account linking.</p>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#standalone-vs-proxy">standalone vs proxy</a><a href="./configuration.html#runtime-data">runtime data ownership</a></p>
+
+            <h2 id="artifacts">Artifacts And Folders</h2>
+            <p>CoreChatX ships two runtime jars. Install each jar only on the platform it was built for, and keep Paper and Velocity jars on the same CoreChatX version.</p>
             <p>Current release: <code>2026.2.1</code>. For this release, the installable jars are <code>corechatx-paper-2026.2.1.jar</code> and <code>corechatx-velocity-2026.2.1.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
               <li>Internal shared module: <code>corechatx-common-&lt;version&gt;.jar</code>, not a runtime jar to install</li>
-              <li>Paper plugin name: <code>CoreChatX</code></li>
-              <li>Velocity plugin id: <code>corechatx</code></li>
-              <li>Main Paper command: <code>/corechatx</code></li>
-              <li>Main command alias: <code>/ccx</code></li>
-              <li>Settings command alias: <code>/ccxsettings</code></li>
-              <li>Permission namespace: <code>corechatx.*</code></li>
-              <li>Default plugin messaging channel: <code>corechatx:main</code></li>
+              <li>Paper config folder: <code>plugins/CoreChatX/</code></li>
+              <li>Velocity config folder: <code>plugins/corechatx/</code></li>
             </ul>
-            <p>Do not mix old jars, old plugin ids, old permission namespaces, or old network channels with CoreChatX. For <code>2026.2.0</code>, a clean setup is recommended: let Paper and Velocity generate fresh defaults and manually reapply only the settings you still want.</p>
+            <p>Do not mix old jars, old plugin ids, old permission namespaces, or old network channels. For the <code>2026.2.x</code> line, a clean setup is recommended: regenerate defaults and manually reapply only the settings you still need.</p>
 
             <h2 id="standalone-paper">Standalone Paper</h2>
-            <p>Use this for one Paper server without cross-backend CoreChatX routing.</p>
+            <p>This is the clean path for one Paper server.</p>
             <ol>
               <li>Stop the Paper server.</li>
-              <li>Install <code>corechatx-paper-&lt;version&gt;.jar</code> on that Paper server.</li>
+              <li>Place <code>corechatx-paper-&lt;version&gt;.jar</code> in the server's <code>plugins/</code> folder.</li>
               <li>Start the server once so CoreChatX can generate <code>plugins/CoreChatX/</code>.</li>
-              <li>Keep deployment mode as <code>STANDALONE</code>.</li>
-              <li>Keep <code>deployment.network-features-allowed</code> false.</li>
-              <li>Configure formats, channels, messages, moderation, ChatItems, keywords, bubbles, and optional bridges on that backend.</li>
+              <li>Stop the server again before doing the first real configuration pass.</li>
+              <li>Keep <code>config.yml -> deployment.mode</code> as <code>STANDALONE</code>.</li>
+              <li>Keep <code>deployment.network-features-allowed</code> false because there is no proxy runtime.</li>
+              <li>Configure channels, formats, messages and optional features in the Paper files.</li>
+              <li>If you use Discord, configure Paper <code>discord.yml</code>. If you use Telegram, configure Paper <code>telegram.yml</code>.</li>
+              <li>Start the server and validate chat, commands and optional bridges.</li>
             </ol>
             <pre class="code-block"><code>deployment:
   mode: "STANDALONE"
@@ -114,20 +123,25 @@
   network-channel: "corechatx:main"
   bridges-allowed: true
   network-features-allowed: false</code></pre>
-            <p>In standalone mode, no Velocity module is required. <code>NETWORK</code> channels behave as normal local backend chat, cross-server PM routing is inactive, and network player directory features are inactive.</p>
+            <p>In standalone mode, <code>NETWORK</code> channel scope behaves like normal local backend chat. Cross-server PM routing, proxy player directory and proxy runtime storage are not active.</p>
+            <p class="config-jump"><span>Configure next:</span><a href="./configuration.html#config-yml">config.yml</a><a href="./configuration.html#channels-yml">channels.yml</a><a href="./configuration.html#discord-yml">discord.yml</a><a href="./configuration.html#telegram-yml">telegram.yml</a></p>
 
             <h2 id="velocity-network">Velocity Network</h2>
-            <p>Use this for Paper backends connected through Velocity.</p>
+            <p>This is the clean path for a Velocity proxy with one or more Paper backend groups.</p>
             <ol>
               <li>Stop the proxy and participating backends.</li>
-              <li>Install <code>corechatx-paper-&lt;version&gt;.jar</code> on every Paper backend that should use CoreChatX.</li>
+              <li>Install <code>corechatx-paper-&lt;version&gt;.jar</code> on every participating Paper backend.</li>
               <li>Install <code>corechatx-velocity-&lt;version&gt;.jar</code> on the Velocity proxy.</li>
-              <li>On each backend, set <code>deployment.mode</code> to <code>PROXY</code>.</li>
+              <li>Start everything once to generate defaults, then stop everything again.</li>
+              <li>On each backend, set <code>config.yml -> deployment.mode</code> to <code>PROXY</code>.</li>
               <li>Give every backend a unique <code>deployment.server-id</code>, such as <code>alpha</code>, <code>beta</code>, <code>survival-1</code>, or <code>hub</code>.</li>
-              <li>Choose the backend's CoreChatX group with <code>deployment.network-channel</code>.</li>
-              <li>List every accepted group channel in Velocity <code>plugins/corechatx/velocity-config.properties</code>.</li>
-              <li>Set <code>deployment.network-features-allowed</code> true on every backend that should participate in cross-server features.</li>
-              <li>Restart the affected Paper backends and Velocity after changing identity or network channel values.</li>
+              <li>Choose the backend's group with <code>deployment.network-channel</code>.</li>
+              <li>Set <code>deployment.network-features-allowed</code> true on each participating backend.</li>
+              <li>In Velocity <code>velocity-config.properties</code>, list every allowed <code>network-channel</code> group.</li>
+              <li>If Velocity must know a backend's group before the player reaches Paper, add <code>backend-groups.&lt;velocity-backend-name&gt;</code> pins.</li>
+              <li>Keep channel ids and important Paper formats consistent across backends that are in the same group.</li>
+              <li>Configure Discord bridge, account linking and role gates in Velocity <code>velocity-discord.yml</code>, not in Paper <code>discord.yml</code>.</li>
+              <li>Restart Velocity and the affected Paper backends after deployment identity or group changes.</li>
             </ol>
             <pre class="code-block"><code>deployment:
   mode: "PROXY"
@@ -139,63 +153,73 @@
 network-channel=corechatx:survival,corechatx:minigames
 player-directory.chat-completions=true
 player-directory.tab-entries=true</code></pre>
-            <p>Each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Network chat, PM lookup, player directory data, TAB/completions, state sync, ChatItem snapshot routing, and join/leave routing stay inside the source group. For a single legacy-style network, keep one value such as <code>corechatx:main</code> on Velocity and every participating backend.</p>
-            <p>Network behavior enabled by this setup includes group-local network channels, group-local cross-server PM routing, synced communication settings, active channel state, ping toggles, PM toggle, social spy, mention notifications, locale, staff-chat state, ignore lists, group player name completions, TAB entries where available, rich Adventure component transport, ChatItem preview refs, mentions, custom ping metadata, and optional proxy-routed join/leave announcements.</p>
-
-            <h3>Network join/leave mode</h3>
+            <p>Each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Network chat, PM lookup, player directory data, TAB/completions, state sync, ChatItem snapshot routing, Discord links, pending link codes and join/leave routing stay inside the source group.</p>
+            <p>Velocity owns shared runtime data in proxy mode, but it does not replace every backend's Paper config. Each backend still reads its own local <code>channels.yml</code>, <code>chat.yml</code>, <code>messages.yml</code> and feature files.</p>
             <pre class="code-block"><code>join-quit:
   mode: "NETWORK"
   join-enabled: true
   quit-enabled: true</code></pre>
-            <p>Use <code>LOCAL</code> for backend-local join and quit messages. Use <code>NETWORK</code> only when the backend participates in proxy routing. Server switches inside the same CoreChatX group do not create fake leave/join announcements; switches between groups announce leave in the old group and join in the new group.</p>
+            <p>Use <code>join-quit.mode: "NETWORK"</code> only on proxy-connected backends where join/quit should be announced once at the CoreChatX group level. Server switches inside the same group do not produce extra leave/join messages.</p>
+            <p class="config-jump"><span>Configure next:</span><a href="./configuration.html#velocity-config-properties">velocity-config.properties</a><a href="./configuration.html#velocity-discord-yml">velocity-discord.yml</a><a href="./configuration.html#channels-yml">channels.yml</a></p>
 
-            <h3>Persistent nicknames</h3>
-            <p><code>/nick</code> is available on Paper. Nicknames are stored in player data, synchronized through state sync in proxy mode, and displayed in chat, PMs, spy output, broadcast, join/quit, first-join, and network chat formatting. Real player lookup and routing still use UUIDs and real names.</p>
-            <pre class="code-block"><code>nicknames:
-  change-only-colors: false</code></pre>
-            <p>Set <code>change-only-colors</code> to true if players may only recolor or restyle their exact Minecraft username instead of shortening or changing the visible name text.</p>
+            <h2 id="config-walkthrough">Config Walkthrough</h2>
+            <p>Use this pass after the first boot. The goal here is to decide what each file is responsible for; the complete defaults and every key live in the configuration reference.</p>
 
-            <h2 id="bridges">Bridge Installs</h2>
+            <h3>1. Core identity and global switches</h3>
+            <p>Edit <code>config.yml</code> first. Decide the deployment mode, backend id, network channel, bridge master switch, network feature switch, PlaceholderAPI/LuckPerms hooks, nickname behavior, first-join behavior, and join/quit mode.</p>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#config-yml">config.yml</a></p>
+
+            <h3>2. Chat channels and visible formats</h3>
+            <p>Edit <code>channels.yml</code> to choose channel ids, default channel, channel scope, send/receive permissions, mention permissions, ChatItem allowance, bubble allowance and bridge export. Edit <code>chat.yml</code> for default chat formats, group formats, mentions, broadcasts, spy and private message formats. Edit <code>messages.yml</code> for command feedback and player-facing text.</p>
+            <p>On a network, keep the same important channel ids across backends in the same group. Velocity routes by group, but Paper still owns local channel definitions and rendering.</p>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#channels-yml">channels.yml</a><a href="./configuration.html#chat-yml">chat.yml</a><a href="./configuration.html#messages-yml">messages.yml</a></p>
+
+            <h3>3. Mentions, privacy and moderation</h3>
+            <p>Edit <code>pings.yml</code> for mention sounds, action bars and custom ping targets. Edit <code>privacy.yml</code> for player toggles such as PM and ping behavior. Edit <code>moderation.yml</code> and <code>filter.yml</code> for mute/chat control and word replacement rules.</p>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#pings-yml">pings.yml</a><a href="./configuration.html#privacy-yml">privacy.yml</a><a href="./configuration.html#moderation-yml">moderation.yml</a><a href="./configuration.html#filter-yml">filter.yml</a></p>
+
+            <h3>4. Optional chat interaction features</h3>
+            <p>Edit <code>chatitems.yml</code> for item, inventory, armor, hotbar and ender chest preview tokens. Edit <code>keywords.yml</code> for clickable or hoverable keyword shortcuts. Edit <code>chatbubbles.yml</code> if you want overhead chat bubbles.</p>
+            <p>On a network, ChatItem previews are routed inside the same CoreChatX group. Keep token expectations consistent across participating backends.</p>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#chatitems-yml">chatitems.yml</a><a href="./configuration.html#keywords-yml">keywords.yml</a><a href="./configuration.html#chatbubbles-yml">chatbubbles.yml</a></p>
+
+            <h3>5. Storage and language files</h3>
+            <p>Edit <code>storage.yml</code> only if you need to change the standalone storage backend. In <code>PROXY</code>, runtime state is owned by Velocity, so this file remains local backend configuration. Edit <code>locales/en_us.yml</code> for localized command text.</p>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#storage-yml">storage.yml</a><a href="./configuration.html#locales-en-us-yml">locales/en_us.yml</a></p>
+
+            <h3>6. PlaceholderAPI and LuckPerms</h3>
+            <p>Install PlaceholderAPI on every backend that must render PlaceholderAPI placeholders in CoreChatX templates. Install the required expansions separately. Install LuckPerms where rank prefixes and permission metadata should be resolved.</p>
+            <p>CoreChatX also registers PlaceholderAPI values for other plugins: <code>%corechatx_player_nickname%</code>, <code>%corechatx_first_join_date%</code> and <code>%corechatx_messages_count%</code>.</p>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#placeholderapi-values">PlaceholderAPI values</a><a href="./configuration.html#plugin-yml">plugin.yml</a></p>
+
+            <h2 id="bridge-decisions">Discord And Telegram</h2>
+            <p>Bridge setup depends on the deployment mode.</p>
+            <h3>Standalone bridge ownership</h3>
+            <p>In <code>STANDALONE</code>, Paper <code>discord.yml</code> owns the Discord bot, Discord inbound/outbound routes, account linking, link-to-play and optional Discord role checks. Paper <code>telegram.yml</code> owns Telegram Bot API long polling and outbound messages.</p>
+            <h3>Proxy bridge ownership</h3>
+            <p>In <code>PROXY</code>, Velocity <code>velocity-discord.yml</code> owns the Discord bridge, account linking, link-to-play, required role checks, Discord console command channel and Discord inbound route-to-group mapping.</p>
+            <p>Paper <code>discord.yml</code> can still start an optional console-only bot per backend through <code>discord.enabled</code> and <code>discord.console.*</code>. Use a separate Discord bot token per backend console bot to avoid duplicate gateway sessions.</p>
+            <h3>What to decide</h3>
             <ul>
-              <li>Keep <code>deployment.bridges-allowed</code> true.</li>
-              <li>Enable only the bridge services you actually use.</li>
-              <li>Enable outbound export only on CoreChatX channels that should leave Minecraft.</li>
-              <li>Configure inbound routes so external messages land in intentional CoreChatX channels.</li>
-              <li>Use <code>channels.yml</code> when a specific channel needs its own Discord or Telegram inbound/outbound format.</li>
-              <li>Use source-specific <code>allow-mentions</code> keys in <code>channels.yml</code> to decide whether Minecraft, Discord, and Telegram messages may activate mentions in each channel.</li>
-              <li>In proxy mode, configure Discord bridge inbound/outbound, account linking, link-to-play and role gates on Velocity <code>velocity-discord.yml</code>.</li>
-              <li>Paper <code>discord.yml</code> can still run an optional console-only backend bot through <code>discord.console.*</code>; use a separate token per backend console bot.</li>
-              <li>For Discord inbound, configure a valid bot token, inbound route, and required intents including Message Content on the bot that owns the bridge: Paper in <code>STANDALONE</code>, Velocity in <code>PROXY</code>.</li>
-              <li>Customize Discord inbound messages with <code>discord.inbound.format</code>, including <code>{source}</code>, <code>{channel_id}</code>, <code>{channel_prefix}</code>, <code>{sender_name}</code>, <code>{player_name}</code>, <code>{player_nickname}</code>, <code>{discord_name}</code>, <code>{discord_id}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, and <code>{plain_text}</code>.</li>
-              <li>Enable top-level <code>account-linking.enabled</code> only when you want Discord users to link to Minecraft accounts.</li>
-              <li>Use top-level <code>account-linking.require-linked</code> to block unlinked Discord users from writing into routed Minecraft channels.</li>
-              <li>Use top-level <code>account-linking.require-linked-to-play</code> if unlinked Minecraft players should be denied with a temporary Discord <code>/link code:&lt;code&gt;</code> reason.</li>
-              <li>Use <code>discord.inbound.route-overrides</code> and per-channel <code>discord.require-linked-inbound</code> values when only some routes should require linking.</li>
-              <li>Configure <code>discord-roles</code> in <code>pings.yml</code> before letting Discord-origin custom pings notify Minecraft players.</li>
-              <li>Use PlaceholderAPI placeholders and <code>{rank_prefix}</code> in <code>discord.format</code> when Minecraft-to-Discord output needs rank, economy, world, or other server data.</li>
-              <li>Telegram outbound formats can also use <code>{rank_prefix}</code> when the token is present.</li>
-              <li>Bridge output strips Minecraft formatting codes from templates and rank prefixes before sending to Discord or Telegram, while preserving the real chat message text.</li>
-              <li>For Telegram, use a bot token for Bot API long polling. Telegram does not use MTProto, Telegram4J, webhook mode, or an embedded HTTP server.</li>
+              <li>Which CoreChatX channels may export messages to Discord or Telegram.</li>
+              <li>Which Discord or Telegram channels route inbound messages back into Minecraft.</li>
+              <li>Whether Discord users must link to Minecraft accounts before writing into bridged channels.</li>
+              <li>Whether Minecraft players must be linked, or linked plus role-verified, before playing.</li>
+              <li>Whether bridge output should prevent Discord mentions from Minecraft text.</li>
+              <li>Whether join/quit/first-join messages should be mirrored to Discord as plain text or embeds.</li>
             </ul>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#discord-yml">Paper discord.yml</a><a href="./configuration.html#telegram-yml">telegram.yml</a><a href="./configuration.html#velocity-discord-yml">Velocity discord</a></p>
 
-            <h2 id="placeholderapi">PlaceholderAPI-Heavy Installs</h2>
+            <h2 id="runtime-data">Runtime Data</h2>
+            <p>Runtime data is player/plugin state, not normal admin configuration.</p>
             <ul>
-              <li>Install PlaceholderAPI on every backend that must render placeholders.</li>
-              <li>Install the expansions required by your formats.</li>
-              <li>Keep raw player messages separate from admin templates.</li>
-              <li>CoreChatX converts legacy ampersand codes, section-sign codes, and legacy hex colors returned by placeholders before MiniMessage rendering.</li>
-              <li>This includes EssentialsX-style legacy hex nicknames used in public chat formats.</li>
-              <li>Remember that mention token placeholders use the mentioned player as context.</li>
-              <li>Test offline-player placeholder behavior before relying on it for cross-backend hover text.</li>
+              <li>In <code>STANDALONE</code>, Paper stores runtime data in local YAML files under <code>plugins/CoreChatX/</code>.</li>
+              <li>In <code>PROXY</code>, Velocity stores shared runtime data under group-specific data files. Paper keeps local config and runtime caches, but Velocity is the authority.</li>
+              <li>Runtime data includes player settings, nicknames, ignore lists, active channels, mutes, global state, first-join state, Discord links and pending link codes.</li>
+              <li>Files such as <code>playerdata.yml</code>, <code>state.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, <code>mutedata.yml</code> and <code>discordlinks.yml</code> are runtime data files, not normal setup files.</li>
+              <li>Back up runtime files before deleting or manually editing them.</li>
             </ul>
-
-            <h2 id="chatitems-network">ChatItems On A Network</h2>
-            <ul>
-              <li>Keep ChatItems enabled only on channels where previews are wanted.</li>
-              <li>Prefer the bundled on-demand snapshot flow over embedding huge item data into every network chat packet.</li>
-              <li>Accept that expired or rejected snapshots fail closed with the normal expired-preview feedback.</li>
-              <li>Tune byte limits only after checking the size of custom item metadata.</li>
-            </ul>
+            <p class="config-jump"><span>Reference:</span><a href="./configuration.html#runtime-data">runtime ownership</a><a href="./configuration.html#playerdata-yml">playerdata.yml</a><a href="./configuration.html#state-yml">state.yml</a><a href="./configuration.html#velocity-config-properties">Velocity storage notes</a></p>
 
             <h2 id="reload-restart">Reload vs Restart</h2>
             <h3>Safe with <code>/corechatx reload</code></h3>
@@ -212,41 +236,19 @@ player-directory.tab-entries=true</code></pre>
               <li>changing Velocity <code>velocity-config.properties</code></li>
               <li>changing the Velocity <code>network-channel</code> list, which also requires affected Paper backends to use one of the configured channels</li>
             </ul>
-
-            <h2 id="file-layout">File Layout</h2>
-            <h3>Paper folder</h3>
-            <pre class="code-block"><code>plugins/CoreChatX/</code></pre>
-            <h3>Paper files created from bundled defaults</h3>
-            <pre class="code-block"><code>config.yml
-messages.yml
-chat.yml
-pings.yml
-filter.yml
-chatitems.yml
-keywords.yml
-chatbubbles.yml
-playerdata.yml
-state.yml
-channels.yml
-privacy.yml
-moderation.yml
-storage.yml
-discord.yml
-telegram.yml
-locales/en_us.yml</code></pre>
-            <h3>Additional Paper runtime files created on demand</h3>
-            <pre class="code-block"><code>channeldata.yml
-ignoredata.yml
-mutedata.yml
-discordlinks.yml</code></pre>
-            <h3>Velocity folder and file</h3>
-            <pre class="code-block"><code>plugins/corechatx/
-velocity-config.properties</code></pre>
+            <p>Use reload for normal wording and format edits. Use full restarts for identity, routing and proxy group changes because those values are initialized at startup.</p>
 
             <h2 id="regeneration">Regenerating A Clean Config Set</h2>
-            <p>Stop the server before deleting generated admin config files. CoreChatX recreates bundled defaults on next boot. Be careful with runtime data files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, <code>mutedata.yml</code>, and <code>discordlinks.yml</code>; those are live player/plugin state.</p>
-            <p>When an existing admin config is only missing newer bundled keys, CoreChatX <code>2026.1.3</code> adds those missing keys automatically on load or reload without overwriting your current values.</p>
-            <p>Before major changes, back up the whole CoreChatX folder. Keep private bridge tokens out of public backups and logs.</p>
+            <p>For the <code>2026.2.x</code> line, clean config regeneration is recommended when upgrading from older installs.</p>
+            <ol>
+              <li>Stop Paper backends and Velocity.</li>
+              <li>Back up <code>plugins/CoreChatX/</code> and <code>plugins/corechatx/</code>.</li>
+              <li>Delete or move old admin config files you want regenerated.</li>
+              <li>Keep runtime data only if you intentionally want to preserve standalone state.</li>
+              <li>Start once to regenerate defaults.</li>
+              <li>Stop again and reapply only current deployment identity, channel formats, bridge tokens, Discord routes and role ids.</li>
+            </ol>
+            <p>CoreChatX can add missing bundled keys to existing config files without overwriting current values, but a clean setup is easier to reason about after the proxy runtime ownership changes.</p>
 
             <h2 id="validation">Production Validation Checklist</h2>
             <ul>
@@ -268,6 +270,7 @@ velocity-config.properties</code></pre>
               <li>Test mute, mutechat, clear chat, social spy, ignore, and PM toggle behavior.</li>
               <li>Run <code>/corechatx reload</code> after a harmless wording change and confirm it applies.</li>
             </ul>
+            <p>For exact defaults, every bundled Paper file, every Velocity file and troubleshooting notes, use the <a href="./configuration.html">Configuration Reference</a>.</p>
           </article>
         </div>
       </section>
