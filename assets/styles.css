@@ -1488,6 +1488,94 @@ details p {
   background: rgba(139, 150, 255, 0.15);
 }
 
+.placeholder-reference {
+  margin: 44px 0;
+  border: 1px solid rgba(139, 150, 255, 0.18);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 88% 8%, rgba(79, 109, 255, 0.1), transparent 17rem),
+    rgba(8, 11, 24, 0.48);
+  padding: 24px;
+}
+
+.placeholder-reference__header {
+  max-width: 780px;
+  margin-bottom: 20px;
+}
+
+.markdown-body .placeholder-reference h2 {
+  margin: 10px 0 10px;
+  padding: 0;
+  font-size: clamp(1.65rem, 2.4vw, 2.35rem);
+}
+
+.markdown-body .placeholder-reference h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.placeholder-reference__list {
+  display: grid;
+  gap: 0;
+}
+
+.placeholder-reference__item {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.85fr) minmax(0, 1.45fr);
+  gap: 18px;
+  border-top: 1px solid rgba(139, 150, 255, 0.14);
+  padding: 16px 0;
+}
+
+.placeholder-reference__item:first-child {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.placeholder-reference__item:last-child {
+  padding-bottom: 0;
+}
+
+.placeholder-reference__token code {
+  display: inline-flex;
+  max-width: 100%;
+  border-color: rgba(151, 126, 255, 0.34);
+  background: rgba(139, 150, 255, 0.12);
+  color: #eef1ff;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.placeholder-reference__copy p {
+  margin: 0 0 8px;
+}
+
+.placeholder-reference__copy p:last-child {
+  margin-bottom: 0;
+}
+
+.placeholder-reference__note {
+  color: var(--muted);
+  font-size: 0.94rem;
+}
+
+.placeholder-reference__runtime {
+  margin-top: 20px;
+  border-top: 1px solid rgba(139, 150, 255, 0.14);
+  padding-top: 16px;
+}
+
+.placeholder-reference__runtime strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.placeholder-reference__runtime p {
+  margin: 0;
+}
+
 .code-block {
   overflow-x: auto;
   max-width: 100%;
@@ -1709,6 +1797,24 @@ details p {
 :root[data-theme="light"] .side-resource-card span,
 :root[data-theme="light"] .setup-kicker {
   background: rgba(83, 104, 255, 0.08);
+}
+
+:root[data-theme="light"] .placeholder-reference {
+  border-color: rgba(79, 109, 255, 0.18);
+  background:
+    radial-gradient(circle at 88% 8%, rgba(79, 109, 255, 0.08), transparent 17rem),
+    rgba(247, 249, 255, 0.76);
+}
+
+:root[data-theme="light"] .placeholder-reference__item,
+:root[data-theme="light"] .placeholder-reference__runtime {
+  border-color: rgba(79, 109, 255, 0.14);
+}
+
+:root[data-theme="light"] .placeholder-reference__token code {
+  border-color: rgba(79, 109, 255, 0.24);
+  background: rgba(83, 104, 255, 0.08);
+  color: #253168;
 }
 
 :root[data-theme="light"] .code-block {
@@ -1949,6 +2055,15 @@ details p {
 
   .footer-links {
     justify-content: flex-start;
+  }
+
+  .placeholder-reference {
+    padding: 18px;
+  }
+
+  .placeholder-reference__item {
+    grid-template-columns: 1fr;
+    gap: 8px;
   }
 }
 
