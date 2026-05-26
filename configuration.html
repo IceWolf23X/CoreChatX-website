@@ -63,6 +63,7 @@
             <a href="#discord-bot-placement">Discord bot placement</a>
             <a href="#velocity-groups">Velocity groups</a>
             <a href="#runtime-data">Runtime data</a>
+            <a href="#placeholderapi-values">PlaceholderAPI values</a>
             <a href="#paper-files">Paper files</a>
             <a href="#config-yml">config.yml</a><a href="#messages-yml">messages.yml</a><a href="#chat-yml">chat.yml</a><a href="#channels-yml">channels.yml</a><a href="#pings-yml">pings.yml</a><a href="#privacy-yml">privacy.yml</a><a href="#moderation-yml">moderation.yml</a><a href="#filter-yml">filter.yml</a><a href="#chatitems-yml">chatitems.yml</a><a href="#keywords-yml">keywords.yml</a><a href="#chatbubbles-yml">chatbubbles.yml</a><a href="#discord-yml">discord.yml</a><a href="#telegram-yml">telegram.yml</a><a href="#storage-yml">storage.yml</a><a href="#playerdata-yml">playerdata.yml</a><a href="#state-yml">state.yml</a><a href="#locales-en-us-yml">locales/en_us.yml</a><a href="#plugin-yml">plugin.yml</a>
             <a href="#velocity-files">Velocity files</a>
@@ -128,6 +129,18 @@ backend-groups.minigames-1=corechatx:minigames
                 <tr><td>Static chat/channel/message config</td><td>Paper files</td><td>Paper files plus Velocity config</td></tr>
               </tbody>
             </table>
+
+            <h2 id="placeholderapi-values">CoreChatX PlaceholderAPI Values</h2>
+            <p>When PlaceholderAPI is installed and <code>config.yml -> hooks.placeholderapi</code> is enabled, CoreChatX registers its own PlaceholderAPI expansion for other plugins to read CoreChatX player data.</p>
+            <table>
+              <thead><tr><th>Placeholder</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td><code>%corechatx_player_nickname%</code></td><td>The same visual display name used by CoreChatX <code>{player_nickname}</code>, including the configured nickname prefix when a custom nickname exists.</td></tr>
+                <tr><td><code>%corechatx_first_join_date%</code></td><td>The player's recorded first join date, formatted as <code>yyyy-MM-dd HH:mm:ss</code>. Returns an empty value if no first-join date has been recorded yet.</td></tr>
+                <tr><td><code>%corechatx_messages_count%</code></td><td>The player's persisted public chat message count.</td></tr>
+              </tbody>
+            </table>
+            <p>In <code>STANDALONE</code>, these values come from the Paper runtime YAML data. In <code>PROXY</code>, cross-server runtime data is owned by Velocity per <code>network-channel</code> group, so the values follow the same group-local data model as nicknames and player stats.</p>
 
             <h2 id="paper-files">Paper Files</h2>
             <p>The following blocks are the complete bundled Paper defaults, including comments.</p>
