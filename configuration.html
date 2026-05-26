@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.2.0 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
-    <title>CoreChatX 2026.2.0 Configuration Reference</title>
+    <meta name="description" content="CoreChatX 2026.2.1 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
+    <title>CoreChatX 2026.2.1 Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <meta name="theme-color" content="#070812">
@@ -48,7 +48,7 @@
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Configuration Reference</p>
-          <h1>CoreChatX 2026.2.0 Configuration</h1>
+          <h1>CoreChatX 2026.2.1 Configuration</h1>
           <p>Clean setup guidance, PROXY runtime authority rules, Discord bot placement, Velocity group routing and complete bundled default files from the current Paper and Velocity jars.</p>
         </div>
       </section>
@@ -72,10 +72,10 @@
 
           <article class="markdown-body">
             <h2 id="overview">Overview</h2>
-            <p>This page is rebuilt from the current CoreChatX 2026.2.0 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
+            <p>This page is rebuilt from the current CoreChatX 2026.2.1 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
             <ul>
-              <li>Current release: <code>2026.2.0</code></li>
-              <li>Installable jars: <code>corechatx-paper-2026.2.0.jar</code> and <code>corechatx-velocity-2026.2.0.jar</code></li>
+              <li>Current release: <code>2026.2.1</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.2.1.jar</code> and <code>corechatx-velocity-2026.2.1.jar</code></li>
               <li>Paper target: <code>1.21.11</code></li>
               <li>Java target: <code>21</code></li>
               <li>Default network channel: <code>corechatx:main</code></li>
@@ -102,8 +102,9 @@
             <h2 id="discord-bot-placement">Discord Bot Placement</h2>
             <ul>
               <li>In <code>STANDALONE</code>, the Discord bot is configured in Paper <code>discord.yml</code>.</li>
-              <li>In <code>PROXY</code>, the Discord bot is configured in Velocity <code>velocity-discord.yml</code>.</li>
-              <li>In <code>PROXY</code>, Paper <code>discord.yml</code> remains a local/static config file and does not start the Discord JDA bot.</li>
+              <li>In <code>PROXY</code>, the bridge/linking bot is configured in Velocity <code>velocity-discord.yml</code>.</li>
+              <li>In <code>PROXY</code>, Paper <code>discord.yml</code> can optionally run <code>discord.console.*</code> as a separate console-only backend bot.</li>
+              <li>Use a different Discord bot token for each backend console bot to avoid duplicated gateway sessions.</li>
               <li>Velocity handles Discord bridge I/O, account linking, required-link-to-play and required-role-to-play for proxy groups.</li>
             </ul>
 
@@ -112,7 +113,8 @@
             <p>Velocity <code>network-channel</code> can contain one or more comma-separated groups. Each group is isolated for PMs, chat routing, player directory, nicknames, mutes, Discord links, pending link codes and runtime data.</p>
             <pre class="code-block"><code class="language-properties">network-channel=corechatx:survival,corechatx:minigames
 backend-groups.survival-1=corechatx:survival
-backend-groups.minigames-1=corechatx:minigames</code></pre>
+backend-groups.minigames-1=corechatx:minigames
+</code></pre>
             <p><code>backend-groups.&lt;velocity-server-name&gt;</code> pins are recommended when Velocity must decide login gates before the player reaches Paper, especially for required Discord link or role checks in multi-group setups.</p>
 
             <h2 id="runtime-data">Runtime Data Ownership</h2>
@@ -146,7 +148,8 @@ deployment:
   # Plugin messaging channel shared with the Velocity module.
   # In PROXY mode this also selects the isolated Velocity data/routing group for this backend.
   network-channel: &quot;corechatx:main&quot;
-  # Global switch for all Discord / Telegram bridge runtime.
+  # Global switch for Discord / Telegram chat bridge runtime.
+  # Discord console-only bots may still start through discord.yml -&gt; discord.console.*.
   bridges-allowed: true
   # When false, Paper still boots in PROXY mode but proxy transport is intentionally disabled.
   # Cross-server chat, PM routing, player directory sync, and proxy-owned runtime data operations will not run.
@@ -727,10 +730,10 @@ renderer:
             </section>
             <section class="config-file" id="discord-yml">
               <details >
-                <summary><span>discord.yml</span><small>Paper-side Discord settings. In PROXY mode, Paper does not run the bot; Velocity owns Discord runtime.</small></summary>
-                <pre class="code-block"><code class="language-yml"># Discord outbound bridge.
-# Only locally-sent messages from channels with export-to-bridges: true are forwarded.
-# In network mode, CoreChatX exports only once on the source backend to avoid duplicates.
+                <summary><span>discord.yml</span><small>Paper Discord settings. In PROXY, bridge/linking stays on Velocity; Paper may run console-only bots.</small></summary>
+                <pre class="code-block"><code class="language-yml"># Discord integration for Paper.
+# STANDALONE owns chat bridge, account linking and optional console here.
+# PROXY keeps chat bridge/account linking on Velocity, but may still run a local console-only bot per backend.
 
 account-linking:
   # Master switch for Discord-Minecraft account linking.
@@ -781,11 +784,64 @@ account-linking:
     minecraft-denied: &quot;Your linked Minecraft account cannot send messages to that channel right now.&quot;
 
 discord:
-  # STANDALONE only. In PROXY mode the Discord bot and Discord channel targets must be configured on Velocity with velocity-discord.yml.
+  # STANDALONE: enables the Paper-owned Discord bot for bridge/linking/console.
+  # PROXY: enables only discord.console.* on this backend; bridge/account-linking targets must be configured on Velocity.
   enabled: false
   bot-token: &quot;&quot;
   default-channel-id: &quot;&quot;
   format: &quot;[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}&quot;
+  # If true, Minecraft -&gt; Discord bridge output breaks Discord mention tokens before sending.
+  # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
+  prevent-mentions-from-minecraft: true
+  connection-messages:
+    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#x27;s velocity-discord.yml.
+    # If true, CoreChatX mirrors accepted join, first-join and quit messages to Discord.
+    # Messages are sent only when the Minecraft join/quit message is actually announced.
+    enabled: false
+    # CoreChatX channel ids that should receive join/quit mirrors.
+    # Empty list = all enabled channels with export-to-bridges: true and a Discord target.
+    channels: []
+    # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
+    format: &quot;{plain_text}&quot;
+    # Optional action-specific plain-text formats. Leave empty to use format above.
+    join-format: &quot;&quot;
+    first-join-format: &quot;&quot;
+    quit-format: &quot;&quot;
+    embed:
+      # If true, join/quit mirrors are sent as a Discord embed instead of plain content.
+      enabled: false
+      # Hex color used for the embed side bar.
+      color: &quot;#57F287&quot;
+      # Optional action-specific colors. Leave empty to use color above.
+      join-color: &quot;#57F287&quot;
+      first-join-color: &quot;#57F287&quot;
+      quit-color: &quot;#ED4245&quot;
+      # Leave title empty for a compact embed with only the description.
+      title: &quot;&quot;
+      # Supports the same tokens as connection-messages.format.
+      description: &quot;{plain_text}&quot;
+      # Optional action-specific descriptions. Leave empty to use description above.
+      join-description: &quot;&quot;
+      first-join-description: &quot;&quot;
+      quit-description: &quot;&quot;
+  console:
+    # Allows this Paper backend to act as a Discord console bot even when chat bridge/account linking are disabled.
+    # In PROXY mode this is the only Paper Discord feature that can run.
+    # Use a separate Discord bot token per backend console to avoid duplicated gateway sessions.
+    enabled: false
+    # Discord channel id used as the console channel.
+    channel-id: &quot;&quot;
+    # Messages starting with this prefix are executed as Paper console commands.
+    # Set to &quot;&quot; to execute every message in the console channel as a command.
+    command-prefix: &quot;!&quot;
+    # If true, Paper console log lines are mirrored live to the Discord console channel.
+    live-log: true
+    # Sends a short Discord acknowledgement after dispatching a command.
+    send-command-feedback: true
+    # Empty allow lists mean anyone who can write in the configured Discord channel can run commands.
+    allowed-user-ids: []
+    allowed-role-ids: []
+    max-log-line-length: 1800
   # Optional per-channel overrides:
   # channel-overrides:
   #   global: &quot;123456789012345678&quot;
@@ -808,8 +864,7 @@ discord:
     # Map Discord channel ids to CoreChatX channel ids.
     # channel-routes:
     #   &quot;123456789012345678&quot;: &quot;staff&quot;
-    channel-routes: {}
-</code></pre>
+    channel-routes: {}</code></pre>
               </details>
             </section>
             <section class="config-file" id="telegram-yml">
@@ -1347,8 +1402,8 @@ player-directory.tab-entries=true
               <details >
                 <summary><span>velocity-discord.yml</span><small>Velocity-owned Discord bot, account linking, required-link-to-play, role gates and Discord channel routes.</small></summary>
                 <pre class="code-block"><code class="language-yml"># CoreChatX Velocity Discord settings.
-# In PROXY deployments this is the only place where the Discord bot should be configured.
-# Paper keeps discord.yml for STANDALONE mode and for local bridge formatting, but it must not run the bot in PROXY mode.
+# In PROXY deployments this is the authority for Discord bridge, account linking and login gates.
+# Paper keeps discord.yml for STANDALONE mode and optional per-backend console-only bots.
 
 account-linking:
   # Master switch for Discord-Minecraft account linking handled by Velocity.
@@ -1415,11 +1470,56 @@ discord:
   enabled: false
   bot-token: &quot;&quot;
   default-channel-id: &quot;&quot;
+  connection-messages:
+    # If true, accepted proxy-level join, first-join and quit messages are mirrored to Discord once per CoreChatX group.
+    enabled: false
+    # CoreChatX channel ids that should receive join/quit mirrors.
+    # Empty list = channel-overrides keys, or the inbound default channel when no overrides are configured.
+    channels: []
+    # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
+    format: &quot;{plain_text}&quot;
+    # Optional action-specific plain-text formats. Leave empty to use format above.
+    join-format: &quot;&quot;
+    first-join-format: &quot;&quot;
+    quit-format: &quot;&quot;
+    embed:
+      # If true, join/quit mirrors are sent as a Discord embed instead of plain content.
+      enabled: false
+      # Hex color used for the embed side bar.
+      color: &quot;#57F287&quot;
+      # Optional action-specific colors. Leave empty to use color above.
+      join-color: &quot;#57F287&quot;
+      first-join-color: &quot;#57F287&quot;
+      quit-color: &quot;#ED4245&quot;
+      # Leave title empty for a compact embed with only the description.
+      title: &quot;&quot;
+      # Supports the same tokens as connection-messages.format.
+      description: &quot;{plain_text}&quot;
+      # Optional action-specific descriptions. Leave empty to use description above.
+      join-description: &quot;&quot;
+      first-join-description: &quot;&quot;
+      quit-description: &quot;&quot;
+  console:
+    # Allows the Velocity Discord bot to execute proxy console commands from one Discord channel.
+    # Backend live logs are not mirrored from Velocity; use Paper backend console-only bots for full per-backend live logs.
+    enabled: false
+    channel-id: &quot;&quot;
+    # Set to &quot;&quot; to execute every message in the console channel as a command.
+    command-prefix: &quot;!&quot;
+    # Reserved for future proxy log streaming; command responses are returned today.
+    live-log: false
+    # Empty allow lists mean anyone who can write in the configured Discord channel can run commands.
+    allowed-user-ids: []
+    allowed-role-ids: []
+    max-response-chars: 1800
   # In PROXY mode Paper renders the Discord outbound text before sending it to Velocity.
   # Leave this true to preserve per-channel Paper formats from channels.yml.
   use-paper-outbound-format: true
   # Used only when use-paper-outbound-format=false or a backend sends no rendered text.
   format: &quot;[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}&quot;
+  # If true, Minecraft -&gt; Discord bridge output breaks Discord mention tokens before sending.
+  # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
+  prevent-mentions-from-minecraft: true
   # Optional CoreChatX channel id -&gt; Discord channel id overrides.
   # channel-overrides:
   #   global: &quot;123456789012345678&quot;
@@ -1442,8 +1542,7 @@ discord:
     channel-routes: {}
     # Optional per Discord route account-link override.
     # Values: inherit, true, false.
-    route-overrides: {}
-</code></pre>
+    route-overrides: {}</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-plugin-json">
@@ -1498,7 +1597,7 @@ discord:
       </div>
       <div class="shell footer-bottom">
         <span>Copyright 2026 CoreChatX. All rights reserved.</span>
-        <span>Configuration reference for CoreChatX 2026.2.0.</span>
+        <span>Configuration reference for CoreChatX 2026.2.1.</span>
       </div>
     </footer>
     <script src="./assets/site.js"></script>

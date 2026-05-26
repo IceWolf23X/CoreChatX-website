@@ -202,18 +202,19 @@
 <p>At minimum:</p>
 <ul>
 <li>a valid bot token</li>
-<li>inbound enabled in <code>discord.yml</code></li>
+<li>inbound enabled in Paper <code>discord.yml</code> for <code>STANDALONE</code>, or Velocity <code>velocity-discord.yml</code> for <code>PROXY</code></li>
 <li>a route to an existing CoreChatX channel</li>
 <li>the required Discord intents, including Message Content where message content is needed</li>
 </ul>
+<p>In proxy mode, run the bridge/linking Discord bot on Velocity. Paper backends may run separate console-only bots through <code>discord.console.*</code>, but those backend bots do not handle bridge routes, account linking or role gates.</p>
 <h3 id="can-discord-inbound-messages-be-formatted">Can Discord inbound messages be formatted?</h3>
 <p>Yes. Discord-to-Minecraft messages are controlled by <code>discord.inbound.format</code>. It can use <code>{source}</code>, <code>{source_type}</code>, <code>{channel_id}</code>, <code>{channel_prefix}</code>, <code>{sender_name}</code>, <code>{player_name}</code>, <code>{player_nickname}</code>, <code>{discord_name}</code>, <code>{discord_id}</code>, <code>{rank_prefix}</code>, <code>{role_color}</code>, and <code>{plain_text}</code> or <code>{message}</code>.</p>
 <p>There is no forced hardcoded <code>[Discord]</code> prefix; include the source text only where you want it in the format.</p>
 <h3 id="can-discord-users-be-required-to-link">Can Discord users be required to link a Minecraft account?</h3>
-<p>Yes. Enable <code>discord.inbound.account-linking.enabled</code>, then use <code>require-linked</code> globally or override it per Discord route and per CoreChatX channel. Unlinked Discord messages can be blocked, deleted when the bot has Manage Messages, and answered with a DM.</p>
+<p>Yes. Enable top-level <code>account-linking.enabled</code>, then use <code>account-linking.require-linked</code> globally or override it per Discord route and per CoreChatX channel. Unlinked Discord messages can be blocked, deleted when the bot has Manage Messages, and answered with a DM.</p>
 <p>Linked Discord inbound uses Minecraft identity for player-facing placeholders such as <code>{sender_name}</code>, <code>{player_name}</code>, <code>{player_nickname}</code>, and <code>{rank_prefix}</code>. <code>{discord_name}</code> and <code>{discord_id}</code> remain available when you still want to expose Discord identity.</p>
 <h3 id="can-players-be-required-to-link-before-playing">Can players be required to link before playing?</h3>
-<p>Yes. When <code>discord.inbound.account-linking.require-linked-to-play</code> is true and the Discord inbound bridge is available, an unlinked Minecraft player is allowed to join briefly, CoreChatX generates or reuses a temporary link code, and the backend kicks the player with the Discord <code>/link code:&lt;code&gt;</code> instruction. If the bot, inbound bridge, token, or guild slash command path is unavailable, CoreChatX skips the kick and logs a warning instead of locking players out.</p>
+<p>Yes. When top-level <code>account-linking.require-linked-to-play</code> is true, CoreChatX generates or reuses a temporary link code and denies the unlinked player with the Discord <code>/link code:&lt;code&gt;</code> instruction. In <code>PROXY</code>, Velocity owns that decision and can check the linked Discord role before the player reaches the backend when backend group pins are configured.</p>
 <h3 id="can-discord-output-use-placeholderapi">Can Minecraft-to-Discord output use PlaceholderAPI?</h3>
 <p>Yes. CoreChatX processes PlaceholderAPI placeholders and <code>{rank_prefix}</code> in <code>discord.format</code>, so trusted outbound templates can include server-side rank, world, economy, or other expansion data.</p>
 <h3 id="can-discord-roles-appear-in-minecraft-chat">Can Discord roles appear in Minecraft chat?</h3>
@@ -289,9 +290,9 @@
 <h3 id="discord-or-telegram-is-duplicating-messages">&quot;Discord or Telegram is duplicating messages.&quot;</h3>
 <p>In proxy mode, outbound export should happen from the source backend only. Check that you did not also configure another plugin or another backend path to export the same channel independently.</p>
 <h3 id="discord-users-are-blocked-from-writing">&quot;Discord users are blocked from writing into Minecraft.&quot;</h3>
-<p>Check <code>discord.inbound.account-linking.enabled</code>, <code>require-linked</code>, route overrides, and channel overrides. For linked users, also check Minecraft mute state and channel send permissions if those enforcement options are enabled.</p>
+<p>Check top-level <code>account-linking.enabled</code>, <code>account-linking.require-linked</code>, route overrides, and channel overrides. For linked users, also check Minecraft mute state and channel send permissions if those enforcement options are enabled.</p>
 <h3 id="players-are-kicked-with-a-link-code">&quot;Players are kicked with a Discord link code.&quot;</h3>
-<p><code>require-linked-to-play</code> is enabled and the Discord slash command bridge is available. The player must complete the Discord slash command shown in the kick reason before joining normally. If enforcement is enabled but no kick happens, verify <code>deployment.bridges-allowed</code>, <code>discord.enabled</code>, <code>discord.inbound.enabled</code>, the bot token, and that the bot is in a Discord guild.</p>
+<p><code>account-linking.require-linked-to-play</code> is enabled. The player must complete the Discord slash command shown in the kick reason before joining normally. In <code>STANDALONE</code>, verify Paper <code>discord.yml</code>, the bot token, and that the bot can register slash commands. In <code>PROXY</code>, verify Velocity <code>velocity-discord.yml</code>, matching <code>network-channel</code> values, and backend group pins when the check must happen before Paper receives the player.</p>
 <h3 id="a-placeholderapi-hover-shows-the-wrong-player">&quot;A PlaceholderAPI hover shows the wrong player.&quot;</h3>
 <p>For mentions, CoreChatX uses the mentioned player as context. If a hover still shows unexpected data, check the placeholder expansion itself and whether it supports offline player resolution.</p>
 <h3 id="chatitems-say-the-preview-expired">&quot;ChatItems say the preview expired.&quot;</h3>

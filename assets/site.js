@@ -193,8 +193,8 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "2026.2.0 Notes",
-    copy: "Velocity data authority, proxy Discord bot, role gates, and clean setup guidance.",
+    title: "2026.2.0.2 Notes",
+    copy: "Velocity data authority, proxy Discord bridge, bridge-output cleanup, role gates, and clean setup guidance.",
     href: "./configuration.html#clean-setup",
   },
 ];

@@ -155,8 +155,8 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.2.0</strong>
-            <span>Velocity data authority</span>
+            <strong>2026.2.1</strong>
+            <span>current release</span>
           </article>
           <article>
             <strong>Velocity ready</strong>
@@ -173,11 +173,13 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.2.0 moves proxy runtime data and Discord authority to Velocity.</h2>
+            <h2>CoreChatX 2026.2.1 finalizes the Velocity-owned proxy data line.</h2>
             <p>
-              The latest stable release makes Velocity the owner of proxy-mode runtime data, moves the
-              Discord bot to Velocity for proxy networks, adds group-specific required Discord role gates,
-              and includes a PlaceholderAPI nickname placeholder. A clean setup is recommended.
+              The 2026.2.1 release ships the Velocity-owned proxy runtime model, proxy-side Discord
+              bridge/linking authority, backend console-only bot support, group-specific required
+              Discord role gates, PlaceholderAPI nickname output, connection-message routing fixes,
+              and bridge output sanitization.
+              A clean setup is recommended for the major update.
             </p>
           </div>
 
@@ -194,11 +196,12 @@
 
             <article class="setup-card">
               <div class="setup-kicker">Discord on Velocity</div>
-              <h3>One proxy-side bot for network installs</h3>
+              <h3>One proxy-side bridge bot for network installs</h3>
               <p>
                 Proxy deployments configure Discord bridge I/O, account linking,
                 <code>require-linked-to-play</code>, and required role checks in
                 <code>velocity-discord.yml</code>, not on individual Paper backends.
+                Paper can still run separate console-only backend bots when needed.
               </p>
             </article>
 
