@@ -193,9 +193,9 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "2026.2.0.2 Notes",
-    copy: "Velocity data authority, proxy Discord bridge, bridge-output cleanup, role gates, and clean setup guidance.",
-    href: "./configuration.html#clean-setup",
+    title: "2026.2.1.5 Notes",
+    copy: "Discord player-list commands, proxy broadcasts, Velocity join/quit formats, login gates, and clean setup guidance.",
+    href: "./index.html#latest-release",
   },
 ];
 

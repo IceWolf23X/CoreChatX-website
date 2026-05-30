@@ -1,10 +1,10 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.2.1 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
-    <title>CoreChatX 2026.2.1 Configuration Reference</title>
+    <meta name="description" content="CoreChatX 2026.2.1.5 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
+    <title>CoreChatX 2026.2.1.5 Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <meta name="theme-color" content="#070812">
@@ -48,7 +48,7 @@
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Configuration Reference</p>
-          <h1>CoreChatX 2026.2.1 Configuration</h1>
+          <h1>CoreChatX 2026.2.1.5 Configuration</h1>
           <p>Clean setup guidance, PROXY runtime authority rules, Discord bot placement, Velocity group routing and complete bundled default files from the current Paper and Velocity jars.</p>
         </div>
       </section>
@@ -67,23 +67,23 @@
             <a href="#paper-files">Paper files</a>
             <a href="#config-yml">config.yml</a><a href="#messages-yml">messages.yml</a><a href="#chat-yml">chat.yml</a><a href="#channels-yml">channels.yml</a><a href="#pings-yml">pings.yml</a><a href="#privacy-yml">privacy.yml</a><a href="#moderation-yml">moderation.yml</a><a href="#filter-yml">filter.yml</a><a href="#chatitems-yml">chatitems.yml</a><a href="#keywords-yml">keywords.yml</a><a href="#chatbubbles-yml">chatbubbles.yml</a><a href="#discord-yml">discord.yml</a><a href="#telegram-yml">telegram.yml</a><a href="#storage-yml">storage.yml</a><a href="#playerdata-yml">playerdata.yml</a><a href="#state-yml">state.yml</a><a href="#locales-en-us-yml">locales/en_us.yml</a><a href="#plugin-yml">plugin.yml</a>
             <a href="#velocity-files">Velocity files</a>
-            <a href="#velocity-config-properties">velocity-config.properties</a><a href="#velocity-discord-yml">velocity-discord.yml</a><a href="#velocity-plugin-json">velocity-plugin.json</a>
+            <a href="#velocity-config-properties">velocity-config.properties</a><a href="#velocity-messages-yml">velocity-messages.yml</a><a href="#velocity-discord-yml">velocity-discord.yml</a><a href="#velocity-plugin-json">velocity-plugin.json</a>
             <a href="#troubleshooting">Troubleshooting</a>
           </aside>
 
           <article class="markdown-body">
             <h2 id="overview">Overview</h2>
-            <p>This page is rebuilt from the current CoreChatX 2026.2.1 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
+            <p>This page is rebuilt from the current CoreChatX 2026.2.1.5 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
             <ul>
-              <li>Current release: <code>2026.2.1</code></li>
-              <li>Installable jars: <code>corechatx-paper-2026.2.1.jar</code> and <code>corechatx-velocity-2026.2.1.jar</code></li>
+              <li>Current release: <code>2026.2.1.5</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.2.1.5.jar</code> and <code>corechatx-velocity-2026.2.1.5.jar</code></li>
               <li>Paper target: <code>1.21.11</code></li>
               <li>Java target: <code>21</code></li>
               <li>Default network channel: <code>corechatx:main</code></li>
             </ul>
 
-            <h2 id="clean-setup">Clean Setup Recommended For 2026.2.0</h2>
-            <p><strong>For 2026.2.0, a clean setup is recommended.</strong> Regenerate fresh Paper and Velocity config files, then manually reapply server-specific values such as <code>deployment.*</code>, channel formats, Discord token, Discord routes and required Discord role IDs.</p>
+            <h2 id="clean-setup">Clean Setup Recommended For 2026.2.x</h2>
+            <p><strong>For the 2026.2.x line, a clean setup is recommended.</strong> Regenerate fresh Paper and Velocity config files, then manually reapply server-specific values such as <code>deployment.*</code>, channel formats, Discord token, Discord routes and required Discord role IDs.</p>
             <p>This is especially important for existing Velocity networks. In <code>PROXY</code>, Velocity now owns cross-server runtime/user state; old Paper backend runtime YAML files should not be treated as authoritative network data.</p>
 
             <h2 id="standalone-vs-proxy">Standalone Vs Proxy</h2>
@@ -173,7 +173,7 @@ backend-groups.minigames-1=corechatx:minigames
                 <pre class="code-block"><code class="language-yml"># Core plugin settings.
 
 deployment:
-  # STANDALONE = Paper-only mode. Runtime player data is stored in this backend&#x27;s YAML files.
+  # STANDALONE = Paper-only mode. Runtime player data is stored in this backend&#39;s YAML files.
   # PROXY = Velocity-backed network mode. Runtime player data is owned by the CoreChatX Velocity module.
   # Changing this mode requires a full restart.
   mode: &quot;STANDALONE&quot;
@@ -227,15 +227,14 @@ first-join:
 
 join-quit:
   # LOCAL = announce only on the current Paper backend.
-  # NETWORK = in PROXY mode, announce true network join/leave through the Velocity module.
+  # NETWORK = in PROXY mode, Velocity owns true network join/leave announcements and uses velocity-messages.yml.
   mode: &quot;LOCAL&quot;
   join-enabled: true
   quit-enabled: true
 
 reload:
   # A short summary is shown to the command sender after a successful reload.
-  show-summary: true
-</code></pre>
+  show-summary: true</code></pre>
               </details>
             </section>
             <section class="config-file" id="messages-yml">
@@ -395,16 +394,16 @@ public-chat:
   # Layout inspired by the older NetworkChat proxy format:
   # prefix + player name + italic separator + processed message.
   # CoreChatX keeps its own default palette instead of copying the old colors verbatim.
-  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   # Optional group-specific format overrides keyed by LuckPerms primary group.
   # These are used only when channels.yml -&gt; format is blank for the active channel.
   # Keys must match the LuckPerms primary group in lowercase.
   group-formats:
-    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
   # Applied to non-global active channels such as local or staff.
   channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
@@ -773,7 +772,7 @@ renderer:
 account-linking:
   # Master switch for Discord-Minecraft account linking.
   # STANDALONE: this backend owns the bot, link codes, linked accounts and optional Discord role checks.
-  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity&#x27;s velocity-discord.yml instead.
+  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity&#39;s velocity-discord.yml instead.
   # Paper keeps this file for standalone setups and local formatting only.
   enabled: false
   # If true, unlinked Discord users cannot write through routed Discord inbound channels.
@@ -791,7 +790,7 @@ account-linking:
     role-ids: []
     # If true, kick linked players when Discord role verification cannot be completed.
     deny-if-unverifiable: true
-  # Deletes blocked unlinked messages when the bot has Discord&#x27;s Manage Messages permission.
+  # Deletes blocked unlinked messages when the bot has Discord&#39;s Manage Messages permission.
   delete-unlinked-messages: true
   # Sends a private Discord DM explaining why the message was blocked.
   dm-unlinked-users: true
@@ -829,7 +828,7 @@ discord:
   # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
   prevent-mentions-from-minecraft: true
   connection-messages:
-    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#x27;s velocity-discord.yml.
+    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#39;s velocity-discord.yml.
     # If true, CoreChatX mirrors accepted join, first-join and quit messages to Discord.
     # Messages are sent only when the Minecraft join/quit message is actually announced.
     enabled: false
@@ -877,6 +876,26 @@ discord:
     allowed-user-ids: []
     allowed-role-ids: []
     max-log-line-length: 1800
+  player-list:
+    # STANDALONE only. In PROXY mode configure the player-list command in Velocity&#39;s velocity-discord.yml.
+    # Shows online players from this Paper server.
+    enabled: false
+    # Text command listened in Discord channels visible to the bot. Set to &quot;&quot; to disable the text command.
+    command: &quot;!playerlist&quot;
+    # Also register a slash command. Slash commands can use true ephemeral replies.
+    register-slash-command: true
+    slash-command-name: &quot;playerlist&quot;
+    # CHANNEL = public embed, DM = private DM, EPHEMERAL = slash-only private reply.
+    # Text commands cannot be ephemeral, so EPHEMERAL falls back to DM for !playerlist.
+    response-visibility: &quot;CHANNEL&quot;
+    max-players: 80
+    embed:
+      color: &quot;#5865F2&quot;
+      title: &quot;Online players ({count})&quot;
+      empty-description: &quot;No players are currently online.&quot;
+      # Tokens: {player_name}, {player_nickname}, {server}
+      line-format: &quot;- {player_nickname}&quot;
+      more-format: &quot;... and {hidden_count} more.&quot;
   # Optional per-channel overrides:
   # channel-overrides:
   #   global: &quot;123456789012345678&quot;
@@ -1430,7 +1449,37 @@ player-directory.tab-entries=true
 # Do not place player state, mutes, privacy or Discord links in this config file.
 
 # Discord bot/account-linking settings live in velocity-discord.yml.
-</code></pre>
+# Velocity-owned PROXY join/quit/first-join message formats live in velocity-messages.yml.</code></pre>
+              </details>
+            </section>
+            <section class="config-file" id="velocity-messages-yml">
+              <details >
+                <summary><span>velocity-messages.yml</span><small>Velocity-owned PROXY join, quit and first-join message formats.</small></summary>
+                <pre class="code-block"><code class="language-yml"># CoreChatX Velocity messages.
+# In PROXY mode, network join/quit/first-join announcements are owned and rendered by Velocity.
+# Paper messages.yml is still used for STANDALONE and local-only Paper announcements.
+
+nicknames:
+  # Prefix inserted directly into {player_nickname} only when a player has a custom nickname.
+  # Keep this aligned with Paper config.yml -&gt; nicknames.prefix for matching visual output.
+  prefix: &quot;&quot;
+
+first-join:
+  # If true, the first accepted proxy/group join uses join-quit.first-join instead of join-quit.join.
+  enabled: true
+  # If true, Velocity increments and exposes {count} in the first-join format.
+  counter-enabled: true
+
+join-quit:
+  # These switches affect only Velocity-owned PROXY network announcements.
+  join-enabled: true
+  quit-enabled: true
+  # MiniMessage format. Placeholders: {player_name}, {player_nickname}
+  join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;green&gt;+&lt;/green&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&quot;
+  # MiniMessage format. Placeholders: {player_name}, {player_nickname}
+  quit: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;red&gt;-&lt;/red&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&quot;
+  # MiniMessage format. Placeholders: {player_name}, {player_nickname}, {count}
+  first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-discord-yml">
@@ -1547,6 +1596,25 @@ discord:
     allowed-user-ids: []
     allowed-role-ids: []
     max-response-chars: 1800
+  player-list:
+    # PROXY mode player-list command. The Discord channel route selects which CoreChatX network-channel group is listed.
+    enabled: false
+    # Text command listened in mapped Discord bridge channels. Set to &quot;&quot; to disable the text command.
+    command: &quot;!playerlist&quot;
+    # Also register a slash command. Slash commands can use true ephemeral replies.
+    register-slash-command: true
+    slash-command-name: &quot;playerlist&quot;
+    # CHANNEL = public embed, DM = private DM, EPHEMERAL = slash-only private reply.
+    # Text commands cannot be ephemeral, so EPHEMERAL falls back to DM for !playerlist.
+    response-visibility: &quot;CHANNEL&quot;
+    max-players: 80
+    embed:
+      color: &quot;#5865F2&quot;
+      title: &quot;Online players ({count})&quot;
+      empty-description: &quot;No players are currently online.&quot;
+      # Tokens: {player_name}, {player_nickname}, {server}
+      line-format: &quot;- {player_nickname} - {server}&quot;
+      more-format: &quot;... and {hidden_count} more.&quot;
   # In PROXY mode Paper renders the Discord outbound text before sending it to Velocity.
   # Leave this true to preserve per-channel Paper formats from channels.yml.
   use-paper-outbound-format: true
@@ -1632,7 +1700,7 @@ discord:
       </div>
       <div class="shell footer-bottom">
         <span>Copyright 2026 CoreChatX. All rights reserved.</span>
-        <span>Configuration reference for CoreChatX 2026.2.1.</span>
+        <span>Configuration reference for CoreChatX 2026.2.1.5.</span>
       </div>
     </footer>
     <script src="./assets/site.js"></script>

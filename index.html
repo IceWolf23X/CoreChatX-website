@@ -155,7 +155,7 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.2.1</strong>
+            <strong>2026.2.1.5</strong>
             <span>current release</span>
           </article>
           <article>
@@ -173,45 +173,43 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.2.1 finalizes the Velocity-owned proxy data line.</h2>
+            <h2>CoreChatX 2026.2.1.5 closes the proxy routing and Discord command pass.</h2>
             <p>
-              The 2026.2.1 release ships the Velocity-owned proxy runtime model, proxy-side Discord
-              bridge/linking authority, backend console-only bot support, group-specific required
-              Discord role gates, PlaceholderAPI nickname, first-join date and message-count output,
-              connection-message routing fixes, and bridge output sanitization.
-              A clean setup is recommended for the major update.
+              The 2026.2.1.5 release keeps the Velocity-owned proxy runtime model and adds Discord
+              player-list commands, proxy-group broadcasts, Velocity-owned join/quit formatting,
+              stricter login-gate behavior, nickname collision checks, and safer Discord mention output.
+              A clean setup remains recommended for the 2026.2.x line.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Proxy authority</div>
-              <h3>Velocity owns shared runtime state</h3>
+              <div class="setup-kicker">Proxy messages</div>
+              <h3>Velocity owns network join and quit</h3>
               <p>
-                In <code>PROXY</code>, player settings, nicknames, ignores, active channels, mutes,
-                global state, Discord links, and pending link codes are stored per Velocity
-                <code>network-channel</code> group.
+                In <code>PROXY</code>, <code>join-quit.mode: "NETWORK"</code> is rendered from
+                <code>velocity-messages.yml</code>. Same-group backend switches stay silent, while
+                cross-group switches announce a quit in the old group and a join in the new one.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">Discord on Velocity</div>
-              <h3>One proxy-side bridge bot for network installs</h3>
+              <div class="setup-kicker">Discord commands</div>
+              <h3>Player list works on Paper and Velocity</h3>
               <p>
-                Proxy deployments configure Discord bridge I/O, account linking,
-                <code>require-linked-to-play</code>, and required role checks in
-                <code>velocity-discord.yml</code>, not on individual Paper backends.
-                Paper can still run separate console-only backend bots when needed.
+                Configure <code>discord.player-list.*</code> in Paper standalone mode or
+                Velocity proxy mode. The proxy command resolves the Discord channel route to the
+                correct CoreChatX group before listing players.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">Migration</div>
-              <h3>Clean setup recommended</h3>
+              <div class="setup-kicker">Broadcasts</div>
+              <h3>Proxy broadcasts target groups</h3>
               <p>
-                Regenerate fresh Paper and Velocity config files for <code>2026.2.0</code>,
-                then reapply deployment identity, channel formats, Discord routes, tokens,
-                and required role IDs manually.
+                Paper <code>/broadcast</code> routes to the current Velocity group in
+                <code>PROXY</code>. Velocity also exposes <code>/broadcast &lt;message&gt;</code>
+                for one group or <code>/broadcast &lt;group|all&gt; &lt;message&gt;</code> for multi-group proxies.
               </p>
             </article>
           </div>

@@ -222,6 +222,9 @@
 <h3 id="can-discord-users-trigger-custom-pings">Can Discord users trigger custom pings like <code>@staff</code>?</h3>
 <p>Only when the matching custom ping in <code>pings.yml</code> has at least one matching Discord role id in <code>discord-roles</code>. Empty or missing <code>discord-roles</code> keeps the token as plain text and does not notify Minecraft players.</p>
 <p>Minecraft-origin custom pings still use <code>use-permission</code>, and recipient checks still use <code>receive-permission</code>.</p>
+<h3 id="how-does-discord-playerlist-work">How does Discord <code>playerlist</code> work?</h3>
+<p>In <code>STANDALONE</code>, Paper <code>discord.yml -> discord.player-list.*</code> controls the text command, optional slash command, visibility and embed format, and the list contains players online on that Paper server.</p>
+<p>In <code>PROXY</code>, Velocity <code>velocity-discord.yml -> discord.player-list.*</code> controls the command. The Discord channel must resolve to a CoreChatX route or channel override so Velocity knows which <code>network-channel</code> group to list.</p>
 <h3 id="what-if-a-bridge-format-is-invalid">What if a bridge format is invalid?</h3>
 <p>Bridge formats are validated on config load. Unknown placeholders and invalid inbound MiniMessage syntax produce warnings instead of failing startup.</p>
 <p>For Minecraft-to-Discord and Minecraft-to-Telegram output, CoreChatX strips Minecraft formatting codes from templates and rank prefixes while preserving literal ampersands in the actual chat message.</p>
@@ -239,6 +242,9 @@
 <p>Where validation exists, CoreChatX warns and disables only the affected binding or keyword. The whole plugin should not be treated as broken because one dynamic permission node is invalid.</p>
 <h3 id="are-player-commands-available-by-default">Are player commands available by default?</h3>
 <p>Player-facing commands such as <code>/corechatx</code>, <code>/corechatx settings</code>, <code>/corechatx locale</code>, private messages, replies, nicknames, pings, channel access, ignore, PM toggle, and chat settings default to normal player access where appropriate. Administrative, staff-targeted nickname editing, and moderation commands remain operator-only by default.</p>
+<h3 id="how-does-broadcast-work-in-proxy-mode">How does <code>/broadcast</code> work in proxy mode?</h3>
+<p>Paper <code>/broadcast</code> remains local in <code>STANDALONE</code>. In <code>PROXY</code>, it routes through Velocity and is delivered to the sender's CoreChatX group.</p>
+<p>Velocity also registers <code>/broadcast</code>. If only one CoreChatX group exists, use <code>/broadcast &lt;message&gt;</code>. If multiple groups exist, use <code>/broadcast &lt;group|all&gt; &lt;message&gt;</code>. The command uses <code>corechatx.command.broadcast</code>.</p>
 <hr>
 <h2 id="storage-and-data">Storage And Data</h2>
 <h3 id="is-sql-the-active-storage-backend">Is SQL the active storage backend?</h3>

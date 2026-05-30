@@ -94,7 +94,7 @@
 
             <h2 id="artifacts">Artifacts And Folders</h2>
             <p>CoreChatX ships two runtime jars. Install each jar only on the platform it was built for, and keep Paper and Velocity jars on the same CoreChatX version.</p>
-            <p>Current release: <code>2026.2.1</code>. For this release, the installable jars are <code>corechatx-paper-2026.2.1.jar</code> and <code>corechatx-velocity-2026.2.1.jar</code>.</p>
+            <p>Current release: <code>2026.2.1.5</code>. For this release, the installable jars are <code>corechatx-paper-2026.2.1.5.jar</code> and <code>corechatx-velocity-2026.2.1.5.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
@@ -153,14 +153,14 @@
 network-channel=corechatx:survival,corechatx:minigames
 player-directory.chat-completions=true
 player-directory.tab-entries=true</code></pre>
-            <p>Each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Network chat, PM lookup, player directory data, TAB/completions, state sync, ChatItem snapshot routing, Discord links, pending link codes and join/leave routing stay inside the source group.</p>
+            <p>Each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Network chat, PM lookup, player directory data, TAB/completions, state sync, ChatItem snapshot routing, Discord links, pending link codes, broadcasts and join/leave routing stay inside the source group.</p>
             <p>Velocity owns shared runtime data in proxy mode, but it does not replace every backend's Paper config. Each backend still reads its own local <code>channels.yml</code>, <code>chat.yml</code>, <code>messages.yml</code> and feature files.</p>
             <pre class="code-block"><code>join-quit:
   mode: "NETWORK"
   join-enabled: true
   quit-enabled: true</code></pre>
-            <p>Use <code>join-quit.mode: "NETWORK"</code> only on proxy-connected backends where join/quit should be announced once at the CoreChatX group level. Server switches inside the same group do not produce extra leave/join messages.</p>
-            <p class="config-jump"><span>Configure next:</span><a href="./configuration.html#velocity-config-properties">velocity-config.properties</a><a href="./configuration.html#velocity-discord-yml">velocity-discord.yml</a><a href="./configuration.html#channels-yml">channels.yml</a></p>
+            <p>Use <code>join-quit.mode: "NETWORK"</code> only on proxy-connected backends where join/quit should be announced once at the CoreChatX group level. In this mode, Velocity renders the message from <code>velocity-messages.yml</code>; Paper <code>messages.yml</code> remains for standalone and local-only announcements.</p>
+            <p class="config-jump"><span>Configure next:</span><a href="./configuration.html#velocity-config-properties">velocity-config.properties</a><a href="./configuration.html#velocity-messages-yml">velocity-messages.yml</a><a href="./configuration.html#velocity-discord-yml">velocity-discord.yml</a><a href="./configuration.html#channels-yml">channels.yml</a></p>
 
             <h2 id="config-walkthrough">Config Walkthrough</h2>
             <p>Use this pass after the first boot. The goal here is to decide what each file is responsible for; the complete defaults and every key live in the configuration reference.</p>
@@ -207,6 +207,7 @@ player-directory.tab-entries=true</code></pre>
               <li>Whether Minecraft players must be linked, or linked plus role-verified, before playing.</li>
               <li>Whether bridge output should prevent Discord mentions from Minecraft text.</li>
               <li>Whether join/quit/first-join messages should be mirrored to Discord as plain text or embeds.</li>
+              <li>Whether Discord should expose <code>!playerlist</code> or <code>/playerlist</code> in bridge channels.</li>
             </ul>
             <p class="config-jump"><span>Reference:</span><a href="./configuration.html#discord-yml">Paper discord.yml</a><a href="./configuration.html#telegram-yml">telegram.yml</a><a href="./configuration.html#velocity-discord-yml">Velocity discord</a></p>
 
