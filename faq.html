@@ -182,9 +182,12 @@
 <hr>
 <h2 id="chatitems-and-chat-bubbles">ChatItems And Chat Bubbles</h2>
 <h3 id="what-are-chatitems">What are ChatItems?</h3>
-<p>ChatItems let players type configured tokens such as item, inventory, or armor placeholders and expose interactive previews in chat.</p>
+<p>ChatItems let players type configured tokens such as <code>[item]</code>, <code>[armor]</code>, <code>[hotbar]</code>, <code>[inventory]</code>, or <code>[enderchest]</code> and expose interactive previews in chat.</p>
+<p>When Discord image rendering is enabled, Minecraft-to-Discord messages can also attach rendered PNG previews. Multi-item previews can include Discord dropdown menus, and selecting one item sends an ephemeral single-item tooltip panel to that Discord user.</p>
 <h3 id="do-chatitems-work-across-servers">Do ChatItems work across servers?</h3>
-<p>Yes, in network mode they use lightweight references in the rendered chat message and retrieve the needed snapshot on demand through Velocity. This avoids stuffing large item or inventory payloads into every network chat packet.</p>
+<p>Yes, in network mode they use lightweight references in the rendered chat message and retrieve the needed snapshot on demand through Velocity. Discord image packets and item preview requests are routed through the same CoreChatX group. This avoids stuffing large item or inventory payloads into every network chat packet.</p>
+<h3 id="do-chatitems-render-on-discord">Do ChatItems render on Discord?</h3>
+<p>Yes, when <code>chatitems.yml -> discord-images.enabled</code> is true and the message is exported to Discord. CoreChatX can render inventory-like snapshots, single-item tooltip panels, potion data, lore, enchantments, attributes, armor trims, durability and selected hotbar slot state. Vanilla assets can be downloaded automatically, and resource-pack paths can be configured in <code>discord-images.assets.resource-packs</code>.</p>
 <h3 id="are-huge-custom-inventories-guaranteed-to-work-cross-server">Are huge custom inventories guaranteed to work cross-server?</h3>
 <p>They are protected by size and safety limits. The goal is to support real usage without letting oversized metadata destabilize proxy messaging. If a snapshot is too large, expired, rejected, or unavailable, the click fails closed with the configured expired-preview feedback.</p>
 <h3 id="what-is-max-snapshots-per-message">What is <code>max-snapshots-per-message</code>?</h3>
@@ -216,7 +219,7 @@
 <h3 id="can-players-be-required-to-link-before-playing">Can players be required to link before playing?</h3>
 <p>Yes. When top-level <code>account-linking.require-linked-to-play</code> is true, CoreChatX generates or reuses a temporary link code and denies the unlinked player with the Discord <code>/link code:&lt;code&gt;</code> instruction. In <code>PROXY</code>, Velocity owns that decision and can check the linked Discord role before the player reaches the backend when backend group pins are configured.</p>
 <h3 id="can-discord-output-use-placeholderapi">Can Minecraft-to-Discord output use PlaceholderAPI?</h3>
-<p>Yes. CoreChatX processes PlaceholderAPI placeholders and <code>{rank_prefix}</code> in <code>discord.format</code>, so trusted outbound templates can include server-side rank, world, economy, or other expansion data.</p>
+<p>Yes. CoreChatX processes PlaceholderAPI placeholders and <code>{rank_prefix}</code> in <code>discord.format</code>, so trusted outbound templates can include server-side rank, world, economy, or other expansion data. In <code>PROXY</code>, Velocity-side PlaceholderAPI resolving needs optional <code>PAPIProxyBridge</code> when the placeholder is resolved from Velocity-owned formats such as player-list rows, channel descriptions, join/quit messages, or fallback Discord formats.</p>
 <h3 id="can-discord-roles-appear-in-minecraft-chat">Can Discord roles appear in Minecraft chat?</h3>
 <p>For normal unlinked Discord-to-Minecraft messages, Discord role data can be used in the inbound bridge format. When a Discord user is linked, Minecraft identity placeholders use the linked Minecraft account instead, so the visible sender can follow the player's real name, CoreChatX nickname, and Minecraft rank.</p>
 <h3 id="can-discord-users-trigger-custom-pings">Can Discord users trigger custom pings like <code>@staff</code>?</h3>
@@ -225,6 +228,8 @@
 <h3 id="how-does-discord-playerlist-work">How does Discord <code>playerlist</code> work?</h3>
 <p>In <code>STANDALONE</code>, Paper <code>discord.yml -> discord.player-list.*</code> controls the text command, optional slash command, visibility and embed format, and the list contains players online on that Paper server.</p>
 <p>In <code>PROXY</code>, Velocity <code>velocity-discord.yml -> discord.player-list.*</code> controls the command. The Discord channel must resolve to a CoreChatX route or channel override so Velocity knows which <code>network-channel</code> group to list.</p>
+<h3 id="can-discord-channel-descriptions-update-automatically">Can Discord text channel descriptions update automatically?</h3>
+<p>Yes. Enable <code>discord.channel-description</code>. Paper standalone updates configured Discord text channel topics from the standalone server. Velocity proxy mode updates text channel topics per configured <code>network-channel</code>, with internal placeholders such as <code>{online}</code> and <code>{online_in_group}</code> plus optional PlaceholderAPI values through <code>PAPIProxyBridge</code>.</p>
 <h3 id="what-if-a-bridge-format-is-invalid">What if a bridge format is invalid?</h3>
 <p>Bridge formats are validated on config load. Unknown placeholders and invalid inbound MiniMessage syntax produce warnings instead of failing startup.</p>
 <p>For Minecraft-to-Discord and Minecraft-to-Telegram output, CoreChatX strips Minecraft formatting codes from templates and rank prefixes while preserving literal ampersands in the actual chat message.</p>

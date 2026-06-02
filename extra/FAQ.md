@@ -198,12 +198,18 @@ In proxy mode, these settings can follow backend switches.
 
 ### What are ChatItems?
 
-ChatItems let players type configured tokens such as item, inventory, or armor placeholders and expose interactive previews in chat.
+ChatItems let players type configured tokens such as `[item]`, `[armor]`, `[hotbar]`, `[inventory]`, or `[enderchest]` and expose interactive previews in chat.
+
+When Discord image rendering is enabled, Minecraft-to-Discord messages can also attach rendered PNG previews. Multi-item previews can include Discord dropdown menus, and selecting one item sends an ephemeral single-item tooltip panel to that Discord user.
 
 ### Do ChatItems work across servers?
 
 Yes, in network mode they use lightweight references in the rendered chat message and retrieve the needed snapshot on demand through Velocity.
-This avoids stuffing large item or inventory payloads into every network chat packet.
+Discord image packets and item preview requests are routed through the same CoreChatX group. This avoids stuffing large item or inventory payloads into every network chat packet.
+
+### Do ChatItems render on Discord?
+
+Yes, when `chatitems.yml -> discord-images.enabled` is true and the message is exported to Discord. CoreChatX can render inventory-like snapshots, single-item tooltip panels, potion data, lore, enchantments, attributes, armor trims, durability and selected hotbar slot state. Vanilla assets can be downloaded automatically, and resource-pack paths can be configured in `discord-images.assets.resource-packs`.
 
 ### Are huge custom inventories guaranteed to work cross-server?
 
@@ -249,6 +255,10 @@ At minimum:
 - the required Discord intents, including Message Content where message content is needed
 
 In proxy mode, run the bridge/linking Discord bot on Velocity. Paper backends still render Minecraft chat and enforce Minecraft-side channel behavior. A Paper backend may also run its own separate console-only Discord bot through `discord.console.*`, but that backend bot does not handle bridge routes, account linking or role gates.
+
+### Can Discord text channel descriptions update automatically?
+
+Yes. Enable `discord.channel-description`. Paper standalone updates configured Discord text channel topics from the standalone server. Velocity proxy mode updates text channel topics per configured `network-channel`, with internal placeholders such as `{online}` and `{online_in_group}` plus optional PlaceholderAPI values through `PAPIProxyBridge`.
 
 ### Does CoreChatX support Telegram?
 

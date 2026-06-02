@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.2.1.5 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
-    <title>CoreChatX 2026.2.1.5 Configuration Reference</title>
+    <meta name="description" content="CoreChatX 2026.2.2 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
+    <title>CoreChatX 2026.2.2 Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <meta name="theme-color" content="#070812">
@@ -48,7 +48,7 @@
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Configuration Reference</p>
-          <h1>CoreChatX 2026.2.1.5 Configuration</h1>
+          <h1>CoreChatX 2026.2.2 Configuration</h1>
           <p>Clean setup guidance, PROXY runtime authority rules, Discord bot placement, Velocity group routing and complete bundled default files from the current Paper and Velocity jars.</p>
         </div>
       </section>
@@ -73,10 +73,10 @@
 
           <article class="markdown-body">
             <h2 id="overview">Overview</h2>
-            <p>This page is rebuilt from the current CoreChatX 2026.2.1.5 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
+            <p>This page is rebuilt from the current CoreChatX 2026.2.2 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
             <ul>
-              <li>Current release: <code>2026.2.1.5</code></li>
-              <li>Installable jars: <code>corechatx-paper-2026.2.1.5.jar</code> and <code>corechatx-velocity-2026.2.1.5.jar</code></li>
+              <li>Current release: <code>2026.2.2</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.2.2.jar</code> and <code>corechatx-velocity-2026.2.2.jar</code></li>
               <li>Paper target: <code>1.21.11</code></li>
               <li>Java target: <code>21</code></li>
               <li>Default network channel: <code>corechatx:main</code></li>
@@ -111,7 +111,7 @@
 
             <h2 id="velocity-groups">Velocity Groups</h2>
             <span id="proxy-groups"></span>
-            <p>Velocity <code>network-channel</code> can contain one or more comma-separated groups. Each group is isolated for PMs, chat routing, player directory, nicknames, mutes, Discord links, pending link codes and runtime data.</p>
+            <p>Velocity <code>network-channel</code> can contain one or more comma-separated groups. Each group is isolated for PMs, chat routing, player directory, nicknames, mutes, ChatItem snapshot routing, Discord image transfer, Discord links, pending link codes and runtime data.</p>
             <pre class="code-block"><code class="language-properties">network-channel=corechatx:survival,corechatx:minigames
 backend-groups.survival-1=corechatx:survival
 backend-groups.minigames-1=corechatx:minigames
@@ -126,6 +126,8 @@ backend-groups.minigames-1=corechatx:minigames
                 <tr><td>Ignore list and active channel</td><td>Paper YAML</td><td>Velocity group store</td></tr>
                 <tr><td>Mutes, global state, first-join count</td><td>Paper YAML</td><td>Velocity group store</td></tr>
                 <tr><td>Discord links and pending link codes</td><td>Paper YAML</td><td>Velocity group store</td></tr>
+                <tr><td>Discord bridge, player-list and channel descriptions</td><td>Paper <code>discord.yml</code></td><td>Velocity <code>velocity-discord.yml</code></td></tr>
+                <tr><td>Discord ChatItem image delivery</td><td>Paper bot sends attachments</td><td>Paper renders, Velocity bot sends attachments</td></tr>
                 <tr><td>Static chat/channel/message config</td><td>Paper files</td><td>Paper files plus Velocity config</td></tr>
               </tbody>
             </table>
@@ -173,7 +175,7 @@ backend-groups.minigames-1=corechatx:minigames
                 <pre class="code-block"><code class="language-yml"># Core plugin settings.
 
 deployment:
-  # STANDALONE = Paper-only mode. Runtime player data is stored in this backend&#39;s YAML files.
+  # STANDALONE = Paper-only mode. Runtime player data is stored in this backend&#x27;s YAML files.
   # PROXY = Velocity-backed network mode. Runtime player data is owned by the CoreChatX Velocity module.
   # Changing this mode requires a full restart.
   mode: &quot;STANDALONE&quot;
@@ -234,7 +236,8 @@ join-quit:
 
 reload:
   # A short summary is shown to the command sender after a successful reload.
-  show-summary: true</code></pre>
+  show-summary: true
+</code></pre>
               </details>
             </section>
             <section class="config-file" id="messages-yml">
@@ -394,16 +397,16 @@ public-chat:
   # Layout inspired by the older NetworkChat proxy format:
   # prefix + player name + italic separator + processed message.
   # CoreChatX keeps its own default palette instead of copying the old colors verbatim.
-  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   # Optional group-specific format overrides keyed by LuckPerms primary group.
   # These are used only when channels.yml -&gt; format is blank for the active channel.
   # Keys must match the LuckPerms primary group in lowercase.
   group-formats:
-    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
   # Applied to non-global active channels such as local or staff.
   channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
@@ -676,6 +679,95 @@ previews:
     inventory: &quot;&lt;#5aa9ff&gt;{player_nickname}&#x27;s inventory&lt;/#5aa9ff&gt;&quot;
     enderchest: &quot;&lt;#7db8ff&gt;{player_nickname}&#x27;s ender chest&lt;/#7db8ff&gt;&quot;
 
+discord-images:
+  # Global toggle for Discord ChatItem inventory snapshots.
+  # When false, CoreChatX does not render, download assets for, or send ChatItem PNG attachments to Discord.
+  # Minecraft chat tokens and in-game clickable previews continue to work normally.
+  # When true, ChatItem tokens sent from Minecraft to Discord also send a rendered PNG attachment/embed.
+  # Embed colors are derived from previews.titles.* and token-format values above.
+  enabled: true
+  # Maximum unique ChatItem images attached per chat message. The protocol hard-caps this to 3.
+  max-images-per-message: 3
+  embed:
+    # Controls the Discord embed title for each ChatItem image.
+    # Set a value to &quot;&quot; to omit the title completely.
+    # For [item], this text is rendered into the attached PNG with the Minecraft bitmap font
+    # instead of being sent as Discord embed text.
+    # Custom item names use Minecraft&#x27;s default italic tooltip style unless the rendered component overrides it.
+    # Common placeholders: {player_name}, {player_nickname}, {type}, {token}, {plain_text}.
+    # Item placeholders: {item_name}, {material}, {durability}, {durability_line}, {enchantments}, {lore}.
+    # Extra item tooltip placeholders: {attributes}, {potion_effects}, {banner_patterns}, {armor_trim},
+    # {unbreakable}, {can_place_on}, {can_break}, {book_metadata}, {firework_data}, {tooltip_extra}.
+    title:
+      item: &quot;{item_name}&quot;
+      armor: &quot;{player_nickname}&#x27;s armor&quot;
+      hotbar: &quot;{player_nickname}&#x27;s hotbar&quot;
+      inventory: &quot;{player_nickname}&#x27;s inventory&quot;
+      enderchest: &quot;{player_nickname}&#x27;s ender chest&quot;
+      shulker: &quot;{player_nickname}&#x27;s shulker&quot;
+
+    # Controls the Discord embed description.
+    # For [item], these lines are rendered into the transparent attached PNG with the item icon.
+    # Custom lore lines use Minecraft&#x27;s default italic tooltip style; enchantments, attributes and metadata do not.
+    # Each list entry becomes one rendered line.
+    # For [item], each detail placeholder adds its own blank line only when content exists.
+    # Empty rendered lines are removed, so missing metadata does not leave blank lines.
+    # Use [] to omit the description completely for that ChatItem type.
+    description:
+      item:
+        - &quot;{enchantments}&quot;
+        - &quot;{attributes}&quot;
+        - &quot;{potion_effects}&quot;
+        - &quot;{lore}&quot;
+        - &quot;{armor_trim}&quot;
+        - &quot;{banner_patterns}&quot;
+        - &quot;{unbreakable}&quot;
+        - &quot;{can_place_on}&quot;
+        - &quot;{can_break}&quot;
+        - &quot;{book_metadata}&quot;
+        - &quot;{firework_data}&quot;
+        - &quot;{durability_line}&quot;
+      armor: []
+      hotbar: []
+      inventory: []
+      enderchest: []
+      shulker: []
+  item-menu:
+    # Adds one or more Discord dropdown menus below non-[item] ChatItem images.
+    # Selecting an entry sends the selected item preview as an ephemeral message visible only to that Discord user.
+    # The menu expires with the same lifetime as the in-game clickable ChatItem preview token.
+    enabled: true
+    # Text shown inside each dropdown before a Discord user selects an item.
+    placeholder: &quot;Inspect an item&quot;
+    # Discord option label. Keep it short: Discord limits labels to 100 characters.
+    # Placeholders: {slot}, {slot_index}, {item_display_name}, {item_name}, {amount}, {material}, {durability}, {durability_line}, {enchantments}, {lore}.
+    # Extra tooltip placeholders are also available: {attributes}, {potion_effects}, {banner_patterns}, {armor_trim},
+    # {unbreakable}, {can_place_on}, {can_break}, {book_metadata}, {firework_data}, {tooltip_extra}.
+    label-format: &quot;Slot {slot}: {item_display_name}&quot;
+    # Optional Discord option description. Set to &quot;&quot; to omit it.
+    description-format: &quot;x{amount} - {material}&quot;
+    expired-message: &quot;This ChatItem preview has expired.&quot;
+    unavailable-message: &quot;That item preview is unavailable.&quot;
+  render:
+    # Pixel scale used by inventory-like image renders: armor, hotbar, inventory, ender chest and shulker.
+    # Higher values produce larger PNG files.
+    scale: 5
+    # Pixel scale for the Discord [item] details panel: Minecraft font, tooltip background, spacing,
+    # and the base item icon before the icon-only multiplier below is applied.
+    # Set this to 0 or a negative value to reuse &quot;scale&quot; above.
+    single-item-details-scale: 5
+    # Multiplies only the item icon inside the Discord [item] details panel.
+    # Text and tooltip background keep single-item-details-scale.
+    single-item-details-icon-multiplier: 3
+  assets:
+    # &quot;auto&quot; uses the running Minecraft server version. A fixed version or latest-release can also be used.
+    minecraft-version: &quot;auto&quot;
+    # When true, CoreChatX downloads/extracts vanilla client assets into its local cache.
+    # No vanilla Minecraft assets are bundled inside the plugin jar.
+    download-vanilla-assets: true
+    # Optional resource pack zip/folder paths. Relative paths are resolved from the CoreChatX plugin folder.
+    resource-packs: []
+
 network:
   # Network mode sends only lightweight snapshot refs in chat packets.
   # Multiple ChatItem tokens in the same message share one snapshot bundle with per-token views.
@@ -772,7 +864,7 @@ renderer:
 account-linking:
   # Master switch for Discord-Minecraft account linking.
   # STANDALONE: this backend owns the bot, link codes, linked accounts and optional Discord role checks.
-  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity&#39;s velocity-discord.yml instead.
+  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity&#x27;s velocity-discord.yml instead.
   # Paper keeps this file for standalone setups and local formatting only.
   enabled: false
   # If true, unlinked Discord users cannot write through routed Discord inbound channels.
@@ -790,7 +882,7 @@ account-linking:
     role-ids: []
     # If true, kick linked players when Discord role verification cannot be completed.
     deny-if-unverifiable: true
-  # Deletes blocked unlinked messages when the bot has Discord&#39;s Manage Messages permission.
+  # Deletes blocked unlinked messages when the bot has Discord&#x27;s Manage Messages permission.
   delete-unlinked-messages: true
   # Sends a private Discord DM explaining why the message was blocked.
   dm-unlinked-users: true
@@ -828,7 +920,7 @@ discord:
   # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
   prevent-mentions-from-minecraft: true
   connection-messages:
-    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#39;s velocity-discord.yml.
+    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#x27;s velocity-discord.yml.
     # If true, CoreChatX mirrors accepted join, first-join and quit messages to Discord.
     # Messages are sent only when the Minecraft join/quit message is actually announced.
     enabled: false
@@ -877,7 +969,7 @@ discord:
     allowed-role-ids: []
     max-log-line-length: 1800
   player-list:
-    # STANDALONE only. In PROXY mode configure the player-list command in Velocity&#39;s velocity-discord.yml.
+    # STANDALONE only. In PROXY mode configure the player-list command in Velocity&#x27;s velocity-discord.yml.
     # Shows online players from this Paper server.
     enabled: false
     # Text command listened in Discord channels visible to the bot. Set to &quot;&quot; to disable the text command.
@@ -896,6 +988,27 @@ discord:
       # Tokens: {player_name}, {player_nickname}, {server}
       line-format: &quot;- {player_nickname}&quot;
       more-format: &quot;... and {hidden_count} more.&quot;
+  channel-description:
+    # STANDALONE only. In PROXY mode configure channel descriptions in Velocity&#x27;s velocity-discord.yml.
+    # Updates the description/topic of Discord text channels.
+    enabled: false
+    # Discord rate limits channel metadata updates; keep this at 60 seconds or higher.
+    interval-seconds: 300
+    triggers:
+      # Queue a debounced description update when a player joins this standalone server.
+      on-connection: true
+      # Queue a debounced description update when a player leaves this standalone server.
+      on-disconnection: true
+      # When many players join/quit at once, CoreChatX waits this long after the last event before updating Discord.
+      event-debounce-seconds: 5
+    # Each entry updates one Discord text channel description.
+    # The description string is passed through PlaceholderAPI when PlaceholderAPI is installed and enabled.
+    # Internal placeholders:
+    # {online} = players online on this standalone server.
+    # {online_in_group} = same as {online} in STANDALONE.
+    entries:
+      # - channel-id: &quot;123456789012345678&quot;
+      #   description: &quot;Players {online}/1000&quot;
   # Optional per-channel overrides:
   # channel-overrides:
   #   global: &quot;123456789012345678&quot;
@@ -918,7 +1031,8 @@ discord:
     # Map Discord channel ids to CoreChatX channel ids.
     # channel-routes:
     #   &quot;123456789012345678&quot;: &quot;staff&quot;
-    channel-routes: {}</code></pre>
+    channel-routes: {}
+</code></pre>
               </details>
             </section>
             <section class="config-file" id="telegram-yml">
@@ -1449,7 +1563,8 @@ player-directory.tab-entries=true
 # Do not place player state, mutes, privacy or Discord links in this config file.
 
 # Discord bot/account-linking settings live in velocity-discord.yml.
-# Velocity-owned PROXY join/quit/first-join message formats live in velocity-messages.yml.</code></pre>
+# Velocity-owned PROXY join/quit/first-join message formats live in velocity-messages.yml.
+</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-messages-yml">
@@ -1474,12 +1589,16 @@ join-quit:
   # These switches affect only Velocity-owned PROXY network announcements.
   join-enabled: true
   quit-enabled: true
-  # MiniMessage format. Placeholders: {player_name}, {player_nickname}
+  # MiniMessage format. Placeholders: {player_name}, {player_nickname}.
+  # PlaceholderAPI placeholders like %luckperms_prefix% are resolved through PAPIProxyBridge when installed.
   join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;green&gt;+&lt;/green&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&quot;
-  # MiniMessage format. Placeholders: {player_name}, {player_nickname}
+  # MiniMessage format. Placeholders: {player_name}, {player_nickname}.
+  # PlaceholderAPI placeholders like %luckperms_prefix% are resolved through PAPIProxyBridge when installed.
   quit: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;red&gt;-&lt;/red&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&quot;
-  # MiniMessage format. Placeholders: {player_name}, {player_nickname}, {count}
-  first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;</code></pre>
+  # MiniMessage format. Placeholders: {player_name}, {player_nickname}, {count}.
+  # PlaceholderAPI placeholders like %luckperms_prefix% are resolved through PAPIProxyBridge when installed.
+  first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
+</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-discord-yml">
@@ -1612,13 +1731,40 @@ discord:
       color: &quot;#5865F2&quot;
       title: &quot;Online players ({count})&quot;
       empty-description: &quot;No players are currently online.&quot;
-      # Tokens: {player_name}, {player_nickname}, {server}
+      # Tokens: {player_name}, {player_nickname}, {server}.
+      # PlaceholderAPI placeholders are resolved per listed player through PAPIProxyBridge when installed.
       line-format: &quot;- {player_nickname} - {server}&quot;
+      # Count placeholders: {count}, {shown_count}, {hidden_count}. PAPI placeholders use a player from the listed group when available.
       more-format: &quot;... and {hidden_count} more.&quot;
-  # In PROXY mode Paper renders the Discord outbound text before sending it to Velocity.
-  # Leave this true to preserve per-channel Paper formats from channels.yml.
-  use-paper-outbound-format: true
-  # Used only when use-paper-outbound-format=false or a backend sends no rendered text.
+  channel-description:
+    # Updates the description/topic of Discord text channels from the Velocity bot.
+    enabled: false
+    # Discord rate limits channel metadata updates; keep this at 60 seconds or higher.
+    interval-seconds: 300
+    triggers:
+      # Queue a debounced description update when a player enters a configured CoreChatX group.
+      on-connection: true
+      # Queue a debounced description update when a player leaves the proxy.
+      on-disconnection: true
+      # Queue a debounced description update when a player moves between CoreChatX groups.
+      on-group-change: true
+      # When many players connect/switch/disconnect at once, CoreChatX waits this long after the last event before updating Discord.
+      event-debounce-seconds: 5
+    # Each entry updates one Discord text channel description.
+    # network-channel selects the CoreChatX Velocity group used by {online_in_group}.
+    # With a single configured group, network-channel can be left blank.
+    # PlaceholderAPI placeholders like %server_tps% are resolved through PAPIProxyBridge when it is installed on
+    # Velocity and on the backend servers in this group. If no player is online in the group, only CoreChatX
+    # internal placeholders can be resolved.
+    # Internal placeholders:
+    # {online} = players online on the whole Velocity proxy.
+    # {online_in_group} = players online inside the selected CoreChatX network-channel group.
+    entries:
+      # - channel-id: &quot;123456789012345678&quot;
+      #   network-channel: &quot;corechatx:survival&quot;
+      #   description: &quot;Players {online_in_group}/{online}&quot;
+  # Fallback format used when a backend does not provide a channel-specific Discord template.
+  # PlaceholderAPI placeholders are resolved through PAPIProxyBridge with the sender UUID when available.
   format: &quot;[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}&quot;
   # If true, Minecraft -&gt; Discord bridge output breaks Discord mention tokens before sending.
   # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
@@ -1645,7 +1791,8 @@ discord:
     channel-routes: {}
     # Optional per Discord route account-link override.
     # Values: inherit, true, false.
-    route-overrides: {}</code></pre>
+    route-overrides: {}
+</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-plugin-json">
@@ -1659,7 +1806,13 @@ discord:
   &quot;authors&quot;: [
     &quot;IceWolf23X&quot;
   ],
-  &quot;main&quot;: &quot;me.icewolf23.corechatx.velocity.bootstrap.CoreChatXVelocityPlugin&quot;
+  &quot;main&quot;: &quot;me.icewolf23.corechatx.velocity.bootstrap.CoreChatXVelocityPlugin&quot;,
+  &quot;dependencies&quot;: [
+    {
+      &quot;id&quot;: &quot;papiproxybridge&quot;,
+      &quot;optional&quot;: true
+    }
+  ]
 }
 </code></pre>
               </details>
@@ -1700,7 +1853,7 @@ discord:
       </div>
       <div class="shell footer-bottom">
         <span>Copyright 2026 CoreChatX. All rights reserved.</span>
-        <span>Configuration reference for CoreChatX 2026.2.1.5.</span>
+        <span>Configuration reference for CoreChatX 2026.2.2.</span>
       </div>
     </footer>
     <script src="./assets/site.js"></script>

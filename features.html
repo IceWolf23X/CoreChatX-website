@@ -303,6 +303,7 @@
 </ul>
 <p>Multiple ChatItem tokens in the same message can reuse the same captured player state while still opening the correct view.</p>
 <p>On a Velocity network, players on another backend can still click and open the preview through lightweight snapshot references and on-demand retrieval. That keeps network chat cleaner and avoids stuffing heavy item data into the main chat packet.</p>
+<p>When Discord image rendering is enabled, Minecraft-to-Discord ChatItem messages can also attach rendered PNG previews. Inventory-like renders can include dropdown menus, and Discord users can inspect individual items through ephemeral Minecraft-style tooltip panels with names, lore, enchantments, potion effects, attributes, armor trims and durability.</p>
 <hr>
 <h2 id="chat-bubbles">Chat Bubbles</h2>
 <p class="config-jump"><span>Configuration:</span><a href="./configuration.html#chatbubbles-yml">chatbubbles.yml</a></p>
@@ -363,6 +364,11 @@
 <li>per-channel bridge targets</li>
 <li>per-channel Discord and Telegram bridge format overrides</li>
 <li>fully configurable Discord inbound format</li>
+<li>Discord inbound attachment forwarding as clickable Minecraft file links</li>
+<li>Discord ChatItem image attachments and item inspection menus for Minecraft-origin messages</li>
+<li>Discord text channel description updates with internal placeholders and optional PlaceholderAPI values</li>
+<li>Discord player-list text and slash commands</li>
+<li>Discord console command channels for Paper standalone, Paper backend console-only bots and Velocity proxy commands</li>
 <li>PlaceholderAPI and rank prefix support in Discord outbound format templates</li>
 <li>Discord role names and role colors available to Minecraft chat formats</li>
 <li>optional Discord account linking for Minecraft-backed inbound identity</li>

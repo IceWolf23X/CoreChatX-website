@@ -193,8 +193,8 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "2026.2.1.5 Notes",
-    copy: "Discord player-list commands, proxy broadcasts, Velocity join/quit formats, login gates, and clean setup guidance.",
+    title: "2026.2.2 Notes",
+    copy: "Discord ChatItem renders, item inspection menus, attachment forwarding, channel descriptions, player-list commands, and proxy join/quit formats.",
     href: "./index.html#latest-release",
   },
 ];

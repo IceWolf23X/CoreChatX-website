@@ -271,6 +271,8 @@ Multiple ChatItem tokens in the same message can reuse the same captured player 
 On a Velocity network, players on another backend can still click and open the preview through lightweight snapshot references and on-demand retrieval.
 That keeps network chat cleaner and avoids stuffing heavy item data into the main chat packet.
 
+When Discord image rendering is enabled, Minecraft-to-Discord ChatItem messages can also attach rendered PNG previews. Inventory-like renders can include dropdown menus, and Discord users can inspect individual items through ephemeral Minecraft-style tooltip panels with names, lore, enchantments, potion effects, attributes, armor trims and durability.
+
 ---
 
 ## Chat Bubbles
@@ -342,6 +344,11 @@ Bridge features include:
 - Telegram inbound messages
 - Telegram forum topic routing
 - per-channel bridge targets
+- Discord inbound attachment forwarding as clickable Minecraft file links
+- Discord ChatItem image attachments and item inspection menus for Minecraft-origin messages
+- Discord text channel description updates with internal placeholders and optional PlaceholderAPI values
+- Discord player-list text and slash commands
+- Discord console command channels for Paper standalone, Paper backend console-only bots and Velocity proxy commands
 - channel-level bridge export control
 - global bridge master switch
 - cleaner reload and shutdown behavior

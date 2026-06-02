@@ -89,12 +89,12 @@
 
             <h3>Velocity Network</h3>
             <p>Use <code>PROXY</code> when multiple Paper backends should share CoreChatX behavior through Velocity. In this mode, Velocity owns runtime data per <code>network-channel</code> group and Paper backends act as runtime clients.</p>
-            <p>Choose this mode for group-local network chat, cross-server PMs, synced settings, proxy join/leave, network player directory, cross-backend ChatItem previews, and proxy-side Discord account linking.</p>
+            <p>Choose this mode for group-local network chat, cross-server PMs, synced settings, proxy join/leave, network player directory, cross-backend ChatItem previews, Discord ChatItem image transfer, and proxy-side Discord account linking.</p>
             <p class="config-jump"><span>Reference:</span><a href="./configuration.html#standalone-vs-proxy">standalone vs proxy</a><a href="./configuration.html#runtime-data">runtime data ownership</a></p>
 
             <h2 id="artifacts">Artifacts And Folders</h2>
             <p>CoreChatX ships two runtime jars. Install each jar only on the platform it was built for, and keep Paper and Velocity jars on the same CoreChatX version.</p>
-            <p>Current release: <code>2026.2.1.5</code>. For this release, the installable jars are <code>corechatx-paper-2026.2.1.5.jar</code> and <code>corechatx-velocity-2026.2.1.5.jar</code>.</p>
+            <p>Current release: <code>2026.2.2</code>. For this release, the installable jars are <code>corechatx-paper-2026.2.2.jar</code> and <code>corechatx-velocity-2026.2.2.jar</code>.</p>
             <ul>
               <li>Paper jar: <code>corechatx-paper-&lt;version&gt;.jar</code></li>
               <li>Velocity jar: <code>corechatx-velocity-&lt;version&gt;.jar</code></li>
@@ -153,7 +153,7 @@
 network-channel=corechatx:survival,corechatx:minigames
 player-directory.chat-completions=true
 player-directory.tab-entries=true</code></pre>
-            <p>Each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Network chat, PM lookup, player directory data, TAB/completions, state sync, ChatItem snapshot routing, Discord links, pending link codes, broadcasts and join/leave routing stay inside the source group.</p>
+            <p>Each Velocity <code>network-channel</code> value is an isolated CoreChatX group. Network chat, PM lookup, player directory data, TAB/completions, state sync, ChatItem snapshot routing, Discord image transfer, Discord links, pending link codes, broadcasts and join/leave routing stay inside the source group.</p>
             <p>Velocity owns shared runtime data in proxy mode, but it does not replace every backend's Paper config. Each backend still reads its own local <code>channels.yml</code>, <code>chat.yml</code>, <code>messages.yml</code> and feature files.</p>
             <pre class="code-block"><code>join-quit:
   mode: "NETWORK"
@@ -179,8 +179,8 @@ player-directory.tab-entries=true</code></pre>
             <p class="config-jump"><span>Reference:</span><a href="./configuration.html#pings-yml">pings.yml</a><a href="./configuration.html#privacy-yml">privacy.yml</a><a href="./configuration.html#moderation-yml">moderation.yml</a><a href="./configuration.html#filter-yml">filter.yml</a></p>
 
             <h3>4. Optional chat interaction features</h3>
-            <p>Edit <code>chatitems.yml</code> for item, inventory, armor, hotbar and ender chest preview tokens. Edit <code>keywords.yml</code> for clickable or hoverable keyword shortcuts. Edit <code>chatbubbles.yml</code> if you want overhead chat bubbles.</p>
-            <p>On a network, ChatItem previews are routed inside the same CoreChatX group. Keep token expectations consistent across participating backends.</p>
+            <p>Edit <code>chatitems.yml</code> for item, inventory, armor, hotbar and ender chest preview tokens, in-game preview lifetime, Discord image rendering, single-item tooltip panels, dropdown item inspection menus and optional resource-pack asset paths. Edit <code>keywords.yml</code> for clickable or hoverable keyword shortcuts. Edit <code>chatbubbles.yml</code> if you want overhead chat bubbles.</p>
+            <p>On a network, ChatItem previews and Discord ChatItem image packets are routed inside the same CoreChatX group. Keep token expectations and resource-pack paths consistent across participating backends.</p>
             <p class="config-jump"><span>Reference:</span><a href="./configuration.html#chatitems-yml">chatitems.yml</a><a href="./configuration.html#keywords-yml">keywords.yml</a><a href="./configuration.html#chatbubbles-yml">chatbubbles.yml</a></p>
 
             <h3>5. Storage and language files</h3>
@@ -188,7 +188,7 @@ player-directory.tab-entries=true</code></pre>
             <p class="config-jump"><span>Reference:</span><a href="./configuration.html#storage-yml">storage.yml</a><a href="./configuration.html#locales-en-us-yml">locales/en_us.yml</a></p>
 
             <h3>6. PlaceholderAPI and LuckPerms</h3>
-            <p>Install PlaceholderAPI on every backend that must render PlaceholderAPI placeholders in CoreChatX templates. Install the required expansions separately. Install LuckPerms where rank prefixes and permission metadata should be resolved.</p>
+            <p>Install PlaceholderAPI on every backend that must render PlaceholderAPI placeholders in CoreChatX templates. Install the required expansions separately. Install LuckPerms where rank prefixes and permission metadata should be resolved. On Velocity, install optional <code>PAPIProxyBridge</code> if Velocity-side formats such as player-list rows, channel descriptions, join/quit messages or fallback Discord formats must resolve PlaceholderAPI values from backend players.</p>
             <p>CoreChatX also registers PlaceholderAPI values for other plugins: <code>%corechatx_player_nickname%</code>, <code>%corechatx_first_join_date%</code> and <code>%corechatx_messages_count%</code>.</p>
             <p class="config-jump"><span>Reference:</span><a href="./configuration.html#placeholderapi-values">PlaceholderAPI values</a><a href="./configuration.html#plugin-yml">plugin.yml</a></p>
 
@@ -208,6 +208,8 @@ player-directory.tab-entries=true</code></pre>
               <li>Whether bridge output should prevent Discord mentions from Minecraft text.</li>
               <li>Whether join/quit/first-join messages should be mirrored to Discord as plain text or embeds.</li>
               <li>Whether Discord should expose <code>!playerlist</code> or <code>/playerlist</code> in bridge channels.</li>
+              <li>Whether Discord text channel descriptions should be updated from placeholders such as <code>{online}</code>, <code>{online_in_group}</code>, or PlaceholderAPI values.</li>
+              <li>Whether Minecraft ChatItem tokens should send rendered Discord images and item inspection menus.</li>
             </ul>
             <p class="config-jump"><span>Reference:</span><a href="./configuration.html#discord-yml">Paper discord.yml</a><a href="./configuration.html#telegram-yml">telegram.yml</a><a href="./configuration.html#velocity-discord-yml">Velocity discord</a></p>
 
