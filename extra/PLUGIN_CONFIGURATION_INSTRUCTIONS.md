@@ -485,6 +485,7 @@ commands:
     reload: "<gray>/corechatx reload</gray>"
     settings: "<gray>/corechatx settings</gray>"
     locale: "<gray>/corechatx locale [tag]</gray>"
+    itemcache: "<gray>/corechatx itemcache [warmup|status|cancel]</gray>"
 
 locale:
   current: "{prefix} <gray>Your active locale is <white>{locale}</white>.</gray>"
@@ -1004,14 +1005,14 @@ discord-images:
   render:
     # Pixel scale used by inventory-like image renders: armor, hotbar, inventory, ender chest and shulker.
     # Higher values produce larger PNG files.
-    scale: 5
+    scale: 8
     # Pixel scale for the Discord [item] details panel: Minecraft font, tooltip background, spacing,
     # and the base item icon before the icon-only multiplier below is applied.
     # Set this to 0 or a negative value to reuse "scale" above.
-    single-item-details-scale: 5
+    single-item-details-scale: 8
     # Multiplies only the item icon inside the Discord [item] details panel.
     # Text and tooltip background keep single-item-details-scale.
-    single-item-details-icon-multiplier: 3
+    single-item-details-icon-multiplier: 4
   assets:
     # "auto" uses the running Minecraft server version. A fixed version or latest-release can also be used.
     minecraft-version: "auto"
@@ -1181,6 +1182,9 @@ account-linking:
   # PROXY: configure the bot, Discord bridge routes and login gates in Velocity's velocity-discord.yml instead.
   # Paper keeps this file for standalone setups and local formatting only.
   enabled: false
+  # If true, linked Discord members get their server nickname synced to their Minecraft nickname.
+  # Falls back to the Minecraft player name when no custom nickname is set. In PROXY, configure this on Velocity.
+  sync-mc-name: false
   # If true, unlinked Discord users cannot write through routed Discord inbound channels.
   # Route and channel overrides can still force true/false for specific destinations.
   require-linked: false
@@ -1238,8 +1242,8 @@ discord:
     # If true, CoreChatX mirrors accepted join, first-join and quit messages to Discord.
     # Messages are sent only when the Minecraft join/quit message is actually announced.
     enabled: false
-    # CoreChatX channel ids that should receive join/quit mirrors.
-    # Empty list = all enabled channels with export-to-bridges: true and a Discord target.
+    # Discord channel ids that should receive join/quit mirrors.
+    # Empty list = discord.default-channel-id.
     channels: []
     # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
     format: "{plain_text}"
@@ -1264,6 +1268,29 @@ discord:
       join-description: ""
       first-join-description: ""
       quit-description: ""
+  event-messages:
+    # STANDALONE only. In PROXY, configure event mirrors in Velocity's velocity-discord.yml.
+    # If true, CoreChatX mirrors supported server events to Discord.
+    # Supported source_type values for now: death, advancement.
+    enabled: false
+    # CoreChatX channel ids that should receive event mirrors.
+    # Empty list = all enabled channels with export-to-bridges: true and a Discord target.
+    channels: []
+    # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
+    format: "{plain_text}"
+    # Optional event-specific plain-text formats. Leave empty to use format above.
+    death-format: ""
+    advancement-format: ""
+    embed:
+      # Event mirrors are sent as embeds when enabled.
+      enabled: true
+      color: "#5865F2"
+      death-color: "#ED4245"
+      advancement-color: "#FEE75C"
+      title: ""
+      description: "{plain_text}"
+      death-description: ""
+      advancement-description: ""
   console:
     # Allows this Paper backend to act as a Discord console bot even when chat bridge/account linking are disabled.
     # In PROXY mode this is the only Paper Discord feature that can run.
@@ -1323,6 +1350,35 @@ discord:
     entries:
       # - channel-id: "123456789012345678"
       #   description: "Players {online}/1000"
+  server-status:
+    # STANDALONE only. In PROXY mode configure proxy/backend status messages in Velocity's velocity-discord.yml.
+    # Sends Discord embed messages when this standalone server starts and stops cleanly.
+    enabled: false
+    default:
+      enabled: true
+      # Discord channel ids. Empty falls back to discord.default-channel-id.
+      channels: []
+      embed:
+        online:
+          enabled: true
+          color: "#57F287"
+          title: "Server online"
+          description: "`{server}` is now online."
+        offline:
+          enabled: true
+          color: "#ED4245"
+          title: "Server offline"
+          description: "`{server}` is now offline."
+    # Per standalone server override. Keys must match deployment.server-id.
+    # Any missing field inherits from default; write a custom title/description to avoid showing the technical {server}.
+    servers:
+      # paper-1:
+      #   channels:
+      #     - "123456789012345678"
+      #   embed:
+      #     online:
+      #       title: "Survival online"
+      #       description: "The survival server is ready."
   # Optional per-channel overrides:
   # channel-overrides:
   #   global: "123456789012345678"
@@ -1505,6 +1561,7 @@ commands:
     reload: "<gray>/corechatx reload</gray>"
     settings: "<gray>/corechatx settings</gray>"
     locale: "<gray>/corechatx locale [tag]</gray>"
+    itemcache: "<gray>/corechatx itemcache [warmup|status|cancel]</gray>"
 
 privacy:
   ignore:
@@ -1763,6 +1820,9 @@ In standalone mode, ignore this file and configure Paper `discord.yml` instead.
 account-linking:
   # Master switch for Discord-Minecraft account linking handled by Velocity.
   enabled: false
+  # If true, linked Discord members get their server nickname synced to their Minecraft nickname.
+  # Falls back to the Minecraft player name when no custom nickname is set.
+  sync-mc-name: false
   # If true, unlinked Discord users cannot write from Discord into Minecraft bridge channels.
   require-linked: false
   # Deletes blocked unlinked Discord messages when the bot has Manage Messages in that channel.
@@ -1828,8 +1888,8 @@ discord:
   connection-messages:
     # If true, accepted proxy-level join, first-join and quit messages are mirrored to Discord once per CoreChatX group.
     enabled: false
-    # CoreChatX channel ids that should receive join/quit mirrors.
-    # Empty list = channel-overrides keys, or the inbound default channel when no overrides are configured.
+    # Discord channel ids that should receive join/quit mirrors.
+    # Empty list = discord.default-channel-id.
     channels: []
     # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
     format: "{plain_text}"
@@ -1854,6 +1914,28 @@ discord:
       join-description: ""
       first-join-description: ""
       quit-description: ""
+  event-messages:
+    # If true, supported backend server events are mirrored to Discord once per CoreChatX group.
+    # Supported source_type values for now: death, advancement.
+    enabled: false
+    # Discord channel ids that should receive event mirrors.
+    # Empty list = discord.default-channel-id.
+    channels: []
+    # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
+    format: "{plain_text}"
+    # Optional event-specific plain-text formats. Leave empty to use format above.
+    death-format: ""
+    advancement-format: ""
+    embed:
+      # Event mirrors are sent as embeds when enabled.
+      enabled: true
+      color: "#5865F2"
+      death-color: "#ED4245"
+      advancement-color: "#FEE75C"
+      title: ""
+      description: "{plain_text}"
+      death-description: ""
+      advancement-description: ""
   console:
     # Allows the Velocity Discord bot to execute proxy console commands from one Discord channel.
     # Backend live logs are not mirrored from Velocity; use Paper backend console-only bots for full per-backend live logs.
@@ -1915,6 +1997,56 @@ discord:
       # - channel-id: "123456789012345678"
       #   network-channel: "corechatx:survival"
       #   description: "Players {online_in_group}/{online}"
+  server-status:
+    # Sends Discord embed messages for proxy startup/shutdown and backend online/offline state changes.
+    enabled: false
+    # Velocity pings backend servers listed in velocity-config.properties backend-groups.*.
+    interval-seconds: 10
+    offline-threshold: 3
+    online-threshold: 3
+    proxy:
+      enabled: true
+      # Token value used by {server} for proxy online/offline messages.
+      id: "velocity"
+      # Empty channels fall back to default.channels, then discord.default-channel-id.
+      channels: []
+      embed:
+        online:
+          enabled: true
+          color: "#57F287"
+          title: "Proxy online"
+          description: "`{server}` is now online."
+        offline:
+          enabled: true
+          color: "#ED4245"
+          title: "Proxy offline"
+          description: "`{server}` is now offline."
+    default:
+      enabled: true
+      # Discord channel ids. Empty falls back to discord.default-channel-id.
+      channels: []
+      embed:
+        online:
+          enabled: true
+          color: "#57F287"
+          title: "Server online"
+          description: "`{server}` is now online."
+        offline:
+          enabled: true
+          color: "#ED4245"
+          title: "Server offline"
+          description: "`{server}` is now offline."
+    # Per backend override. Keys must match backend-groups.<server> in velocity-config.properties.
+    # Any missing field inherits from default; write a custom title/description to avoid showing the technical {server}.
+    servers:
+      # survival-1:
+      #   channels:
+      #     - "123456789012345678"
+      #   embed:
+      #     offline:
+      #       color: "#ED4245"
+      #       title: "Survival is offline"
+      #       description: "The main survival backend is not reachable."
   # Fallback format used when a backend does not provide a channel-specific Discord template.
   # PlaceholderAPI placeholders are resolved through PAPIProxyBridge with the sender UUID when available.
   format: "[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}"

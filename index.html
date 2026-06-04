@@ -155,7 +155,7 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.2.2</strong>
+            <strong>2026.2.3</strong>
             <span>current release</span>
           </article>
           <article>
@@ -173,43 +173,42 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.2.2 brings Minecraft item renders to Discord.</h2>
+            <h2>CoreChatX 2026.2.3 adds Discord status embeds and faster ChatItem rendering.</h2>
             <p>
-              The 2026.2.2 release adds Discord image rendering for ChatItem tokens, interactive
-              item inspection menus, Minecraft-style single-item tooltip panels, Discord attachment
-              forwarding into Minecraft, Velocity-owned join/quit formatting, proxy group broadcasts,
-              Discord console/player-list tools, and safer Minecraft-to-Discord mention output.
+              The 2026.2.3 release adds configurable Discord server-status embeds, an admin item
+              render cache warmup command, clearer external library handling, higher default ChatItem
+              render scale, and fixes for expired Discord item inspections and intermittent proxy previews.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card featured-setup">
+              <div class="setup-kicker">Status embeds</div>
+              <h3>Servers can announce online and offline state</h3>
+              <p>
+                <code>discord.server-status</code> can send startup/shutdown embeds in standalone
+                mode, while Velocity can monitor configured backends and announce proxy or backend
+                state changes with per-server embed overrides.
+              </p>
+            </article>
+
+            <article class="setup-card">
               <div class="setup-kicker">ChatItems</div>
-              <h3>Inventory snapshots render on Discord</h3>
+              <h3>Item renders are easier to warm and inspect</h3>
               <p>
-                Messages containing <code>[item]</code>, <code>[armor]</code>, <code>[hotbar]</code>,
-                <code>[inventory]</code>, <code>[enderchest]</code>, or shulker previews can send
-                rendered PNG attachments to Discord using vanilla assets or configured resource packs.
+                <code>/corechatx itemcache warmup</code> can pre-render material icons, the default
+                render scale is higher, and expired Discord item inspection actions now return an
+                explanatory message instead of loading indefinitely.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">Item inspect</div>
-              <h3>Dropdowns open single item previews</h3>
+              <div class="setup-kicker">Proxy bridge</div>
+              <h3>Discord preview delivery is more resilient</h3>
               <p>
-                Multi-item Discord renders can include dropdown menus. Selecting an item sends an
-                ephemeral single-item preview with Minecraft-style name, lore, enchantments, potion
-                effects, attributes, trims, durability, and tooltip background.
-              </p>
-            </article>
-
-            <article class="setup-card">
-              <div class="setup-kicker">Discord ops</div>
-              <h3>Bridge tools are now richer</h3>
-              <p>
-                Discord inbound attachments become clickable Minecraft components, console and
-                <code>player-list</code> commands are configurable, text channel descriptions can update
-                from placeholders, and raw Discord mentions from Minecraft can be neutralized.
+                Proxy ChatItem previews now use safer chunk completion and retry behavior, Discord
+                thread messages can route through the parent channel, and connection mirror channels
+                use Discord channel IDs where configured.
               </p>
             </article>
           </div>

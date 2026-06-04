@@ -193,8 +193,8 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "2026.2.2 Notes",
-    copy: "Discord ChatItem renders, item inspection menus, attachment forwarding, channel descriptions, player-list commands, and proxy join/quit formats.",
+    title: "2026.2.3 Notes",
+    copy: "Discord status embeds, ChatItem cache warmup, higher render defaults, expired inspection handling, and proxy preview fixes.",
     href: "./index.html#latest-release",
   },
 ];
