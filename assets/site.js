@@ -193,8 +193,8 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "2026.2.3 Notes",
-    copy: "Discord status embeds, ChatItem cache warmup, higher render defaults, expired inspection handling, and proxy preview fixes.",
+    title: "2026.2.4 Notes",
+    copy: "Batched Discord console logs, private-message ChatItems, per-event mirrors, nickname rules, and Velocity console fixes.",
     href: "./index.html#latest-release",
   },
 ];

@@ -1,10 +1,10 @@
-ï»¿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.2.3 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
-    <title>CoreChatX 2026.2.3 Configuration Reference</title>
+    <meta name="description" content="CoreChatX 2026.2.4 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
+    <title>CoreChatX 2026.2.4 Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <meta name="theme-color" content="#070812">
@@ -48,7 +48,7 @@
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Configuration Reference</p>
-          <h1>CoreChatX 2026.2.3 Configuration</h1>
+          <h1>CoreChatX 2026.2.4 Configuration</h1>
           <p>Clean setup guidance, PROXY runtime authority rules, Discord bot placement, Velocity group routing and complete bundled default files from the current Paper and Velocity jars.</p>
         </div>
       </section>
@@ -73,10 +73,10 @@
 
           <article class="markdown-body">
             <h2 id="overview">Overview</h2>
-            <p>This page is rebuilt from the current CoreChatX 2026.2.3 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
+            <p>This page is rebuilt from the current CoreChatX 2026.2.4 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
             <ul>
-              <li>Current release: <code>2026.2.3</code></li>
-              <li>Installable jars: <code>corechatx-paper-2026.2.3.jar</code> and <code>corechatx-velocity-2026.2.3.jar</code></li>
+              <li>Current release: <code>2026.2.4</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.2.4.jar</code> and <code>corechatx-velocity-2026.2.4.jar</code></li>
               <li>Paper target: <code>1.21.11</code></li>
               <li>Java target: <code>21</code></li>
               <li>Default network channel: <code>corechatx:main</code></li>
@@ -398,16 +398,16 @@ public-chat:
   # Layout inspired by the older NetworkChat proxy format:
   # prefix + player name + italic separator + processed message.
   # CoreChatX keeps its own default palette instead of copying the old colors verbatim.
-  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   # Optional group-specific format overrides keyed by LuckPerms primary group.
   # These are used only when channels.yml -&gt; format is blank for the active channel.
   # Keys must match the LuckPerms primary group in lowercase.
   group-formats:
-    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
   # Applied to non-global active channels such as local or staff.
   channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
@@ -1994,7 +1994,7 @@ discord:
       </div>
       <div class="shell footer-bottom">
         <span>Copyright 2026 CoreChatX. All rights reserved.</span>
-        <span>Configuration reference for CoreChatX 2026.2.3.</span>
+        <span>Configuration reference for CoreChatX 2026.2.4.</span>
       </div>
     </footer>
     <script src="./assets/site.js"></script>

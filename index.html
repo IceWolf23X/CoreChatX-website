@@ -155,7 +155,7 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.2.3</strong>
+            <strong>2026.2.4</strong>
             <span>current release</span>
           </article>
           <article>
@@ -173,42 +173,42 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.2.3 adds Discord status embeds and faster ChatItem rendering.</h2>
+            <h2>CoreChatX 2026.2.4 tightens Discord console logs, private messages, and proxy routing.</h2>
             <p>
-              The 2026.2.3 release adds configurable Discord server-status embeds, an admin item
-              render cache warmup command, clearer external library handling, higher default ChatItem
-              render scale, and fixes for expired Discord item inspections and intermittent proxy previews.
+              The 2026.2.4 release adds batched Discord console logs, stricter nickname controls,
+              per-event Discord mirror configuration, ChatItem previews in private messages, and
+              fixes for Discord inbound prefixes, expired item inspections, and Velocity console replies.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Status embeds</div>
-              <h3>Servers can announce online and offline state</h3>
+              <div class="setup-kicker">Discord console</div>
+              <h3>Console logs are batched instead of spammed</h3>
               <p>
-                <code>discord.server-status</code> can send startup/shutdown embeds in standalone
-                mode, while Velocity can monitor configured backends and announce proxy or backend
-                state changes with per-server embed overrides.
+                Paper and Velocity can edit the latest bot log message until the configured size
+                limit is reached, split after other users post in the channel, and format each line
+                with configurable monospace and timestamp settings.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">ChatItems</div>
-              <h3>Item renders are easier to warm and inspect</h3>
+              <div class="setup-kicker">Private messages</div>
+              <h3>ChatItems now work in /msg and /reply</h3>
               <p>
-                <code>/corechatx itemcache warmup</code> can pre-render material icons, the default
-                render scale is higher, and expired Discord item inspection actions now return an
-                explanatory message instead of loading indefinitely.
+                Configured ChatItem tokens such as <code>[i]</code>, <code>[item]</code> and
+                <code>[inv]</code> are rendered in private messages, including cross-server
+                preview routing through Velocity.
               </p>
             </article>
 
             <article class="setup-card">
               <div class="setup-kicker">Proxy bridge</div>
-              <h3>Discord preview delivery is more resilient</h3>
+              <h3>Discord routing waits for the right data</h3>
               <p>
-                Proxy ChatItem previews now use safer chunk completion and retry behavior, Discord
-                thread messages can route through the parent channel, and connection mirror channels
-                use Discord channel IDs where configured.
+                Discord inbound messages now wait for async LuckPerms data before delivery, Velocity
+                event mirrors can be configured per event, and console command replies render
+                translatable Velocity output as readable text.
               </p>
             </article>
           </div>

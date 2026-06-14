@@ -342,6 +342,9 @@ nicknames:
   # true = /nick can only change allowed colors/styles; the visible text after removing formatting must stay exactly the real Minecraft username.
   # Example with true: IceWolf23X may use &cIceWolf23X, but not &cIceWolf.
   change-only-colors: false
+  # false = nickname text may only use A-Z, a-z, 0-9 and _ after formatting is removed.
+  # true = CoreChatX does not apply an additional character whitelist to nickname text.
+  allow-special-characters: false
 
 first-join:
   enabled: true
@@ -485,7 +488,6 @@ commands:
     reload: "<gray>/corechatx reload</gray>"
     settings: "<gray>/corechatx settings</gray>"
     locale: "<gray>/corechatx locale [tag]</gray>"
-    itemcache: "<gray>/corechatx itemcache [warmup|status|cancel]</gray>"
 
 locale:
   current: "{prefix} <gray>Your active locale is <white>{locale}</white>.</gray>"
@@ -933,95 +935,6 @@ previews:
     inventory: "<#5aa9ff>{player_nickname}'s inventory</#5aa9ff>"
     enderchest: "<#7db8ff>{player_nickname}'s ender chest</#7db8ff>"
 
-discord-images:
-  # Global toggle for Discord ChatItem inventory snapshots.
-  # When false, CoreChatX does not render, download assets for, or send ChatItem PNG attachments to Discord.
-  # Minecraft chat tokens and in-game clickable previews continue to work normally.
-  # When true, ChatItem tokens sent from Minecraft to Discord also send a rendered PNG attachment/embed.
-  # Embed colors are derived from previews.titles.* and token-format values above.
-  enabled: true
-  # Maximum unique ChatItem images attached per chat message. The protocol hard-caps this to 3.
-  max-images-per-message: 3
-  embed:
-    # Controls the Discord embed title for each ChatItem image.
-    # Set a value to "" to omit the title completely.
-    # For [item], this text is rendered into the attached PNG with the Minecraft bitmap font
-    # instead of being sent as Discord embed text.
-    # Custom item names use Minecraft's default italic tooltip style unless the rendered component overrides it.
-    # Common placeholders: {player_name}, {player_nickname}, {type}, {token}, {plain_text}.
-    # Item placeholders: {item_name}, {material}, {durability}, {durability_line}, {enchantments}, {lore}.
-    # Extra item tooltip placeholders: {attributes}, {potion_effects}, {banner_patterns}, {armor_trim},
-    # {unbreakable}, {can_place_on}, {can_break}, {book_metadata}, {firework_data}, {tooltip_extra}.
-    title:
-      item: "{item_name}"
-      armor: "{player_nickname}'s armor"
-      hotbar: "{player_nickname}'s hotbar"
-      inventory: "{player_nickname}'s inventory"
-      enderchest: "{player_nickname}'s ender chest"
-      shulker: "{player_nickname}'s shulker"
-
-    # Controls the Discord embed description.
-    # For [item], these lines are rendered into the transparent attached PNG with the item icon.
-    # Custom lore lines use Minecraft's default italic tooltip style; enchantments, attributes and metadata do not.
-    # Each list entry becomes one rendered line.
-    # For [item], each detail placeholder adds its own blank line only when content exists.
-    # Empty rendered lines are removed, so missing metadata does not leave blank lines.
-    # Use [] to omit the description completely for that ChatItem type.
-    description:
-      item:
-        - "{enchantments}"
-        - "{attributes}"
-        - "{potion_effects}"
-        - "{lore}"
-        - "{armor_trim}"
-        - "{banner_patterns}"
-        - "{unbreakable}"
-        - "{can_place_on}"
-        - "{can_break}"
-        - "{book_metadata}"
-        - "{firework_data}"
-        - "{durability_line}"
-      armor: []
-      hotbar: []
-      inventory: []
-      enderchest: []
-      shulker: []
-  item-menu:
-    # Adds one or more Discord dropdown menus below non-[item] ChatItem images.
-    # Selecting an entry sends the selected item preview as an ephemeral message visible only to that Discord user.
-    # The menu expires with the same lifetime as the in-game clickable ChatItem preview token.
-    enabled: true
-    # Text shown inside each dropdown before a Discord user selects an item.
-    placeholder: "Inspect an item"
-    # Discord option label. Keep it short: Discord limits labels to 100 characters.
-    # Placeholders: {slot}, {slot_index}, {item_display_name}, {item_name}, {amount}, {material}, {durability}, {durability_line}, {enchantments}, {lore}.
-    # Extra tooltip placeholders are also available: {attributes}, {potion_effects}, {banner_patterns}, {armor_trim},
-    # {unbreakable}, {can_place_on}, {can_break}, {book_metadata}, {firework_data}, {tooltip_extra}.
-    label-format: "Slot {slot}: {item_display_name}"
-    # Optional Discord option description. Set to "" to omit it.
-    description-format: "x{amount} - {material}"
-    expired-message: "This ChatItem preview has expired."
-    unavailable-message: "That item preview is unavailable."
-  render:
-    # Pixel scale used by inventory-like image renders: armor, hotbar, inventory, ender chest and shulker.
-    # Higher values produce larger PNG files.
-    scale: 8
-    # Pixel scale for the Discord [item] details panel: Minecraft font, tooltip background, spacing,
-    # and the base item icon before the icon-only multiplier below is applied.
-    # Set this to 0 or a negative value to reuse "scale" above.
-    single-item-details-scale: 8
-    # Multiplies only the item icon inside the Discord [item] details panel.
-    # Text and tooltip background keep single-item-details-scale.
-    single-item-details-icon-multiplier: 4
-  assets:
-    # "auto" uses the running Minecraft server version. A fixed version or latest-release can also be used.
-    minecraft-version: "auto"
-    # When true, CoreChatX downloads/extracts vanilla client assets into its local cache.
-    # No vanilla Minecraft assets are bundled inside the plugin jar.
-    download-vanilla-assets: true
-    # Optional resource pack zip/folder paths. Relative paths are resolved from the CoreChatX plugin folder.
-    resource-packs: []
-
 network:
   # Network mode sends only lightweight snapshot refs in chat packets.
   # Multiple ChatItem tokens in the same message share one snapshot bundle with per-token views.
@@ -1182,9 +1095,6 @@ account-linking:
   # PROXY: configure the bot, Discord bridge routes and login gates in Velocity's velocity-discord.yml instead.
   # Paper keeps this file for standalone setups and local formatting only.
   enabled: false
-  # If true, linked Discord members get their server nickname synced to their Minecraft nickname.
-  # Falls back to the Minecraft player name when no custom nickname is set. In PROXY, configure this on Velocity.
-  sync-mc-name: false
   # If true, unlinked Discord users cannot write through routed Discord inbound channels.
   # Route and channel overrides can still force true/false for specific destinations.
   require-linked: false
@@ -1242,8 +1152,8 @@ discord:
     # If true, CoreChatX mirrors accepted join, first-join and quit messages to Discord.
     # Messages are sent only when the Minecraft join/quit message is actually announced.
     enabled: false
-    # Discord channel ids that should receive join/quit mirrors.
-    # Empty list = discord.default-channel-id.
+    # CoreChatX channel ids that should receive join/quit mirrors.
+    # Empty list = all enabled channels with export-to-bridges: true and a Discord target.
     channels: []
     # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
     format: "{plain_text}"
@@ -1268,29 +1178,6 @@ discord:
       join-description: ""
       first-join-description: ""
       quit-description: ""
-  event-messages:
-    # STANDALONE only. In PROXY, configure event mirrors in Velocity's velocity-discord.yml.
-    # If true, CoreChatX mirrors supported server events to Discord.
-    # Supported source_type values for now: death, advancement.
-    enabled: false
-    # CoreChatX channel ids that should receive event mirrors.
-    # Empty list = all enabled channels with export-to-bridges: true and a Discord target.
-    channels: []
-    # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
-    format: "{plain_text}"
-    # Optional event-specific plain-text formats. Leave empty to use format above.
-    death-format: ""
-    advancement-format: ""
-    embed:
-      # Event mirrors are sent as embeds when enabled.
-      enabled: true
-      color: "#5865F2"
-      death-color: "#ED4245"
-      advancement-color: "#FEE75C"
-      title: ""
-      description: "{plain_text}"
-      death-description: ""
-      advancement-description: ""
   console:
     # Allows this Paper backend to act as a Discord console bot even when chat bridge/account linking are disabled.
     # In PROXY mode this is the only Paper Discord feature that can run.
@@ -1303,82 +1190,20 @@ discord:
     command-prefix: "!"
     # If true, Paper console log lines are mirrored live to the Discord console channel.
     live-log: true
+    live-log-format:
+      # Discord messages are edited until this rendered size is reached, then a new silent message is sent.
+      max-message-chars: 1800
+      # Wrap live console log blocks in Discord monospace code blocks.
+      monospace: true
+      # Prefix added to every mirrored console line. Uses this backend JVM local time.
+      line-prefix: "[{date} {hour}] "
+      date-format: "yyyy-MM-dd"
+      hour-format: "HH:mm:ss"
     # Sends a short Discord acknowledgement after dispatching a command.
     send-command-feedback: true
     # Empty allow lists mean anyone who can write in the configured Discord channel can run commands.
     allowed-user-ids: []
     allowed-role-ids: []
-    max-log-line-length: 1800
-  player-list:
-    # STANDALONE only. In PROXY mode configure the player-list command in Velocity's velocity-discord.yml.
-    # Shows online players from this Paper server.
-    enabled: false
-    # Text command listened in Discord channels visible to the bot. Set to "" to disable the text command.
-    command: "!playerlist"
-    # Also register a slash command. Slash commands can use true ephemeral replies.
-    register-slash-command: true
-    slash-command-name: "playerlist"
-    # CHANNEL = public embed, DM = private DM, EPHEMERAL = slash-only private reply.
-    # Text commands cannot be ephemeral, so EPHEMERAL falls back to DM for !playerlist.
-    response-visibility: "CHANNEL"
-    max-players: 80
-    embed:
-      color: "#5865F2"
-      title: "Online players ({count})"
-      empty-description: "No players are currently online."
-      # Tokens: {player_name}, {player_nickname}, {server}
-      line-format: "- {player_nickname}"
-      more-format: "... and {hidden_count} more."
-  channel-description:
-    # STANDALONE only. In PROXY mode configure channel descriptions in Velocity's velocity-discord.yml.
-    # Updates the description/topic of Discord text channels.
-    enabled: false
-    # Discord rate limits channel metadata updates; keep this at 60 seconds or higher.
-    interval-seconds: 300
-    triggers:
-      # Queue a debounced description update when a player joins this standalone server.
-      on-connection: true
-      # Queue a debounced description update when a player leaves this standalone server.
-      on-disconnection: true
-      # When many players join/quit at once, CoreChatX waits this long after the last event before updating Discord.
-      event-debounce-seconds: 5
-    # Each entry updates one Discord text channel description.
-    # The description string is passed through PlaceholderAPI when PlaceholderAPI is installed and enabled.
-    # Internal placeholders:
-    # {online} = players online on this standalone server.
-    # {online_in_group} = same as {online} in STANDALONE.
-    entries:
-      # - channel-id: "123456789012345678"
-      #   description: "Players {online}/1000"
-  server-status:
-    # STANDALONE only. In PROXY mode configure proxy/backend status messages in Velocity's velocity-discord.yml.
-    # Sends Discord embed messages when this standalone server starts and stops cleanly.
-    enabled: false
-    default:
-      enabled: true
-      # Discord channel ids. Empty falls back to discord.default-channel-id.
-      channels: []
-      embed:
-        online:
-          enabled: true
-          color: "#57F287"
-          title: "Server online"
-          description: "`{server}` is now online."
-        offline:
-          enabled: true
-          color: "#ED4245"
-          title: "Server offline"
-          description: "`{server}` is now offline."
-    # Per standalone server override. Keys must match deployment.server-id.
-    # Any missing field inherits from default; write a custom title/description to avoid showing the technical {server}.
-    servers:
-      # paper-1:
-      #   channels:
-      #     - "123456789012345678"
-      #   embed:
-      #     online:
-      #       title: "Survival online"
-      #       description: "The survival server is ready."
   # Optional per-channel overrides:
   # channel-overrides:
   #   global: "123456789012345678"
@@ -1561,7 +1386,6 @@ commands:
     reload: "<gray>/corechatx reload</gray>"
     settings: "<gray>/corechatx settings</gray>"
     locale: "<gray>/corechatx locale [tag]</gray>"
-    itemcache: "<gray>/corechatx itemcache [warmup|status|cancel]</gray>"
 
 privacy:
   ignore:
@@ -1748,7 +1572,6 @@ player-directory.tab-entries=true
 # Do not place player state, mutes, privacy or Discord links in this config file.
 
 # Discord bot/account-linking settings live in velocity-discord.yml.
-# Velocity-owned PROXY join/quit/first-join message formats live in velocity-messages.yml.
 ```
 
 Important rules:
@@ -1768,43 +1591,6 @@ Important rules:
 
 ---
 
-## Velocity `velocity-messages.yml`
-
-This file exists on Velocity and owns PROXY network join, quit and first-join message formats. Paper `messages.yml` remains the source for STANDALONE and local-only announcements.
-
-```yml
-# CoreChatX Velocity messages.
-# In PROXY mode, network join/quit/first-join announcements are owned and rendered by Velocity.
-# Paper messages.yml is still used for STANDALONE and local-only Paper announcements.
-
-nicknames:
-  # Prefix inserted directly into {player_nickname} only when a player has a custom nickname.
-  # Keep this aligned with Paper config.yml -> nicknames.prefix for matching visual output.
-  prefix: ""
-
-first-join:
-  # If true, the first accepted proxy/group join uses join-quit.first-join instead of join-quit.join.
-  enabled: true
-  # If true, Velocity increments and exposes {count} in the first-join format.
-  counter-enabled: true
-
-join-quit:
-  # These switches affect only Velocity-owned PROXY network announcements.
-  join-enabled: true
-  quit-enabled: true
-  # MiniMessage format. Placeholders: {player_name}, {player_nickname}.
-  # PlaceholderAPI placeholders like %luckperms_prefix% are resolved through PAPIProxyBridge when installed.
-  join: "<dark_gray>[</dark_gray><green>+</green><dark_gray>]</dark_gray> <white>{player_nickname}</white>"
-  # MiniMessage format. Placeholders: {player_name}, {player_nickname}.
-  # PlaceholderAPI placeholders like %luckperms_prefix% are resolved through PAPIProxyBridge when installed.
-  quit: "<dark_gray>[</dark_gray><red>-</red><dark_gray>]</dark_gray> <white>{player_nickname}</white>"
-  # MiniMessage format. Placeholders: {player_name}, {player_nickname}, {count}.
-  # PlaceholderAPI placeholders like %luckperms_prefix% are resolved through PAPIProxyBridge when installed.
-  first-join: "<dark_gray>[</dark_gray><gradient:#79d6b8:#5aa9ff>Welcome</gradient><dark_gray>]</dark_gray> <white>{player_nickname}</white><gray> is joining for the first time as player </gray><white>#{count}</white><gray>.</gray>"
-```
-
----
-
 ## Velocity `velocity-discord.yml`
 
 This file exists only on Velocity and is used when Paper backends run in `deployment.mode: "PROXY"`.
@@ -1820,9 +1606,6 @@ In standalone mode, ignore this file and configure Paper `discord.yml` instead.
 account-linking:
   # Master switch for Discord-Minecraft account linking handled by Velocity.
   enabled: false
-  # If true, linked Discord members get their server nickname synced to their Minecraft nickname.
-  # Falls back to the Minecraft player name when no custom nickname is set.
-  sync-mc-name: false
   # If true, unlinked Discord users cannot write from Discord into Minecraft bridge channels.
   require-linked: false
   # Deletes blocked unlinked Discord messages when the bot has Manage Messages in that channel.
@@ -1888,8 +1671,8 @@ discord:
   connection-messages:
     # If true, accepted proxy-level join, first-join and quit messages are mirrored to Discord once per CoreChatX group.
     enabled: false
-    # Discord channel ids that should receive join/quit mirrors.
-    # Empty list = discord.default-channel-id.
+    # CoreChatX channel ids that should receive join/quit mirrors.
+    # Empty list = channel-overrides keys, or the inbound default channel when no overrides are configured.
     channels: []
     # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
     format: "{plain_text}"
@@ -1914,141 +1697,31 @@ discord:
       join-description: ""
       first-join-description: ""
       quit-description: ""
-  event-messages:
-    # If true, supported backend server events are mirrored to Discord once per CoreChatX group.
-    # Supported source_type values for now: death, advancement.
-    enabled: false
-    # Discord channel ids that should receive event mirrors.
-    # Empty list = discord.default-channel-id.
-    channels: []
-    # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
-    format: "{plain_text}"
-    # Optional event-specific plain-text formats. Leave empty to use format above.
-    death-format: ""
-    advancement-format: ""
-    embed:
-      # Event mirrors are sent as embeds when enabled.
-      enabled: true
-      color: "#5865F2"
-      death-color: "#ED4245"
-      advancement-color: "#FEE75C"
-      title: ""
-      description: "{plain_text}"
-      death-description: ""
-      advancement-description: ""
   console:
     # Allows the Velocity Discord bot to execute proxy console commands from one Discord channel.
-    # Backend live logs are not mirrored from Velocity; use Paper backend console-only bots for full per-backend live logs.
+    # When live-log is true, proxy console lines are mirrored into the same Discord channel.
     enabled: false
     channel-id: ""
     # Set to "" to execute every message in the console channel as a command.
     command-prefix: "!"
-    # Reserved for future proxy log streaming; command responses are returned today.
     live-log: false
+    live-log-format:
+      # Discord messages are edited until this rendered size is reached, then a new silent message is sent.
+      max-message-chars: 1800
+      # Wrap live console log blocks in Discord monospace code blocks.
+      monospace: true
+      # Prefix added to every mirrored console line. Uses this proxy JVM local time.
+      line-prefix: "[{date} {hour}] "
+      date-format: "yyyy-MM-dd"
+      hour-format: "HH:mm:ss"
     # Empty allow lists mean anyone who can write in the configured Discord channel can run commands.
     allowed-user-ids: []
     allowed-role-ids: []
     max-response-chars: 1800
-  player-list:
-    # PROXY mode player-list command. The Discord channel route selects which CoreChatX network-channel group is listed.
-    enabled: false
-    # Text command listened in mapped Discord bridge channels. Set to "" to disable the text command.
-    command: "!playerlist"
-    # Also register a slash command. Slash commands can use true ephemeral replies.
-    register-slash-command: true
-    slash-command-name: "playerlist"
-    # CHANNEL = public embed, DM = private DM, EPHEMERAL = slash-only private reply.
-    # Text commands cannot be ephemeral, so EPHEMERAL falls back to DM for !playerlist.
-    response-visibility: "CHANNEL"
-    max-players: 80
-    embed:
-      color: "#5865F2"
-      title: "Online players ({count})"
-      empty-description: "No players are currently online."
-      # Tokens: {player_name}, {player_nickname}, {server}.
-      # PlaceholderAPI placeholders are resolved per listed player through PAPIProxyBridge when installed.
-      line-format: "- {player_nickname} - {server}"
-      # Count placeholders: {count}, {shown_count}, {hidden_count}. PAPI placeholders use a player from the listed group when available.
-      more-format: "... and {hidden_count} more."
-  channel-description:
-    # Updates the description/topic of Discord text channels from the Velocity bot.
-    enabled: false
-    # Discord rate limits channel metadata updates; keep this at 60 seconds or higher.
-    interval-seconds: 300
-    triggers:
-      # Queue a debounced description update when a player enters a configured CoreChatX group.
-      on-connection: true
-      # Queue a debounced description update when a player leaves the proxy.
-      on-disconnection: true
-      # Queue a debounced description update when a player moves between CoreChatX groups.
-      on-group-change: true
-      # When many players connect/switch/disconnect at once, CoreChatX waits this long after the last event before updating Discord.
-      event-debounce-seconds: 5
-    # Each entry updates one Discord text channel description.
-    # network-channel selects the CoreChatX Velocity group used by {online_in_group}.
-    # With a single configured group, network-channel can be left blank.
-    # PlaceholderAPI placeholders like %server_tps% are resolved through PAPIProxyBridge when it is installed on
-    # Velocity and on the backend servers in this group. If no player is online in the group, only CoreChatX
-    # internal placeholders can be resolved.
-    # Internal placeholders:
-    # {online} = players online on the whole Velocity proxy.
-    # {online_in_group} = players online inside the selected CoreChatX network-channel group.
-    entries:
-      # - channel-id: "123456789012345678"
-      #   network-channel: "corechatx:survival"
-      #   description: "Players {online_in_group}/{online}"
-  server-status:
-    # Sends Discord embed messages for proxy startup/shutdown and backend online/offline state changes.
-    enabled: false
-    # Velocity pings backend servers listed in velocity-config.properties backend-groups.*.
-    interval-seconds: 10
-    offline-threshold: 3
-    online-threshold: 3
-    proxy:
-      enabled: true
-      # Token value used by {server} for proxy online/offline messages.
-      id: "velocity"
-      # Empty channels fall back to default.channels, then discord.default-channel-id.
-      channels: []
-      embed:
-        online:
-          enabled: true
-          color: "#57F287"
-          title: "Proxy online"
-          description: "`{server}` is now online."
-        offline:
-          enabled: true
-          color: "#ED4245"
-          title: "Proxy offline"
-          description: "`{server}` is now offline."
-    default:
-      enabled: true
-      # Discord channel ids. Empty falls back to discord.default-channel-id.
-      channels: []
-      embed:
-        online:
-          enabled: true
-          color: "#57F287"
-          title: "Server online"
-          description: "`{server}` is now online."
-        offline:
-          enabled: true
-          color: "#ED4245"
-          title: "Server offline"
-          description: "`{server}` is now offline."
-    # Per backend override. Keys must match backend-groups.<server> in velocity-config.properties.
-    # Any missing field inherits from default; write a custom title/description to avoid showing the technical {server}.
-    servers:
-      # survival-1:
-      #   channels:
-      #     - "123456789012345678"
-      #   embed:
-      #     offline:
-      #       color: "#ED4245"
-      #       title: "Survival is offline"
-      #       description: "The main survival backend is not reachable."
-  # Fallback format used when a backend does not provide a channel-specific Discord template.
-  # PlaceholderAPI placeholders are resolved through PAPIProxyBridge with the sender UUID when available.
+  # In PROXY mode Paper renders the Discord outbound text before sending it to Velocity.
+  # Leave this true to preserve per-channel Paper formats from channels.yml.
+  use-paper-outbound-format: true
+  # Used only when use-paper-outbound-format=false or a backend sends no rendered text.
   format: "[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}"
   # If true, Minecraft -> Discord bridge output breaks Discord mention tokens before sending.
   # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
@@ -2090,7 +1763,7 @@ Important rules:
 - if `guild-id` is blank, the bot must be in exactly one guild for role checks to be verifiable
 - `discord.default-channel-id` and `discord.channel-overrides` are the Velocity-side targets for Minecraft -> Discord messages
 - `discord.inbound.channel-routes` maps Discord channel IDs to CoreChatX channel IDs; in multi-group setups use object routes with `network-channel`
-- Velocity sends proxy Discord output and can resolve Velocity-side PlaceholderAPI values through optional `PAPIProxyBridge`; Paper still owns backend channel definitions and local message rendering where applicable.
+- `use-paper-outbound-format: true` preserves backend/channel formatting while Velocity performs the Discord send
 - Paper `discord.yml` is still used for standalone mode. In proxy mode, use it only for optional per-backend `discord.console.*` bots with separate bot tokens.
 
 ---
@@ -2333,8 +2006,9 @@ mvn clean package -DskipTests
 git diff --check
 ```
 
-Build-time warnings from Maven Shade about overlapping metadata/resources can be normal for shaded dependency jars.
-They should still be reviewed when dependencies change.
+CoreChatX no longer builds shaded jars. Paper external libraries are declared through
+`plugin.yml` libraries, while Velocity downloads its external libraries at startup
+into `plugins/corechatx/libs`; review dependency changes against those paths.
 
 ---
 
