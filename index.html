@@ -155,7 +155,7 @@
             <span>communication layer</span>
           </article>
           <article>
-            <strong>2026.2.4</strong>
+            <strong>2026.2.5</strong>
             <span>current release</span>
           </article>
           <article>
@@ -173,42 +173,42 @@
         <div class="shell">
           <div class="section-heading centered">
             <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.2.4 tightens Discord console logs, private messages, and proxy routing.</h2>
+            <h2>CoreChatX 2026.2.5 adds bStats metrics and clearer ignore/format permission control.</h2>
             <p>
-              The 2026.2.4 release adds batched Discord console logs, stricter nickname controls,
-              per-event Discord mirror configuration, ChatItem previews in private messages, and
-              fixes for Discord inbound prefixes, expired item inspections, and Velocity console replies.
+              The 2026.2.5 release adds Paper and Velocity bStats metrics, configurable public-chat
+              ignore behavior, stricter legacy formatting permission handling, and cleaner Discord
+              startup logging.
             </p>
           </div>
 
           <div class="setup-grid">
             <article class="setup-card featured-setup">
-              <div class="setup-kicker">Discord console</div>
-              <h3>Console logs are batched instead of spammed</h3>
+              <div class="setup-kicker">Metrics</div>
+              <h3>bStats support for both runtimes</h3>
               <p>
-                Paper and Velocity can edit the latest bot log message until the configured size
-                limit is reached, split after other users post in the channel, and format each line
-                with configurable monospace and timestamp settings.
+                Paper and Velocity now report anonymous usage metrics through their own bStats
+                runtime integrations. The implementation is included with license notices and does
+                not add shaded external library jars.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">Private messages</div>
-              <h3>ChatItems now work in /msg and /reply</h3>
+              <div class="setup-kicker">Privacy</div>
+              <h3>/ignore can affect public chat delivery</h3>
               <p>
-                Configured ChatItem tokens such as <code>[i]</code>, <code>[item]</code> and
-                <code>[inv]</code> are rendered in private messages, including cross-server
-                preview routing through Velocity.
+                <code>ignore.public-chat-mode</code> and per-channel overrides can keep ignore as
+                notification-only behavior or fully hide public channel messages from ignored
+                players.
               </p>
             </article>
 
             <article class="setup-card">
-              <div class="setup-kicker">Proxy bridge</div>
-              <h3>Discord routing waits for the right data</h3>
+              <div class="setup-kicker">Permissions</div>
+              <h3>Legacy format groups can be denied cleanly</h3>
               <p>
-                Discord inbound messages now wait for async LuckPerms data before delivery, Velocity
-                event mirrors can be configured per event, and console command replies render
-                translatable Velocity output as readable text.
+                Group nodes such as <code>corechatx.format.color.*</code> and
+                <code>corechatx.format.style.*</code> now reliably grant or deny player-authored
+                legacy color and style codes.
               </p>
             </article>
           </div>

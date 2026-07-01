@@ -193,8 +193,8 @@ const resourceLinks = [
   },
   {
     label: "Release",
-    title: "2026.2.4 Notes",
-    copy: "Batched Discord console logs, private-message ChatItems, per-event mirrors, nickname rules, and Velocity console fixes.",
+    title: "2026.2.5 Notes",
+    copy: "bStats metrics, public-chat ignore modes, legacy formatting permission groups, and cleaner Discord startup logs.",
     href: "./index.html#latest-release",
   },
 ];

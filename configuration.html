@@ -3,8 +3,8 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.2.4 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
-    <title>CoreChatX 2026.2.4 Configuration Reference</title>
+    <meta name="description" content="CoreChatX 2026.2.5 configuration reference with clean setup guidance, full bundled Paper YAML defaults, Velocity properties, Velocity Discord settings, proxy data ownership and migration notes.">
+    <title>CoreChatX 2026.2.5 Configuration Reference</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <meta name="theme-color" content="#070812">
@@ -48,7 +48,7 @@
       <section class="page-hero">
         <div class="shell section-heading">
           <p class="eyebrow">Configuration Reference</p>
-          <h1>CoreChatX 2026.2.4 Configuration</h1>
+          <h1>CoreChatX 2026.2.5 Configuration</h1>
           <p>Clean setup guidance, PROXY runtime authority rules, Discord bot placement, Velocity group routing and complete bundled default files from the current Paper and Velocity jars.</p>
         </div>
       </section>
@@ -73,10 +73,10 @@
 
           <article class="markdown-body">
             <h2 id="overview">Overview</h2>
-            <p>This page is rebuilt from the current CoreChatX 2026.2.4 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
+            <p>This page is rebuilt from the current CoreChatX 2026.2.5 source defaults. Paper files live in <code>plugins/CoreChatX/</code>; Velocity files live in <code>plugins/corechatx/</code>.</p>
             <ul>
-              <li>Current release: <code>2026.2.4</code></li>
-              <li>Installable jars: <code>corechatx-paper-2026.2.4.jar</code> and <code>corechatx-velocity-2026.2.4.jar</code></li>
+              <li>Current release: <code>2026.2.5</code></li>
+              <li>Installable jars: <code>corechatx-paper-2026.2.5.jar</code> and <code>corechatx-velocity-2026.2.5.jar</code></li>
               <li>Paper target: <code>1.21.11</code></li>
               <li>Java target: <code>21</code></li>
               <li>Default network channel: <code>corechatx:main</code></li>
@@ -175,7 +175,7 @@ backend-groups.minigames-1=corechatx:minigames
                 <pre class="code-block"><code class="language-yml"># Core plugin settings.
 
 deployment:
-  # STANDALONE = Paper-only mode. Runtime player data is stored in this backend&#x27;s YAML files.
+  # STANDALONE = Paper-only mode. Runtime player data is stored in this backend&#39;s YAML files.
   # PROXY = Velocity-backed network mode. Runtime player data is owned by the CoreChatX Velocity module.
   # Changing this mode requires a full restart.
   mode: &quot;STANDALONE&quot;
@@ -222,6 +222,9 @@ nicknames:
   # true = /nick can only change allowed colors/styles; the visible text after removing formatting must stay exactly the real Minecraft username.
   # Example with true: IceWolf23X may use &amp;cIceWolf23X, but not &amp;cIceWolf.
   change-only-colors: false
+  # false = nickname text may only use A-Z, a-z, 0-9 and _ after formatting is removed.
+  # true = CoreChatX does not apply an additional character whitelist to nickname text.
+  allow-special-characters: false
 
 first-join:
   enabled: true
@@ -236,8 +239,7 @@ join-quit:
 
 reload:
   # A short summary is shown to the command sender after a successful reload.
-  show-summary: true
-</code></pre>
+  show-summary: true</code></pre>
               </details>
             </section>
             <section class="config-file" id="messages-yml">
@@ -346,13 +348,13 @@ broadcast:
 nickname:
   changed: &quot;{prefix} &lt;gray&gt;Your nickname is now &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
   cleared: &quot;{prefix} &lt;gray&gt;Your nickname has been cleared.&lt;/gray&gt;&quot;
-  changed-other: &quot;{prefix} &lt;gray&gt;Set &lt;white&gt;{target_name}&lt;/white&gt;&#x27;s nickname to &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
-  cleared-other: &quot;{prefix} &lt;gray&gt;Cleared &lt;white&gt;{target_name}&lt;/white&gt;&#x27;s nickname.&lt;/gray&gt;&quot;
+  changed-other: &quot;{prefix} &lt;gray&gt;Set &lt;white&gt;{target_name}&lt;/white&gt;&#39;s nickname to &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
+  cleared-other: &quot;{prefix} &lt;gray&gt;Cleared &lt;white&gt;{target_name}&lt;/white&gt;&#39;s nickname.&lt;/gray&gt;&quot;
   invalid: &quot;{prefix} &lt;red&gt;That nickname is invalid. Use one visible word after formatting is removed.&lt;/red&gt;&quot;
-  duplicate: &quot;{prefix} &lt;red&gt;That nickname is already used by another player or matches another player&#x27;s real username.&lt;/red&gt;&quot;
-  name-change-disabled: &quot;{prefix} &lt;red&gt;Nicknames can only change colors/styles. The visible text must stay exactly the player&#x27;s real Minecraft username.&lt;/red&gt;&quot;
+  duplicate: &quot;{prefix} &lt;red&gt;That nickname is already used by another player or matches another player&#39;s real username.&lt;/red&gt;&quot;
+  name-change-disabled: &quot;{prefix} &lt;red&gt;Nicknames can only change colors/styles. The visible text must stay exactly the player&#39;s real Minecraft username.&lt;/red&gt;&quot;
   too-long: &quot;{prefix} &lt;red&gt;Nicknames can be at most &lt;white&gt;{limit}&lt;/white&gt; visible characters.&lt;/red&gt;&quot;
-  realname: &quot;{prefix} &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt;&#x27;s real name is &lt;/gray&gt;&lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
+  realname: &quot;{prefix} &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt;&#39;s real name is &lt;/gray&gt;&lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
   realname-not-found: &quot;{prefix} &lt;red&gt;No custom nickname matches that value.&lt;/red&gt;&quot;
 
 discord:
@@ -380,8 +382,7 @@ join-quit:
 chatitems:
   # Hover shown on clickable chat preview tokens.
   click-to-open: &quot;&lt;gray&gt;Click to open the saved preview.&lt;/gray&gt;&quot;
-  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;
-</code></pre>
+  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="chat-yml">
@@ -398,16 +399,16 @@ public-chat:
   # Layout inspired by the older NetworkChat proxy format:
   # prefix + player name + italic separator + processed message.
   # CoreChatX keeps its own default palette instead of copying the old colors verbatim.
-  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+  format: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   # Optional group-specific format overrides keyed by LuckPerms primary group.
   # These are used only when channels.yml -&gt; format is blank for the active channel.
   # Keys must match the LuckPerms primary group in lowercase.
   group-formats:
-    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
-    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    owner: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    admin: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    mod: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    vip: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
+    default: &quot;{plugin_prefix} {channel_prefix}{rank_prefix}&lt;gray&gt;{player_nickname}&lt;/gray&gt;&lt;dark_gray&gt;&lt;italic&gt;Â» &lt;/italic&gt;&lt;/dark_gray&gt;{message}&quot;
   plugin-prefix: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Chat&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt;&quot;
   # Applied to non-global active channels such as local or staff.
   channel-prefix-format: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;white&gt;{channel_name}&lt;/white&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &quot;
@@ -427,8 +428,7 @@ cooldowns:
     seconds: 2
   private-messages:
     enabled: false
-    seconds: 2
-</code></pre>
+    seconds: 2</code></pre>
               </details>
             </section>
             <section class="config-file" id="channels-yml">
@@ -443,6 +443,9 @@ channels:
   global:
     enabled: true
     default: true
+    # Optional command shortcut for this channel. Example: shortcut: &quot;g&quot; registers /g.
+    # /g switches to this channel; /g &lt;message&gt; sends one message here without changing your active channel.
+    shortcut: &quot;&quot;
     scope: &quot;NETWORK&quot;
     permission-send: &quot;&quot;
     permission-receive: &quot;&quot;
@@ -457,6 +460,25 @@ channels:
     allow-chat-bubbles: true
     # If true, locally-sent messages in this channel may be exported to Discord / Telegram bridges.
     export-to-bridges: true
+    # Per-channel override for how /ignore works in this channel&#39;s public chat.
+    # This only changes public channel messages and public mention/custom-ping notifications.
+    # Private messages stay controlled by the global /ignore behavior.
+    #
+    # inherit:
+    #   Use privacy.yml -&gt; ignore.public-chat-mode.
+    #
+    # off:
+    #   Ignored players are still blocked in private messages, but this channel ignores no public chat.
+    #   Their messages remain visible here and their mentions/custom pings can notify viewers.
+    #
+    # notifications-only:
+    #   Ignored players remain visible in this channel, but their mentions/custom pings do not notify viewers who ignored them.
+    #
+    # hide-message:
+    #   Ignored players are hidden in this channel for viewers who ignored them.
+    #   Their messages are not sent to those viewers, and their mentions/custom pings do not notify them.
+    ignore:
+      public-chat-mode: &quot;inherit&quot;
     # Optional per-channel format. Leave blank to use chat.yml -&gt; public-chat.format.
     format: &quot;&quot;
     discord:
@@ -479,6 +501,7 @@ channels:
   local:
     enabled: true
     default: false
+    shortcut: &quot;&quot;
     scope: &quot;LOCAL_RADIUS&quot;
     radius: 100
     permission-send: &quot;corechatx.channel.local&quot;
@@ -490,6 +513,8 @@ channels:
     allow-chatitems: true
     allow-chat-bubbles: true
     export-to-bridges: false
+    ignore:
+      public-chat-mode: &quot;inherit&quot;
     format: &quot;&quot;
     discord:
       outbound-format: &quot;&quot;
@@ -501,6 +526,7 @@ channels:
   staff:
     enabled: true
     default: false
+    shortcut: &quot;&quot;
     scope: &quot;NETWORK&quot;
     permission-send: &quot;corechatx.channel.staff&quot;
     permission-receive: &quot;corechatx.staff&quot;
@@ -511,6 +537,8 @@ channels:
     allow-chatitems: false
     allow-chat-bubbles: false
     export-to-bridges: true
+    ignore:
+      public-chat-mode: &quot;inherit&quot;
     format: &quot;&quot;
     discord:
       outbound-format: &quot;&quot;
@@ -518,8 +546,7 @@ channels:
       require-linked-inbound: &quot;inherit&quot;
     telegram:
       outbound-format: &quot;&quot;
-      inbound-format: &quot;&quot;
-</code></pre>
+      inbound-format: &quot;&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="pings-yml">
@@ -560,8 +587,7 @@ custom-pings:
     receive-permission: &quot;corechatx.staff&quot;
     discord-roles: []
     bypass-toggle: true
-    token-format: &quot;&lt;#ff8f8f&gt;{trigger}&lt;/#ff8f8f&gt;&quot;
-</code></pre>
+    token-format: &quot;&lt;#ff8f8f&gt;{trigger}&lt;/#ff8f8f&gt;&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="privacy-yml">
@@ -577,9 +603,25 @@ private-messages:
 ignore:
   enabled: true
   max-ignored-players: 200
-  # If true, ignored players also stop mention/custom-ping notifications.
-  block-mentions-from-ignored: true
-</code></pre>
+  # Default behavior for /ignore inside public channel chat.
+  # This does not change private messages: ignored players are still blocked from /msg and /reply.
+  #
+  # off:
+  #   Ignored players are still blocked in private messages, but public chat is not affected.
+  #   Their public messages remain visible and their mentions/custom pings can still notify you.
+  #
+  # notifications-only:
+  #   Ignored players are still visible in public chat, but their mentions/custom pings do not notify you.
+  #   This matches the old CoreChatX behavior.
+  #
+  # hide-message:
+  #   Ignored players are hidden from public chat for the players who ignored them.
+  #   Their messages are not sent to those viewers, and their mentions/custom pings do not notify them.
+  public-chat-mode: &quot;notifications-only&quot;
+  # Legacy compatibility switch for old configs.
+  # If this is false and public-chat-mode is notifications-only, public chat ignore stays off.
+  # Explicit hide-message still works even when this legacy switch is false.
+  block-mentions-from-ignored: true</code></pre>
               </details>
             </section>
             <section class="config-file" id="moderation-yml">
@@ -604,8 +646,7 @@ anti-repeat:
 anti-caps:
   enabled: false
   min-length: 8
-  max-uppercase-ratio: 0.7
-</code></pre>
+  max-uppercase-ratio: 0.7</code></pre>
               </details>
             </section>
             <section class="config-file" id="filter-yml">
@@ -624,8 +665,7 @@ replacement-character: &quot;*&quot;
 
 hover-original:
   enabled: false
-  text: &quot;&lt;gray&gt;Original term:&lt;/gray&gt; &lt;red&gt;{word}&lt;/red&gt;&quot;
-</code></pre>
+  text: &quot;&lt;gray&gt;Original term:&lt;/gray&gt; &lt;red&gt;{word}&lt;/red&gt;&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="chatitems-yml">
@@ -643,6 +683,8 @@ tokens:
     # The snapshot stores the held item exactly as it looked when the message was sent.
     aliases: [ &quot;[item]&quot;, &quot;[i]&quot; ]
     permission: &quot;corechatx.chatitem.item&quot;
+    # In-game clickable token template. Placeholders: {token}, {name}, {material}, {amount}.
+    # {name} uses custom_name, then item_name, then material. {material} is lower-case without namespace, for example diamond_sword.
     token-format: &quot;&lt;#79d6b8&gt;[item]&lt;/#79d6b8&gt;&quot;
     shulker-token-format: &quot;&lt;#5fc7c2&gt;[shulker]&lt;/#5fc7c2&gt;&quot;
   armor:
@@ -671,14 +713,14 @@ previews:
   # Expired or cleared previews will no longer open from old chat messages.
   expire-after-minutes: 30
   titles:
-    # {player_name} is always the real snapshot owner&#x27;s username.
-    # {player_nickname} uses the owner&#x27;s custom nickname when available.
-    item: &quot;&lt;#79d6b8&gt;{player_nickname}&#x27;s item&lt;/#79d6b8&gt;&quot;
-    shulker: &quot;&lt;#5fc7c2&gt;{player_nickname}&#x27;s shulker&lt;/#5fc7c2&gt;&quot;
-    armor: &quot;&lt;#6fb6ff&gt;{player_nickname}&#x27;s armor&lt;/#6fb6ff&gt;&quot;
-    hotbar: &quot;&lt;#8bc8ff&gt;{player_nickname}&#x27;s hotbar&lt;/#8bc8ff&gt;&quot;
-    inventory: &quot;&lt;#5aa9ff&gt;{player_nickname}&#x27;s inventory&lt;/#5aa9ff&gt;&quot;
-    enderchest: &quot;&lt;#7db8ff&gt;{player_nickname}&#x27;s ender chest&lt;/#7db8ff&gt;&quot;
+    # {player_name} is always the real snapshot owner&#39;s username.
+    # {player_nickname} uses the owner&#39;s custom nickname when available.
+    item: &quot;&lt;#79d6b8&gt;{player_nickname}&#39;s item&lt;/#79d6b8&gt;&quot;
+    shulker: &quot;&lt;#5fc7c2&gt;{player_nickname}&#39;s shulker&lt;/#5fc7c2&gt;&quot;
+    armor: &quot;&lt;#6fb6ff&gt;{player_nickname}&#39;s armor&lt;/#6fb6ff&gt;&quot;
+    hotbar: &quot;&lt;#8bc8ff&gt;{player_nickname}&#39;s hotbar&lt;/#8bc8ff&gt;&quot;
+    inventory: &quot;&lt;#5aa9ff&gt;{player_nickname}&#39;s inventory&lt;/#5aa9ff&gt;&quot;
+    enderchest: &quot;&lt;#7db8ff&gt;{player_nickname}&#39;s ender chest&lt;/#7db8ff&gt;&quot;
 
 discord-images:
   # Global toggle for Discord ChatItem inventory snapshots.
@@ -694,22 +736,22 @@ discord-images:
     # Set a value to &quot;&quot; to omit the title completely.
     # For [item], this text is rendered into the attached PNG with the Minecraft bitmap font
     # instead of being sent as Discord embed text.
-    # Custom item names use Minecraft&#x27;s default italic tooltip style unless the rendered component overrides it.
+    # Custom item names use Minecraft&#39;s default italic tooltip style unless the rendered component overrides it.
     # Common placeholders: {player_name}, {player_nickname}, {type}, {token}, {plain_text}.
     # Item placeholders: {item_name}, {material}, {durability}, {durability_line}, {enchantments}, {lore}.
     # Extra item tooltip placeholders: {attributes}, {potion_effects}, {banner_patterns}, {armor_trim},
     # {unbreakable}, {can_place_on}, {can_break}, {book_metadata}, {firework_data}, {tooltip_extra}.
     title:
       item: &quot;{item_name}&quot;
-      armor: &quot;{player_nickname}&#x27;s armor&quot;
-      hotbar: &quot;{player_nickname}&#x27;s hotbar&quot;
-      inventory: &quot;{player_nickname}&#x27;s inventory&quot;
-      enderchest: &quot;{player_nickname}&#x27;s ender chest&quot;
-      shulker: &quot;{player_nickname}&#x27;s shulker&quot;
+      armor: &quot;{player_nickname}&#39;s armor&quot;
+      hotbar: &quot;{player_nickname}&#39;s hotbar&quot;
+      inventory: &quot;{player_nickname}&#39;s inventory&quot;
+      enderchest: &quot;{player_nickname}&#39;s ender chest&quot;
+      shulker: &quot;{player_nickname}&#39;s shulker&quot;
 
     # Controls the Discord embed description.
     # For [item], these lines are rendered into the transparent attached PNG with the item icon.
-    # Custom lore lines use Minecraft&#x27;s default italic tooltip style; enchantments, attributes and metadata do not.
+    # Custom lore lines use Minecraft&#39;s default italic tooltip style; enchantments, attributes and metadata do not.
     # Each list entry becomes one rendered line.
     # For [item], each detail placeholder adds its own blank line only when content exists.
     # Empty rendered lines are removed, so missing metadata does not leave blank lines.
@@ -779,8 +821,7 @@ network:
   max-snapshots-per-message: 3
   max-compressed-bytes: 30000
   max-uncompressed-bytes: 2097152
-  max-item-bytes: 262144
-</code></pre>
+  max-item-bytes: 262144</code></pre>
               </details>
             </section>
             <section class="config-file" id="keywords-yml">
@@ -793,7 +834,7 @@ keywords:
   discord:
     enabled: true
     tokens: [ &quot;[discord]&quot;, &quot;[dc]&quot; ]
-    renderer: &quot;&lt;blue&gt;&lt;hover:show_text:&#x27;&lt;gray&gt;Join our Discord&lt;/gray&gt;&#x27;&gt;&lt;click:open_url:&#x27;https://discord.gg/example&#x27;&gt;discord&lt;/click&gt;&lt;/hover&gt;&lt;/blue&gt;&quot;
+    renderer: &quot;&lt;blue&gt;&lt;hover:show_text:&#39;&lt;gray&gt;Join our Discord&lt;/gray&gt;&#39;&gt;&lt;click:open_url:&#39;https://discord.gg/example&#39;&gt;discord&lt;/click&gt;&lt;/hover&gt;&lt;/blue&gt;&quot;
     allow-placeholderapi: false
     permission: &quot;corechatx.keywords.use.discord&quot;
     enabled-channels: []
@@ -802,12 +843,11 @@ keywords:
   rules:
     enabled: true
     tokens: [ &quot;[rules]&quot; ]
-    renderer: &quot;&lt;yellow&gt;&lt;hover:show_text:&#x27;&lt;gray&gt;Click to read the rules&lt;/gray&gt;&#x27;&gt;&lt;click:run_command:&#x27;/rules&#x27;&gt;rules&lt;/click&gt;&lt;/hover&gt;&lt;/yellow&gt;&quot;
+    renderer: &quot;&lt;yellow&gt;&lt;hover:show_text:&#39;&lt;gray&gt;Click to read the rules&lt;/gray&gt;&#39;&gt;&lt;click:run_command:&#39;/rules&#39;&gt;rules&lt;/click&gt;&lt;/hover&gt;&lt;/yellow&gt;&quot;
     allow-placeholderapi: false
     permission: &quot;&quot;
     enabled-channels: []
-    disabled-channels: []
-</code></pre>
+    disabled-channels: []</code></pre>
               </details>
             </section>
             <section class="config-file" id="chatbubbles-yml">
@@ -851,8 +891,7 @@ world-filter:
   disabled-worlds: []
 
 renderer:
-  format: &quot;{message}&quot;
-</code></pre>
+  format: &quot;{message}&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="discord-yml">
@@ -865,7 +904,7 @@ renderer:
 account-linking:
   # Master switch for Discord-Minecraft account linking.
   # STANDALONE: this backend owns the bot, link codes, linked accounts and optional Discord role checks.
-  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity&#x27;s velocity-discord.yml instead.
+  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity&#39;s velocity-discord.yml instead.
   # Paper keeps this file for standalone setups and local formatting only.
   enabled: false
   # If true, linked Discord members get their server nickname synced to their Minecraft nickname.
@@ -886,7 +925,7 @@ account-linking:
     role-ids: []
     # If true, kick linked players when Discord role verification cannot be completed.
     deny-if-unverifiable: true
-  # Deletes blocked unlinked messages when the bot has Discord&#x27;s Manage Messages permission.
+  # Deletes blocked unlinked messages when the bot has Discord&#39;s Manage Messages permission.
   delete-unlinked-messages: true
   # Sends a private Discord DM explaining why the message was blocked.
   dm-unlinked-users: true
@@ -924,7 +963,7 @@ discord:
   # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
   prevent-mentions-from-minecraft: true
   connection-messages:
-    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#x27;s velocity-discord.yml.
+    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#39;s velocity-discord.yml.
     # If true, CoreChatX mirrors accepted join, first-join and quit messages to Discord.
     # Messages are sent only when the Minecraft join/quit message is actually announced.
     enabled: false
@@ -955,28 +994,42 @@ discord:
       first-join-description: &quot;&quot;
       quit-description: &quot;&quot;
   event-messages:
-    # STANDALONE only. In PROXY, configure event mirrors in Velocity&#x27;s velocity-discord.yml.
+    # STANDALONE only. In PROXY, configure event mirrors in Velocity&#39;s velocity-discord.yml.
     # If true, CoreChatX mirrors supported server events to Discord.
-    # Supported source_type values for now: death, advancement.
+    # Individual event sections below can still be disabled separately.
     enabled: false
     # CoreChatX channel ids that should receive event mirrors.
     # Empty list = all enabled channels with export-to-bridges: true and a Discord target.
+    # Individual event channels override this list when non-empty.
     channels: []
+    # Default format for any event that does not override it.
     # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
     format: &quot;{plain_text}&quot;
-    # Optional event-specific plain-text formats. Leave empty to use format above.
-    death-format: &quot;&quot;
-    advancement-format: &quot;&quot;
     embed:
-      # Event mirrors are sent as embeds when enabled.
+      # Default embed settings for any event that does not override them.
       enabled: true
       color: &quot;#5865F2&quot;
-      death-color: &quot;#ED4245&quot;
-      advancement-color: &quot;#FEE75C&quot;
       title: &quot;&quot;
       description: &quot;{plain_text}&quot;
-      death-description: &quot;&quot;
-      advancement-description: &quot;&quot;
+    events:
+      death:
+        enabled: true
+        channels: []
+        format: &quot;&quot;
+        embed:
+          enabled: true
+          color: &quot;#ED4245&quot;
+          title: &quot;&quot;
+          description: &quot;&quot;
+      advancement:
+        enabled: true
+        channels: []
+        format: &quot;&quot;
+        embed:
+          enabled: true
+          color: &quot;#FEE75C&quot;
+          title: &quot;&quot;
+          description: &quot;&quot;
   console:
     # Allows this Paper backend to act as a Discord console bot even when chat bridge/account linking are disabled.
     # In PROXY mode this is the only Paper Discord feature that can run.
@@ -989,14 +1042,22 @@ discord:
     command-prefix: &quot;!&quot;
     # If true, Paper console log lines are mirrored live to the Discord console channel.
     live-log: true
+    live-log-format:
+      # Discord messages are edited until this rendered size is reached, then a new silent message is sent.
+      max-message-chars: 1800
+      # Wrap live console log blocks in Discord monospace code blocks.
+      monospace: true
+      # Prefix added to every mirrored console line. Uses this backend JVM local time.
+      line-prefix: &quot;[{date} {hour}] &quot;
+      date-format: &quot;yyyy-MM-dd&quot;
+      hour-format: &quot;HH:mm:ss&quot;
     # Sends a short Discord acknowledgement after dispatching a command.
     send-command-feedback: true
     # Empty allow lists mean anyone who can write in the configured Discord channel can run commands.
     allowed-user-ids: []
     allowed-role-ids: []
-    max-log-line-length: 1800
   player-list:
-    # STANDALONE only. In PROXY mode configure the player-list command in Velocity&#x27;s velocity-discord.yml.
+    # STANDALONE only. In PROXY mode configure the player-list command in Velocity&#39;s velocity-discord.yml.
     # Shows online players from this Paper server.
     enabled: false
     # Text command listened in Discord channels visible to the bot. Set to &quot;&quot; to disable the text command.
@@ -1016,7 +1077,7 @@ discord:
       line-format: &quot;- {player_nickname}&quot;
       more-format: &quot;... and {hidden_count} more.&quot;
   channel-description:
-    # STANDALONE only. In PROXY mode configure channel descriptions in Velocity&#x27;s velocity-discord.yml.
+    # STANDALONE only. In PROXY mode configure channel descriptions in Velocity&#39;s velocity-discord.yml.
     # Updates the description/topic of Discord text channels.
     enabled: false
     # Discord rate limits channel metadata updates; keep this at 60 seconds or higher.
@@ -1037,7 +1098,7 @@ discord:
       # - channel-id: &quot;123456789012345678&quot;
       #   description: &quot;Players {online}/1000&quot;
   server-status:
-    # STANDALONE only. In PROXY mode configure proxy/backend status messages in Velocity&#x27;s velocity-discord.yml.
+    # STANDALONE only. In PROXY mode configure proxy/backend status messages in Velocity&#39;s velocity-discord.yml.
     # Sends Discord embed messages when this standalone server starts and stops cleanly.
     enabled: false
     default:
@@ -1087,8 +1148,7 @@ discord:
     # Map Discord channel ids to CoreChatX channel ids.
     # channel-routes:
     #   &quot;123456789012345678&quot;: &quot;staff&quot;
-    channel-routes: {}
-</code></pre>
+    channel-routes: {}</code></pre>
               </details>
             </section>
             <section class="config-file" id="telegram-yml">
@@ -1149,8 +1209,7 @@ telegram:
     # Keys can be &quot;chatId&quot; or &quot;chatId:messageThreadId&quot;.
     routes:
       # &quot;-1001111111111&quot;: &quot;global&quot;
-      # &quot;-1001111111111:25&quot;: &quot;staff&quot;
-</code></pre>
+      # &quot;-1001111111111:25&quot;: &quot;staff&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="storage-yml">
@@ -1169,8 +1228,7 @@ storage:
     port: 3306
     database: &quot;corechatx&quot;
     username: &quot;user&quot;
-    password: &quot;password&quot;
-</code></pre>
+    password: &quot;password&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="playerdata-yml">
@@ -1215,8 +1273,7 @@ privacy:
     success: &quot;&lt;gray&gt;You are now ignoring &lt;white&gt;{target_name}&lt;/white&gt;.&lt;/gray&gt;&quot;
 
 moderation:
-  clear-chat-sender: &quot;{prefix} &lt;gray&gt;Cleared chat for &lt;white&gt;{count}&lt;/white&gt; online player(s).&lt;/gray&gt;&quot;
-</code></pre>
+  clear-chat-sender: &quot;{prefix} &lt;gray&gt;Cleared chat for &lt;white&gt;{count}&lt;/white&gt; online player(s).&lt;/gray&gt;&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="plugin-yml">
@@ -1227,7 +1284,7 @@ description: ${project.description}
 prefix: CoreChatX
 version: ${project.version}
 main: me.icewolf23.corechatx.paper.bootstrap.CoreChatXPaperPlugin
-api-version: &#x27;1.21&#x27;
+api-version: &#39;1.21&#39;
 load: POSTWORLD
 authors: [ IceWolf23X ]
 softdepend: [ PlaceholderAPI, LuckPerms ]
@@ -1263,7 +1320,7 @@ commands:
     description: Set or clear a persistent CoreChatX nickname.
     usage: /nick &lt;nickname|off&gt;
   realname:
-    description: Resolve a CoreChatX nickname to the player&#x27;s real Minecraft username.
+    description: Resolve a CoreChatX nickname to the player&#39;s real Minecraft username.
     usage: /realname &lt;nickname&gt;
   discord:
     description: Link or unlink your Discord account.
@@ -1335,7 +1392,7 @@ permissions:
     description: Set or clear your own CoreChatX nickname.
     default: true
   corechatx.command.nick.others:
-    description: Set or clear another online player&#x27;s CoreChatX nickname.
+    description: Set or clear another online player&#39;s CoreChatX nickname.
     default: op
   corechatx.command.realname:
     description: Resolve a CoreChatX nickname to a real Minecraft username.
@@ -1525,6 +1582,31 @@ permissions:
   corechatx.chatitem.enderchest:
     description: Use [enderchest], [ender], and [ec] chat item tokens.
     default: op
+  corechatx.format.color:
+    description: Use all legacy color codes in player-authored messages.
+    default: op
+    children:
+      corechatx.format.color.*: true
+  corechatx.format.color.*:
+    description: Use all legacy color sub-permissions in player-authored messages.
+    default: op
+    children:
+      corechatx.format.color.black: true
+      corechatx.format.color.dark_blue: true
+      corechatx.format.color.dark_green: true
+      corechatx.format.color.dark_aqua: true
+      corechatx.format.color.dark_red: true
+      corechatx.format.color.dark_purple: true
+      corechatx.format.color.gold: true
+      corechatx.format.color.gray: true
+      corechatx.format.color.dark_gray: true
+      corechatx.format.color.blue: true
+      corechatx.format.color.green: true
+      corechatx.format.color.aqua: true
+      corechatx.format.color.red: true
+      corechatx.format.color.light_purple: true
+      corechatx.format.color.yellow: true
+      corechatx.format.color.white: true
   corechatx.format.color.black:
     description: Use the color code &amp;0 in player-authored messages.
     default: op
@@ -1573,6 +1655,21 @@ permissions:
   corechatx.format.color.white:
     description: Use the color code &amp;f in player-authored messages.
     default: op
+  corechatx.format.style:
+    description: Use all legacy style codes in player-authored messages.
+    default: op
+    children:
+      corechatx.format.style.*: true
+  corechatx.format.style.*:
+    description: Use all legacy style sub-permissions in player-authored messages.
+    default: op
+    children:
+      corechatx.format.style.magic: true
+      corechatx.format.style.bold: true
+      corechatx.format.style.strikethrough: true
+      corechatx.format.style.underline: true
+      corechatx.format.style.italic: true
+      corechatx.format.style.reset: true
   corechatx.format.style.magic:
     description: Use the format code &amp;k in player-authored messages.
     default: op
@@ -1590,8 +1687,7 @@ permissions:
     default: op
   corechatx.format.style.reset:
     description: Use the format code &amp;r in player-authored messages.
-    default: op
-</code></pre>
+    default: op</code></pre>
               </details>
             </section>
 
@@ -1629,8 +1725,7 @@ player-directory.tab-entries=true
 # Do not place player state, mutes, privacy or Discord links in this config file.
 
 # Discord bot/account-linking settings live in velocity-discord.yml.
-# Velocity-owned PROXY join/quit/first-join message formats live in velocity-messages.yml.
-</code></pre>
+# Velocity-owned PROXY join/quit/first-join message formats live in velocity-messages.yml.</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-messages-yml">
@@ -1663,8 +1758,7 @@ join-quit:
   quit: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;red&gt;-&lt;/red&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&quot;
   # MiniMessage format. Placeholders: {player_name}, {player_nickname}, {count}.
   # PlaceholderAPI placeholders like %luckperms_prefix% are resolved through PAPIProxyBridge when installed.
-  first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
-</code></pre>
+  first-join: &quot;&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-discord-yml">
@@ -1678,7 +1772,8 @@ account-linking:
   # Master switch for Discord-Minecraft account linking handled by Velocity.
   enabled: false
   # If true, linked Discord members get their server nickname synced to their Minecraft nickname.
-  # Falls back to the Minecraft player name when no custom nickname is set.
+  # Uses velocity-messages.yml -&gt; nicknames.prefix when a custom nickname is set.
+  # Falls back to the Minecraft player name without the prefix when no custom nickname is set.
   sync-mc-name: false
   # If true, unlinked Discord users cannot write from Discord into Minecraft bridge channels.
   require-linked: false
@@ -1780,28 +1875,54 @@ discord:
     channels: []
     # Tokens: {source}, {source_type}, {source_server}, {channel_id}, {sender_name}, {rank_prefix}, {plain_text}, {message}
     format: &quot;{plain_text}&quot;
-    # Optional event-specific plain-text formats. Leave empty to use format above.
-    death-format: &quot;&quot;
-    advancement-format: &quot;&quot;
     embed:
       # Event mirrors are sent as embeds when enabled.
       enabled: true
       color: &quot;#5865F2&quot;
-      death-color: &quot;#ED4245&quot;
-      advancement-color: &quot;#FEE75C&quot;
       title: &quot;&quot;
       description: &quot;{plain_text}&quot;
-      death-description: &quot;&quot;
-      advancement-description: &quot;&quot;
+    events:
+      death:
+        enabled: true
+        # Discord channel ids. Empty falls back to event-messages.channels.
+        channels: []
+        # Leave empty to use event-messages.format.
+        format: &quot;&quot;
+        embed:
+          enabled: true
+          color: &quot;#ED4245&quot;
+          title: &quot;&quot;
+          # Leave empty to use event-messages.embed.description.
+          description: &quot;&quot;
+      advancement:
+        enabled: true
+        # Discord channel ids. Empty falls back to event-messages.channels.
+        channels: []
+        # Leave empty to use event-messages.format.
+        format: &quot;&quot;
+        embed:
+          enabled: true
+          color: &quot;#FEE75C&quot;
+          title: &quot;&quot;
+          # Leave empty to use event-messages.embed.description.
+          description: &quot;&quot;
   console:
     # Allows the Velocity Discord bot to execute proxy console commands from one Discord channel.
-    # Backend live logs are not mirrored from Velocity; use Paper backend console-only bots for full per-backend live logs.
+    # When live-log is true, proxy console lines are mirrored into the same Discord channel.
     enabled: false
     channel-id: &quot;&quot;
     # Set to &quot;&quot; to execute every message in the console channel as a command.
     command-prefix: &quot;!&quot;
-    # Reserved for future proxy log streaming; command responses are returned today.
     live-log: false
+    live-log-format:
+      # Discord messages are edited until this rendered size is reached, then a new silent message is sent.
+      max-message-chars: 1800
+      # Wrap live console log blocks in Discord monospace code blocks.
+      monospace: true
+      # Prefix added to every mirrored console line. Uses this proxy JVM local time.
+      line-prefix: &quot;[{date} {hour}] &quot;
+      date-format: &quot;yyyy-MM-dd&quot;
+      hour-format: &quot;HH:mm:ss&quot;
     # Empty allow lists mean anyone who can write in the configured Discord channel can run commands.
     allowed-user-ids: []
     allowed-role-ids: []
@@ -1932,8 +2053,7 @@ discord:
     channel-routes: {}
     # Optional per Discord route account-link override.
     # Values: inherit, true, false.
-    route-overrides: {}
-</code></pre>
+    route-overrides: {}</code></pre>
               </details>
             </section>
             <section class="config-file" id="velocity-plugin-json">
@@ -1954,8 +2074,7 @@ discord:
       &quot;optional&quot;: true
     }
   ]
-}
-</code></pre>
+}</code></pre>
               </details>
             </section>
 
@@ -1994,7 +2113,7 @@ discord:
       </div>
       <div class="shell footer-bottom">
         <span>Copyright 2026 CoreChatX. All rights reserved.</span>
-        <span>Configuration reference for CoreChatX 2026.2.4.</span>
+        <span>Configuration reference for CoreChatX 2026.2.5.</span>
       </div>
     </footer>
     <script src="./assets/site.js"></script>
