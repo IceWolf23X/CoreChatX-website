@@ -1,105 +1,131 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX documentation hub for installation, full feature overview, configuration reference, FAQ, and operational checks.">
-    <title>CoreChatX Documentation Hub</title>
+    <meta name="description" content="CoreChatX 2026.2.6 documentation for installation, configuration, commands, permissions, channels, Discord, Telegram, saved data, and troubleshooting.">
+    <meta name="theme-color" content="#2F3235">
+    <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/docs.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CoreChatX Documentation">
+    <meta property="og:description" content="Find installation steps, every configuration file, commands, permissions, and troubleshooting help.">
+    <meta property="og:url" content="https://wiki-corechatx.icewolf23x.dev/docs.html">
+    <meta property="og:image" content="https://wiki-corechatx.icewolf23x.dev/assets/corechatx-logo.svg">
+    <meta name="twitter:card" content="summary">
+    <title>Documentation — CoreChatX</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
-    <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
-    <meta name="theme-color" content="#070812">
-    <script>
-      (() => {
-        try {
-          if (localStorage.getItem("corechatx-theme") === "light") {
-            document.documentElement.dataset.theme = "light";
-          }
-        } catch (_) {}
-      })();
-    </script>
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <header class="site-header">
-      <nav class="nav shell" aria-label="Main navigation">
-        <a class="brand" href="./index.html" aria-label="CoreChatX home"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a>
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">Menu</button>
-        <div class="nav-links" id="nav-links">
-          <a href="./index.html#features">Features</a>
-          <a href="./installation.html">Setup</a>
-          <a href="./docs.html">Docs</a>
-          <a href="./faq.html">FAQ</a>
-          <a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a>
-        </div>
-        <div class="nav-actions">
-          <a class="nav-cta nav-download" href="https://modrinth.com/plugin/corechatx">Download</a>
-          <a class="nav-cta" href="./installation.html">Get Started</a>
-        <a class="nav-cta" href="https://buymeacoffee.com/lcewolf23x">Buy Me a Coffee</a></div>
-      </nav>
+    <a class="fb-skip-link" href="#main">Skip to content</a>
+    <header class="fb-site-header fb-site-header--sticky">
+      <div class="fb-container fb-container--wide fb-navbar">
+        <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
+          <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+          <span>CoreChatX</span>
+        </a>
+        <button class="fb-button fb-button--ghost fb-nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>Menu</button>
+        <nav class="fb-nav-panel fb-nav-region" id="site-navigation" data-nav-panel data-open="false" aria-label="Main navigation">
+          <ul class="fb-nav">
+            <li><a href="./index.html">Overview</a></li>
+            <li><a href="./features.html">Features</a></li>
+            <li><a href="./installation.html">Setup</a></li>
+            <li><a href="./docs.html" aria-current="page">Documentation</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main id="main">
-      <section class="page-hero">
-        <div class="shell section-heading">
-          <p class="eyebrow">Documentation</p>
-          <h1>Everything server owners need to understand CoreChatX.</h1>
-          <p>
-            Product overview, installation guidance, configuration reference, FAQ, troubleshooting,
-            and validation checklists are organized for quick navigation.
-          </p>
+    <main id="main" class="fb-main">
+      <header class="fb-doc-header corechatx-page-hero">
+        <div class="fb-container fb-container--wide">
+          <p class="fb-eyebrow">Documentation</p>
+          <h1>Find the guide you need.</h1>
+          <p class="fb-lead">Follow the setup guide to install CoreChatX, browse the available features, or open the complete configuration reference when you need exact settings, commands, and permissions.</p>
+        </div>
+      </header>
+
+      <section class="fb-section">
+        <div class="fb-container fb-container--wide">
+          <div class="fb-section-header">
+            <p class="fb-eyebrow">Start here</p>
+            <h2>Choose a page to continue.</h2>
+            <p>Each option below is a link to a different part of the CoreChatX documentation.</p>
+          </div>
+          <div class="fb-card-grid">
+            <a class="fb-card fb-card--interactive corechatx-link-card" href="./installation.html"><span class="fb-badge fb-badge--primary">Setup</span><h3>Install CoreChatX</h3><p>Choose a single Paper server or a Velocity network, place the correct jar files, and complete the first configuration.</p><span class="corechatx-link-card-action">Open setup <span aria-hidden="true">&rarr;</span></span></a>
+            <a class="fb-card fb-card--interactive corechatx-link-card" href="./configuration.html"><span class="fb-badge fb-badge--primary">Reference</span><h3>Configure the plugin</h3><p>Find every Paper and Velocity setting, along with commands, permissions, integrations, and troubleshooting help.</p><span class="corechatx-link-card-action">Open configuration <span aria-hidden="true">&rarr;</span></span></a>
+            <a class="fb-card fb-card--interactive corechatx-link-card" href="./features.html"><span class="fb-badge fb-badge--primary">Features</span><h3>See what CoreChatX can do</h3><p>Explore chat, channels, player controls, moderation, ChatItems, Discord, Telegram, and Velocity support.</p><span class="corechatx-link-card-action">Open features <span aria-hidden="true">&rarr;</span></span></a>
+            <a class="fb-card fb-card--interactive corechatx-link-card" href="./faq.html"><span class="fb-badge fb-badge--primary">Help</span><h3>Answers and troubleshooting</h3><p>Find practical answers about installation, chat, private messages, integrations, saved data, and common problems.</p><span class="corechatx-link-card-action">Open FAQ <span aria-hidden="true">&rarr;</span></span></a>
+          </div>
         </div>
       </section>
 
-      <section class="section">
-        <div class="shell resource-grid">
-          <a class="resource-card" href="./features.html">
-            <span>Product</span>
-            <h3>Product Overview</h3>
-            <p>Complete product overview covering chat, channels, mentions, pings, ChatItems, bubbles, bridges, moderation, locales, commands, admin experience, verified state, and future direction.</p>
-          </a>
-          <a class="resource-card" href="./installation.html">
-            <span>Setup</span>
-            <h3>Installation Guide</h3>
-            <p>Standalone Paper and Velocity network setup, artifact rules, required matching values, reload boundaries, bridge setup notes, regeneration, and production validation.</p>
-          </a>
-          <a class="resource-card" href="./configuration.html">
-            <span>Config</span>
-            <h3>Configuration Reference</h3>
-            <p>Complete current public config shape: all Paper files, Velocity config, runtime data files, defaults, permissions, troubleshooting, and operational notes.</p>
-          </a>
-          <a class="resource-card" href="./configuration.html#placeholderapi-values">
-            <span>Placeholders</span>
-            <h3>CoreChatX PlaceholderAPI Values</h3>
-            <p>Names and meanings for <code>%corechatx_player_nickname%</code>, <code>%corechatx_first_join_date%</code>, and <code>%corechatx_messages_count%</code>.</p>
-          </a>
-          <a class="resource-card" href="./faq.html">
-            <span>FAQ</span>
-            <h3>Complete FAQ</h3>
-            <p>All current questions and answers for platforms, setup, PlaceholderAPI, channels, PMs, ChatItems, chat bubbles, bridges, permissions, storage, and common problems.</p>
-          </a>
-          <a class="resource-card" href="./configuration.html#troubleshooting">
-            <span>Ops</span>
-            <h3>Troubleshooting</h3>
-            <p>Startup banner, reload, proxy groups, join/leave routing, nickname rules, bridge delivery, PlaceholderAPI, ChatItem, bubble, permission, and runtime data checks.</p>
-          </a>
-          <a class="resource-card" href="./index.html#latest-release">
-            <span>Release</span>
-            <h3>2026.2.5 Metrics, Ignore &amp; Formatting Fixes</h3>
-            <p>Latest release notes for bStats metrics, public-chat ignore modes, legacy formatting permission groups, denied color-code handling, and cleaner Discord startup logs.</p>
-          </a>
+      <section class="fb-section fb-section--muted">
+        <div class="fb-container fb-container--wide fb-split-grid">
+          <div>
+            <p class="fb-eyebrow">Configuration files</p>
+            <h2>Find the setting you want to change.</h2>
+          </div>
+          <div class="fb-stack">
+            <div class="fb-card fb-card--subtle"><h3>General settings and message appearance</h3><p><code>config.yml</code>, <code>messages.yml</code>, <code>chat.yml</code>, and language files.</p></div>
+            <div class="fb-card fb-card--subtle"><h3>Channels, privacy, and moderation</h3><p><code>channels.yml</code>, <code>privacy.yml</code>, <code>pings.yml</code>, and <code>moderation.yml</code>.</p></div>
+            <div class="fb-card fb-card--subtle"><h3>Interactive content</h3><p><code>chatitems.yml</code>, <code>keywords.yml</code>, <code>chatbubbles.yml</code>, and <code>filter.yml</code>.</p></div>
+            <div class="fb-card fb-card--subtle"><h3>Discord, Telegram, and saved data</h3><p><code>discord.yml</code>, <code>telegram.yml</code>, and <code>storage.yml</code>.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="fb-section">
+        <div class="fb-container fb-container--wide fb-split-grid">
+          <div>
+            <p class="fb-eyebrow">Protect player data</p>
+            <h2>Some YAML files contain live player data.</h2>
+          </div>
+          <div>
+            <p class="fb-lead">Files containing player settings, mutes, ignores, nicknames, or linked Discord accounts are not normal configuration files. Stop the server or proxy and make a backup before editing or deleting them.</p>
+            <div class="fb-cluster">
+              <a class="fb-button" href="./configuration.html#runtime-data">Saved data reference</a>
+              <a class="fb-button fb-button--secondary" href="./configuration.html#troubleshooting">Troubleshooting</a>
+            </div>
+          </div>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="shell footer-grid">
-        <div><a class="brand footer-brand" href="./index.html"><span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span><span class="brand-text">CoreChatX</span></a><p>Complete communication suite for Minecraft servers.</p></div>
-        <div class="footer-links"><a href="./index.html#features">Features</a><a href="./installation.html">Setup</a><a href="./docs.html">Docs</a><a href="./faq.html">FAQ</a><a href="./support-policy.html">Support Policy</a><a href="https://buymeacoffee.com/lcewolf23x">Buy Me a Coffee</a><a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a><a href="https://modrinth.com/plugin/corechatx">Download</a></div>
+    <footer class="fb-site-footer">
+      <div class="fb-container fb-container--wide fb-stack">
+        <div class="fb-grid fb-grid--2">
+          <div class="fb-flow">
+            <a class="fb-brand corechatx-brand" href="./index.html">
+              <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+              <span>CoreChatX</span>
+            </a>
+            <p>Chat and communication for Paper servers and Velocity networks.</p>
+          </div>
+          <nav class="fb-cluster" aria-label="Footer navigation">
+            <a href="./features.html">Features</a>
+            <a href="./installation.html">Setup</a>
+            <a href="./docs.html">Documentation</a>
+            <a href="./faq.html">FAQ</a>
+            <a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a>
+          </nav>
+        </div>
+        <div class="fb-cluster corechatx-footer-meta">
+          <span>Copyright 2026 CoreChatX.</span>
+          <span>Version 2026.2.6 &middot; Java 21 &middot; Paper 1.21.11 &middot; Velocity</span>
+          <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Built with FrameBaseCSS</a>
+        </div>
       </div>
     </footer>
-
+    <script src="./assets/vendor/highlightjs/highlight.min.js"></script>
+    <script src="./assets/vendor/highlightjs/languages/properties.min.js"></script>
     <script src="./assets/site.js"></script>
   </body>
 </html>

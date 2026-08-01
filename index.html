@@ -1,698 +1,299 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX is a complete communication suite for Minecraft servers, combining chat, channels, PMs, pings, ChatItems, bubbles, bridges, moderation, locales, and Velocity network support.">
-    <title>CoreChatX - Complete Communication Suite for Minecraft Servers</title>
+    <meta name="description" content="CoreChatX 2026.2.6 is a complete chat plugin for Paper servers and Velocity networks, with channels, private messages, moderation, ChatItems, player settings, Discord, and Telegram.">
+    <meta name="theme-color" content="#2F3235">
+    <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CoreChatX — Complete chat plugin">
+    <meta property="og:description" content="Chat, channels, private messages, moderation, player settings, Discord, and Telegram for Paper and Velocity.">
+    <meta property="og:url" content="https://wiki-corechatx.icewolf23x.dev/">
+    <meta property="og:image" content="https://wiki-corechatx.icewolf23x.dev/assets/corechatx-logo.svg">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CoreChatX — Complete chat plugin">
+    <meta name="twitter:description" content="Chat, channels, private messages, moderation, ChatItems, Discord, and Telegram in one plugin.">
+    <title>CoreChatX — Chat Plugin for Minecraft Servers</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
-    <link rel="shortcut icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
-    <meta name="theme-color" content="#070812">
-    <script>
-      (() => {
-        try {
-          if (localStorage.getItem("corechatx-theme") === "light") {
-            document.documentElement.dataset.theme = "light";
-          }
-        } catch (_) {}
-      })();
-    </script>
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
     <link rel="stylesheet" href="./assets/styles.css">
   </head>
   <body>
-    <a class="skip-link" href="#main">Skip to content</a>
-
-    <header class="site-header">
-      <nav class="nav shell" aria-label="Main navigation">
-        <a class="brand" href="./index.html" aria-label="CoreChatX home">
-          <span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span>
-          <span class="brand-text">CoreChatX</span>
+    <a class="fb-skip-link" href="#main">Skip to content</a>
+    <header class="fb-site-header fb-site-header--sticky">
+      <div class="fb-container fb-container--wide fb-navbar">
+        <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
+          <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+          <span>CoreChatX</span>
         </a>
-
-        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links">
-          Menu
-        </button>
-
-        <div class="nav-links" id="nav-links">
-          <a href="#features">Features</a>
-          <a href="./installation.html">Setup</a>
-          <a href="./docs.html">Docs</a>
-          <a href="#faq">FAQ</a>
-          <a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a>
-        </div>
-
-        <div class="nav-actions">
-          <a class="nav-cta nav-download" href="https://modrinth.com/plugin/corechatx">Download</a>
-          <a class="nav-cta" href="./installation.html">Get Started</a>
-          <a class="nav-cta" href="https://buymeacoffee.com/lcewolf23x">Buy Me a Coffee</a>
-        </div>
-      </nav>
+        <button class="fb-button fb-button--ghost fb-nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>Menu</button>
+        <nav class="fb-nav-panel fb-nav-region" id="site-navigation" data-nav-panel data-open="false" aria-label="Main navigation">
+          <ul class="fb-nav">
+            <li><a href="./index.html" aria-current="page">Overview</a></li>
+            <li><a href="./features.html">Features</a></li>
+            <li><a href="./installation.html">Setup</a></li>
+            <li><a href="./docs.html">Documentation</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a></li>
+          </ul>
+        </nav>
+      </div>
     </header>
 
-    <main id="main">
-      <section class="hero">
-        <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
-        <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
-
-        <div class="shell hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow">One suite, not ten plugins</p>
-            <h1>The complete communication suite for Minecraft servers.</h1>
-            <p class="hero-lead">
-              Public chat, channels, private messages, pings, ChatItems, bubbles, bridges,
-              moderation, locales, and network support designed as one coherent system.
+    <main id="main" class="fb-main">
+      <section class="fb-hero-section">
+        <div class="fb-container fb-container--wide fb-hero corechatx-hero">
+          <div class="fb-hero-copy">
+            <p class="fb-eyebrow">One plugin for server chat</p>
+            <h1 class="fb-display">Manage your server chat from one place.</h1>
+            <p class="fb-lead">
+              CoreChatX brings together public chat, channels, private messages,
+              mentions, moderation, player settings, ChatItems, Discord, and Telegram.
+              Use it on one Paper server or across a Velocity network.
             </p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="./installation.html">Get Started</a>
-              <a class="button button-secondary" href="#features">Explore Features</a>
+            <div class="fb-cluster">
+              <a class="fb-button" href="./installation.html">Choose your setup</a>
+              <a class="fb-button fb-button--secondary" href="./features.html">Explore features</a>
             </div>
-            <ul class="hero-facts" aria-label="CoreChatX platform facts">
+            <ul class="fb-cluster corechatx-facts">
+              <li>Java 21</li>
               <li>Paper 1.21.11</li>
-              <li>Velocity networks</li>
-              <li>MiniMessage</li>
-              <li>Discord + Telegram</li>
+              <li>Optional Velocity support</li>
+              <li>Settings saved in YAML files</li>
             </ul>
           </div>
 
-          <div class="hero-visual" aria-label="CoreChatX communication preview">
-            <div class="product-frame">
-              <div class="frame-top">
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="frame-title">Communication Suite Preview</span>
+        </div>
+      </section>
+
+      <section class="fb-section">
+        <div class="fb-container fb-container--wide">
+          <div class="fb-section-header">
+            <p class="fb-eyebrow">What CoreChatX includes</p>
+            <h2>Everything you need to manage player communication.</h2>
+            <p>
+              Set up how messages look, where they are sent, what players can control,
+              and which tools are available to staff.
+            </p>
+          </div>
+
+          <div class="fb-stack">
+            <div class="fb-grid fb-grid--2 corechatx-feature-grid">
+            <article class="fb-card">
+              <header class="fb-flow">
+                <span class="fb-badge fb-badge--primary">Chat features</span>
+                <h3>Messages, channels, and player names</h3>
+                <p>Control how players talk to each other and how messages appear.</p>
+              </header>
+              <div class="fb-stack">
+                <div class="fb-card fb-card--subtle">
+                  <h3>Chat, channels, and formatting</h3>
+                  <p>Customize chat formats, rank prefixes, placeholders, local chat, and network-wide channels.</p>
+                </div>
+                <div class="fb-card fb-card--subtle">
+                  <h3>Private messages and player names</h3>
+                  <p>Private messages, replies, ignore controls, player preferences, nicknames, and real-name lookup.</p>
+                </div>
+                <div class="fb-card fb-card--subtle">
+                  <h3>Mentions and interactive content</h3>
+                  <p>Player mentions, custom pings, clickable keywords, item previews, and optional chat bubbles.</p>
+                </div>
               </div>
+            </article>
 
-              <div class="dashboard-grid">
-                <section class="chat-console" aria-label="Chat system preview">
-                  <div class="console-head">
-                    <span>channel aware</span>
-                    <strong>Paper + Velocity</strong>
-                  </div>
-                  <div class="message-row">
-                    <span class="rank owner">Global</span>
-                    <p>Rank-aware public chat with MiniMessage formatting.</p>
-                  </div>
-                  <div class="message-row">
-                    <span class="rank staff">Ping</span>
-                    <p><strong>@staff</strong> notification delivered with player preferences.</p>
-                  </div>
-                  <div class="message-row">
-                    <span class="rank player">Item</span>
-                    <p><strong>[item]</strong> preview is available through a safe snapshot.</p>
-                  </div>
-                </section>
+            <article class="fb-card">
+              <header class="fb-flow">
+                <span class="fb-badge fb-badge--primary">Server management</span>
+                <h3>Moderation, player settings, and integrations</h3>
+                <p>Give players useful controls and staff the tools they need.</p>
+              </header>
+              <div class="fb-stack">
+                <div class="fb-card fb-card--subtle">
+                  <h3>Moderation and privacy</h3>
+                  <p>Mutes, chat clearing, anti-repeat, anti-caps, filtering, staff bypasses, and configurable ignore behavior.</p>
+                </div>
+                <div class="fb-card fb-card--subtle">
+                  <h3>Player settings</h3>
+                  <p>Players can manage notifications, private messages, language, bubbles, hidden channels, and privacy.</p>
+                </div>
+                <div class="fb-card fb-card--subtle">
+                  <h3>Optional Discord and Telegram connections</h3>
+                  <p>Send selected Minecraft channels to Discord or Telegram and receive messages back in game.</p>
+                </div>
+              </div>
+            </article>
+            </div>
 
-                <section class="status-column" aria-label="Suite components">
-                  <article class="mini-card">
-                    <span class="mini-icon channels-icon" aria-hidden="true"></span>
-                    <div>
-                      <strong>Channels</strong>
-                      <small>format, scope, rules</small>
-                    </div>
-                  </article>
-                  <article class="mini-card">
-                    <span class="mini-icon ping-icon" aria-hidden="true"></span>
-                    <div>
-                      <strong>Pings</strong>
-                      <small>sound + actionbar</small>
-                    </div>
-                  </article>
-                  <article class="mini-card">
-                    <span class="mini-icon bridge-icon" aria-hidden="true"></span>
-                    <div>
-                      <strong>Bridges</strong>
-                      <small>Discord + Telegram</small>
-                    </div>
-                  </article>
-                </section>
+            <div class="fb-cluster">
+              <a class="fb-button fb-button--secondary" href="./features.html">See all features</a>
+            </div>
+          </div>
+        </div>
+      </section>
 
-                <section class="network-card" aria-label="Network support">
-                  <div class="network-node">Paper</div>
-                  <span class="network-line"></span>
-                  <div class="network-node active">Velocity</div>
-                  <span class="network-line"></span>
-                  <div class="network-node">Paper</div>
-                </section>
+      <section class="fb-section fb-section--muted">
+        <div class="fb-container fb-container--wide">
+          <div class="fb-section-header">
+            <p class="fb-eyebrow">Two operating modes</p>
+            <h2>Start with one Paper server. Add Velocity when the network needs it.</h2>
+          </div>
+          <div class="fb-table-wrap" tabindex="0" aria-label="Setup comparison table">
+            <table class="fb-table--striped fb-table--comfortable">
+              <thead>
+                <tr>
+                  <th>Area</th>
+                  <th>Standalone Paper</th>
+                  <th>Paper + Velocity</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Files to install</td>
+                  <td>Paper jar on the server</td>
+                  <td>Paper jar on every server and Velocity jar on the proxy</td>
+                </tr>
+                <tr>
+                  <td>Where shared settings are saved</td>
+                  <td>On the Paper server</td>
+                  <td>On Velocity, separated by server group</td>
+                </tr>
+                <tr>
+                  <td>Channels and PMs</td>
+                  <td>Local to the Paper server</td>
+                  <td>Network channels and private messages can cross Paper servers in the same group</td>
+                </tr>
+                <tr>
+                  <td>Discord</td>
+                  <td>Configured on Paper</td>
+                  <td>Configured on Velocity for chat, account linking, and Discord role requirements</td>
+                </tr>
+                <tr>
+                  <td>Telegram</td>
+                  <td>Configured on Paper</td>
+                  <td>Configured on the Paper server that sends the message</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="fb-cluster">
+            <a class="fb-button" href="./installation.html">Read the setup guide</a>
+          </div>
+        </div>
+      </section>
 
-                <section class="item-card" aria-label="ChatItem preview support">
-                  <span class="mini-icon item-preview-icon" aria-hidden="true"></span>
-                  <div>
-                    <strong>ChatItems</strong>
-                    <small>held items, inventory, armor</small>
-                  </div>
-                </section>
+      <section class="fb-section" id="latest-update">
+        <div class="fb-container fb-container--wide">
+          <div class="fb-card corechatx-release">
+            <div>
+              <p class="fb-eyebrow">Latest update</p>
+              <p class="corechatx-release-version">2026.2.6</p>
+            </div>
+            <div>
+              <h2>More control for players and more reliable network settings.</h2>
+              <ul class="fb-flow">
+                <li><code>/hidechannel &lt;channel&gt; [minutes]</code> and <code>/unhidechannel &lt;channel&gt;</code> add permanent or timed personal channel visibility.</li>
+                <li>If a linked player loses a required Discord role, CoreChatX now disconnects them and blocks access until the role is restored.</li>
+                <li>Settings, replies, Discord unlinking, and Discord player lists now stay correct after reloads and simultaneous updates.</li>
+              </ul>
+              <div class="fb-cluster">
+                <a class="fb-button fb-button--secondary" href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download now</a>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="section section-tight">
-        <div class="shell stat-strip" aria-label="CoreChatX summary">
-          <article>
-            <strong>1</strong>
-            <span>communication layer</span>
-          </article>
-          <article>
-            <strong>2026.2.5</strong>
-            <span>current release</span>
-          </article>
-          <article>
-            <strong>Velocity ready</strong>
-            <span>network-aware features</span>
-          </article>
-          <article>
-            <strong>Discord + Telegram</strong>
-            <span>optional bridge support</span>
-          </article>
-        </div>
-      </section>
-
-      <section class="section" id="latest-release">
-        <div class="shell">
-          <div class="section-heading centered">
-            <p class="eyebrow">Latest release</p>
-            <h2>CoreChatX 2026.2.5 adds bStats metrics and clearer ignore/format permission control.</h2>
-            <p>
-              The 2026.2.5 release adds Paper and Velocity bStats metrics, configurable public-chat
-              ignore behavior, stricter legacy formatting permission handling, and cleaner Discord
-              startup logging.
-            </p>
+      <section class="fb-section fb-section--muted" aria-labelledby="usage-heading">
+        <div class="fb-container fb-container--wide">
+          <div class="fb-section-header">
+            <p class="fb-eyebrow">Usage statistics</p>
+            <h2 id="usage-heading">Live bStats data for Paper and Velocity.</h2>
           </div>
-
-          <div class="setup-grid">
-            <article class="setup-card featured-setup">
-              <div class="setup-kicker">Metrics</div>
-              <h3>bStats support for both runtimes</h3>
-              <p>
-                Paper and Velocity now report anonymous usage metrics through their own bStats
-                runtime integrations. The implementation is included with license notices and does
-                not add shaded external library jars.
-              </p>
-            </article>
-
-            <article class="setup-card">
-              <div class="setup-kicker">Privacy</div>
-              <h3>/ignore can affect public chat delivery</h3>
-              <p>
-                <code>ignore.public-chat-mode</code> and per-channel overrides can keep ignore as
-                notification-only behavior or fully hide public channel messages from ignored
-                players.
-              </p>
-            </article>
-
-            <article class="setup-card">
-              <div class="setup-kicker">Permissions</div>
-              <h3>Legacy format groups can be denied cleanly</h3>
-              <p>
-                Group nodes such as <code>corechatx.format.color.*</code> and
-                <code>corechatx.format.style.*</code> now reliably grant or deny player-authored
-                legacy color and style codes.
-              </p>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section metrics-section" id="bstats">
-        <div class="shell">
-          <div class="section-heading centered">
-            <p class="eyebrow">bStats metrics</p>
-            <h2>Public usage snapshots from CoreX-Badges.</h2>
-            <p>
-              These values are generated from bStats by the CoreX-Badges service and refreshed
-              periodically as static SVG assets.
-            </p>
-          </div>
-
-          <div class="metrics-grid" aria-label="CoreChatX public bStats snapshots">
-            <article class="metric-panel">
-              <div class="metric-panel-head">
-                <div>
-                  <span>Paper / Purpur</span>
-                  <h3>Backend runtime</h3>
-                </div>
-                <a href="https://bstats.org/plugin/bukkit/CoreChatX-paper">Open bStats</a>
+          <div class="fb-stack">
+            <div class="fb-grid corechatx-metrics">
+              <article class="fb-card">
+              <h3>Paper / Purpur</h3>
+              <div class="corechatx-metric-badges">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-servers.svg" alt="Current Paper and Purpur server count" loading="lazy">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-players.svg" alt="Current Paper and Purpur player count" loading="lazy">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-record-servers.svg" alt="Paper and Purpur server record" loading="lazy">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-record-players.svg" alt="Paper and Purpur player record" loading="lazy">
               </div>
-              <div class="metric-badges" aria-label="CoreChatX Paper bStats badges">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-servers.svg" alt="CoreChatX Paper/Purpur servers">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-players.svg" alt="CoreChatX Paper/Purpur players">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-record-servers.svg" alt="CoreChatX Paper/Purpur record servers">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-record-players.svg" alt="CoreChatX Paper/Purpur record players">
+              <img class="corechatx-metric-chart" src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-chart.svg" alt="Paper and Purpur bStats usage chart" loading="lazy">
+              </article>
+              <article class="fb-card">
+              <h3>Velocity</h3>
+              <div class="corechatx-metric-badges">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-servers.svg" alt="Current Velocity server count" loading="lazy">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-players.svg" alt="Current Velocity player count" loading="lazy">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-record-servers.svg" alt="Velocity server record" loading="lazy">
+                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-record-players.svg" alt="Velocity player record" loading="lazy">
               </div>
-              <img class="metric-chart" src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-chart.svg" alt="CoreChatX Paper/Purpur bStats chart">
-            </article>
-
-            <article class="metric-panel">
-              <div class="metric-panel-head">
-                <div>
-                  <span>Velocity</span>
-                  <h3>Proxy runtime</h3>
-                </div>
-                <a href="https://bstats.org/plugin/velocity/CoreChatX-velocity">Open bStats</a>
-              </div>
-              <div class="metric-badges" aria-label="CoreChatX Velocity bStats badges">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-servers.svg" alt="CoreChatX Velocity servers">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-players.svg" alt="CoreChatX Velocity players">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-record-servers.svg" alt="CoreChatX Velocity record servers">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-record-players.svg" alt="CoreChatX Velocity record players">
-              </div>
-              <img class="metric-chart" src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-chart.svg" alt="CoreChatX Velocity bStats chart">
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="features">
-        <div class="shell">
-          <div class="section-heading">
-            <p class="eyebrow">Core feature set</p>
-            <h2>Five pillars of a cleaner server communication stack.</h2>
-            <p>
-              CoreChatX keeps chat-related features in the same system, so formatting, privacy,
-              routing, rich interactions, and bridges can agree with each other.
-            </p>
-          </div>
-
-          <div class="feature-grid main-feature-grid">
-            <article class="feature-card feature-large">
-              <span class="card-icon chat-icon" aria-hidden="true"></span>
-              <h3>Core Chat System</h3>
-              <p>
-                A polished public chat foundation with global, local, staff, and network-wide communication,
-                join, quit, and first-join messages, plus message cleanup and sanitization before rich
-                components reach players.
-              </p>
-            </article>
-
-            <article class="feature-card feature-large">
-              <span class="card-icon channel-icon" aria-hidden="true"></span>
-              <h3>Smart Channels</h3>
-              <p>
-                Global, local, staff, network-wide, role-based, and custom channels can define permissions,
-                formats, scope, mentions, ChatItems, chat bubbles, and bridge export rules from one
-                centralized channel model.
-              </p>
-            </article>
-
-            <article class="feature-card feature-large">
-              <span class="card-icon ping-card-icon" aria-hidden="true"></span>
-              <h3>Mentions &amp; Custom Pings</h3>
-              <p>
-                Player mentions, @Player behavior, exact-name matches, custom ping triggers, sound and
-                actionbar notifications, per-player toggles, staff-friendly rules, and cross-server
-                awareness built into the message flow.
-              </p>
-            </article>
-
-            <article class="feature-card feature-large">
-              <span class="card-icon item-icon" aria-hidden="true"></span>
-              <h3>Interactive ChatItems</h3>
-              <p>
-                Clickable previews for held items, shulkers, armor, hotbar, inventory, and ender chest
-                contents. In network mode, lightweight snapshot references can retrieve previews on demand
-                through Velocity, while Discord bridge output can attach rendered inventory images and
-                interactive single-item inspection menus.
-              </p>
-            </article>
-
-            <article class="feature-card feature-large">
-              <span class="card-icon bridge-card-icon" aria-hidden="true"></span>
-              <h3>External Bridges</h3>
-              <p>
-                Optional Discord and Telegram bridges support inbound and outbound messages, per-channel
-                routing, bridge targets, per-channel bridge format overrides, PlaceholderAPI-aware
-                Discord output, role-aware inbound messages, and safe message handling.
-              </p>
-            </article>
-          </div>
-
-          <div class="more-features">
-            <button class="button button-secondary more-toggle" type="button" aria-expanded="false" aria-controls="secondary-features">
-              See more features
-            </button>
-
-            <div class="secondary-feature-grid" id="secondary-features" hidden>
-              <article class="feature-card feature-small">
-                <span class="card-icon format-icon" aria-hidden="true"></span>
-                <h3>Rich Chat Formatting</h3>
-                <p>
-                  Kyori Adventure and MiniMessage support lets trusted server templates use colors,
-                  gradients, hover text, click actions, suggested commands, copy actions, and reusable
-                  component patterns across chat surfaces.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon privacy-icon" aria-hidden="true"></span>
-                <h3>Private Messaging &amp; Privacy</h3>
-                <p>
-                  Direct messages, replies, social spy, ignore controls, PM toggle, delivery feedback,
-                  staff bypass rules, and cross-server private messages live inside the same communication
-                  and privacy model.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon moderation-icon" aria-hidden="true"></span>
-                <h3>Built-in Moderation</h3>
-                <p>
-                  Everyday chat controls include mute, unmute, global chat mute, clear chat, anti-repeat,
-                  anti-caps, word filtering, staff bypass permissions, and moderation behavior that works
-                  inside the chat layer.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon keyword-icon" aria-hidden="true"></span>
-                <h3>Interactive Keywords</h3>
-                <p>
-                  Tokens such as [discord], [rules], [store], [vote], and [map] can become clickable,
-                  permission-gated MiniMessage components with hover text, commands, URLs, copied text,
-                  and channel restrictions.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon bubble-icon" aria-hidden="true"></span>
-                <h3>Chat Bubbles</h3>
-                <p>
-                  Optional overhead bubbles display processed chat above players with channel and world
-                  rules, player toggles, sneaking and invisibility checks, duration, wrapping, stacking,
-                  distance limits, and cleanup.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon controls-icon" aria-hidden="true"></span>
-                <h3>Player Controls</h3>
-                <p>
-                  Players can manage communication preferences through settings, ping toggles, PM toggle,
-                  channel switching, bubble visibility, locale selection, and ignore controls that can
-                  follow backend switches.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon locale-icon" aria-hidden="true"></span>
-                <h3>Locale Support</h3>
-                <p>
-                  Per-player locale selection, locale override files, and fallback behavior help
-                  multilingual communities keep player-facing wording consistent with the server's own
-                  voice and expectations.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon velocity-icon" aria-hidden="true"></span>
-              <h3>Velocity Network Support</h3>
-              <p>
-                  Network mode can carry group-isolated chat, group-local cross-server PMs, player
-                  settings, global completions, TAB entries, mention metadata, custom ping metadata,
-                  and ChatItem preview references across matching backends.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon platform-icon" aria-hidden="true"></span>
-                <h3>Paper &amp; Velocity Support</h3>
-                <p>
-                  CoreChatX targets Paper 1.21.11 backends and Velocity proxy networks with separate
-                  Paper and Velocity runtime jars. The shared common module is internal and is not
-                  installed directly.
-                </p>
-              </article>
-              <article class="feature-card feature-small">
-                <span class="card-icon placeholder-icon" aria-hidden="true"></span>
-                <h3>MiniMessage &amp; PlaceholderAPI</h3>
-                <p>
-                  Trusted server-controlled templates can combine MiniMessage with PlaceholderAPI where
-                  installed and enabled. Legacy color codes returned by placeholders are converted before
-                  rendering, while raw player chat bodies do not parse PlaceholderAPI.
-                </p>
+              <img class="corechatx-metric-chart" src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-chart.svg" alt="Velocity bStats usage chart" loading="lazy">
               </article>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="section why-section" id="why">
-        <div class="shell why-grid">
-          <div class="section-heading sticky-heading">
-            <p class="eyebrow">Why CoreChatX</p>
-            <h2>One coherent system for the messages players actually use.</h2>
-            <p>
-              Server chat becomes harder to maintain when every feature comes from a different plugin.
-              CoreChatX brings the communication experience into one visual language, one permission
-              model, one player settings flow, and one network-aware layer.
+            <p class="fb-callout fb-callout--info">
+              View the source dashboards on
+              <a href="https://bstats.org/plugin/bukkit/CoreChatX-paper" target="_blank" rel="noopener noreferrer">Paper bStats</a>
+              and
+              <a href="https://bstats.org/plugin/velocity/CoreChatX-velocity" target="_blank" rel="noopener noreferrer">Velocity bStats</a>.
             </p>
           </div>
-
-          <div class="value-stack">
-            <article class="value-card">
-              <span>01</span>
-              <h3>One Communication Layer</h3>
-              <p>
-                Public chat, PMs, channels, pings, bridges, moderation, rich interactions, and player
-                controls are managed as parts of the same product instead of a scattered plugin stack.
-              </p>
-            </article>
-            <article class="value-card">
-              <span>02</span>
-              <h3>Feature-Aware Channels</h3>
-              <p>
-                Channels can affect formatting, mentions, ChatItems, bubbles, bridge export, permissions,
-                and delivery scope, so routing decisions stay clear and consistent.
-              </p>
-            </article>
-            <article class="value-card">
-              <span>03</span>
-              <h3>Built for Real Networks</h3>
-              <p>
-                Standalone Paper servers and Velocity networks are both supported, with network-aware
-                chat, synced settings, group-local cross-server PMs, global completions, and remote
-                ChatItem access.
-              </p>
-            </article>
-          </div>
         </div>
       </section>
 
-      <section class="section" id="setup">
-        <div class="shell">
-          <div class="section-heading centered">
-            <p class="eyebrow">Setup and compatibility</p>
-            <h2>Clear modes for standalone servers and networks.</h2>
-            <p>
-              CoreChatX ships separate runtime jars for Paper and Velocity. Choose the setup that matches
-              your server shape, then use the configuration guide for exact keys and restart boundaries.
+      <section class="fb-section">
+        <div class="fb-container fb-container--wide fb-split-grid">
+          <div>
+            <p class="fb-eyebrow">Ready to install?</p>
+            <h2>Install the right jar in the right place.</h2>
+          </div>
+          <div>
+            <p class="fb-lead">
+              Choose between one Paper server and a Velocity network, install the correct
+              jar files, then configure the features you want to use.
             </p>
-          </div>
-
-          <div class="setup-grid">
-            <article class="setup-card">
-              <div class="setup-kicker">Standalone</div>
-              <h3>Paper Server</h3>
-              <p>
-                Install the Paper jar on a single Paper backend. Network transport stays inactive and
-                server communication stays focused on that backend.
-              </p>
-              <ul>
-                <li>Paper 1.21.11 target</li>
-                <li>No Velocity module required</li>
-                <li>Single-server communication stack</li>
-              </ul>
-            </article>
-
-            <article class="setup-card featured-setup">
-              <div class="setup-kicker">Network</div>
-              <h3>Velocity Network</h3>
-              <p>
-                Install the Paper jar on participating backends and the Velocity jar on the proxy.
-                Backends use unique server ids and join the CoreChatX group matching their Paper
-                <code>deployment.network-channel</code>.
-              </p>
-              <ul>
-                <li>Single or comma-separated Velocity channels</li>
-                <li>Group-local cross-server PM routing</li>
-                <li>Synced communication settings</li>
-              </ul>
-            </article>
-          </div>
-
-          <div class="compat-line" aria-label="Supported runtime model">
-            <span>Paper standalone</span>
-            <span>Velocity ready</span>
-            <span>Separate runtime jars</span>
-          </div>
-        </div>
-      </section>
-
-      <section class="section docs-section" id="docs">
-        <div class="shell">
-          <div class="section-heading">
-            <p class="eyebrow">Resources</p>
-            <h2>Docs that help you configure the system, not guess at it.</h2>
-          </div>
-
-          <div class="resource-grid">
-            <a class="resource-card" href="./docs.html">
-              <span>Hub</span>
-              <h3>Documentation Hub</h3>
-              <p>Structured entrypoint for product overview, installation, configuration, FAQ, and operational notes.</p>
-            </a>
-            <a class="resource-card" href="./features.html">
-              <span>Product</span>
-              <h3>Product Overview</h3>
-              <p>A complete product view for server owners, including features, commands, admin experience, verified state, and future direction.</p>
-            </a>
-            <a class="resource-card" href="./installation.html">
-              <span>Setup</span>
-              <h3>Installation Guide</h3>
-              <p>Standalone Paper and Velocity network installation paths, artifact rules, and validation steps.</p>
-            </a>
-            <a class="resource-card" href="./configuration.html">
-              <span>Config</span>
-              <h3>Configuration Reference</h3>
-              <p>Complete config file reference with defaults, missing-key synchronization, runtime data, reload rules, and troubleshooting.</p>
-            </a>
-            <a class="resource-card" href="./faq.html">
-              <span>FAQ</span>
-              <h3>Complete FAQ</h3>
-              <p>Full FAQ for setup, formatting, channels, bridges, storage, and common problems.</p>
-            </a>
-            <a class="resource-card" href="./configuration.html#troubleshooting">
-              <span>Ops</span>
-              <h3>Troubleshooting</h3>
-              <p>Startup, reload, network routing, bridge, PlaceholderAPI, ChatItems, bubble, and data-file checks.</p>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section" id="faq">
-        <div class="shell faq-grid">
-          <div class="section-heading">
-            <p class="eyebrow">FAQ preview</p>
-            <h2>Answers before you start configuring.</h2>
-            <p>
-              These answers are intentionally short. Use the FAQ and configuration guide when you need
-              exact file names, keys, and operational details.
-            </p>
-          </div>
-
-          <div class="faq-list faq-preview-list" data-animated-details>
-            <details class="animated-details" open>
-              <summary>Do I need Velocity?</summary>
-              <p>No. CoreChatX works on standalone Paper. Velocity is only needed for cross-backend features such as network channels, group-local cross-server PMs, synced settings, global completions, proxy join/leave, and remote ChatItem previews.</p>
-            </details>
-            <details class="animated-details">
-              <summary>Does CoreChatX work on standalone Paper?</summary>
-              <p>Yes. Install the Paper jar on the Paper server and use <code>STANDALONE</code> mode. The Velocity jar is not required for a single backend setup.</p>
-            </details>
-            <details class="animated-details">
-              <summary>Does it support PlaceholderAPI?</summary>
-              <p>Yes, where PlaceholderAPI is installed, enabled, and used inside supported server-controlled templates. Raw player-written messages do not parse PlaceholderAPI.</p>
-            </details>
-            <details class="animated-details">
-              <summary>Does it support Discord and Telegram?</summary>
-              <p>Yes. Both bridges are optional and support inbound and outbound messages, per-channel format overrides, and explicit routing when configured. Telegram also supports forum topic routing through Bot API long polling.</p>
-            </details>
-            <details class="animated-details">
-              <summary>Are ChatItems supported across a network?</summary>
-              <p>Yes. In network mode, rendered chat carries lightweight snapshot references and retrieves the needed preview on demand through Velocity.</p>
-            </details>
-            <details class="animated-details">
-              <summary>Where do I configure the plugin?</summary>
-              <p>Paper config lives under <code>plugins/CoreChatX/</code>. Velocity config lives under <code>plugins/corechatx/</code>. Runtime data files are live state and should be backed up before manual edits.</p>
-            </details>
-          </div>
-        </div>
-      </section>
-
-      <section class="section docs-section also-try-section" id="also-try">
-        <div class="shell">
-          <div class="section-heading">
-            <p class="eyebrow">Also try</p>
-            <h2>More CoreX plugins for the same server stack.</h2>
-            <p>Each project stays focused, so you can add only the systems your Paper server actually needs.</p>
-          </div>
-
-          <div class="resource-grid also-product-grid">
-            <a class="resource-card also-card also-card--armor" href="https://icewolf23x.github.io/CoreArmorX-website/" aria-label="Open CoreArmorX website">
-              <div class="also-card-top">
-                <div class="also-logo" aria-hidden="true">
-                  <img src="https://icewolf23x.github.io/CoreArmorX-website/assets/corearmorx-logo.svg" alt="" width="56" height="56" loading="lazy">
-                </div>
-                <span class="also-label">Armor</span>
-              </div>
-              <h3>CoreArmorX</h3>
-              <p>Vanilla+ armor upgrade paths, netherite skins, metadata-safe conversions, and YAML control.</p>
-              <div class="also-card-footer">Open site <span aria-hidden="true">-&gt;</span></div>
-            </a>
-            <a class="resource-card also-card also-card--tools" href="https://icewolf23x.github.io/CoreToolsX-website/" aria-label="Open CoreToolsX website">
-              <div class="also-card-top">
-                <div class="also-logo" aria-hidden="true">
-                  <img src="https://icewolf23x.github.io/CoreToolsX-website/assets/coretoolsx-logo.svg" alt="" width="56" height="56" loading="lazy">
-                </div>
-                <span class="also-label">Tools</span>
-              </div>
-              <h3>CoreToolsX</h3>
-              <p>Vanilla+ tool upgrade paths, material skins, protected crafting, and admin-controlled recipes.</p>
-              <div class="also-card-footer">Open site <span aria-hidden="true">-&gt;</span></div>
-            </a>
-            <a class="resource-card also-card also-card--case" href="https://icewolf23x.github.io/CoreCaseX-website/" aria-label="Open CoreCaseX website">
-              <div class="also-card-top">
-                <div class="also-logo" aria-hidden="true">
-                  <img src="https://icewolf23x.github.io/CoreCaseX-website/assets/corecasex-logo.svg" alt="" width="56" height="56" loading="lazy">
-                </div>
-                <span class="also-label">Cases</span>
-              </div>
-              <h3>CoreCaseX</h3>
-              <p>Structured player reports, staff triage, evidence, replies, notes, and resolution workflows.</p>
-              <div class="also-card-footer">Open site <span aria-hidden="true">-&gt;</span></div>
-            </a>
-            <a class="resource-card also-card also-card--extraction" href="https://icewolf23x.github.io/CoreExtractionX-website/" aria-label="Open CoreExtractionX website">
-              <div class="also-card-top">
-                <div class="also-logo" aria-hidden="true">
-                  <img src="https://icewolf23x.github.io/CoreExtractionX-website/assets/coreextractionx-logo.svg" alt="" width="56" height="56" loading="lazy">
-                </div>
-                <span class="also-label">Extraction</span>
-              </div>
-              <h3>CoreExtractionX</h3>
-              <p>YAML-driven block extraction, block replacement, natural drops, and configurable extra item drops.</p>
-              <div class="also-card-footer">Open site <span aria-hidden="true">-&gt;</span></div>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="section final-section">
-        <div class="shell final-cta">
-          <p class="eyebrow">Ready to upgrade server communication?</p>
-          <h2>One suite. One system. Cleaner server chat.</h2>
-          <p>
-            Build a more consistent communication layer for players and a more manageable setup for admins.
-          </p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="./installation.html">Open Installation Guide</a>
-            <a class="button button-secondary" href="./configuration.html">Open Configuration Reference</a>
+            <div class="fb-cluster">
+              <a class="fb-button" href="./installation.html">Installation</a>
+              <a class="fb-button fb-button--secondary" href="./docs.html">Documentation</a>
+              <a class="fb-button fb-button--secondary" href="./faq.html">Common questions</a>
+            </div>
           </div>
         </div>
       </section>
     </main>
 
-    <footer class="site-footer">
-      <div class="shell footer-grid">
-        <div>
-          <a class="brand footer-brand" href="./index.html">
-            <span class="brand-mark" aria-hidden="true"><img src="./assets/corechatx-logo.svg" alt="" width="40" height="40"></span>
-            <span class="brand-text">CoreChatX</span>
-          </a>
-          <p>Complete communication suite for Minecraft servers.</p>
+    <footer class="fb-site-footer">
+      <div class="fb-container fb-container--wide fb-stack">
+        <div class="fb-grid fb-grid--2">
+          <div class="fb-flow">
+            <a class="fb-brand corechatx-brand" href="./index.html">
+              <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+              <span>CoreChatX</span>
+            </a>
+            <p>Chat and communication for Paper servers and Velocity networks.</p>
+          </div>
+          <nav class="fb-cluster" aria-label="Footer navigation">
+            <a href="./features.html">Features</a>
+            <a href="./installation.html">Setup</a>
+            <a href="./docs.html">Documentation</a>
+            <a href="./faq.html">FAQ</a>
+            <a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a>
+          </nav>
         </div>
-        <div class="footer-links"><a href="./index.html#features">Features</a><a href="./installation.html">Setup</a><a href="./docs.html">Docs</a><a href="./faq.html">FAQ</a><a href="./support-policy.html">Support Policy</a><a href="https://github.com/IceWolf23X/CoreChatX">GitHub</a><a href="https://buymeacoffee.com/lcewolf23x">Buy Me a Coffee</a><a href="https://modrinth.com/plugin/corechatx">Download</a></div>
-      </div>
-      <div class="shell footer-bottom">
-        <span>Copyright 2026 CoreChatX. All rights reserved.</span>
-        <span>Complete product documentation for server owners.</span>
-        <span>NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</span>
+        <div class="fb-cluster corechatx-footer-meta">
+          <span>Copyright 2026 CoreChatX.</span>
+          <span>Version 2026.2.6 &middot; Java 21 &middot; Paper 1.21.11 &middot; Velocity</span>
+          <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Built with FrameBaseCSS</a>
+        </div>
       </div>
     </footer>
-
+    <script src="./assets/vendor/highlightjs/highlight.min.js"></script>
+    <script src="./assets/vendor/highlightjs/languages/properties.min.js"></script>
     <script src="./assets/site.js"></script>
   </body>
 </html>
