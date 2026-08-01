@@ -5,7 +5,7 @@ Compact technical map of the static CoreChatX website.
 ## Public pages
 
 - `index.html` — Main entry point. Explains the product, operating modes,
-  CoreChatX 2026.2.6 update, public usage badges, related CoreX plugins, and
+    CoreChatX 2026.2.6 update, public usage badges, all five related CoreX plugins, and
   setup routes.
 - `features.html` — User-focused product overview covering chat, channels,
   private messages, player settings, moderation, interactive features,
