@@ -5,7 +5,8 @@ Compact technical map of the static CoreChatX website.
 ## Public pages
 
 - `index.html` — Main entry point. Explains the product, operating modes,
-  CoreChatX 2026.2.6 update, public usage badges, and setup routes.
+  CoreChatX 2026.2.6 update, public usage badges, related CoreX plugins, and
+  setup routes.
 - `features.html` — User-focused product overview covering chat, channels,
   private messages, player settings, moderation, interactive features,
   Discord, Telegram, Velocity networks, and server management.
@@ -37,8 +38,8 @@ Compact technical map of the static CoreChatX website.
 - `assets/vendor/highlightjs/LICENSE` — BSD 3-Clause license retained with the
   local Highlight.js distribution.
 - `assets/styles.css` — Narrow project-specific compositions for the logo,
-  documentation index, release layout, bStats assets, and responsive
-  adjustments. It does not override FrameBaseCSS color tokens.
+  documentation index, release layout, related-plugin cards, bStats assets,
+  and responsive adjustments. It does not override FrameBaseCSS color tokens.
 - `assets/site.js` — Initializes Highlight.js and controls the non-modal
   FrameBaseCSS responsive navigation.
 - `assets/corechatx-logo.svg` — Original CoreChatX brand mark used as the header
@@ -60,8 +61,9 @@ Compact technical map of the static CoreChatX website.
 ## External data
 
 The homepage embeds numeric CoreX-Badges images and usage charts for Paper/Purpur
-and Velocity, and links to bStats. GitHub and Modrinth are the primary public
-project destinations.
+and Velocity, links to bStats, and loads the official logos for four related
+CoreX plugins from their GitHub Pages sites. GitHub and Modrinth are the primary
+public project destinations.
 
 ## Exclusions
 
