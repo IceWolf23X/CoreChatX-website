@@ -269,3 +269,13 @@ html {
 .corechatx-migration .fb-callout + details {
   margin-top: var(--fb-space-4);
 }
+
+/* Keep each complete migration procedure in one readable column. */
+.corechatx-walkthrough {
+  max-width: 64rem;
+}
+
+.corechatx-step-check {
+  padding-inline-start: var(--fb-space-4);
+  border-inline-start: 3px solid var(--fb-color-success);
+}

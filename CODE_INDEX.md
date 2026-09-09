@@ -8,7 +8,9 @@
 - `configuration.html` — Paper and Velocity configuration and bundled examples, storage maintenance grammar, channel persistence, Discord admission and `{link_command}` message templates, commands on both platforms, runtime-data fields and ordering markers, safe configuration regeneration, strict YAML load failures, cold proxy mute enforcement, optional Modrinth stable/preview notices for OP players, permissions, and troubleshooting. Bundled examples match the 2026.3.0 release; existing section anchors are retained.
 - `docs.html` — Documentation entry point, migration guide card, storage ownership, and release-notes links.
 - `changelog.html` — Complete 46-entry 2026.3.0 release notes since 2026.2.6, with migration preparation advice alongside the upgrade steps. Fixes are grouped into storage/recovery, player state/moderation, Discord/integrations, and chat/menus; upgrade requirements and known limits remain visible.
-- `migration.html` — Step-by-step guide from 2026.2.6 YAML to 2026.3.0 MySQL: backup-first entry, platform choice, terminology, explicit running/stopped states, connection and password setup, separate commands with expected output, run/token substitution examples, all-group Velocity import, MySQL activation, saved-data verification, and optional rollback/recovery references using FrameBase disclosure bodies for consistent padding. Linked from setup, documentation, configuration, FAQ, and changelog.
+- `migration.html` — Backup-first selector for two complete migration guides; preserves incoming legacy anchors and links to platform-specific recovery.
+- `migration-paper.html` — Independent 15-step standalone Paper YAML-to-MySQL walkthrough: backup, connection, per-command output, run/token examples, activation, saved-data checks and reopening; optional Paper rollback/recovery follows completion.
+- `migration-velocity.html` — Independent 15-step proxy YAML-to-MySQL walkthrough, including all-group confirmations and explicit Paper/Velocity startup order; optional proxy rollback/recovery follows completion.
 - `faq.html` — Common setup and behavior questions, including configurable staff bypass for private-message privacy and cold proxy moderation state.
 
 ## Shared assets
@@ -16,7 +18,7 @@
 - `assets/corechatx-logo.svg` — Header, footer, favicon, and social preview logo.
 - `assets/vendor/framebasecss/` — FrameBaseCSS distribution and license.
 - `assets/vendor/highlightjs/` — Highlight.js distribution, properties module, and license.
-- `assets/styles.css` — CoreChatX layouts, related-plugin cards, bStats presentation, responsive adjustments, and migration guide text wrapping and panel spacing.
+- `assets/styles.css` — CoreChatX layouts, related-plugin cards, bStats presentation, responsive adjustments, and migration guide text wrapping, panel spacing, and single-column walkthrough width.
 - `assets/site.js` — Responsive navigation and syntax highlighting.
 
 ## Publication
