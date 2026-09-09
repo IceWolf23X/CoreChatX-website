@@ -357,6 +357,13 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
           </section>
           <section class="fb-doc-section" id="4-1-config-yml">
             <h2>4.1 <code>config.yml</code></h2>
+            <p><strong>Modrinth update checks</strong> are enabled by default and never install files automatically.</p>
+            <ul>
+              <li><code>update-check.enabled</code> controls the checker. A background check runs about 10 seconds after activation, then every <code>update-check.interval-hours</code> (default 24, clamped to 1–168).</li>
+              <li>Console and online OP players receive new notices. OP players joining later receive the cached result without another HTTP request. Only stable releases are recommended; newer alpha/beta builds are labeled experimental, and previews superseded by a stable release are omitted.</li>
+              <li>Paper filters by its loader and exact Minecraft version. Velocity filters by its own loader and logs to console; review backend compatibility before upgrading.</li>
+              <li>Paper reload applies these settings; Velocity requires restart. Customize player wording in <code>messages.yml</code> under <code>updates.stable</code> and <code>updates.preview</code>.</li>
+            </ul>
             <p>Purpose:</p>
             <ul>
               <li>deployment mode</li>
@@ -390,6 +397,13 @@ deployment:
   pending-pm-timeout-seconds: 20
 
 debug: false
+
+# Announces stable updates and experimental alpha/beta builds; never installs them.
+# Checks after startup and at this interval (clamped to 1-168 hours).
+# Console and OP players are notified; only stable builds are recommended.
+update-check:
+  enabled: true
+  interval-hours: 24
 
 hooks:
   # If true, PlaceholderAPI placeholders inside CoreChatX config formats are parsed when the plugin is present.
@@ -675,7 +689,12 @@ join-quit:
 chatitems:
   # Hover shown on clickable chat preview tokens.
   click-to-open: &quot;&lt;gray&gt;Click to open the saved preview.&lt;/gray&gt;&quot;
-  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;</code></pre></div>
+  expired: &quot;{prefix} &lt;red&gt;This preview has expired or was cleared during reload/restart.&lt;/red&gt;&quot;
+
+# Update announcements are sent only to OP players. Clicking opens the version page.
+updates:
+  stable: &quot;{prefix} &lt;green&gt;CoreChatX {version} is available (installed: {installed}). Stable update recommended; review compatibility and migration notes: {url}&lt;/green&gt;&quot;
+  preview: &quot;{prefix} &lt;yellow&gt;CoreChatX {version} {channel} is available for testing (installed: {installed}). Experimental build; not recommended for production: {url}&lt;/yellow&gt;&quot;</code></pre></div>
             <p>Locale note:</p>
             <ul>
               <li><code>messages.yml</code> remains the final fallback source for message keys</li>
@@ -1978,6 +1997,13 @@ network-channel=corechatx:main
 # Keys are Velocity backend names; values must match one value from network-channel.
 # backend-groups.survival-1=corechatx:survival
 # backend-groups.survival-2=corechatx:survival
+
+# --- Update notifications ---
+# Console only; backend Paper instances notify their OP players.
+# Stable releases are recommended; alpha/beta builds are announced for testing.
+# Checks after startup, then every 1-168 hours. No automatic installation.
+update-check.enabled=true
+update-check.interval-hours=24
 
 # --- Player directory ---
 # Adds group player names and @names to client chat completions.

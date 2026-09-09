@@ -46,6 +46,7 @@
       <section class="fb-section"><article class="fb-container fb-container--wide fb-flow">
 <h2 id="added">Added</h2>
 <ul>
+<li>Added asynchronous Modrinth update checks after startup and every 24 hours by default. Console and OP players receive stable-update recommendations and separate experimental alpha/beta announcements; no automatic installation occurs.</li>
 <li>Optional <code>MYSQL</code> runtime storage for standalone Paper and Velocity: preferences, nicknames, statistics, active/hidden channels, ignores, mutes, global state, Discord links, unlink records and pending codes. <code>YAML</code> remains the default; Velocity keeps each network group separate.</li>
 <li>Added <code>/ccxstorage</code> on Paper and Velocity for health checks, file/database validation, checksummed backups, migration plans, parity checks, history, resume and abort. Confirmations and durable journals protect migration/rollback; unfinished transitions keep affected gameplay storage unavailable.</li>
 <li>Added the <strong>Channel</strong> compass in <code>/ccxsettings</code> and <code>/chatsettings</code>: <code>Persistent</code> keeps the last channel; <code>Non persistent</code> restores the configured default on reconnect, including after restarts. Changing the preference leaves the current channel unchanged, as do proxy backend transfers within the same connection.</li>
@@ -95,6 +96,7 @@
 </ul>
 <h2 id="configuration">Configuration</h2>
 <ul>
+<li>Added <code>update-check.enabled</code> and <code>update-check.interval-hours</code> to Paper <code>config.yml</code> and Velocity <code>velocity-config.properties</code>. Customize OP notices through <code>messages.yml</code> keys <code>updates.stable</code> and <code>updates.preview</code>; Velocity notifications are console-only.</li>
 <li>Added <code>{link_command}</code>, the configured Discord command name without <code>/</code>, to linking messages. Use <code>/{link_command} code:{code}</code>; standalone Paper or Velocity supplies <code>account-linking.link-command-name</code>. Exact older stock messages adapt automatically; customized messages need the placeholder added manually.</li>
 <li>Paper <code>storage.yml</code> and Velocity <code>velocity-storage.yml</code> now configure <code>storage.backend</code>, stable namespace/scope, MySQL connections/TLS, bounded pools/executors, timeouts, leases and <code>schema-auto-migrate</code>. Supply credentials through <code>storage.mysql.password-env</code>; TLS defaults to <code>VERIFY_IDENTITY</code>.</li>
 <li>Added saved <code>persistent-channel-enabled</code>, defaulting to <code>true</code> for existing players, and <code>link-check-unavailable-kick</code> in Paper Discord messages and Velocity account-linking messages.</li>
@@ -119,7 +121,6 @@
 </ul>
 <h2 id="known-issues">Known issues</h2>
 <ul>
-<li>Proxy reads may briefly show last-confirmed player data during asynchronous refresh. A cached read does not confirm a new remote write.</li>
 <li>Discord rate limits can delay channel-topic updates after rapid joins/restarts. Chat and linking continue while topic updates retry.</li>
 <li>The 2026.2.6 migration was tested with synthetic legacy data, not production data. Rehearse with an isolated copy of your own data and retain complete backups before cutover.</li>
 </ul>

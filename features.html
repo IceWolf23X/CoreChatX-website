@@ -279,6 +279,10 @@
             <div class="fb-stack">
               <div class="fb-card fb-card--subtle"><h3>Storage checks, backups, and migration</h3><p><code>/ccxstorage</code> validates saved data, creates and verifies checksummed backups, and plans YAML-to-MySQL migration or latest-state rollback. Confirmation tokens and recovery journals protect transitions. <a href="./configuration.html#storage-maintenance">Read the operator workflow</a>.</p></div>
               <div class="fb-card fb-card--subtle">
+                <h3>Modrinth update notifications</h3>
+                <p>Optional background checks notify console and OP players when a compatible newer release is available. Stable releases are recommended; alpha and beta builds are announced separately for testing. Checks run after startup and every 24 hours by default, without installing files. <a href="./configuration.html#4-1-config-yml">Configure update checks</a>.</p>
+              </div>
+              <div class="fb-card fb-card--subtle">
                 <h3>Clear startup information</h3>
                 <p>The startup message shows the CoreChatX version and whether the Paper or Velocity jar is running. Permissions use <code>corechatx.*</code>, and the default network group is <code>corechatx:main</code>.</p>
               </div>
