@@ -91,9 +91,8 @@
             </div>
             <p>In proxy mode, Velocity owns shared runtime data. Paper backends do not open MySQL connections and their local files are not the source for this migration. Keep the existing deployment mode and network groups throughout the procedure.</p>
             <div class="fb-callout fb-callout--info" id="validation-scope">
-              <p><strong>Laboratory migration and recovery checks are complete.</strong> The agreed Phase 6 scope has a conditional GO: the actual 2026.2.6 JAR was exercised with synthetic data, followed by migration, rollback, process interruptions, database failures, and authenticated Minecraft/Discord checks.</p>
-              <p><strong>No production dataset was available.</strong> This does not validate your installation or establish a player-capacity claim. Rehearse against an isolated copy of your own data and keep the complete backup described above. Telegram was excluded from runtime acceptance; performance profiling is delegated to an external network and no production performance result is claimed.</p>
-              <p>The latest release gate passed 690 tests, including 47 against an explicitly configured real MySQL database. The preceding live Minecraft/Discord checks used the 667-test build; the later <code>{link_command}</code>, storage recovery, YAML loading, proxy mute and nickname fixes have automated regression coverage. Those later fixes did not repeat the live-client acceptance session. A normal Maven build without that database configuration does not provide the same integration evidence.</p>
+              <p><strong>Rehearse migration with a copy of your own data.</strong> Use an isolated server setup and a separate MySQL database, keeping the complete backup described above. Follow the migration and rollback steps before scheduling the change on your live server.</p>
+              <p>Compare the reported counts and hashes, check saved player settings and Discord links when used, and confirm that the enabled features work after reconnecting and restarting. Resolve any errors before reopening player access.</p>
             </div>
           </section>
 
@@ -178,7 +177,7 @@ ccxstorage check mysql
 ccxstorage backup files
 ccxstorage backup list
 ccxstorage backup verify &lt;backup-id-or-file&gt;</code></pre></div>
-            <p>Expect the intended YAML identity, an open maintenance gate, no unfinished transition, a valid YAML snapshot, a successful MySQL check, and a verified backup. Keep the reported hashes, counts, and backup location. Resolve failures before planning.</p>
+            <p>Expect the intended YAML identity, storage operations available, no unfinished transition, a valid YAML snapshot, a successful MySQL check, and a verified backup. Keep the reported hashes, counts, and backup location. Resolve failures before planning.</p>
             <h3>Create the plan</h3>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql plan</code></pre></div>
             <p>Copy <code>run</code> and <code>confirmation-token</code> from the result and review its scope, source hash, and counts. The token expires after <strong>10 minutes</strong>. Planning records a durable run but does not import player data. Keep the source unchanged between plan and execute.</p>
@@ -223,7 +222,7 @@ ccxstorage check parity --all-scopes</code></pre></div>
               <li>After successful execution and parity checks, stop the storage owner gracefully. Preserve the source YAML, generated backups, and transition journals.</li>
               <li>In standalone <code>storage.yml</code> or proxy <code>velocity-storage.yml</code>, change only <code>storage.backend</code> from <code>YAML</code> to <code>MYSQL</code>. Retain the exact database, namespace, and scope/group identity used by the plan.</li>
               <li>Start the owner with the database reachable and normal joins still blocked. Startup verifies the pending run, acquires the authoritative lease, loads runtime state, activates MySQL, and closes the local transition journal.</li>
-              <li>Inspect startup logs and <code>ccxstorage status</code>. Expect the intended MYSQL identity, an open gate, and no open transition. Confirm the migration run is <code>ACTIVE</code> in its status/history output.</li>
+              <li>Inspect startup logs and <code>ccxstorage status</code>. Expect the intended MYSQL identity, storage operations available, and no unfinished transition. Confirm the migration run is <code>ACTIVE</code> in its status/history output.</li>
               <li>For Velocity, start the updated Paper backends after the proxy is ready. Keep them in <code>PROXY</code> mode with their original group assignments, then admit only your test players.</li>
             </ol>
             <div class="fb-callout fb-callout--info"><p>If MySQL startup fails, CoreChatX keeps storage-dependent services unavailable instead of falling back to YAML. Fix the reported database, schema, lease, or recovery problem. Editing the backend back to YAML is not a rollback.</p></div>
@@ -252,9 +251,9 @@ ccxstorage backup verify &lt;backup-id-or-file&gt;</code></pre></div>
               <li>Change a harmless preference through <code>/ccxsettings</code>, wait for its success response, reconnect, and restart the owner once more. Confirm the committed value survives. Existing players default to <strong>Persistent</strong> channels; test both compass choices.</li>
               <li>Test public/channel chat, private messages, permissions, moderation, and the enabled Discord or Telegram features with authenticated players.</li>
               <li>On Velocity, test cross-server traffic and backend transfers inside each group, plus isolation between different groups.</li>
-              <li>In staging, rehearse <a href="#rollback">rollback</a>, restart interruptions, and database unavailability. Measure performance on representative data and load before production acceptance.</li>
+              <li>In staging, rehearse <a href="#rollback">rollback</a>, restart interruptions, and database unavailability. Measure performance on representative data and load before opening the server to players.</li>
             </ul>
-            <p>Reopen access only after the checks required for your installation pass. Keep the original recovery copy and verified archives. Complete the <a href="./installation.html#validate">runtime acceptance checks for your installation</a> before reopening.</p>
+            <p>Reopen access only after the checks required for your installation pass. Keep the original recovery copy and verified archives. Complete the <a href="./installation.html#validate">setup checks for your server</a> before reopening.</p>
           </section>
 
           <section class="fb-doc-section" id="rollback">
@@ -276,7 +275,7 @@ ccxstorage check parity --all-scopes</code></pre></div>
             <ol>
               <li>Wait for successful staging/verification and the explicit instruction to select YAML. MySQL remains frozen during this transition.</li>
               <li>Stop the owner, change only <code>storage.backend</code> to <code>YAML</code>, and restart. Keep the database reachable: startup still verifies the durable rollback evidence.</li>
-              <li>CoreChatX promotes the staged files, retains former files under <code>storage-rollbacks/&lt;run&gt;-originals</code>, verifies parity, and activates YAML. Confirm <code>status</code> reports an open gate with no open transition; run <code>check files</code> on Paper or <code>check files --all-scopes</code> on Velocity.</li>
+              <li>CoreChatX promotes the staged files, retains former files under <code>storage-rollbacks/&lt;run&gt;-originals</code>, verifies parity, and activates YAML. Confirm <code>status</code> reports storage operations available with no unfinished transition; run <code>check files</code> on Paper or <code>check files --all-scopes</code> on Velocity.</li>
               <li>Repeat player checks and make a fresh verified files backup before reopening.</li>
             </ol>
             <p>Do not restore the pre-migration YAML archive over an installation that has accepted newer MySQL writes: those writes would be lost. A downgrade to 2026.2.6 needs a separately planned and tested full restoration with an explicit data-loss boundary. Replacing the JAR is not a database downgrade; older MySQL-capable builds also reject schema version 3.</p>
@@ -284,7 +283,7 @@ ccxstorage check parity --all-scopes</code></pre></div>
 
           <section class="fb-doc-section" id="recovery">
             <h2>Recover from an interruption without discarding evidence.</h2>
-            <p>If execute, restart, or resume fails, keep traffic blocked and preserve the whole plugin folder, backups, journals, staging files, and console output. Recovery-only startup keeps the mutation gate closed, but its server socket may still accept connections without normal CoreChatX gameplay services. Keep joins blocked until recovery and the required restart have completed. Do not delete a journal, edit frozen YAML, truncate database tables, or change namespace/groups to bypass the error.</p>
+            <p>If execute, restart, or resume fails, keep traffic blocked and preserve the whole plugin folder, backups, journals, staging files, and console output. Recovery-only startup keeps storage changes disabled, but its server socket may still accept connections without normal CoreChatX gameplay services. Keep joins blocked until recovery and the required restart have completed. Do not delete a journal, edit frozen YAML, truncate database tables, or change namespace/groups to bypass the error.</p>
             <div class="fb-table-wrap" tabindex="0" aria-label="Migration problems and recovery actions">
               <table class="fb-table--striped fb-table--comfortable">
                 <thead><tr><th>Observed problem</th><th>Next action</th></tr></thead>
@@ -299,7 +298,7 @@ ccxstorage check parity --all-scopes</code></pre></div>
             </div>
             <p>Run IDs are valid only for the configured namespace and storage scope. Aborting a planned or failed files-to-MySQL run changes its history without deleting runtime data. An imported run can remove its staged rows only with unchanged canonical contents, no active runtime lease and no other incomplete transition. Changed data or an ambiguous <code>RUNNING</code> state causes abort to refuse deletion; preserve the files and database while investigating.</p>
             <p>If Paper reports malformed or unreadable persistent YAML, repair the identified file or restore a verified backup. It will not replace the file with empty defaults. A failed player/global reload also prevents later flushes until a successful reload; deleting live data is not a recovery step.</p>
-            <p>Use these corrected 2026.3.0 builds throughout recovery. Verified aborts are recorded as <code>ABORTED</code>; earlier builds cannot read that new local state. Do not downgrade JARs or edit the journal to force acceptance. If a process loses its database lease to another owner, restore database access and restart the intended owner after resolving the conflict; the retired process cannot safely resume writes.</p>
+            <p>Use these corrected 2026.3.0 builds throughout recovery. Verified aborts are recorded as <code>ABORTED</code>; earlier builds cannot read that new local state. Do not downgrade JARs or edit the journal to bypass recovery checks. If a process loses its database lease to another owner, restore database access and restart the intended owner after resolving the conflict; the retired process cannot safely resume writes.</p>
             <h3>Standalone recovery commands</h3>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
 ccxstorage history

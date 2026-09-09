@@ -113,6 +113,7 @@
 <ul>
 <li><strong>Before updating, stop the affected servers and back up every file and subfolder in the CoreChatX plugin folders</strong>, including configuration, player data, credentials, journals and backups. Keep the old JARs separately; also back up MySQL when used.</li>
 <li>The website includes a <a href="https://wiki-corechatx.icewolf23x.dev/migration.html">2026.2.6 YAML → 2026.3.0 MySQL migration guide</a> for standalone Paper and Velocity: backups, configuration, verified migration, activation, rollback and interruption recovery.</li>
+<li>Rehearse migration and rollback with an isolated copy of your own data and retain complete backups before switching your live server to MySQL.</li>
 <li>Upgrade Velocity and every participating Paper backend together. Protocol <code>29</code> cannot reliably exchange complete runtime state and mutations with older JARs.</li>
 <li>Legacy <code>storage.sql.*</code> never enabled MySQL. Use <code>storage.backend: MYSQL</code> and <code>storage.mysql.*</code>; existing YAML data requires <code>/ccxstorage migrate files-to-mysql plan</code> and confirmed execute/restart. Changing the backend alone does not migrate data.</li>
 <li>Schema <code>V003</code> adds persistent channels as the default for existing players. With <code>schema-auto-migrate: false</code>, arrange the schema upgrade before startup. Older builds reject schema <code>3</code>; replacing the JAR cannot downgrade the database.</li>
@@ -122,7 +123,6 @@
 <h2 id="known-issues">Known issues</h2>
 <ul>
 <li>Discord rate limits can delay channel-topic updates after rapid joins/restarts. Chat and linking continue while topic updates retry.</li>
-<li>The 2026.2.6 migration was tested with synthetic legacy data, not production data. Rehearse with an isolated copy of your own data and retain complete backups before cutover.</li>
 </ul>
 </article></section>
     </main>
