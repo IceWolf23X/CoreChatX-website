@@ -108,6 +108,7 @@
             </div>
             <details>
               <summary>What do the terms in the console mean?</summary>
+              <div class="fb-details-body">
               <dl>
                 <dt><strong>Backend</strong></dt><dd>In the storage configuration, this means YAML or MYSQL. A Paper backend server behind Velocity is a different use of the same word.</dd>
                 <dt><strong>Namespace and scope</strong></dt><dd>Labels that identify which installation's data CoreChatX should read. Leave the generated values unchanged for a new default setup; keep existing custom values. Changing them can select a different dataset.</dd>
@@ -116,6 +117,7 @@
                 <dt><strong>Counts, sha256, and parity</strong></dt><dd>Counts summarize saved records; SHA-256 is a fingerprint of their contents. A parity check verifies that the migration's saved contents match. You do not calculate these values yourself.</dd>
                 <dt><strong>Frozen data / open transition</strong></dt><dd>CoreChatX has paused data changes while a migration or rollback is unfinished. Follow its activation or recovery instruction before allowing players back.</dd>
               </dl>
+              </div>
             </details>
           </section>
 
@@ -212,10 +214,12 @@ storage:
             <p><strong>Start standalone Paper or Velocity again, still with YAML selected.</strong> Keep players blocked and network Paper servers stopped. Use a full stop/start; <code>/corechatx reload</code> does not apply storage connection or identity changes. Continue with <a href="#paper">4A for standalone</a> or <a href="#velocity">4B for Velocity</a>.</p>
             <details>
               <summary>Custom groups, TLS, or database schema managed by an administrator</summary>
+              <div class="fb-details-body">
               <p>Velocity derives its scopes from <code>network-channel</code> in <code>velocity-config.properties</code>. It has no Paper-style <code>storage.scope</code> setting. Keep every group's name and each Paper server's assignment unchanged.</p>
               <p><code>VERIFY_IDENTITY</code> needs a trusted certificate matching the configured database hostname. Configure trust in the Java runtime that starts Paper or Velocity. Do not assume that a working browser or database-panel login also configures Java's trust.</p>
               <p>With <code>schema-auto-migrate: false</code>, have your database administrator arrange the required CoreChatX schema first; missing migrations are rejected. Legacy <code>storage.sql.*</code> keys do not enable MySQL.</p>
               <p>Full defaults: <a href="./configuration.html#4-12-storage-yml">Paper storage</a> and <a href="./configuration.html#velocity-storage">Velocity storage</a>.</p>
+              </div>
             </details>
           </section>
 
@@ -238,12 +242,14 @@ storage:
             <p>The plan checks the source and destination and records the proposed operation. It does not import player data yet. Copy the actual values after <code>run=</code> and <code>confirmation-token=</code>. Execute within <strong>10 minutes</strong>, without changing the source data or configuration.</p>
             <details>
               <summary>Example: turn the plan values into an execute command</summary>
+              <div class="fb-details-body">
               <p>These are invented values to show the substitution, not a command to run unchanged. If the plan gave you:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">run=11111111-1111-4111-8111-111111111111
 confirmation-token=EXAMPLE_TOKEN</code></pre></div>
               <p>You would put the run ID first, a space, then the token:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql execute 11111111-1111-4111-8111-111111111111 EXAMPLE_TOKEN</code></pre></div>
               <p>Use your own plan's values. Do not include labels, commas, angle brackets, or quotes.</p>
+              </div>
             </details>
             <h3>4A.4 — Execute your plan</h3>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql execute &lt;run-uuid&gt; &lt;confirmation-token&gt;</code></pre></div>
@@ -282,6 +288,7 @@ confirmation-token=EXAMPLE_TOKEN</code></pre></div>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql execute --all-scopes corechatx:main=&lt;run-uuid&gt;=&lt;confirmation-token&gt;</code></pre></div>
             <details>
               <summary>Example with two groups</summary>
+              <div class="fb-details-body">
               <p>Suppose the plan returned these invented values:</p>
               <div class="fb-table-wrap" tabindex="0" aria-label="Illustrative two-group migration plans">
                 <table class="fb-table--striped fb-table--comfortable">
@@ -295,6 +302,7 @@ confirmation-token=EXAMPLE_TOKEN</code></pre></div>
               <p>The assembled command would be one line:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql execute --all-scopes corechatx:survival=11111111-1111-4111-8111-111111111111=EXAMPLE_SURVIVAL corechatx:creative=22222222-2222-4222-8222-222222222222=EXAMPLE_CREATIVE</code></pre></div>
               <p>Replace all example values with your actual plans. If three Paper servers all share one group, there is only one group entry; if your proxy lists more groups, include every one exactly once.</p>
+              </div>
             </details>
             <p>Run only the command matching your own group list. Wait for <code>All Velocity scopes verified</code> and the instruction to change <code>storage.backend</code> to <code>MYSQL</code> and restart. All groups remain paused until activation. An error affecting one group means you must resolve the transition before switching the whole proxy.</p>
             <h3>4B.5 — Verify before switching</h3>
@@ -326,6 +334,7 @@ confirmation-token=EXAMPLE_TOKEN</code></pre></div>
             <p>Open the commands for your installation. Run each command separately in the same Paper or Velocity console you used for migration.</p>
             <details>
               <summary>Standalone Paper checks after activation</summary>
+              <div class="fb-details-body">
               <p>First, confirm that database access succeeds:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage check mysql</code></pre></div>
               <p>Find your migration run and confirm its state is <code>ACTIVE</code>:</p>
@@ -334,9 +343,11 @@ confirmation-token=EXAMPLE_TOKEN</code></pre></div>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage backup mysql</code></pre></div>
               <p>Use the returned backup ID to verify it:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage backup verify &lt;backup-id&gt;</code></pre></div>
+              </div>
             </details>
             <details>
               <summary>Velocity checks after activation</summary>
+              <div class="fb-details-body">
               <p>Confirm that database access succeeds for every group:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage check mysql --all-scopes</code></pre></div>
               <p>Find every new migration run and confirm each is <code>ACTIVE</code>:</p>
@@ -345,6 +356,7 @@ confirmation-token=EXAMPLE_TOKEN</code></pre></div>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage backup mysql --all-scopes</code></pre></div>
               <p>Run this once for each returned backup ID:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage backup verify &lt;backup-id&gt;</code></pre></div>
+              </div>
             </details>
             <ol>
               <li>Connect your checking players and compare the values recorded in step 1: nickname, settings, selected/hidden channels, ignores, mutes, Discord links, and global chat state. On Velocity, check each group.</li>
@@ -368,19 +380,23 @@ confirmation-token=EXAMPLE_TOKEN</code></pre></div>
             </ol>
             <details>
               <summary>Standalone Paper rollback commands</summary>
+              <div class="fb-details-body">
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files plan</code></pre></div>
               <p>Use the returned rollback ID and token:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files execute &lt;rollback-run-uuid&gt; &lt;rollback-token&gt;</code></pre></div>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files status</code></pre></div>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage check parity &lt;rollback-run-uuid&gt;</code></pre></div>
+              </div>
             </details>
             <details>
               <summary>Velocity rollback commands</summary>
+              <div class="fb-details-body">
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files plan --all-scopes</code></pre></div>
               <p>Use the same <code>group=run=token</code> assembly as <a href="#velocity">step 4B</a>, with the new rollback values for every group. This template applies only to a single <code>corechatx:main</code> group:</p>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files execute --all-scopes corechatx:main=&lt;rollback-run-uuid&gt;=&lt;rollback-token&gt;</code></pre></div>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files status --all-scopes</code></pre></div>
               <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage check parity --all-scopes</code></pre></div>
+              </div>
             </details>
             <p><strong>Only when instructed to change the backend and restart:</strong></p>
             <ol>
@@ -413,6 +429,7 @@ confirmation-token=EXAMPLE_TOKEN</code></pre></div>
             <p>Use these corrected 2026.3.0 builds throughout recovery. Verified aborts are recorded as <code>ABORTED</code>; earlier builds cannot read that new local state. Do not downgrade JARs or edit the journal to bypass recovery checks. If a process loses its database lease to another owner, restore database access and restart the intended owner after resolving the conflict; the retired process cannot safely resume writes.</p>
             <details>
               <summary>Standalone recovery command reference</summary>
+              <div class="fb-details-body">
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
 ccxstorage history
 ccxstorage migrate files-to-mysql status
@@ -421,9 +438,11 @@ ccxstorage migrate files-to-mysql abort &lt;run-uuid&gt;
 ccxstorage rollback mysql-to-files status
 ccxstorage rollback mysql-to-files resume &lt;run-uuid&gt; [confirmation-token]
 ccxstorage rollback mysql-to-files abort &lt;run-uuid&gt;</code></pre></div>
+              </div>
             </details>
             <details>
               <summary>Velocity recovery command reference</summary>
+              <div class="fb-details-body">
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
 ccxstorage history --all-scopes
 ccxstorage migrate files-to-mysql status --all-scopes
@@ -432,6 +451,7 @@ ccxstorage migrate files-to-mysql abort --all-scopes
 ccxstorage rollback mysql-to-files status --all-scopes
 ccxstorage rollback mysql-to-files resume --all-scopes [&lt;group&gt;=&lt;token&gt; ...]
 ccxstorage rollback mysql-to-files abort --all-scopes</code></pre></div>
+              </div>
             </details>
             <p>These are alternatives, not a script to run from top to bottom. Choose the operation matching the open transition. Square brackets denote optional confirmation arguments required by some pre-import states; omit the brackets when entering a command. Resume does not bypass expired tokens or invalid state. Once MySQL is active, use a new rollback plan rather than trying to abort the completed forward migration.</p>
             <div class="fb-cluster">
