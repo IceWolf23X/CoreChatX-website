@@ -254,3 +254,13 @@ html {
     scroll-behavior: auto;
   }
 }
+
+/* Keep migration paths and console-result text readable on narrow screens. */
+.corechatx-migration :not(pre) > code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.corechatx-migration .fb-doc-section > .fb-grid {
+  margin-block: var(--fb-space-4);
+}
