@@ -2,12 +2,14 @@
 
 ## Public pages
 
-- `index.html` — Product overview, release summary, Paper and Velocity bStats data, and related CoreX plugins.
-- `features.html` — Chat, channels, private messages, player settings, moderation, integrations, and network support.
-- `installation.html` — Paper and Velocity requirements, installation, integrations, and validation checks.
-- `configuration.html` — Paper and Velocity configuration, commands, permissions, limits, and troubleshooting.
-- `docs.html` — Documentation entry point.
-- `faq.html` — Common setup and behavior questions.
+- `index.html` — Product overview, 2026.3.0 release summary and changelog link, Paper and Velocity bStats data, and related CoreX plugins.
+- `features.html` — Chat, channel-persistence preferences, private messages, moderation, integrations, YAML/MySQL storage, and network support.
+- `installation.html` — Paper/Velocity and version-specific Java requirements, coordinated protocol-29 upgrade, YAML/MySQL migration and backup ownership, integrations, and validation checks.
+- `configuration.html` — Paper and Velocity configuration and bundled examples, storage maintenance grammar, channel persistence, Discord admission and `{link_command}` message templates, commands on both platforms, runtime-data fields and ordering markers, safe configuration regeneration, strict YAML load failures, cold proxy mute enforcement, permissions, and troubleshooting. Bundled examples match the 2026.3.0 release; existing section anchors are retained.
+- `docs.html` — Documentation entry point, migration guide card, storage ownership, and release-notes links.
+- `changelog.html` — Complete 2026.3.0 player/admin changelog since 2026.2.6, matching the refreshed release changelog, including the final Discord/storage corrections, abort-journal compatibility and upgrade limitations. Includes safe abort ownership, strict YAML loading, mute-cache admission and atomic nickname fixes.
+- `migration.html` — Operator guide from 2026.2.6 YAML to 2026.3.0 MySQL: source backup, YAML-first upgrade, partial configuration examples, standalone/all-group proxy commands, verified cutover, current-state rollback, abort/retry and lease recovery, and the conditional laboratory acceptance with explicit production-data, Telegram and profiling limits; distinguishes the latest 690-test gate with 47 real-MySQL cases from the preceding live-client acceptance. Linked from setup, documentation, configuration, FAQ, and changelog.
+- `faq.html` — Common setup and behavior questions, including configurable staff bypass for private-message privacy and cold proxy moderation state.
 
 ## Shared assets
 

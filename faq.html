@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.2.6 FAQ for installation, Velocity networks, chat formatting, player controls, ChatItems, Discord, Telegram, and saved data.">
+    <meta name="description" content="CoreChatX 2026.3.0 FAQ for installation, Velocity networks, chat formatting, player controls, ChatItems, Discord, Telegram, and saved data.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/faq.html">
     <meta property="og:type" content="article">
@@ -46,7 +46,7 @@
         <div class="fb-container fb-container--wide">
           <p class="fb-eyebrow">Frequently asked questions</p>
           <h1>Clear answers to common questions.</h1>
-          <p class="fb-lead">These answers apply to CoreChatX 2026.2.6. Open the configuration reference when you need exact file names, settings, commands, or permissions.</p>
+          <p class="fb-lead">These answers apply to CoreChatX 2026.3.0. Open the configuration reference when you need exact file names, settings, commands, or permissions.</p>
         </div>
       </header>
 
@@ -60,7 +60,7 @@
           </details>
           <details>
             <summary>What do I need to run CoreChatX?</summary>
-            <div class="fb-details-body"><p>You need Java 21 and Paper 1.21.11. Velocity is optional and is needed only when CoreChatX must connect multiple Paper servers.</p></div>
+            <div class="fb-details-body"><p>CoreChatX supports Paper 1.21.11 - 26.2. Use Java 21 for Paper 1.21.11 and Java 25 for Paper 26.1/26.2; see the <a href="./installation.html">installation requirements</a>. Velocity is optional and is needed only when CoreChatX must connect multiple Paper servers.</p></div>
           </details>
           <details>
             <summary>Do I need Velocity?</summary>
@@ -95,7 +95,11 @@
           </details>
           <details>
             <summary>What does ignoring another player affect?</summary>
-            <div class="fb-details-body"><p>Ignore always blocks private messages. Public chat can remain unaffected, suppress only mention and custom-ping notifications, or hide the ignored sender’s messages. Each channel may inherit or override the global public-chat mode.</p></div>
+            <div class="fb-details-body"><p>Ignoring a player blocks their private messages unless the sender has the configured staff bypass and <code>private-messages.allow-staff-bypass</code> is enabled in <code>privacy.yml</code>. Public chat can remain unaffected, suppress only mention and custom-ping notifications, or hide the ignored sender’s messages. Each channel may inherit or override the global public-chat mode.</p></div>
+          </details>
+          <details>
+            <summary>Can I return to the default channel every time I reconnect?</summary>
+            <div class="fb-details-body"><p>Yes. Open <code>/ccxsettings</code> and click the Channel compass to choose <strong>Non persistent</strong>. The current channel stays active until your next connection, including after a restart. <strong>Persistent</strong> keeps the last channel and remains the default. Proxy backend transfers do not reset the channel during the same connection.</p></div>
           </details>
           <details>
             <summary>Do nicknames replace the real Minecraft identity?</summary>
@@ -148,6 +152,10 @@
             <div class="fb-details-body"><p>CoreChatX disconnects the affected online player and blocks reconnection until the configured requirement is satisfied again. This applies to standalone Paper and Velocity when role admission is configured correctly.</p></div>
           </details>
           <details>
+            <summary>Can an unlinked player join if the Discord bot is unavailable?</summary>
+            <div class="fb-details-body"><p>With <code>account-linking.require-linked-to-play</code> enabled, no. Unavailable linking or failed code creation denies entry with a temporary-unavailability message. <code>deny-if-unverifiable</code> applies only to role verification for players who already have a link.</p></div>
+          </details>
+          <details>
             <summary>How does Telegram receive messages?</summary>
             <div class="fb-details-body"><p>CoreChatX checks the Telegram Bot API for new messages and sends replies through the same API. You only need a bot token and the chat or topic IDs used by your routes.</p></div>
           </details>
@@ -164,11 +172,15 @@
 
           <details>
             <summary>Can CoreChatX save data in SQL?</summary>
-            <div class="fb-details-body"><p>No. CoreChatX currently saves its data in YAML files. The SQL settings are reserved for future use and do not move data to a database.</p></div>
+            <div class="fb-details-body"><p>Yes. Version 2026.3.0 supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="./migration.html">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
           </details>
           <details>
             <summary>Which data should I back up?</summary>
-            <div class="fb-details-body"><p>For one Paper server, back up the complete <code>plugins/CoreChatX/</code> folder. For a Velocity network, also back up <code>plugins/corechatx/data/groups/</code>, where shared player settings and moderation data are saved.</p></div>
+            <div class="fb-details-body"><p>Back up the owning plugin folder and all configuration/recovery journals. With YAML, include Paper's runtime files or Velocity's complete <code>data/groups/</code> directory. With MySQL, also back up the database and create a verified <code>/ccxstorage backup mysql</code> export; Velocity needs a scope selection.</p></div>
+          </details>
+          <details>
+            <summary>Why does chat say runtime data is temporarily unavailable just after connecting?</summary>
+            <div class="fb-details-body"><p>With mute enforcement enabled, a proxy backend waits for the player's authoritative mute state before allowing public chat or private messages. Retry once it loads. If the message persists, check the Paper-to-Velocity connection and the storage owner's status and logs.</p></div>
           </details>
           <details>
             <summary>Why is network chat not crossing servers?</summary>
@@ -190,7 +202,7 @@
       <div class="fb-container fb-container--wide fb-stack">
         <div class="fb-grid fb-grid--2">
           <div class="fb-flow">
-            <a class="fb-brand corechatx-brand" href="./index.html">
+            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
               <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
               <span>CoreChatX</span>
             </a>
@@ -207,7 +219,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.2.6 &middot; Java 21 &middot; Paper 1.21.11 &middot; Velocity</span>
+          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

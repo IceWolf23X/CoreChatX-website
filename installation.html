@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Complete CoreChatX 2026.2.6 installation guide for one Paper server or a multi-server Velocity network, including first startup, integrations, backups, and final checks.">
+    <meta name="description" content="Complete CoreChatX 2026.3.0 installation guide for one Paper server or a multi-server Velocity network, including first startup, integrations, backups, and final checks.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/installation.html">
     <meta property="og:type" content="article">
@@ -99,8 +99,8 @@
               <table class="fb-table--striped fb-table--comfortable">
                 <thead><tr><th>Requirement</th><th>When needed</th><th>Notes</th></tr></thead>
                 <tbody>
-                  <tr><td>Java 21</td><td>Always</td><td>Use it for every Paper server and the Velocity proxy.</td></tr>
-                  <tr><td>Paper 1.21.11</td><td>Always</td><td>Required for every Minecraft server using CoreChatX.</td></tr>
+                  <tr><td>Java matching the server version</td><td>Always</td><td>Use Java 21 for Paper 1.21.11 and Java 25 for Paper 26.1/26.2. For Velocity, meet both its selected version's requirement and CoreChatX's Java 21 minimum. <a href="https://docs.papermc.io/paper/getting-started/#requirements">Paper Java requirements</a>.</td></tr>
+                  <tr><td>Paper 1.21.11 - 26.2</td><td>Always</td><td>Required for every Minecraft server using CoreChatX.</td></tr>
                   <tr><td>Velocity</td><td>Network setup only</td><td>Connects chat and player settings across Paper servers.</td></tr>
                   <tr><td>LuckPerms</td><td>Optional</td><td>Provides rank prefixes and lets you assign CoreChatX permissions.</td></tr>
                   <tr><td>PlaceholderAPI</td><td>Optional</td><td>Install it and the expansions you use on every Paper server that displays those values.</td></tr>
@@ -124,7 +124,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="fb-callout fb-callout--info"><p><strong>Important:</strong> do not place the Paper jar on Velocity or the Velocity jar on Paper. When upgrading from an older or differently named plugin, keep a backup and start from CoreChatX's current default files.</p></div>
+            <div class="fb-callout fb-callout--info"><p><strong>Important:</strong> do not place the Paper jar on Velocity or the Velocity jar on Paper. For an existing CoreChatX installation, back up the complete plugin folders and preserve configuration and player data; follow the <a href="#existing">upgrade instructions</a>. A differently named plugin requires a separate compatibility check before reusing its data.</p></div>
             <h3>Paper creates these main configuration files</h3>
             <div class="fb-code-block"><pre><code>config.yml       messages.yml     chat.yml
 channels.yml     privacy.yml      moderation.yml
@@ -134,7 +134,8 @@ discord.yml      telegram.yml     locales/en_us.yml</code></pre></div>
             <h3>Velocity creates these configuration files</h3>
             <div class="fb-code-block"><pre><code>velocity-config.properties
 velocity-discord.yml
-velocity-messages.yml</code></pre></div>
+velocity-messages.yml
+velocity-storage.yml</code></pre></div>
           </section>
 
           <section class="fb-doc-section" id="first-start">
@@ -149,7 +150,7 @@ velocity-messages.yml</code></pre></div>
               <li>Stop the server or proxy before changing the mode, server ID, network group, or Velocity configuration.</li>
               <li>Apply the standalone or Velocity instructions below, then restart.</li>
             </ol>
-            <p>If the banner does not appear, check that you downloaded the correct jar, placed it in the right folder, and are using Java 21. Then read the startup log for the error.</p>
+            <p>If the banner does not appear, check that you downloaded the correct jar, placed it in the right folder, and are using the Java version required by that server release. Then read the startup log for the error.</p>
           </section>
 
           <section class="fb-doc-section" id="standalone">
@@ -171,7 +172,7 @@ velocity-messages.yml</code></pre></div>
   network-channel: "corechatx:main"
   bridges-allowed: true
   network-features-allowed: false</code></pre></div>
-            <p>Paper saves player settings, channels, ignores, mutes, nicknames, and linked Discord accounts in local YAML files. Features that require another Paper server, such as cross-server private messages, remain disabled.</p>
+            <p>Paper saves player settings, channels, ignores, mutes, nicknames, and linked Discord accounts in YAML by default. For MySQL, configure <code>storage.yml</code>; existing data needs the <a href="./configuration.html#storage-maintenance">migration workflow</a>. Cross-server features remain disabled without Velocity.</p>
             <h3>Test the standalone setup</h3>
             <ul>
               <li>Public chat renders with the expected format.</li>
@@ -263,29 +264,11 @@ player-directory.tab-entries=true</code></pre></div>
             <p>Discord and Telegram URLs shown in configuration examples are non-clickable placeholders for your own server setup.</p>
           </section>
 
-          <section class="fb-doc-section" id="existing">
-            <p class="fb-eyebrow">7. Existing installations</p>
-            <h2>Start from clean default files when upgrading an old setup.</h2>
-            <p>Do not copy complete configuration files from an older or differently named plugin into CoreChatX. Back up the old folder, let the current version create new defaults, and copy only the settings that still exist in the current reference.</p>
-            <h3>Recreate Paper configuration files</h3>
-            <ol>
-              <li>Stop the Paper server.</li>
-              <li>Back up the complete <code>plugins/CoreChatX/</code> folder.</li>
-              <li>Remove only the configuration files you intend to recreate. Do not delete files containing player data.</li>
-              <li>Start Paper and let CoreChatX recreate bundled defaults.</li>
-              <li>Stop Paper and restore the mode, server ID, network group, channels, integration tokens, destinations, and server-specific formats.</li>
-              <li>Restart and complete the validation checklist.</li>
-            </ol>
-            <h3>Recreate Velocity configuration files</h3>
-            <ol>
-              <li>Stop Velocity.</li>
-              <li>Back up <code>plugins/corechatx/</code>, especially <code>data/groups/</code>.</li>
-              <li>Remove only <code>velocity-config.properties</code>, <code>velocity-discord.yml</code>, and <code>velocity-messages.yml</code> when clean defaults are required.</li>
-              <li>Start Velocity once to regenerate the three files, then stop it.</li>
-              <li>Restore group channels, optional <code>backend-groups</code> entries, Discord settings, and messages.</li>
-              <li>Restart Velocity and all Paper servers affected by group changes.</li>
-            </ol>
-            <div class="fb-callout fb-callout--info"><p><strong>Do not delete live player data.</strong> Files containing player settings, privacy choices, mutes, nicknames, or Discord links are not normal configuration files. Deleting them deletes saved information.</p></div>
+          <section class="fb-doc-section" id="existing"><p class="fb-eyebrow">7. Existing installations</p>
+            <h2>Upgrade the whole network and preserve authoritative data.</h2>
+            <ol><li>Stop the affected servers and back up plugin configuration, live YAML or database data, and any storage journals.</li><li>Replace Paper and Velocity JARs together. Version 2026.3.0 uses protocol 29; mixed builds cannot exchange the new player state correctly.</li><li>Keep YAML if you do not need a database. Legacy <code>storage.sql.*</code> settings do not enable MySQL.</li><li>For existing YAML-to-MySQL data, configure connection settings and use the confirmed <code>/ccxstorage</code> plan/execute workflow. Change the backend only when instructed, then restart.</li><li>Schema V003 preserves existing players' Persistent choice. With <code>schema-auto-migrate: false</code>, arrange the schema upgrade before startup. Older builds reject schema 3.</li><li>For MySQL-to-YAML rollback, export the latest database data through the rollback workflow; do not replace it with a stale pre-migration archive.</li></ol>
+            <p>Only recreate individual configuration files when needed. Preserve <code>storage.yml</code> or <code>velocity-storage.yml</code> and restore the active backend/identity before booting; their defaults select YAML. Never remove player data or transition journals as configuration cleanup.</p>
+            <div class="fb-callout fb-callout--info"><p>Migration, rollback, interruption recovery, and the agreed Minecraft/Discord checks passed in the laboratory. No production dataset or production-capacity result was available. Back up the complete plugin folders and rehearse against your own isolated copy before opening the server. Read the <a href="./migration.html#validation-scope">validation scope</a>, <a href="./migration.html">2026.2.6 YAML to 2026.3.0 MySQL guide</a>, and <a href="./changelog.html">complete release notes</a>.</p></div>
           </section>
 
           <section class="fb-doc-section" id="backup">
@@ -295,14 +278,14 @@ player-directory.tab-entries=true</code></pre></div>
               <table class="fb-table--striped fb-table--comfortable">
                 <thead><tr><th>Setup</th><th>What is saved there</th><th>Folder to back up</th></tr></thead>
                 <tbody>
-                  <tr><td>Standalone Paper</td><td>Configuration and all locally saved player data</td><td>The complete <code>plugins/CoreChatX/</code> folder</td></tr>
+                  <tr><td>Standalone Paper with YAML</td><td>Configuration and all locally saved player data</td><td>The complete <code>plugins/CoreChatX/</code> folder</td></tr>
                   <tr><td>Paper with Velocity</td><td>Paper-specific configuration and local feature files</td><td>Each Paper server's <code>plugins/CoreChatX/</code> folder</td></tr>
-                  <tr><td>Velocity network</td><td>Shared player settings, privacy, moderation, global settings, and Discord links</td><td>The complete <code>plugins/corechatx/</code> folder, including <code>data/groups/</code></td></tr>
-                </tbody>
+                  <tr><td>Velocity network with YAML</td><td>Shared player settings, privacy, moderation, global settings, and Discord links</td><td>The complete <code>plugins/corechatx/</code> folder, including <code>data/groups/</code></td></tr>
+                <tr><td>Standalone or Velocity with MySQL</td><td>Authoritative player data in the database; configuration and recovery journals in the plugin folder</td><td>Database backup, verified <code>/ccxstorage backup mysql</code> export, and complete owning plugin folder</td></tr></tbody>
               </table>
             </div>
             <p>Stop Paper or Velocity before manually editing live YAML files. When moving or restoring a Velocity setup, keep every folder inside <code>data/groups/</code>; these folders contain the shared data for each CoreChatX group.</p>
-          </section>
+          <p>On Velocity, add <code>--scope &lt;group&gt;</code> or <code>--all-scopes</code> to storage checks and backups. Preserve every scope in a multi-group installation.</p></section>
 
           <section class="fb-doc-section" id="lifecycle">
             <p class="fb-eyebrow">9. Reload or restart</p>
@@ -316,7 +299,7 @@ player-directory.tab-entries=true</code></pre></div>
                   <tr><td>Paper <code>deployment.server-id</code></td><td>Restart Paper</td><td>Changes the unique name CoreChatX uses for that server.</td></tr>
                   <tr><td>Paper <code>deployment.network-channel</code></td><td>Restart Paper and use the same value on Velocity</td><td>Moves the server to a different CoreChatX group.</td></tr>
                   <tr><td>Any Velocity configuration</td><td>Restart Velocity</td><td>Velocity does not have a CoreChatX reload command.</td></tr>
-                </tbody>
+                <tr><td>Storage backend, namespace/scope, or database configuration</td><td>Owning Paper or Velocity restart</td><td>Existing data transitions first require the storage migration or rollback workflow.</td></tr></tbody>
               </table>
             </div>
             <p>When a Velocity group changes, restart every affected Paper server with exactly the same new <code>network-channel</code> value.</p>
@@ -362,7 +345,7 @@ player-directory.tab-entries=true</code></pre></div>
                 <a class="fb-button fb-button--secondary" href="./faq.html">Open troubleshooting FAQ</a>
               </div>
             </div>
-          </section>
+          <h3>Storage and channel preferences</h3><ul><li>Run <code>/ccxstorage status</code> and the check for the selected backend; verify a backup.</li><li>Test both settings-compass choices after reconnect and restart; verify that proxy backend transfers retain the current channel.</li><li>Confirm accepted preference changes survive reload and that temporary database failures do not switch to YAML.</li></ul></section>
         </article>
       </div>
     </main>
@@ -371,7 +354,7 @@ player-directory.tab-entries=true</code></pre></div>
       <div class="fb-container fb-container--wide fb-stack">
         <div class="fb-grid fb-grid--2">
           <div class="fb-flow">
-            <a class="fb-brand corechatx-brand" href="./index.html">
+            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
               <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
               <span>CoreChatX</span>
             </a>
@@ -388,7 +371,7 @@ player-directory.tab-entries=true</code></pre></div>
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.2.6 &middot; Java 21 &middot; Paper 1.21.11 &middot; Velocity</span>
+          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

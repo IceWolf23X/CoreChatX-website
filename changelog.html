@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Complete CoreChatX 2026.3.0 changes since 2026.2.6: MySQL storage, migration, channel preferences, and runtime fixes.">
+    <meta name="theme-color" content="#2F3235">
+    <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/changelog.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="CoreChatX 2026.3.0 Changelog">
+    <meta property="og:description" content="All player and administrator changes since 2026.2.6, including MySQL migration and upgrade requirements.">
+    <meta property="og:url" content="https://wiki-corechatx.icewolf23x.dev/changelog.html">
+    <meta property="og:image" content="https://wiki-corechatx.icewolf23x.dev/assets/corechatx-logo.svg">
+    <meta name="twitter:card" content="summary">
+    <title>CoreChatX 2026.3.0 Changelog</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <a class="fb-skip-link" href="#main">Skip to content</a>
+    <header class="fb-site-header fb-site-header--sticky">
+      <div class="fb-container fb-container--wide fb-navbar">
+        <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
+          <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+          <span>CoreChatX</span>
+        </a>
+        <button class="fb-button fb-button--ghost fb-nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>Menu</button>
+        <nav class="fb-nav-panel fb-nav-region" id="site-navigation" data-nav-panel data-open="false" aria-label="Main navigation">
+          <ul class="fb-nav">
+            <li><a href="./index.html">Overview</a></li>
+            <li><a href="./features.html">Features</a></li>
+            <li><a href="./installation.html">Setup</a></li>
+            <li><a href="./docs.html">Documentation</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <header class="fb-section"><div class="fb-container fb-container--wide fb-stack"><p class="fb-eyebrow">Release notes</p><h1>CoreChatX 2026.3.0</h1><p class="fb-lead">All player and administrator changes since 2026.2.6.</p><div class="fb-cluster"><a class="fb-button" href="./installation.html#existing">Upgrade instructions</a><a class="fb-button fb-button--secondary" href="./migration.html">YAML to MySQL migration</a></div></div></header>
+      <section class="fb-section"><article class="fb-container fb-container--wide fb-flow">
+<h2>Added</h2>
+<ul>
+<li>Added optional <code>MYSQL</code> runtime storage for standalone Paper and Velocity, covering player preferences, nicknames, statistics, active and hidden channels, ignores, mutes, global state, Discord links, unlink records, and pending link codes. <code>YAML</code> remains the default; Velocity owns shared data separately for each network group.</li>
+<li>Added <code>/ccxstorage</code> on Paper and Velocity for storage health, file/database validation, checksummed backups and verification, migration planning, parity checks, transition history, resume, and abort. Migration and rollback use confirmation tokens and durable journals; incomplete transitions keep affected gameplay storage unavailable until recovery is completed.</li>
+<li>Added the <strong>Channel</strong> compass in <code>/ccxsettings</code> and <code>/chatsettings</code>. Each player can choose <code>Persistent</code> (the existing default) or <code>Non persistent</code>, which returns to the configured default channel on the next connection, including after a server restart. Changing this option keeps the current channel, and proxy backend transfers preserve it during the same connection.</li>
+</ul>
+<h2>Changed</h2>
+<ul>
+<li>Storage-backed settings, nickname, channel, ignore, and moderation changes now wait for the authoritative result before reporting success. Concurrent single-setting updates preserve unrelated preferences, <code>/ignore</code> and <code>/unignore</code> apply the requested final state, and ignore limits are checked against the saved list. A response timeout does not mean an accepted database write was cancelled.</li>
+<li>With <code>MYSQL</code>, Paper loads complete player state before admission; gameplay storage remains unavailable until database startup and ownership checks succeed. MySQL failures do not silently switch the installation back to YAML. A database lease prevents two live processes from writing the same storage scope.</li>
+</ul>
+<h2>Fixed</h2>
+<ul>
+<li>Fixed <code>/ccxstorage migrate files-to-mysql abort</code> deleting data that a planned or failed run had never imported. Aborting an imported run now refuses to delete rows if their current content differs from the verified source, and cancelling an older failed run preserves later imports.</li>
+<li>Fixed storage recovery accepting a migration run ID from another namespace or scope. Run IDs now apply only to the configured storage owner, preventing cross-group changes.</li>
+<li>Fixed Paper treating malformed persistent YAML as empty data and later overwriting the original files. Startup now reports the error; after a failed player/global reload, writes and shutdown flushes remain blocked until the file is repaired and successfully reloaded.</li>
+<li>Fixed delayed proxy mute lookups clearing a newer mute or making it appear permanently cleared in a backend cache.</li>
+<li>Fixed public chat and private messages being allowed before a proxy backend had loaded the player's mute state. With mute enforcement enabled, messages receive temporary-unavailability feedback until the authoritative lookup completes.</li>
+<li>Fixed simultaneous nickname changes assigning the same visible name to different players on Velocity with YAML. Full player updates and <code>/nick</code> changes now enforce the same normalized name ownership atomically.</li>
+<li>Fixed Discord linking instructions showing <code>/link</code> when the bot uses a custom command. Minecraft link-code help, required-link admission messages and Discord DMs now use the configured name on standalone Paper and Velocity networks.</li>
+<li>Fixed the first inbound Discord message displaying an unresolved linked-player nickname in proxy mode before the player's state had been loaded.</li>
+<li>Fixed delayed asynchronous completions overwriting newer player settings, channels, statistics, mutes, global state, or Discord link/unlink data. An old player's quit cleanup no longer discards a newer login's hydrated state, and pending Discord-code reads cannot restore codes invalidated by newer changes.</li>
+<li>Fixed <code>/chatmute</code> updates overwriting the first-join counter, and concurrent settings or ignore changes replacing unrelated saved values.</li>
+<li>Fixed <code>/corechatx reload</code> temporarily reverting proxy player preferences or showing empty statistics. Reload retains hydrated mirrors and pending storage requests, then refreshes cached/online state after transport registration to recover changes missed while networking was unavailable. Restart-only deployment and storage identity changes retain the active boot configuration until restart.</li>
+<li>Fixed concurrent YAML saves allowing older snapshots to replace newer data; write failures now propagate through the storage operation. Maintenance waits for accepted writes, including those whose callers already timed out, before migration or rollback proceeds.</li>
+<li>Fixed MySQL ownership checks when a write waits on a database lock until its lease expires, and shutdown handling for queued operations and late completions, preventing expired owners from writing and callers from remaining pending indefinitely.</li>
+<li>Fixed item dragging into the temporary <code>/ccxsettings</code> inventory, which could lose deposited items when the menu closed.</li>
+<li>Fixed cross-server private-message timeouts silently removing pending deliveries without notifying their senders; expired deliveries now notify each affected sender once.</li>
+<li>Fixed inbound bridge and outbound Telegram length limits splitting an emoji's UTF-16 pair at the truncation boundary.</li>
+<li>Fixed mandatory Discord linking admitting unlinked players when the bot/link commands were unavailable or link-code creation failed. <code>account-linking.require-linked-to-play</code> now denies entry with a temporary-unavailability message; Velocity enforces it before backend entry. <code>deny-if-unverifiable</code> still controls role verification for already linked players and cannot bypass the mandatory link.</li>
+<li>Fixed Discord's Velocity console missing feedback sent through current or typed Adventure message calls.</li>
+<li>Reduced resource-pack fingerprint string copying during Discord ChatItem image initialization, addressing avoidable work during Paper startup and reload while preserving the existing cache fingerprint format.</li>
+<li>Fixed Paper startup and <code>/corechatx reload</code> waiting on Discord token verification or gateway shutdown on the server thread. Discord reconnects asynchronously; retired connections and queued role callbacks cannot reactivate the previous bridge.</li>
+<li>Fixed <code>/ccxstorage</code> migration or rollback retries failing after a successful abort because the previous journal was treated as a completed cutover. Verified aborts can be retried without deleting journals; Velocity also supports aborting plans before execution and repeating an interrupted abort safely.</li>
+<li>Fixed MySQL startup deadlocks when independent network groups initialize new storage scopes concurrently. Duplicate owners of the same scope are still rejected.</li>
+<li>Fixed ordinary YAML saves after MySQL-to-YAML rollback dropping <code>runtime-updated-at</code>, which could regress a player's saved aggregate version and break canonical backup parity.</li>
+<li>Fixed linked Discord messages being dropped on standalone MySQL after the Minecraft sender disconnected or the server restarted. Offline nickname and staff checks now read saved settings asynchronously, honor <code>allow-offline-linked-players</code>, and deny delivery when authoritative settings are unavailable.</li>
+<li>Fixed startup checksum mismatches caused by changed line endings in packaged MySQL migration files. The JARs preserve the existing migration bytes; do not edit database checksums to bypass validation.</li>
+</ul>
+<h2>Configuration</h2>
+<ul>
+<li>Added <code>{link_command}</code> (the Discord command name without <code>/</code>) to linking messages. Use <code>/{link_command} code:{code}</code>; it reads <code>account-linking.link-command-name</code> from the standalone bot or the Velocity authority. Exact older stock messages are adapted automatically; add the placeholder manually to customized messages.</li>
+<li>Added active MySQL configuration in Paper <code>storage.yml</code> and Velocity <code>velocity-storage.yml</code>: <code>storage.backend</code>, stable namespace/scope identity, connection and TLS settings, bounded pool/executor and operation timeouts, leases, and <code>schema-auto-migrate</code>. Use <code>storage.mysql.password-env</code> to supply credentials from an environment variable; the default TLS mode is <code>VERIFY_IDENTITY</code>.</li>
+<li>Added the saved player preference <code>persistent-channel-enabled</code>, defaulting to <code>true</code> for existing data, plus <code>link-check-unavailable-kick</code> under Paper's Discord messages and Velocity's account-linking messages.</li>
+</ul>
+<h2>Permissions</h2>
+<p>The <code>op</code> default below applies to Paper. On Velocity, grant the node through your proxy permission provider.</p>
+<ul>
+<li>Added <code>corechatx.command.storage</code> with default <code>op</code> for storage inspection and backups. Migration and rollback state changes remain console-only, including for operators; Velocity transitions require explicit <code>--all-scopes</code> confirmation.</li>
+</ul>
+<h2>Compatibility</h2>
+<ul>
+<li>Paper and Velocity runtime JARs now include the required MySQL runtime and JDBC driver. Install only the appropriate platform JAR; no separate storage-module, HikariCP, or Connector/J installation is needed. YAML-only setups do not need a database.</li>
+</ul>
+<h2>Migration</h2>
+<ul>
+<li><strong>Before updating, stop the affected servers and back up every file and subfolder in the CoreChatX plugin folders</strong>, including configuration, player data, credentials, journals, and existing backups. Preserve the old JARs separately; with MySQL, also retain a database backup.</li>
+<li>The website now includes a <a href="./migration.html">step-by-step migration guide from 2026.2.6 YAML to 2026.3.0 MySQL</a> for standalone Paper and Velocity networks, covering backups, configuration, verified migration, activation, rollback, and interruption recovery.</li>
+<li>Upgrade Velocity and every participating Paper backend together. The current plugin-message protocol is <code>29</code>; mixed older/newer JARs cannot exchange the complete runtime state and mutation requests reliably.</li>
+<li>Legacy <code>storage.sql.*</code> settings never enabled a database and still do not select MySQL. Configure <code>storage.backend: MYSQL</code> and the current <code>storage.mysql.*</code> keys. For existing YAML data, use <code>/ccxstorage migrate files-to-mysql plan</code> and its confirmed execute/restart workflow; changing the backend setting alone does not migrate data.</li>
+<li>MySQL schema <code>V003</code> adds the channel preference with existing players defaulting to persistent channels. With <code>schema-auto-migrate: false</code>, arrange the required schema upgrade before startup. Older builds reject schema version <code>3</code>; replacing the JAR with an older version is not a database downgrade.</li>
+<li>After an abort, keep the corrected 2026.3.0 JARs: earlier builds do not recognize the new <code>ABORTED</code> local journal state. Use the new plan's run IDs and confirmation tokens; never remove journals or alter checksums to force a retry.</li>
+<li>Use <code>/ccxstorage rollback mysql-to-files</code> to export the latest database state before returning to YAML. Do not overwrite newer MySQL data with a pre-migration YAML backup. Existing canonical format <code>1</code> backups remain readable; snapshots containing a non-persistent channel preference use format <code>2</code>, which requires the matching newer build to restore that preference.</li>
+</ul>
+<h2>Known issues</h2>
+<ul>
+<li>Proxy player-state reads on a backend can briefly show its last confirmed data while an asynchronous refresh is pending; do not treat a cached read as proof that a new remote write has completed.</li>
+<li>Discord can delay channel-topic updates after rapid joins or restarts because of its rate limits; chat and account linking continue while topic updates are retried.</li>
+<li>The 2026.2.6 migration was exercised with synthetic legacy data, not a production dataset. Rehearse against an isolated copy of your data and retain complete backups before production cutover.</li>
+</ul></article></section>
+    </main>
+
+    <footer class="fb-site-footer">
+      <div class="fb-container fb-container--wide fb-stack">
+        <div class="fb-grid fb-grid--2">
+          <div class="fb-flow">
+            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
+              <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+              <span>CoreChatX</span>
+            </a>
+            <p>Chat and communication for Paper servers and Velocity networks.</p>
+          </div>
+          <nav class="fb-cluster" aria-label="Footer navigation">
+            <a href="./features.html">Features</a>
+            <a href="./installation.html">Setup</a>
+            <a href="./docs.html">Documentation</a>
+            <a href="./faq.html">FAQ</a>
+            <a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a>
+          </nav>
+        </div>
+        <div class="fb-cluster corechatx-footer-meta">
+          <span>Copyright 2026 CoreChatX.</span>
+          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
+        </div>
+      </div>
+    </footer>
+    <script src="./assets/vendor/highlightjs/highlight.min.js"></script>
+    <script src="./assets/vendor/highlightjs/languages/properties.min.js"></script>
+    <script src="./assets/site.js"></script>
+  </body>
+</html>

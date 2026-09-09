@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Explore CoreChatX 2026.2.6 features: public chat, channels, private messages, ChatItems, player settings, moderation, Discord, Telegram, and Velocity networking.">
+    <meta name="description" content="Explore CoreChatX 2026.3.0 features: public chat, channels, private messages, ChatItems, player settings, moderation, Discord, Telegram, and Velocity networking.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/features.html">
     <meta property="og:type" content="website">
@@ -88,7 +88,7 @@
               </table>
             </div>
             <div class="fb-callout fb-callout--info">
-              <p><strong>Requirements:</strong> Java 21, Paper 1.21.11, and Velocity only when connecting multiple Paper servers.</p>
+              <p><strong>Requirements:</strong> Paper 1.21.11 - 26.2, with Java 21 for 1.21.11 or Java 25 for 26.1/26.2. Velocity is needed only for multiple Paper servers. <a href="./installation.html">Setup requirements</a>.</p>
             </div>
           </section>
 
@@ -192,7 +192,7 @@
             <div class="fb-stack">
               <div class="fb-card fb-card--subtle">
                 <h3>Saved preferences</h3>
-                <p>Players can control ping sounds, actionbar notifications, private-message availability, chat bubbles, active channel, hidden channels, social spy where permitted, and mention notifications.</p>
+                <p>Players can control ping sounds, actionbar notifications, private-message availability, chat bubbles, active channel, hidden channels, social spy where permitted, and mention notifications. The settings compass chooses <strong>Persistent</strong> (keep the last channel) or <strong>Non persistent</strong> (return to the configured default on reconnect, including after a restart). Backend transfers keep the current channel during the same proxy connection.</p>
               </div>
               <div class="fb-card fb-card--subtle">
                 <h3>Ignore settings</h3>
@@ -277,17 +277,18 @@
             <h2>Clear tools for setup, reloads, and everyday administration.</h2>
             <p>CoreChatX provides clear startup information, configuration checks, safe data saving, and commands for both players and staff.</p>
             <div class="fb-stack">
+              <div class="fb-card fb-card--subtle"><h3>Storage checks, backups, and migration</h3><p><code>/ccxstorage</code> validates saved data, creates and verifies checksummed backups, and plans YAML-to-MySQL migration or latest-state rollback. Confirmation tokens and recovery journals protect transitions. <a href="./configuration.html#storage-maintenance">Read the operator workflow</a>.</p></div>
               <div class="fb-card fb-card--subtle">
                 <h3>Clear startup information</h3>
                 <p>The startup message shows the CoreChatX version and whether the Paper or Velocity jar is running. Permissions use <code>corechatx.*</code>, and the default network group is <code>corechatx:main</code>.</p>
               </div>
               <div class="fb-card fb-card--subtle">
                 <h3>Configuration and data safety</h3>
-                <p>CoreChatX checks important settings, recreates missing configuration files, saves YAML safely, and keeps each Velocity group's data separate.</p>
+                <p>Choose YAML or MySQL in the owning server's storage configuration. Standalone Paper owns its data; Velocity owns each network group's data. MySQL connection failures never silently switch the server to YAML.</p>
               </div>
               <div class="fb-card fb-card--subtle">
                 <h3>Safe reloads</h3>
-                <p>Most Paper settings can be reloaded without restarting. CoreChatX also clears old reply targets when players leave and restarts enabled Discord or Telegram connections cleanly.</p>
+                <p>Most Paper settings can be reloaded without restarting. Proxy settings and statistics remain available during reload, and cached state refreshes after transport registration. Deployment identity and database changes require restart. CoreChatX also clears old reply targets when players leave.</p>
               </div>
               <div class="fb-card fb-card--subtle">
                 <h3>Commands for players and staff</h3>
@@ -307,7 +308,7 @@
       <div class="fb-container fb-container--wide fb-stack">
         <div class="fb-grid fb-grid--2">
           <div class="fb-flow">
-            <a class="fb-brand corechatx-brand" href="./index.html">
+            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
               <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
               <span>CoreChatX</span>
             </a>
@@ -324,7 +325,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.2.6 &middot; Java 21 &middot; Paper 1.21.11 &middot; Velocity</span>
+          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.2.6 documentation for installation, configuration, commands, permissions, channels, Discord, Telegram, saved data, and troubleshooting.">
+    <meta name="description" content="CoreChatX 2026.3.0 documentation for installation, configuration, commands, permissions, channels, Discord, Telegram, saved data, and troubleshooting.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/docs.html">
     <meta property="og:type" content="website">
@@ -55,9 +55,11 @@
           <div class="fb-section-header">
             <p class="fb-eyebrow">Start here</p>
             <h2>Choose a page to continue.</h2>
+            <p><a href="./changelog.html">Read every change in CoreChatX 2026.3.0</a>.</p>
             <p>Each option below is a link to a different part of the CoreChatX documentation.</p>
           </div>
           <div class="fb-card-grid">
+            <a class="fb-card fb-card--interactive corechatx-link-card" href="./migration.html"><span class="fb-badge fb-badge--primary">2026.2.6 &rarr; 2026.3.0</span><h3>Migrate YAML data to MySQL</h3><p>Follow the standalone or all-group Velocity procedure, with backups, verified activation, rollback, and interruption recovery.</p><span class="corechatx-link-card-action">Open migration guide <span aria-hidden="true">&rarr;</span></span></a>
             <a class="fb-card fb-card--interactive corechatx-link-card" href="./installation.html"><span class="fb-badge fb-badge--primary">Setup</span><h3>Install CoreChatX</h3><p>Choose a single Paper server or a Velocity network, place the correct jar files, and complete the first configuration.</p><span class="corechatx-link-card-action">Open setup <span aria-hidden="true">&rarr;</span></span></a>
             <a class="fb-card fb-card--interactive corechatx-link-card" href="./configuration.html"><span class="fb-badge fb-badge--primary">Reference</span><h3>Configure the plugin</h3><p>Find every Paper and Velocity setting, along with commands, permissions, integrations, and troubleshooting help.</p><span class="corechatx-link-card-action">Open configuration <span aria-hidden="true">&rarr;</span></span></a>
             <a class="fb-card fb-card--interactive corechatx-link-card" href="./features.html"><span class="fb-badge fb-badge--primary">Features</span><h3>See what CoreChatX can do</h3><p>Explore chat, channels, player controls, moderation, ChatItems, Discord, Telegram, and Velocity support.</p><span class="corechatx-link-card-action">Open features <span aria-hidden="true">&rarr;</span></span></a>
@@ -76,7 +78,7 @@
             <div class="fb-card fb-card--subtle"><h3>General settings and message appearance</h3><p><code>config.yml</code>, <code>messages.yml</code>, <code>chat.yml</code>, and language files.</p></div>
             <div class="fb-card fb-card--subtle"><h3>Channels, privacy, and moderation</h3><p><code>channels.yml</code>, <code>privacy.yml</code>, <code>pings.yml</code>, and <code>moderation.yml</code>.</p></div>
             <div class="fb-card fb-card--subtle"><h3>Interactive content</h3><p><code>chatitems.yml</code>, <code>keywords.yml</code>, <code>chatbubbles.yml</code>, and <code>filter.yml</code>.</p></div>
-            <div class="fb-card fb-card--subtle"><h3>Discord, Telegram, and saved data</h3><p><code>discord.yml</code>, <code>telegram.yml</code>, and <code>storage.yml</code>.</p></div>
+            <div class="fb-card fb-card--subtle"><h3>Discord, Telegram, and saved data</h3><p><code>discord.yml</code>, <code>telegram.yml</code>, Paper <code>storage.yml</code>, and <code>velocity-storage.yml</code>.</p></div>
           </div>
         </div>
       </section>
@@ -85,10 +87,10 @@
         <div class="fb-container fb-container--wide fb-split-grid">
           <div>
             <p class="fb-eyebrow">Protect player data</p>
-            <h2>Some YAML files contain live player data.</h2>
+            <h2>Know whether YAML or MySQL owns your player data.</h2>
           </div>
           <div>
-            <p class="fb-lead">Files containing player settings, mutes, ignores, nicknames, or linked Discord accounts are not normal configuration files. Stop the server or proxy and make a backup before editing or deleting them.</p>
+            <p class="fb-lead">YAML files or the selected MySQL database contain player settings, mutes, ignores, nicknames, and Discord links. Back up the owning data and plugin configuration. Use <a href="./configuration.html#storage-maintenance"><code>/ccxstorage</code></a> for validation, verified backups, and journaled migration or rollback.</p>
             <div class="fb-cluster">
               <a class="fb-button" href="./configuration.html#runtime-data">Saved data reference</a>
               <a class="fb-button fb-button--secondary" href="./configuration.html#troubleshooting">Troubleshooting</a>
@@ -102,7 +104,7 @@
       <div class="fb-container fb-container--wide fb-stack">
         <div class="fb-grid fb-grid--2">
           <div class="fb-flow">
-            <a class="fb-brand corechatx-brand" href="./index.html">
+            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
               <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
               <span>CoreChatX</span>
             </a>
@@ -119,7 +121,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.2.6 &middot; Java 21 &middot; Paper 1.21.11 &middot; Velocity</span>
+          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

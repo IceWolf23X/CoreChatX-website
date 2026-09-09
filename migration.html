@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Migrate CoreChatX 2026.2.6 YAML data to 2026.3.0 MySQL on standalone Paper or Velocity, with backups, verified cutover, rollback, and interruption recovery.">
+    <meta name="theme-color" content="#2F3235">
+    <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/migration.html">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CoreChatX YAML to MySQL Migration">
+    <meta property="og:description" content="Step-by-step YAML to MySQL migration from 2026.2.6 to 2026.3.0, including all-group Velocity commands, verification, rollback, and recovery.">
+    <meta property="og:url" content="https://wiki-corechatx.icewolf23x.dev/migration.html">
+    <meta property="og:image" content="https://wiki-corechatx.icewolf23x.dev/assets/corechatx-logo.svg">
+    <meta name="twitter:card" content="summary">
+    <title>YAML to MySQL Migration &mdash; CoreChatX</title>
+    <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
+    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
+    <link rel="stylesheet" href="./assets/styles.css">
+  </head>
+  <body>
+    <a class="fb-skip-link" href="#main">Skip to content</a>
+    <header class="fb-site-header fb-site-header--sticky">
+      <div class="fb-container fb-container--wide fb-navbar">
+        <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
+          <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+          <span>CoreChatX</span>
+        </a>
+        <button class="fb-button fb-button--ghost fb-nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>Menu</button>
+        <nav class="fb-nav-panel fb-nav-region" id="site-navigation" data-nav-panel data-open="false" aria-label="Main navigation">
+          <ul class="fb-nav">
+            <li><a href="./index.html">Overview</a></li>
+            <li><a href="./features.html">Features</a></li>
+            <li><a href="./installation.html">Setup</a></li>
+            <li><a href="./docs.html">Documentation</a></li>
+            <li><a href="./faq.html">FAQ</a></li>
+            <li><a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a></li>
+            <li><a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a></li>
+          </ul>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main" class="fb-main corechatx-configuration">
+      <header class="fb-doc-header corechatx-page-hero">
+        <div class="fb-container fb-container--wide">
+          <div class="fb-callout fb-callout--info" id="overview">
+            <p><strong>Before anything else, back up every file in the CoreChatX plugin folder.</strong> Stop the affected servers gracefully, then copy the entire folder, including every file and subfolder, to a separate backup location before replacing JARs, editing configuration, or running migration commands.</p>
+            <p>On Paper, back up <code>plugins/CoreChatX/</code>. On a Velocity network, also back up <code>plugins/corechatx/</code> on the proxy, including all of <code>data/groups/</code>, and the CoreChatX folder on every Paper backend. Include configuration, player data, credentials, journals, and existing backups. Verify that the copy is complete before continuing.</p>
+          </div>
+          <p class="fb-eyebrow">2026.2.6 &rarr; 2026.3.0</p>
+          <h1>Migrate your YAML data to MySQL.</h1>
+          <p class="fb-lead">Upgrade CoreChatX, import the existing player data, verify the result, and switch storage with a recoverable migration. Follow the path for standalone Paper or your Velocity network.</p>
+          <div class="fb-cluster">
+            <a class="fb-button" href="#prepare">Start with preparation</a>
+            <a class="fb-button fb-button--secondary" href="#paper">Paper commands</a>
+            <a class="fb-button fb-button--secondary" href="#velocity">Velocity commands</a>
+          </div>
+        </div>
+      </header>
+
+      <div class="fb-container fb-container--wide fb-doc-shell corechatx-doc-shell">
+        <aside class="fb-doc-sidebar fb-doc-nav-panel corechatx-toc" aria-label="Page contents">
+          <strong>Migration guide</strong>
+          <a href="#overview">Back up before starting</a>
+          <a href="#sequence">The migration sequence</a>
+          <a href="#prepare">1. Prepare and back up</a>
+          <a href="#upgrade">2. Upgrade while using YAML</a>
+          <a href="#configure">3. Configure the MySQL connection</a>
+          <a href="#paper">4A. Migrate standalone Paper</a>
+          <a href="#velocity">4B. Migrate every Velocity group</a>
+          <a href="#cutover">5. Activate MySQL</a>
+          <a href="#validate">6. Verify before reopening</a>
+          <a href="#rollback">Return to YAML</a>
+          <a href="#recovery">Interrupted migration and errors</a>
+        </aside>
+
+        <article class="fb-doc-main fb-doc-content">
+          <section class="fb-doc-section" id="sequence">
+            <h2>After the backup, upgrade with YAML still selected.</h2>
+            <p>The <code>/ccxstorage</code> migration commands belong to <strong>2026.3.0</strong>. Start that version with <code>storage.backend: YAML</code> and your existing files. Configure MySQL, restart with YAML still selected, then run the plan and execute commands. Only a successful, verified migration tells you to select <code>MYSQL</code> and restart.</p>
+            <p>Changing the backend setting alone does not import data. Legacy <code>storage.sql.*</code> keys from older configurations do not enable MySQL.</p>
+            <div class="fb-table-wrap" tabindex="0" aria-label="Storage owner by deployment">
+              <table class="fb-table--striped fb-table--comfortable">
+                <thead><tr><th>Your deployment</th><th>Run migration on</th><th>Configure</th><th>Data to preserve</th></tr></thead>
+                <tbody>
+                  <tr><td>Standalone Paper</td><td>The Paper console</td><td><code>plugins/CoreChatX/storage.yml</code></td><td>The complete <code>plugins/CoreChatX/</code> folder</td></tr>
+                  <tr><td>Paper behind Velocity</td><td>The Velocity console, for every configured group</td><td><code>plugins/corechatx/velocity-storage.yml</code></td><td>The complete proxy plugin folder, including <code>data/groups/</code>, plus every Paper plugin folder</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>In proxy mode, Velocity owns shared runtime data. Paper backends do not open MySQL connections and their local files are not the source for this migration. Keep the existing deployment mode and network groups throughout the procedure.</p>
+            <div class="fb-callout fb-callout--info" id="validation-scope">
+              <p><strong>Laboratory migration and recovery checks are complete.</strong> The agreed Phase 6 scope has a conditional GO: the actual 2026.2.6 JAR was exercised with synthetic data, followed by migration, rollback, process interruptions, database failures, and authenticated Minecraft/Discord checks.</p>
+              <p><strong>No production dataset was available.</strong> This does not validate your installation or establish a player-capacity claim. Rehearse against an isolated copy of your own data and keep the complete backup described above. Telegram was excluded from runtime acceptance; performance profiling is delegated to an external network and no production performance result is claimed.</p>
+              <p>The latest release gate passed 690 tests, including 47 against an explicitly configured real MySQL database. The preceding live Minecraft/Discord checks used the 667-test build; the later <code>{link_command}</code>, storage recovery, YAML loading, proxy mute and nickname fixes have automated regression coverage. Those later fixes did not repeat the live-client acceptance session. A normal Maven build without that database configuration does not provide the same integration evidence.</p>
+            </div>
+          </section>
+
+          <section class="fb-doc-section" id="prepare">
+            <p class="fb-eyebrow">1. Prepare and back up</p>
+            <h2>Keep a complete, stopped-server recovery copy.</h2>
+            <ol>
+              <li>Schedule a maintenance window and block normal joins. Disconnect players and prevent integrations, scheduled commands, and operators from changing CoreChatX data during the migration.</li>
+              <li>Stop standalone Paper, or stop Velocity and all affected Paper backends gracefully. Preserve the 2026.2.6 JARs and copy the complete plugin folders to a separate backup location.</li>
+              <li>For standalone, preserve the runtime files such as <code>playerdata.yml</code>, <code>state.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, <code>mutedata.yml</code>, and <code>discordlinks.yml</code>. For Velocity, preserve <strong>all</strong> of <code>data/groups/</code>; do not rename its encoded directories or copy only one group.</li>
+              <li>Record representative existing player values: nickname, locale, active and hidden channels, notification preferences, ignores, mutes, Discord links, and global chat state. On a network, record players in each group.</li>
+              <li>Have a MySQL database and a dedicated account ready. Use an empty dedicated database for the first migration; CoreChatX checks that each target scope has no existing runtime data or active owner. The account needs runtime read/write access and the schema creation/alteration permissions used by automatic schema migration.</li>
+              <li>Check database reachability from the owning server, verified TLS, free space for backups and staging, and access to the server console. Keep the staging database separate from production; never start two copies against the same storage identity.</li>
+            </ol>
+            <p>The built-in storage backup created later is an additional verified archive. It excludes credentials and storage configuration, so it does not replace this full plugin-folder backup. Keep any existing journals and rollback directories with their installation.</p>
+          </section>
+
+          <section class="fb-doc-section" id="upgrade">
+            <p class="fb-eyebrow">2. Upgrade while using YAML</p>
+            <h2>Load your existing data with 2026.3.0.</h2>
+            <ol>
+              <li>Replace the plugin JAR with the <a href="./installation.html#artifacts">2026.3.0 artifact for that platform</a>. Remove the old JAR from the live <code>plugins/</code> directory, retaining the backup. On a network, update Velocity and every Paper backend together: 2026.3.0 uses protocol <code>29</code>, so do not mix builds.</li>
+              <li>Keep your existing configuration and runtime files. Start the storage owner with joins still blocked and YAML selected. Let 2026.3.0 generate or supplement its configuration, then inspect startup logs and run <code>ccxstorage status</code> from that console.</li>
+              <li>Confirm the selected backend is YAML and the deployment identity is the one you intend to migrate. For Velocity, confirm every existing <code>network-channel</code> group in <code>velocity-config.properties</code> is still present.</li>
+              <li>Stop the owner gracefully again before editing the generated storage configuration. Keep proxy Paper backends stopped until the proxy has completed its migration.</li>
+            </ol>
+            <p>If the source files are missing, malformed, or unexpectedly empty, stop here and resolve the source problem from your backup. Do not initialize an empty MySQL installation in place of an intended migration.</p>
+          </section>
+
+          <section class="fb-doc-section" id="configure">
+            <p class="fb-eyebrow">3. Configure the connection</p>
+            <h2>Provide database settings while leaving YAML authoritative.</h2>
+            <p>Merge the relevant example into the generated file, retaining its other timeout, pool, and executor settings. Replace the example database host, database name, and username with your own. Keep your existing namespace and scope values if they differ from the defaults shown here.</p>
+            <h3>Standalone: <code>storage.yml</code></h3>
+            <div class="fb-code-block"><pre><code class="language-yaml"># Partial example: retain the other generated settings.
+storage:
+  backend: "YAML"
+  namespace: "production"
+  scope: "main"
+  mysql:
+    host: "db.example.net"
+    port: 3306
+    database: "corechatx"
+    username: "corechatx"
+    password: ""
+    password-env: "CORECHATX_MYSQL_PASSWORD"
+    ssl-mode: "VERIFY_IDENTITY"
+    schema-auto-migrate: true</code></pre></div>
+            <h3>Velocity: <code>velocity-storage.yml</code></h3>
+            <div class="fb-code-block"><pre><code class="language-yaml"># Partial example: retain the other generated settings.
+storage:
+  backend: "YAML"
+  namespace: "production"
+  operation-timeout-ms: 15000
+  mysql:
+    host: "db.example.net"
+    port: 3306
+    database: "corechatx"
+    username: "corechatx"
+    password: ""
+    password-env: "CORECHATX_MYSQL_PASSWORD"
+    ssl-mode: "VERIFY_IDENTITY"
+    schema-auto-migrate: true</code></pre></div>
+            <ul>
+              <li>Set <code>CORECHATX_MYSQL_PASSWORD</code> in the environment inherited by the Java server process or its service. Setting it in an unrelated shell will not update an already running server. A nonblank environment value overrides the inline password.</li>
+              <li><code>VERIFY_IDENTITY</code> requires a trusted database certificate matching the configured hostname. Configure trust for the Java runtime that launches the owner; resolve certificate errors before continuing.</li>
+              <li><code>schema-auto-migrate: true</code> lets CoreChatX apply its checksummed schema migrations, including <code>V003</code> for the persistent-channel preference. If your database policy requires <code>false</code>, arrange the required CoreChatX schema with your database administrator first; an incomplete schema is rejected.</li>
+              <li>Velocity derives scopes from its configured network-channel groups. There is no standalone-style <code>storage.scope</code> setting on Velocity. Preserve the group list and Paper group assignments.</li>
+            </ul>
+            <p>Start the owner again with <code>backend: "YAML"</code>. Storage connection settings and identity are bound at startup; <code>/corechatx reload</code> is not sufficient. Keep normal traffic blocked and continue with <a href="#paper">Paper</a> or <a href="#velocity">Velocity</a>.</p>
+            <p>Full defaults: <a href="./configuration.html#4-12-storage-yml">Paper storage</a> and <a href="./configuration.html#velocity-storage">Velocity storage</a>.</p>
+          </section>
+
+          <section class="fb-doc-section" id="paper">
+            <p class="fb-eyebrow">4A. Standalone Paper</p>
+            <h2>Validate, plan, and import the standalone data.</h2>
+            <p>Use the <strong>Paper server console</strong>. Command examples on this page omit the leading slash for console entry. Replace angle-bracket placeholders with returned values; do not paste the brackets. Run commands one at a time and wait for each final result.</p>
+            <h3>Check the source, connection, and backup</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
+ccxstorage check files
+ccxstorage check mysql
+ccxstorage backup files
+ccxstorage backup list
+ccxstorage backup verify &lt;backup-id-or-file&gt;</code></pre></div>
+            <p>Expect the intended YAML identity, an open maintenance gate, no unfinished transition, a valid YAML snapshot, a successful MySQL check, and a verified backup. Keep the reported hashes, counts, and backup location. Resolve failures before planning.</p>
+            <h3>Create the plan</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql plan</code></pre></div>
+            <p>Copy <code>run</code> and <code>confirmation-token</code> from the result and review its scope, source hash, and counts. The token expires after <strong>10 minutes</strong>. Planning records a durable run but does not import player data. Keep the source unchanged between plan and execute.</p>
+            <h3>Execute and verify before changing backend</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql execute &lt;run-uuid&gt; &lt;confirmation-token&gt;
+ccxstorage migrate files-to-mysql status
+ccxstorage check parity &lt;run-uuid&gt;</code></pre></div>
+            <p>Execution drains pending mutations, flushes YAML, checks that the source still matches the plan, creates a verified backup, checks the target is empty, imports the canonical snapshot, and verifies parity. YAML then remains frozen under a durable journal.</p>
+            <p>Continue only after the migration reports successful verification and instructs you to change <code>storage.backend</code> to <code>MYSQL</code> and restart. The database run is <code>VERIFIED_PENDING_CUTOVER</code>; migration is not yet active. Proceed to <a href="#cutover">activation</a>. On any error, use <a href="#recovery">recovery</a>.</p>
+          </section>
+
+          <section class="fb-doc-section" id="velocity">
+            <p class="fb-eyebrow">4B. Velocity network</p>
+            <h2>Migrate all configured groups in one transition.</h2>
+            <p>Use the <strong>Velocity console</strong>, with normal joins blocked and Paper backends stopped. Commands below omit the leading slash. Run them one at a time, wait for each final result, and replace angle-bracket placeholders without including the brackets. Even a one-group proxy uses <code>--all-scopes</code> for backend transitions because Velocity has one global backend selection.</p>
+            <h3>Check and back up every group</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
+ccxstorage check files --all-scopes
+ccxstorage check mysql --all-scopes
+ccxstorage backup files --all-scopes
+ccxstorage backup list
+ccxstorage backup verify &lt;backup-id-or-file&gt;</code></pre></div>
+            <p>Confirm the expected group list, valid source snapshots, successful MySQL checks, and no unfinished transition. Repeat <code>backup verify</code> for <strong>each</strong> returned archive. Read-only checks and backups can also select <code>--scope &lt;group&gt;</code>; the migration itself cannot switch only one group.</p>
+            <h3>Plan every group</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql plan --all-scopes</code></pre></div>
+            <p>The result contains a scope, run UUID, source hash, token, and expiry for each group. Copy the exact scope strings, such as <code>corechatx:main</code>, rather than Paper server names or encoded folder names. All tokens expire after 10 minutes.</p>
+            <h3>Supply every group confirmation in one command</h3>
+            <p>For a proxy with only <code>corechatx:main</code>:</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql execute --all-scopes corechatx:main=&lt;run-uuid&gt;=&lt;confirmation-token&gt;</code></pre></div>
+            <p>For an example proxy with exactly <code>corechatx:survival</code> and <code>corechatx:creative</code>, use one line containing both confirmations:</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql execute --all-scopes corechatx:survival=&lt;survival-run-uuid&gt;=&lt;survival-token&gt; corechatx:creative=&lt;creative-run-uuid&gt;=&lt;creative-token&gt;</code></pre></div>
+            <p>Use only the example matching your actual group list, substitute all values, and include every configured group exactly once. Do not run both examples or change the group configuration to fit an example.</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage migrate files-to-mysql status --all-scopes
+ccxstorage check parity --all-scopes</code></pre></div>
+            <p>CoreChatX freezes all groups and publishes their journals before import. Continue only when <strong>every scope</strong> is verified and the console instructs you to change the backend and restart. A partial import is a recovery case, not permission to activate the completed groups. Continue with <a href="#cutover">activation</a>.</p>
+          </section>
+
+          <section class="fb-doc-section" id="cutover">
+            <p class="fb-eyebrow">5. Activate MySQL</p>
+            <h2>Follow the verified migration's restart instruction.</h2>
+            <ol>
+              <li>After successful execution and parity checks, stop the storage owner gracefully. Preserve the source YAML, generated backups, and transition journals.</li>
+              <li>In standalone <code>storage.yml</code> or proxy <code>velocity-storage.yml</code>, change only <code>storage.backend</code> from <code>YAML</code> to <code>MYSQL</code>. Retain the exact database, namespace, and scope/group identity used by the plan.</li>
+              <li>Start the owner with the database reachable and normal joins still blocked. Startup verifies the pending run, acquires the authoritative lease, loads runtime state, activates MySQL, and closes the local transition journal.</li>
+              <li>Inspect startup logs and <code>ccxstorage status</code>. Expect the intended MYSQL identity, an open gate, and no open transition. Confirm the migration run is <code>ACTIVE</code> in its status/history output.</li>
+              <li>For Velocity, start the updated Paper backends after the proxy is ready. Keep them in <code>PROXY</code> mode with their original group assignments, then admit only your test players.</li>
+            </ol>
+            <div class="fb-callout fb-callout--info"><p>If MySQL startup fails, CoreChatX keeps storage-dependent services unavailable instead of falling back to YAML. Fix the reported database, schema, lease, or recovery problem. Editing the backend back to YAML is not a rollback.</p></div>
+          </section>
+
+          <section class="fb-doc-section" id="validate">
+            <p class="fb-eyebrow">6. Verify before reopening</p>
+            <h2>Check stored data and player-visible behavior.</h2>
+            <h3>Standalone console</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
+ccxstorage check mysql
+ccxstorage migrate files-to-mysql status
+ccxstorage history
+ccxstorage backup mysql
+ccxstorage backup verify &lt;backup-id-or-file&gt;</code></pre></div>
+            <h3>Velocity console</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
+ccxstorage check mysql --all-scopes
+ccxstorage migrate files-to-mysql status --all-scopes
+ccxstorage history --all-scopes
+ccxstorage backup mysql --all-scopes
+ccxstorage backup verify &lt;backup-id-or-file&gt;</code></pre></div>
+            <p>Verify every proxy backup archive separately. <code>backup mysql</code> produces a logical CoreChatX snapshot; also retain your normal database backup policy. <code>check parity</code> is for an open migration/rollback transition, not a routine comparison against stale YAML after MySQL becomes active.</p>
+            <ul>
+              <li>Compare the representative player values recorded before migration. Confirm nickname, locale, ignores, mutes, hidden channels, Discord links, and global settings survived.</li>
+              <li>Change a harmless preference through <code>/ccxsettings</code>, wait for its success response, reconnect, and restart the owner once more. Confirm the committed value survives. Existing players default to <strong>Persistent</strong> channels; test both compass choices.</li>
+              <li>Test public/channel chat, private messages, permissions, moderation, and the enabled Discord or Telegram features with authenticated players.</li>
+              <li>On Velocity, test cross-server traffic and backend transfers inside each group, plus isolation between different groups.</li>
+              <li>In staging, rehearse <a href="#rollback">rollback</a>, restart interruptions, and database unavailability. Measure performance on representative data and load before production acceptance.</li>
+            </ul>
+            <p>Reopen access only after the checks required for your installation pass. Keep the original recovery copy and verified archives. Complete the <a href="./installation.html#validate">runtime acceptance checks for your installation</a> before reopening.</p>
+          </section>
+
+          <section class="fb-doc-section" id="rollback">
+            <h2>Return to YAML using the latest MySQL data.</h2>
+            <p>This is a <strong>storage rollback within 2026.3.0</strong>. It is not a downgrade to 2026.2.6. Block joins and data changes again, keep the MySQL connection available, and use the storage owner's console.</p>
+            <h3>Standalone Paper</h3>
+            <p>Plan first, then use the new rollback run UUID and token from that result:</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files plan
+ccxstorage rollback mysql-to-files execute &lt;rollback-run-uuid&gt; &lt;rollback-token&gt;
+ccxstorage rollback mysql-to-files status
+ccxstorage check parity &lt;rollback-run-uuid&gt;</code></pre></div>
+            <h3>Velocity</h3>
+            <p>Plan every group, then supply one <code>group=run=token</code> entry per configured group on the same execute line. The example below is for a proxy whose only group is <code>corechatx:main</code>:</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage rollback mysql-to-files plan --all-scopes
+ccxstorage rollback mysql-to-files execute --all-scopes corechatx:main=&lt;rollback-run-uuid&gt;=&lt;rollback-token&gt;
+ccxstorage rollback mysql-to-files status --all-scopes
+ccxstorage check parity --all-scopes</code></pre></div>
+            <p>For multiple groups, use the same all-group confirmation format as the forward migration, with the <strong>new rollback</strong> UUIDs and tokens. Do not reuse forward-migration confirmations.</p>
+            <ol>
+              <li>Wait for successful staging/verification and the explicit instruction to select YAML. MySQL remains frozen during this transition.</li>
+              <li>Stop the owner, change only <code>storage.backend</code> to <code>YAML</code>, and restart. Keep the database reachable: startup still verifies the durable rollback evidence.</li>
+              <li>CoreChatX promotes the staged files, retains former files under <code>storage-rollbacks/&lt;run&gt;-originals</code>, verifies parity, and activates YAML. Confirm <code>status</code> reports an open gate with no open transition; run <code>check files</code> on Paper or <code>check files --all-scopes</code> on Velocity.</li>
+              <li>Repeat player checks and make a fresh verified files backup before reopening.</li>
+            </ol>
+            <p>Do not restore the pre-migration YAML archive over an installation that has accepted newer MySQL writes: those writes would be lost. A downgrade to 2026.2.6 needs a separately planned and tested full restoration with an explicit data-loss boundary. Replacing the JAR is not a database downgrade; older MySQL-capable builds also reject schema version 3.</p>
+          </section>
+
+          <section class="fb-doc-section" id="recovery">
+            <h2>Recover from an interruption without discarding evidence.</h2>
+            <p>If execute, restart, or resume fails, keep traffic blocked and preserve the whole plugin folder, backups, journals, staging files, and console output. Recovery-only startup keeps the mutation gate closed, but its server socket may still accept connections without normal CoreChatX gameplay services. Keep joins blocked until recovery and the required restart have completed. Do not delete a journal, edit frozen YAML, truncate database tables, or change namespace/groups to bypass the error.</p>
+            <div class="fb-table-wrap" tabindex="0" aria-label="Migration problems and recovery actions">
+              <table class="fb-table--striped fb-table--comfortable">
+                <thead><tr><th>Observed problem</th><th>Next action</th></tr></thead>
+                <tbody>
+                  <tr><td>Connection, authentication, TLS, or schema check fails</td><td>Correct the owning process's connection/environment or database setup. Restart to apply edited storage settings; rerun checks before planning.</td></tr>
+                  <tr><td>Target is nonempty or has another active owner</td><td>Verify the intended database and storage identity. Keep the existing data; do not force-import or erase it. Resolve ownership or select a deliberately isolated migration target before creating a new plan.</td></tr>
+                  <tr><td>Token expired, was lost, or the source changed after planning</td><td>Inspect the existing run. Use the direction-specific safe abort, then create a fresh plan after the source is stable. If execution already created a journal, follow recovery state; do not blindly execute a new run.</td></tr>
+                  <tr><td>Process stopped during import or file promotion</td><td>Start the same installation with its journals intact. Read status/history and use the matching resume command when the recorded state supports it. Run parity checks for the open transition; follow the returned restart instruction.</td></tr>
+                  <tr><td>Abort cannot prove the database state is safe</td><td>Keep storage frozen and restore database access so recovery can inspect the durable run. Do not reopen YAML manually. After a successful abort in recovery-only mode, restart as instructed to reconstruct normal services. A fresh plan uses new run IDs and tokens; a verified abort does not require deleting the old journal.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Run IDs are valid only for the configured namespace and storage scope. Aborting a planned or failed files-to-MySQL run changes its history without deleting runtime data. An imported run can remove its staged rows only with unchanged canonical contents, no active runtime lease and no other incomplete transition. Changed data or an ambiguous <code>RUNNING</code> state causes abort to refuse deletion; preserve the files and database while investigating.</p>
+            <p>If Paper reports malformed or unreadable persistent YAML, repair the identified file or restore a verified backup. It will not replace the file with empty defaults. A failed player/global reload also prevents later flushes until a successful reload; deleting live data is not a recovery step.</p>
+            <p>Use these corrected 2026.3.0 builds throughout recovery. Verified aborts are recorded as <code>ABORTED</code>; earlier builds cannot read that new local state. Do not downgrade JARs or edit the journal to force acceptance. If a process loses its database lease to another owner, restore database access and restart the intended owner after resolving the conflict; the retired process cannot safely resume writes.</p>
+            <h3>Standalone recovery commands</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
+ccxstorage history
+ccxstorage migrate files-to-mysql status
+ccxstorage migrate files-to-mysql resume &lt;run-uuid&gt; [confirmation-token]
+ccxstorage migrate files-to-mysql abort &lt;run-uuid&gt;
+ccxstorage rollback mysql-to-files status
+ccxstorage rollback mysql-to-files resume &lt;run-uuid&gt; [confirmation-token]
+ccxstorage rollback mysql-to-files abort &lt;run-uuid&gt;</code></pre></div>
+            <h3>Velocity recovery commands</h3>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">ccxstorage status
+ccxstorage history --all-scopes
+ccxstorage migrate files-to-mysql status --all-scopes
+ccxstorage migrate files-to-mysql resume --all-scopes [&lt;group&gt;=&lt;token&gt; ...]
+ccxstorage migrate files-to-mysql abort --all-scopes
+ccxstorage rollback mysql-to-files status --all-scopes
+ccxstorage rollback mysql-to-files resume --all-scopes [&lt;group&gt;=&lt;token&gt; ...]
+ccxstorage rollback mysql-to-files abort --all-scopes</code></pre></div>
+            <p>These are alternatives, not a script to run from top to bottom. Choose the operation matching the open transition. Square brackets denote optional confirmation arguments required by some pre-import states; omit the brackets when entering a command. Resume does not bypass expired tokens or invalid state. Once MySQL is active, use a new rollback plan rather than trying to abort the completed forward migration.</p>
+            <div class="fb-cluster">
+              <a class="fb-button" href="./configuration.html#storage-maintenance">Full storage command reference</a>
+              <a class="fb-button fb-button--secondary" href="./changelog.html">2026.3.0 release notes</a>
+            </div>
+          </section>
+        </article>
+      </div>
+    </main>
+
+    <footer class="fb-site-footer">
+      <div class="fb-container fb-container--wide fb-stack">
+        <div class="fb-grid fb-grid--2">
+          <div class="fb-flow">
+            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
+              <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
+              <span>CoreChatX</span>
+            </a>
+            <p>Chat and communication for Paper servers and Velocity networks.</p>
+          </div>
+          <nav class="fb-cluster" aria-label="Footer navigation">
+            <a href="./features.html">Features</a>
+            <a href="./installation.html">Setup</a>
+            <a href="./docs.html">Documentation</a>
+            <a href="./faq.html">FAQ</a>
+            <a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a>
+          </nav>
+        </div>
+        <div class="fb-cluster corechatx-footer-meta">
+          <span>Copyright 2026 CoreChatX.</span>
+          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
+        </div>
+      </div>
+    </footer>
+    <script src="./assets/vendor/highlightjs/highlight.min.js"></script>
+    <script src="./assets/vendor/highlightjs/languages/properties.min.js"></script>
+    <script src="./assets/site.js"></script>
+  </body>
+</html>

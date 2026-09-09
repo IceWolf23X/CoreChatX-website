@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Complete CoreChatX 2026.2.6 configuration guide with every Paper and Velocity file, default value, explanation, command, permission, limit, and troubleshooting step.">
+    <meta name="description" content="Complete CoreChatX 2026.3.0 configuration guide with every Paper and Velocity file, default value, explanation, command, permission, limit, and troubleshooting step.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/configuration.html">
     <meta property="og:type" content="article">
@@ -44,7 +44,7 @@
     <main id="main" class="fb-main">
       <header class="fb-doc-header corechatx-page-hero">
         <div class="fb-container fb-container--wide">
-          <p class="fb-eyebrow">Complete guide for 2026.2.6</p>
+          <p class="fb-eyebrow">Complete guide for 2026.3.0</p>
           <h1>Every configuration file and setting, explained.</h1>
           <p class="fb-lead">Use the index to open a Paper or Velocity file, check its default values, understand what each option changes, or find commands, permissions, and troubleshooting help.</p>
           <div class="fb-cluster">
@@ -77,6 +77,8 @@
           <a class="corechatx-toc-subitem" href="#4-10-discord-yml">4.10 <code>discord.yml</code></a>
           <a class="corechatx-toc-subitem" href="#4-11-telegram-yml">4.11 <code>telegram.yml</code></a>
           <a class="corechatx-toc-subitem" href="#4-12-storage-yml">4.12 <code>storage.yml</code></a>
+          <a class="corechatx-toc-subitem" href="#storage-maintenance">Storage maintenance</a>
+          <a class="corechatx-toc-subitem" href="#channel-persistence">Channel persistence</a>
           <a class="corechatx-toc-subitem" href="#4-13-locales-en-us-yml">4.13 <code>locales/en_us.yml</code></a>
           <a href="#5-paper-runtime-data-files">5. Paper Saved Data Files</a>
           <a class="corechatx-toc-subitem" href="#5-1-playerdata-yml">5.1 <code>playerdata.yml</code></a>
@@ -87,8 +89,9 @@
           <a class="corechatx-toc-subitem" href="#5-6-discordlinks-yml">5.6 <code>discordlinks.yml</code></a>
           <a href="#6-velocity-proxy">6. Velocity Proxy</a>
           <a class="corechatx-toc-subitem" href="#6-1-velocity-config-properties">6.1 <code>velocity-config.properties</code></a>
-          <a class="corechatx-toc-subitem" href="#6-2-velocity-messages-yml">6.2 <code>velocity-messages.yml</code></a>
-          <a class="corechatx-toc-subitem" href="#6-3-velocity-discord-yml">6.3 <code>velocity-discord.yml</code></a>
+          <a class="corechatx-toc-subitem" href="#velocity-storage">6.2 <code>velocity-storage.yml</code></a>
+          <a class="corechatx-toc-subitem" href="#6-2-velocity-messages-yml">6.3 <code>velocity-messages.yml</code></a>
+          <a class="corechatx-toc-subitem" href="#6-3-velocity-discord-yml">6.4 <code>velocity-discord.yml</code></a>
           <a href="#7-regenerating-a-clean-config-set">7. Regenerating a Clean Config Set</a>
           <a href="#8-command-reference">8. Command Reference</a>
           <a href="#9-permission-reference">9. Permission Reference</a>
@@ -105,8 +108,8 @@
             <p>This is the detailed guide for server owners who have installed CoreChatX and want to configure it. If this is your first installation, follow the <a href="./installation.html">setup guide</a> first.</p>
             <p>What you need:</p>
             <ul>
-              <li>Java 21</li>
-              <li>Paper <code>1.21.11</code> for every Minecraft server</li>
+              <li>Java 21 for Paper 1.21.11; Java 25 for Paper 26.1/26.2. Follow the <a href="https://docs.papermc.io/paper/getting-started/#requirements">Paper Java requirements</a> for your server version.</li>
+              <li>Paper <code>1.21.11 - 26.2</code> for every Minecraft server</li>
               <li>Velocity only when CoreChatX must connect multiple Paper servers</li>
               <li>the Paper CoreChatX jar installed only on Paper servers</li>
               <li>the Velocity CoreChatX jar installed only on Velocity</li>
@@ -200,7 +203,8 @@ discordlinks.yml</code></pre></div>
             <h3 id="files-created-from-bundled-defaults-on-velocity">Files created from bundled defaults on Velocity</h3>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">velocity-config.properties
 velocity-discord.yml
-velocity-messages.yml</code></pre></div>
+velocity-messages.yml
+velocity-storage.yml</code></pre></div>
             <h3 id="additional-velocity-runtime-files-created-on-demand">Velocity data files created when needed</h3>
             <p>Each CoreChatX group has its own folder:</p>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">data/groups/&lt;encoded-channel&gt;/player-state.yml
@@ -208,7 +212,7 @@ data/groups/&lt;encoded-channel&gt;/discord-links.yml
 data/groups/&lt;encoded-channel&gt;/privacy.yml
 data/groups/&lt;encoded-channel&gt;/moderation.yml
 data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
-            <p>These files contain shared player settings, Discord links, privacy choices, mutes, and global chat settings. Back up the complete <code>plugins/corechatx/data/groups/</code> folder when moving or restoring a Velocity installation.</p>
+            <p>With YAML, these files contain shared player settings, Discord links, privacy choices, mutes, and global chat settings. Back up the complete <code>plugins/corechatx/data/groups/</code> folder. With MySQL, back up the database and keep configuration, logical backups, and transition journals from the plugin folder.</p>
           </section>
           <section class="fb-doc-section" id="2-reload-vs-restart">
             <h2>2. Reload vs Restart</h2>
@@ -225,7 +229,7 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
               <li><code>channels.yml</code></li>
               <li><code>privacy.yml</code></li>
               <li><code>moderation.yml</code></li>
-              <li><code>storage.yml</code></li>
+              <li><code>storage.yml</code> may be reread, but backend, identity, MySQL connections, admission timeouts, and the unavailable message require restart</li>
               <li><code>discord.yml</code></li>
               <li><code>telegram.yml</code></li>
               <li>locale files under <code>locales/</code></li>
@@ -236,6 +240,7 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
               <li><code>config.yml -&gt; deployment.server-id</code></li>
               <li><code>config.yml -&gt; deployment.network-channel</code></li>
               <li>switching a Paper server between standalone and Velocity mode</li>
+              <li><code>storage.yml</code> backend/identity and <code>storage.mysql.*</code> settings, including admission and operation bounds</li>
               <li>any Velocity configuration file; Velocity does not have a CoreChatX reload command</li>
               <li>the Velocity <code>network-channel</code>; every affected Paper server must use the same new <code>deployment.network-channel</code></li>
             </ul>
@@ -249,7 +254,8 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
               <li>install <code>corechatx-velocity-&lt;version&gt;.jar</code> on Velocity</li>
               <li>Do not install the Paper jar on Velocity, and do not install the Velocity jar on Paper.</li>
             </ul>
-          </section>
+          <p>Paper starts and stops Discord asynchronously. A successful <code>/corechatx reload</code> does not wait for bot token verification or gateway readiness; Minecraft commands remain available while Discord reconnects. Retired connections cannot reactivate the previous bridge.</p>
+          <p>Ordinary Paper reloads retain proxy player mirrors and pending requests, then refresh cached/online state asynchronously. Existing values remain readable until the refresh completes. Editing mode, server ID, or network channel retains the active boot identity and logs a restart-required warning.</p><p>Install matching Paper and Velocity 2026.3.0 JARs together: protocol 29 carries the new preference and storage operations.</p></section>
           <section class="fb-doc-section" id="3-quick-install-patterns">
             <h2>3. Quick Install Patterns</h2>
             <h3 id="standalone-paper">Standalone Paper</h3>
@@ -317,7 +323,7 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
               <li>set <code>deployment.network-features-allowed: true</code> on each Paper server using cross-server features</li>
               <li>restart affected Paper servers and Velocity after changing the server ID or network group</li>
             </ul>
-            <p>When upgrading from <code>2026.2.0</code>, let CoreChatX create fresh Paper and Velocity configuration files. Then restore your server-specific mode, IDs, groups, channels, Discord token, routes, and required role IDs. In <code>PROXY</code> mode, use the shared player data saved by Velocity instead of copying old Paper player-data files.</p>
+            <p>When upgrading from <code>2026.2.6</code>, back up the complete plugin folders and preserve existing configuration and data. Missing default keys are added automatically. For YAML-to-MySQL conversion, follow the <a href="./migration.html">migration guide</a>; keep the original mode, server IDs, groups, routes, and storage identity until the workflow instructs you to change them.</p>
             <p>For bridge installs:</p>
             <ul>
               <li>keep <code>deployment.bridges-allowed: true</code></li>
@@ -365,7 +371,7 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
             <div class="fb-code-block"><pre><code class="language-yaml"># Core plugin settings.
 
 deployment:
-  # STANDALONE = Paper-only mode. Runtime player data is stored in this backend's YAML files.
+  # STANDALONE = Paper-owned runtime data, using the backend selected in storage.yml.
   # PROXY = Velocity-backed network mode. Runtime player data is owned by the CoreChatX Velocity module.
   # Changing this mode requires a full restart.
   mode: &quot;STANDALONE&quot;
@@ -432,7 +438,7 @@ reload:
   show-summary: true</code></pre></div>
             <p>What to know:</p>
             <ul>
-              <li><code>deployment.mode</code>, <code>deployment.server-id</code>, and <code>deployment.network-channel</code> require restart</li>
+              <li><code>deployment.mode</code>, <code>deployment.server-id</code>, and <code>deployment.network-channel</code> require restart. Setting <code>deployment.require-full-restart-on-mode-change: false</code> does not allow changing the active identity with reload.</li>
               <li>the startup log shows the CoreChatX version, platform, selected mode, server ID, and network group</li>
               <li>if the network group is invalid, CoreChatX disables cross-server features and explains the problem in the log</li>
               <li>network groups must be lowercase and include a colon, such as <code>corechatx:main</code> or <code>corechatx:network/main</code></li>
@@ -634,18 +640,19 @@ broadcast:
 nickname:
   changed: &quot;{prefix} &lt;gray&gt;Your nickname is now &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
   cleared: &quot;{prefix} &lt;gray&gt;Your nickname has been cleared.&lt;/gray&gt;&quot;
-  changed-other: &quot;{prefix} &lt;gray&gt;Set &lt;white&gt;{target_name}&lt;/white&gt;'s nickname to &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
-  cleared-other: &quot;{prefix} &lt;gray&gt;Cleared &lt;white&gt;{target_name}&lt;/white&gt;'s nickname.&lt;/gray&gt;&quot;
+  changed-other: &quot;{prefix} &lt;gray&gt;Set &lt;white&gt;{target_name}&lt;/white&gt;&#x27;s nickname to &lt;white&gt;{nickname}&lt;/white&gt;.&lt;/gray&gt;&quot;
+  cleared-other: &quot;{prefix} &lt;gray&gt;Cleared &lt;white&gt;{target_name}&lt;/white&gt;&#x27;s nickname.&lt;/gray&gt;&quot;
   invalid: &quot;{prefix} &lt;red&gt;That nickname is invalid. Use one visible word after formatting is removed.&lt;/red&gt;&quot;
-  duplicate: &quot;{prefix} &lt;red&gt;That nickname is already used by another player or matches another player's real username.&lt;/red&gt;&quot;
-  name-change-disabled: &quot;{prefix} &lt;red&gt;Nicknames can only change colors/styles. The visible text must stay exactly the player's real Minecraft username.&lt;/red&gt;&quot;
+  duplicate: &quot;{prefix} &lt;red&gt;That nickname is already used by another player or matches another player&#x27;s real username.&lt;/red&gt;&quot;
+  name-change-disabled: &quot;{prefix} &lt;red&gt;Nicknames can only change colors/styles. The visible text must stay exactly the player&#x27;s real Minecraft username.&lt;/red&gt;&quot;
   too-long: &quot;{prefix} &lt;red&gt;Nicknames can be at most &lt;white&gt;{limit}&lt;/white&gt; visible characters.&lt;/red&gt;&quot;
-  realname: &quot;{prefix} &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt;'s real name is &lt;/gray&gt;&lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
+  realname: &quot;{prefix} &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt;&#x27;s real name is &lt;/gray&gt;&lt;white&gt;{player_name}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;&quot;
   realname-not-found: &quot;{prefix} &lt;red&gt;No custom nickname matches that value.&lt;/red&gt;&quot;
 
 discord:
-  link-code: &quot;{prefix} &lt;gray&gt;Use Discord command &lt;white&gt;/link code:{code}&lt;/white&gt; within &lt;white&gt;{minutes}&lt;/white&gt; minute(s) to link your account.&lt;/gray&gt;&quot;
-  link-required-kick: &quot;&lt;red&gt;You must link your Discord account to play.&lt;/red&gt;\n&lt;gray&gt;Use Discord command &lt;/gray&gt;&lt;white&gt;/link code:{code}&lt;/white&gt;&lt;gray&gt; within &lt;/gray&gt;&lt;white&gt;{minutes}&lt;/white&gt;&lt;gray&gt; minute(s).&lt;/gray&gt;&quot;
+  link-check-unavailable-kick: &quot;&lt;red&gt;Discord account link verification is temporarily unavailable. Try again later.&lt;/red&gt;&quot;
+  link-code: &quot;{prefix} &lt;gray&gt;Use Discord command &lt;white&gt;/{link_command} code:{code}&lt;/white&gt; within &lt;white&gt;{minutes}&lt;/white&gt; minute(s) to link your account.&lt;/gray&gt;&quot;
+  link-required-kick: &quot;&lt;red&gt;You must link your Discord account to play.&lt;/red&gt;\n&lt;gray&gt;Use Discord command &lt;/gray&gt;&lt;white&gt;/{link_command} code:{code}&lt;/white&gt;&lt;gray&gt; within &lt;/gray&gt;&lt;white&gt;{minutes}&lt;/white&gt;&lt;gray&gt; minute(s).&lt;/gray&gt;&quot;
   missing-required-role-kick: &quot;&lt;red&gt;Your Discord account is linked, but you do not have the required Discord role to play.&lt;/red&gt;&quot;
   role-check-unavailable-kick: &quot;&lt;red&gt;Discord role verification is temporarily unavailable. Try again later.&lt;/red&gt;&quot;
   already-linked: &quot;{prefix} &lt;yellow&gt;Your Minecraft account is already linked to Discord. Use &lt;white&gt;/discord unlink&lt;/white&gt; first.&lt;/yellow&gt;&quot;
@@ -1276,6 +1283,7 @@ renderer:
           <section class="fb-doc-section" id="4-10-discord-yml">
             <span id="bridges" class="corechatx-anchor-alias" aria-hidden="true"></span>
             <h2>4.10 <code>discord.yml</code></h2>
+            <p>Use <code>{link_command}</code> for the Discord command name without <code>/</code>, for example <code>/{link_command} code:{code}</code>. It reads <code>account-linking.link-command-name</code> from the standalone bot or the Velocity authority. Exact older stock messages are adapted automatically; add the placeholder manually to customized messages.</p>
             <p>Purpose:</p>
             <ul>
               <li>outgoing Discord message formats and destinations</li>
@@ -1294,7 +1302,7 @@ renderer:
 account-linking:
   # Master switch for Discord-Minecraft account linking.
   # STANDALONE: this backend owns the bot, link codes, linked accounts and optional Discord role checks.
-  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity's velocity-discord.yml instead.
+  # PROXY: configure the bot, Discord bridge routes and login gates in Velocity&#x27;s velocity-discord.yml instead.
   # Paper keeps this file for standalone setups and local formatting only.
   enabled: false
   # If true, linked Discord members get their server nickname synced to their Minecraft nickname.
@@ -1303,7 +1311,8 @@ account-linking:
   # If true, unlinked Discord users cannot write through routed Discord inbound channels.
   # Route and channel overrides can still force true/false for specific destinations.
   require-linked: false
-  # If true, unlinked Minecraft players are kicked after joining the backend with a code to use in Discord command /link code:&lt;code&gt;.
+  # If true, unlinked Minecraft players are kicked with a code for the configured Discord link command.
+  # If linking is unavailable or code creation fails, entry is denied with a temporary-unavailability message.
   require-linked-to-play: false
   required-play-roles:
     # Live whitelist for require-linked-to-play. Linked players must keep at least one listed Discord role.
@@ -1317,7 +1326,7 @@ account-linking:
     role-ids: []
     # If true, kick linked players when Discord role verification cannot be completed.
     deny-if-unverifiable: true
-  # Deletes blocked unlinked messages when the bot has Discord's Manage Messages permission.
+  # Deletes blocked unlinked messages when the bot has Discord&#x27;s Manage Messages permission.
   delete-unlinked-messages: true
   # Sends a private Discord DM explaining why the message was blocked.
   dm-unlinked-users: true
@@ -1336,7 +1345,7 @@ account-linking:
   link-command-name: &quot;link&quot;
   unlink-command-name: &quot;unlink&quot;
   messages:
-    unlinked-dm: &quot;Link your Minecraft account before chatting in this channel. Run /discord link in-game, then use the Discord /link command with that code here.&quot;
+    unlinked-dm: &quot;Link your Minecraft account before chatting in this channel. Run /discord link in-game, then use the Discord /{link_command} command with that code here.&quot;
     linked: &quot;Your Discord account is now linked to {player_name}.&quot;
     unlinked: &quot;Your Discord account has been unlinked.&quot;
     not-linked: &quot;This Discord account is not linked to a Minecraft account.&quot;
@@ -1355,7 +1364,7 @@ discord:
   # This prevents players from pinging Discord users, roles, @everyone or @here by typing raw Discord mention syntax in Minecraft.
   prevent-mentions-from-minecraft: true
   connection-messages:
-    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity's velocity-discord.yml.
+    # STANDALONE only. In PROXY, configure Discord join/quit mirrors in Velocity&#x27;s velocity-discord.yml.
     # If true, CoreChatX mirrors accepted join, first-join and quit messages to Discord.
     # Messages are sent only when the Minecraft join/quit message is actually announced.
     enabled: false
@@ -1386,7 +1395,7 @@ discord:
       first-join-description: &quot;&quot;
       quit-description: &quot;&quot;
   event-messages:
-    # STANDALONE only. In PROXY, configure event mirrors in Velocity's velocity-discord.yml.
+    # STANDALONE only. In PROXY, configure event mirrors in Velocity&#x27;s velocity-discord.yml.
     # If true, CoreChatX mirrors supported server events to Discord.
     # Individual event sections below can still be disabled separately.
     enabled: false
@@ -1449,7 +1458,7 @@ discord:
     allowed-user-ids: []
     allowed-role-ids: []
   player-list:
-    # STANDALONE only. In PROXY mode configure the player-list command in Velocity's velocity-discord.yml.
+    # STANDALONE only. In PROXY mode configure the player-list command in Velocity&#x27;s velocity-discord.yml.
     # Shows online players from this Paper server.
     enabled: false
     # Text command listened in Discord channels visible to the bot. Set to &quot;&quot; to disable the text command.
@@ -1469,7 +1478,7 @@ discord:
       line-format: &quot;- {player_nickname}&quot;
       more-format: &quot;... and {hidden_count} more.&quot;
   channel-description:
-    # STANDALONE only. In PROXY mode configure channel descriptions in Velocity's velocity-discord.yml.
+    # STANDALONE only. In PROXY mode configure channel descriptions in Velocity&#x27;s velocity-discord.yml.
     # Updates the description/topic of Discord text channels.
     enabled: false
     # Discord rate limits channel metadata updates; keep this at 60 seconds or higher.
@@ -1490,7 +1499,7 @@ discord:
       # - channel-id: &quot;123456789012345678&quot;
       #   description: &quot;Players {online}/1000&quot;
   server-status:
-    # STANDALONE only. In PROXY mode configure proxy/backend status messages in Velocity's velocity-discord.yml.
+    # STANDALONE only. In PROXY mode configure proxy/backend status messages in Velocity&#x27;s velocity-discord.yml.
     # Sends Discord embed messages when this standalone server starts and stops cleanly.
     enabled: false
     default:
@@ -1559,6 +1568,8 @@ discord:
               <li>use a separate Discord bot token for each Paper console bot in a Velocity network</li>
               <li>per-channel Discord formats can be configured in <code>channels.yml</code> under <code>channels.&lt;id&gt;.discord.outbound-format</code> and <code>channels.&lt;id&gt;.discord.inbound-format</code></li>
             </ul>
+          <p>When <code>account-linking.require-linked-to-play</code> is enabled, unavailable linking or failed code creation denies unlinked players with <code>link-check-unavailable-kick</code>. Velocity checks before backend entry. <code>deny-if-unverifiable</code> governs only role verification for already linked players and cannot waive the required link.</p>
+            <p>With standalone MySQL, offline linked senders' saved settings are loaded asynchronously, including after restart. Failed reads deny delivery; they do not apply default preferences or reset channels.</p>
           </section>
           <section class="fb-doc-section" id="4-11-telegram-yml">
             <h2>4.11 <code>telegram.yml</code></h2>
@@ -1641,33 +1652,113 @@ telegram:
             </ul>
           </section>
           <section class="fb-doc-section" id="4-12-storage-yml">
+            <span id="storage" class="corechatx-anchor-alias" aria-hidden="true"></span>
             <h2>4.12 <code>storage.yml</code></h2>
-            <p>Purpose:</p>
-            <ul>
-              <li>how CoreChatX saves data</li>
-              <li>reserved SQL settings</li>
-            </ul>
+            <p>Standalone Paper uses <code>YAML</code> by default or an explicitly configured <code>MYSQL</code> authority. Proxy-mode Paper does not open a database connection: configure shared storage on Velocity.</p>
             <p>Current bundled default:</p>
             <div class="fb-code-block"><pre><code class="language-yaml"># Storage defaults.
-# STANDALONE runtime data uses local YAML repositories.
+# STANDALONE runtime data uses YAML by default or the explicitly selected MYSQL backend.
 # PROXY runtime data is owned by Velocity; this file remains local backend configuration.
 
 storage:
   backend: &quot;YAML&quot;
-  sql:
-    enabled: false
-    type: &quot;SQLITE&quot;
-    host: &quot;localhost&quot;
+  # Stable durable identity. Changes require a full server restart.
+  namespace: &quot;production&quot;
+  scope: &quot;main&quot;
+
+  # Used only when backend is MYSQL. CoreChatX never falls back to YAML after a MySQL boot failure.
+  mysql:
+    host: &quot;127.0.0.1&quot;
     port: 3306
     database: &quot;corechatx&quot;
-    username: &quot;user&quot;
-    password: &quot;password&quot;</code></pre></div>
-            <p>Current behavior:</p>
+    username: &quot;corechatx&quot;
+    # Prefer password-env. The environment value overrides this inline fallback.
+    password: &quot;&quot;
+    password-env: &quot;CORECHATX_MYSQL_PASSWORD&quot;
+    ssl-mode: &quot;VERIFY_IDENTITY&quot;
+    connect-timeout-ms: 5000
+    validation-timeout-ms: 3000
+    query-timeout-seconds: 10
+    maximum-pool-size: 6
+    minimum-idle: 1
+    max-lifetime-ms: 1800000
+    keepalive-time-ms: 300000
+    executor-threads: 4
+    executor-queue-capacity: 256
+    # Paper-only bounded waits. Both values accept 1000..60000 milliseconds.
+    login-hydration-timeout-ms: 10000
+    operation-timeout-ms: 15000
+    unavailable-message: &quot;CoreChatX storage is temporarily unavailable. Please try again shortly.&quot;
+    shutdown-timeout-ms: 15000
+    lease-duration-ms: 30000
+    lease-renew-interval-ms: 10000
+    schema-auto-migrate: true</code></pre></div>
+            <h3>Startup, identity, and failures</h3>
             <ul>
-              <li>CoreChatX currently saves data only in YAML files</li>
-              <li>the SQL settings are reserved for future use and do not enable database storage</li>
-              <li>CoreChatX uses safe replacement writes to reduce the risk of damaged YAML files</li>
+              <li><code>storage.backend</code> accepts <code>YAML</code> or <code>MYSQL</code>. Legacy <code>storage.sql.*</code> values only produce a warning and never enable SQL.</li>
+              <li><code>namespace</code> and <code>scope</code> identify saved data. Backend, identity, and MySQL settings require a full restart; reload retains the active boot configuration.</li>
+              <li>Paper loads complete player state before MySQL admission. Database startup, schema, or ownership failures keep storage-dependent gameplay unavailable; there is no automatic YAML fallback.</li>
+              <li>A database lease allows one live owner for a scope. Duplicate owners and expired writers are rejected. After another process takes ownership, the retired writer stays unavailable until restart; resolve the ownership conflict first.</li>
+              <li>Use <code>password-env</code> for an environment-backed password. Its non-blank value overrides <code>password</code>. The default TLS mode is <code>VERIFY_IDENTITY</code>; use a database host name matching its trusted certificate.</li>
             </ul>
+            <p>MySQL settings are also used by explicit MySQL checks, backups, migration, and rollback while YAML is selected. Configure the destination before planning a migration.</p>
+            <h3>Bounds and schema</h3>
+            <ul>
+              <li><code>validation-timeout-ms</code> must be lower than <code>connect-timeout-ms</code>; executor threads must not exceed the pool size. Queue capacity and query timeouts bound database work.</li>
+              <li>Paper <code>storage.mysql.login-hydration-timeout-ms</code> bounds pre-login hydration (default 10000 ms). Paper <code>storage.mysql.operation-timeout-ms</code> bounds operation responses (default 15000 ms). Both accept 1000..60000 ms. Timing out does not cancel an accepted transaction.</li>
+              <li>Paper <code>storage.mysql.unavailable-message</code> is the plain-text admission message when authoritative storage is unavailable. Changes require restart.</li>
+              <li><code>schema-auto-migrate: true</code> installs or resumes required schema versions under an exclusive lock. Version <code>V003</code> adds the channel-persistence preference with a true default. With automatic migration disabled, missing versions prevent startup.</li>
+            </ul>
+            <h3 id="storage-maintenance">Storage maintenance and migration</h3>
+            <p>Upgrading existing YAML data? Follow the <a href="./migration.html">2026.2.6 to 2026.3.0 MySQL migration guide</a> for the complete preparation, platform-specific commands, activation checks, rollback, and recovery sequence.</p>
+            <p><code>/ccxstorage</code> is available on Paper and Velocity, including recovery mode. Inspection and backups require <code>corechatx.command.storage</code> (default <code>op</code> on Paper; granted through the proxy permission provider on Velocity). Migration and rollback changes are console-only.</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight"># Paper standalone examples
+/ccxstorage status
+/ccxstorage check files
+/ccxstorage check mysql
+/ccxstorage backup files
+/ccxstorage backup mysql
+/ccxstorage backup list
+/ccxstorage backup verify &lt;backup-id-or-file&gt;
+/ccxstorage history
+
+# Plan first; execute only with the run UUID and short-lived token emitted by the plan.
+/ccxstorage migrate files-to-mysql plan
+/ccxstorage migrate files-to-mysql execute &lt;run-uuid&gt; &lt;confirmation-token&gt;
+/ccxstorage check parity &lt;run-uuid&gt;
+/ccxstorage migrate files-to-mysql status
+/ccxstorage migrate files-to-mysql resume &lt;run-uuid&gt; [confirmation-token]
+/ccxstorage migrate files-to-mysql abort &lt;run-uuid&gt;
+
+# Rollback exports the latest database state.
+/ccxstorage rollback mysql-to-files plan
+/ccxstorage rollback mysql-to-files execute &lt;run-uuid&gt; &lt;confirmation-token&gt;
+/ccxstorage rollback mysql-to-files status
+/ccxstorage rollback mysql-to-files resume &lt;run-uuid&gt; [confirmation-token]
+/ccxstorage rollback mysql-to-files abort &lt;run-uuid&gt;</code></pre></div>
+            <ol>
+              <li>Back up configuration and live data, validate the source, then create a migration plan. The destination must be empty.</li>
+              <li>Confirmed execution drains accepted writes, flushes YAML, rechecks the source, creates a verified backup, imports, and checks parity. A durable journal keeps mutations frozen until activation finishes.</li>
+              <li>Follow the command's exact terminal instruction to change <code>storage.backend</code> and restart. Changing the setting alone does not move existing data.</li>
+              <li>If interrupted, inspect status and use the matching resume or abort command. Preserve the journal and original data; do not force an unverified backend switch.</li>
+            </ol>
+            <p>A verified abort records <code>ABORTED</code>, while <code>CLOSED</code> means completed cutover. Create a fresh plan after a safe abort without deleting journals, using the new run IDs and tokens. Earlier builds cannot read the new <code>ABORTED</code> state. On Velocity, <code>abort --all-scopes</code> also handles unexecuted plans and safe repeated aborts. In recovery-only mode, keep joins blocked and restart as instructed before restoring gameplay.</p>
+            <p>On Velocity, checks and backups select <code>--scope &lt;group&gt;</code> or <code>--all-scopes</code>. Backend transitions cover all configured groups:</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">/ccxstorage check mysql --all-scopes
+/ccxstorage backup mysql --scope corechatx:main
+/ccxstorage check parity --all-scopes
+/ccxstorage history --all-scopes
+/ccxstorage migrate files-to-mysql plan --all-scopes
+/ccxstorage migrate files-to-mysql execute --all-scopes &lt;group&gt;=&lt;run-uuid&gt;=&lt;token&gt; ...
+/ccxstorage migrate files-to-mysql status --all-scopes
+/ccxstorage migrate files-to-mysql resume --all-scopes [&lt;group&gt;=&lt;token&gt; ...]
+/ccxstorage migrate files-to-mysql abort --all-scopes
+/ccxstorage rollback mysql-to-files plan --all-scopes
+/ccxstorage rollback mysql-to-files execute --all-scopes &lt;group&gt;=&lt;run-uuid&gt;=&lt;token&gt; ...
+/ccxstorage rollback mysql-to-files status --all-scopes
+/ccxstorage rollback mysql-to-files resume --all-scopes [&lt;group&gt;=&lt;token&gt; ...]
+/ccxstorage rollback mysql-to-files abort --all-scopes</code></pre></div>
+            <div class="fb-callout fb-callout--info"><p>Rollback must export the latest MySQL state. Do not restore a pre-migration YAML backup over newer database data. Preserve configuration folders, verified backups, and transition journals as well as the database. Canonical format 1 remains readable; backups containing a non-persistent channel choice use format 2. Older schema-2 builds reject schema 3.</p></div>
           </section>
           <section class="fb-doc-section" id="4-13-locales-en-us-yml">
             <h2>4.13 <code>locales/en_us.yml</code></h2>
@@ -1711,13 +1802,13 @@ moderation:
           <section class="fb-doc-section" id="5-paper-runtime-data-files">
             <span id="runtime-data" class="corechatx-anchor-alias" aria-hidden="true"></span>
             <h2>5. Paper Saved Data Files</h2>
-            <p>These are not normal configuration files. They contain live player or server data and should not usually be edited by hand. In <code>STANDALONE</code> mode they are saved on Paper. In <code>PROXY</code> mode, shared data is saved by Velocity under <code>plugins/corechatx/data/groups/&lt;encoded-channel&gt;/</code>.</p>
+            <p>These files contain live state when standalone Paper uses YAML. With MySQL, the database owns these domains. In proxy mode, Velocity owns shared state in group YAML files or database scopes; the corresponding Paper files are not authoritative. Keep configuration and transition journals backed up in either mode.</p>
           </section>
           <section class="fb-doc-section" id="5-1-playerdata-yml">
             <h2>5.1 <code>playerdata.yml</code></h2>
             <p>Purpose:</p>
             <ul>
-              <li>per-player saved settings</li>
+              <li>per-player saved settings, nicknames, and chat statistics</li>
             </ul>
             <p>Bundled default:</p>
             <div class="fb-code-block"><pre><code class="language-yaml">players: {}</code></pre></div>
@@ -1732,6 +1823,10 @@ moderation:
               <li><code>hidden-channels.&lt;channel-id&gt;</code> with <code>0</code> for a permanent hide or an absolute expiration timestamp</li>
               <li><code>chat-bubbles-enabled</code></li>
               <li><code>locale</code></li>
+              <li><code>persistent-channel-enabled</code> (default <code>true</code>)</li>
+              <li><code>nickname</code>, when a custom nickname is set</li>
+              <li><code>stats.first-join-at</code>, <code>stats.messages-count</code>, and <code>stats.updated-at</code></li>
+              <li><code>runtime-updated-at</code> when present, including data restored by rollback; preserve this ordering timestamp</li>
             </ul>
             <p>This file is normally not edited by hand.</p>
             <p>In a Velocity network:</p>
@@ -1740,6 +1835,10 @@ moderation:
               <li>expired hidden-channel entries are removed when the player changes channel visibility</li>
               <li>each Paper server still checks its own permissions before allowing a player to use their saved active channel</li>
             </ul>
+
+            <h3 id="channel-persistence">Persistent or Non persistent channels</h3>
+            <p>The compass in <code>/ccxsettings</code> (also <code>/chatsettings</code>) saves <code>persistent-channel-enabled</code> per player. <strong>Persistent</strong> is the default for new and existing data. <strong>Non persistent</strong> keeps the current session's channel, then returns to the configured default on the next connection, even after a restart.</p>
+            <p>A transfer between proxy backends keeps the current channel. Each isolated group applies its own preference once per connection. One-shot channel messages do not change the selected channel, and a missing or inaccessible channel still falls back to the configured default.</p>
           </section>
           <section class="fb-doc-section" id="5-2-state-yml">
             <h2>5.2 <code>state.yml</code></h2>
@@ -1756,6 +1855,7 @@ chat:
             <ul>
               <li>first-join counter</li>
               <li>whether public chat is currently muted</li>
+              <li><code>updated-at</code> when present, preserving the order of saved state changes</li>
             </ul>
           </section>
           <section class="fb-doc-section" id="5-3-channeldata-yml">
@@ -1766,7 +1866,7 @@ chat:
             </ul>
             <p>Created:</p>
             <ul>
-              <li>on demand, when players actually switch away from the implicit default</li>
+              <li>when an active channel is saved, including channel selection, connection defaults, and restored snapshots</li>
             </ul>
             <p>Typical structure:</p>
             <div class="fb-code-block"><pre><code class="language-yaml">players:
@@ -1793,7 +1893,7 @@ chat:
             <h2>5.5 <code>mutedata.yml</code></h2>
             <p>Purpose:</p>
             <ul>
-              <li>active mute records</li>
+              <li>active mute records and saved unmute markers</li>
             </ul>
             <p>Created:</p>
             <ul>
@@ -1802,12 +1902,15 @@ chat:
             <p>Typical structure:</p>
             <div class="fb-code-block"><pre><code class="language-yaml">players:
   00000000-0000-0000-0000-000000000000:
+    muted: true
+    updated-at: 1710000000000
     created-at: 1710000000000
     until: 1710003600000
     reason: &quot;Spam&quot;
     actor: &quot;33333333-3333-3333-3333-333333333333&quot;
     blocks-private-messages: true</code></pre></div>
-            <p>For permanent mutes, <code>until</code> may be missing or non-positive depending on how the record was created.</p>
+            <p>In proxy mode, mute enforcement rejects public chat and private messages while the player's mute state is unknown, using <code>errors.runtime-storage-unavailable</code>. The lookup is asynchronous; retry after the authoritative response arrives. A delayed negative response cannot replace a known mute or cleared state.</p>
+            <p>For permanent mutes, <code>until</code> may be missing or non-positive. Clearing a mute retains <code>muted: false</code> and <code>updated-at</code>; preserve these markers rather than treating them as stale active mutes.</p>
           </section>
           <section class="fb-doc-section" id="5-6-discordlinks-yml">
             <h2>5.6 <code>discordlinks.yml</code></h2>
@@ -1815,6 +1918,7 @@ chat:
             <ul>
               <li>standalone Discord/Minecraft link records</li>
               <li>pending one-time link codes and their expiration</li>
+              <li>unlink records under <code>unlinks</code> when present in restored data</li>
             </ul>
             <p>Created:</p>
             <ul>
@@ -1826,17 +1930,22 @@ chat:
     player-name: &quot;PlayerName&quot;
     discord-user-id: &quot;123456789012345678&quot;
     updated-at: 1710000000000
+unlinks:
+  22222222-2222-2222-2222-222222222222:
+    player-name: &quot;FormerPlayer&quot;
+    discord-user-id: &quot;223456789012345678&quot;
+    updated-at: 1710000000000
 pending:
   ABC123:
-    player-id: &quot;00000000-0000-0000-0000-000000000000&quot;
-    player-name: &quot;PlayerName&quot;
+    player-id: &quot;11111111-1111-1111-1111-111111111111&quot;
+    player-name: &quot;OtherPlayer&quot;
     created-at: 1710000000000
     expires-at: 1710000600000</code></pre></div>
             <p>Behavior:</p>
             <ul>
               <li>one Minecraft UUID and one Discord user ID can belong to only one active link</li>
               <li>saving a link removes conflicting link records and any pending codes for that player</li>
-              <li>expired pending codes are pruned; deleting this file removes standalone links and outstanding codes</li>
+              <li>expired pending codes are pruned; deleting this file removes standalone links, outstanding codes, and any saved unlink history</li>
               <li>in <code>PROXY</code> mode, Velocity saves links and pending codes for the matching CoreChatX group instead of using this Paper file</li>
             </ul>
           </section>
@@ -1897,12 +2006,48 @@ player-directory.tab-entries=true
               <li>group names follow the same lowercase format used on Paper</li>
               <li><code>player-directory.chat-completions: false</code> disables CoreChatX player-name suggestions</li>
               <li><code>player-directory.tab-entries: false</code> prevents CoreChatX from adding network players to TAB</li>
-              <li>in <code>PROXY</code> mode, shared data is saved under Velocity <code>data/groups/&lt;encoded-channel&gt;/</code></li>
+              <li>in <code>PROXY</code> mode, Velocity saves shared data under <code>data/groups/&lt;encoded-channel&gt;/</code> with YAML, or in isolated database scopes with MySQL</li>
               <li>in <code>PROXY</code> mode, configure Discord chat, account linking, and Discord role requirements in <code>velocity-discord.yml</code></li>
             </ul>
           </section>
+          <section class="fb-doc-section" id="velocity-storage">
+            <h2>6.2 <code>velocity-storage.yml</code></h2>
+            <p>Velocity selects one backend for all configured groups and owns a separate data scope for each network channel. Paper backends keep configuration locally and forward supported data operations to Velocity.</p>
+            <div class="fb-code-block"><pre><code class="language-yaml"># CoreChatX Velocity authoritative runtime storage.
+# YAML remains the default. MYSQL is explicit and never falls back to YAML after a boot failure.
+storage:
+  backend: &quot;YAML&quot;
+  namespace: &quot;production&quot;
+  # Bounded terminal response timeout for proxy-data and Discord storage operations (1000..60000 ms).
+  operation-timeout-ms: 15000
+
+  mysql:
+    host: &quot;127.0.0.1&quot;
+    port: 3306
+    database: &quot;corechatx&quot;
+    username: &quot;corechatx&quot;
+    # Prefer password-env. Its value overrides this inline fallback.
+    password: &quot;&quot;
+    password-env: &quot;CORECHATX_MYSQL_PASSWORD&quot;
+    ssl-mode: &quot;VERIFY_IDENTITY&quot;
+    connect-timeout-ms: 5000
+    validation-timeout-ms: 3000
+    query-timeout-seconds: 10
+    maximum-pool-size: 6
+    minimum-idle: 1
+    max-lifetime-ms: 1800000
+    keepalive-time-ms: 300000
+    executor-threads: 4
+    executor-queue-capacity: 256
+    shutdown-timeout-ms: 15000
+    lease-duration-ms: 30000
+    lease-renew-interval-ms: 10000
+    schema-auto-migrate: true</code></pre></div>
+            <p>All values require a proxy restart. The namespace and group identify durable data; use the <a href="#storage-maintenance">all-group maintenance workflow</a> to switch an existing installation between YAML and MySQL. The pool is process-wide, while leases and data ownership remain group-scoped.</p>
+            <p>Velocity uses <code>storage.operation-timeout-ms</code> (default 15000 ms, range 1000..60000) for proxy-data and Discord storage responses. This key is outside <code>storage.mysql</code> and also applies with YAML. Paper-only <code>login-hydration-timeout-ms</code> and <code>unavailable-message</code> do not belong in this file. MySQL connection settings follow the <a href="#4-12-storage-yml">Paper storage reference</a>.</p>
+          </section>
           <section class="fb-doc-section" id="6-2-velocity-messages-yml">
-            <h2>6.2 <code>velocity-messages.yml</code></h2>
+            <h2>6.3 <code>velocity-messages.yml</code></h2>
             <p>Purpose:</p>
             <ul>
               <li>join, quit, and first-join announcements for each Velocity group</li>
@@ -1947,7 +2092,7 @@ join-quit:
             </ul>
           </section>
           <section class="fb-doc-section" id="6-3-velocity-discord-yml">
-            <h2>6.3 <code>velocity-discord.yml</code></h2>
+            <h2>6.4 <code>velocity-discord.yml</code></h2>
             <p>This file exists only on Velocity and is used when Paper backends run in <code>deployment.mode: &quot;PROXY&quot;</code>. In proxy mode, the Discord bot for account linking, login role checks and Discord bridge I/O must live on Velocity. Paper backends may still run separate console-only Discord bots through Paper <code>discord.yml -&gt; discord.console.*</code>. In standalone mode, ignore this file and configure Paper <code>discord.yml</code> instead.</p>
             <div class="fb-code-block"><pre><code class="language-yaml"># CoreChatX Velocity Discord settings.
 # In PROXY deployments this is the authority for Discord bridge, account linking and login gates.
@@ -1973,7 +2118,8 @@ account-linking:
   # If true, the linked Minecraft account must have permission to send to the target CoreChatX channel.
   # Velocity carries this policy to Paper; Paper performs the actual Bukkit/LuckPerms permission check.
   enforce-channel-send-permission: true
-  # If true, unlinked Minecraft players are kicked by backends after Velocity gives them a Discord /link code.
+  # If true, Velocity denies backend entry to unlinked players and provides a Discord link code.
+  # If linking is unavailable or code creation fails, entry remains denied.
   require-linked-to-play: false
   required-play-roles:
     # Live whitelist for require-linked-to-play. Linked players must keep at least one listed Discord role.
@@ -2007,7 +2153,7 @@ account-linking:
   link-command-name: &quot;link&quot;
   unlink-command-name: &quot;unlink&quot;
   messages:
-    unlinked-dm: &quot;Link your Minecraft account before chatting in this channel. Run /discord link in-game, then use the Discord /link command with that code here.&quot;
+    unlinked-dm: &quot;Link your Minecraft account before chatting in this channel. Run /discord link in-game, then use the Discord /{link_command} command with that code here.&quot;
     linked: &quot;Your Discord account is now linked to {player_name}.&quot;
     unlinked: &quot;Your Discord account has been unlinked.&quot;
     not-linked: &quot;This Discord account is not linked to a Minecraft account.&quot;
@@ -2015,9 +2161,10 @@ account-linking:
     code-not-found: &quot;That link code is invalid or expired.&quot;
     disabled: &quot;CoreChatX Discord account linking is disabled.&quot;
     unavailable: &quot;CoreChatX cannot complete that Discord linking action right now.&quot;
-    link-required-kick: &quot;&lt;red&gt;You must link your Discord account to play.&lt;/red&gt;\n&lt;gray&gt;Use Discord command &lt;/gray&gt;&lt;white&gt;/link code:{code}&lt;/white&gt;&lt;gray&gt; within &lt;/gray&gt;&lt;white&gt;{minutes}&lt;/white&gt;&lt;gray&gt; minute(s).&lt;/gray&gt;&quot;
+    link-required-kick: &quot;&lt;red&gt;You must link your Discord account to play.&lt;/red&gt;\n&lt;gray&gt;Use Discord command &lt;/gray&gt;&lt;white&gt;/{link_command} code:{code}&lt;/white&gt;&lt;gray&gt; within &lt;/gray&gt;&lt;white&gt;{minutes}&lt;/white&gt;&lt;gray&gt; minute(s).&lt;/gray&gt;&quot;
     missing-required-role-kick: &quot;&lt;red&gt;Your Discord account is linked, but you do not have the required Discord role to play.&lt;/red&gt;&quot;
     role-check-unavailable-kick: &quot;&lt;red&gt;Discord role verification is temporarily unavailable. Try again later.&lt;/red&gt;&quot;
+    link-check-unavailable-kick: &quot;&lt;red&gt;Discord account link verification is temporarily unavailable. Try again later.&lt;/red&gt;&quot;
 
 discord:
   # Starts the Velocity-owned Discord bot for PROXY deployments.
@@ -2246,7 +2393,7 @@ discord:
               <li><code>discord.enabled</code> starts the main Discord bot on Velocity</li>
               <li><code>account-linking.enabled</code> lets players link Minecraft and Discord accounts across Velocity groups</li>
               <li><code>account-linking.require-linked</code> blocks unlinked Discord users from writing through configured Discord inbound routes</li>
-              <li><code>allow-offline-linked-players</code>, <code>enforce-minecraft-mutes</code>, and <code>enforce-channel-send-permission</code> control whether linked Discord users may send and which Minecraft rules are checked</li>
+              <li><code>allow-offline-linked-players</code>, <code>enforce-minecraft-mutes</code>, and <code>enforce-channel-send-permission</code> control whether linked Discord users may send and which Minecraft rules are checked.</li>
               <li><code>require-linked-to-play</code> kicks unlinked Minecraft players with a Velocity-generated link code</li>
               <li><code>required-play-roles.role-ids</code> must contain numeric Discord role IDs, not role names</li>
               <li>Discord role requirements need the privileged <strong>Server Members Intent</strong>; removing the final allowed role or leaving the Discord server disconnects the linked player and blocks reconnection</li>
@@ -2262,14 +2409,15 @@ discord:
               <li><code>discord.server-status</code> shows proxy and Paper server status; monitoring individual Paper servers requires <code>backend-groups.*</code> entries in <code>velocity-config.properties</code></li>
               <li>use Paper <code>discord.yml</code> for the main bot only in <code>STANDALONE</code> mode; in <code>PROXY</code> mode it is only for optional local console bots with separate tokens</li>
             </ul>
+          <p>When <code>account-linking.require-linked-to-play</code> is enabled, unavailable linking or failed code creation denies unlinked players with <code>link-check-unavailable-kick</code>. Velocity checks before backend entry. <code>deny-if-unverifiable</code> governs only role verification for already linked players and cannot waive the required link.</p>
+            <p>Link instructions support <code>{link_command}</code>, using this file's <code>account-linking.link-command-name</code>. Velocity sends that name with generated or reused codes to Paper; use <code>/{link_command} code:{code}</code> in customized Minecraft messages.</p>
           </section>
           <section class="fb-doc-section" id="7-regenerating-a-clean-config-set">
             <h2>7. Recreating Default Configuration Files</h2>
-            <p>Stop the server or proxy and back up the complete CoreChatX folder before removing configuration files.</p>
+            <p>Stop the affected server or proxy and back up every file and subfolder in its CoreChatX folder. Missing default keys are normally added automatically; recreate a file only when you need to reset that file's configuration.</p>
             <h3 id="paper-backend">Paper</h3>
-            <p>To recreate Paper configuration, remove only these files:</p>
-            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">config.yml
-messages.yml
+            <p>For ordinary resets, rename only the selected configuration files from this list. Keep their backups and preserve all player data, journals, <code>config.yml</code>, and <code>storage.yml</code>.</p>
+            <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">messages.yml
 chat.yml
 channels.yml
 privacy.yml
@@ -2281,30 +2429,27 @@ keywords.yml
 chatbubbles.yml
 discord.yml
 telegram.yml
-storage.yml
-locales/</code></pre></div>
-            <p>Then restart the server. CoreChatX recreates the bundled defaults automatically.</p>
-            <p>If you use <code>PROXY</code> mode, restore these values after the files are recreated:</p>
-            <ul>
-              <li><code>deployment.mode: &quot;PROXY&quot;</code></li>
-              <li>unique <code>deployment.server-id</code></li>
-              <li><code>deployment.network-features-allowed: true</code></li>
-            </ul>
+locales/en_us.yml</code></pre></div>
+            <p>CoreChatX recreates missing defaults at startup. Preserve custom locale files. If <code>config.yml</code> itself must be recreated, extract its bundled default from the Paper JAR while stopped and restore these values before starting:</p>
+            <ul><li><code>deployment.mode</code></li><li><code>deployment.server-id</code></li><li><code>deployment.network-channel</code></li><li><code>deployment.network-features-allowed</code> and the intended bridge switch</li></ul>
+            <p>Retain <code>storage.yml</code>. If restoring it from a template is necessary, reapply the exact active backend, namespace, scope, and database configuration before startup. A fresh default selects YAML and is not a migration or rollback.</p>
             <h3 id="velocity-proxy">Velocity</h3>
-            <p>To recreate Velocity configuration, remove only:</p>
+            <p>The configuration files are:</p>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight">plugins/corechatx/velocity-config.properties
 plugins/corechatx/velocity-discord.yml
-plugins/corechatx/velocity-messages.yml</code></pre></div>
-            <p>Then restart Velocity. CoreChatX recreates all three default files.</p>
+plugins/corechatx/velocity-messages.yml
+plugins/corechatx/velocity-storage.yml</code></pre></div>
+            <p>Reset only the selected file. Preserve <code>velocity-storage.yml</code> and <code>velocity-config.properties</code>, including namespace, database, every <code>network-channel</code> group, and <code>backend-groups.*</code> assignment. If either identity file must be recreated, extract it from the JAR and restore those values before starting Velocity. Never delete <code>data/groups/</code>, transition journals, or existing backups to reset configuration.</p>
           </section>
           <section class="fb-doc-section" id="8-command-reference">
             <span id="commands" class="corechatx-anchor-alias" aria-hidden="true"></span>
             <h2>8. Command Reference</h2>
-            <p>All commands below are Paper commands. Velocity has no CoreChatX admin command and must be restarted to reload its configuration.</p>
+            <p>The main table lists Paper commands. Velocity also provides <code>/ccxstorage</code> and <code>/broadcast</code> (alias <code>/bc</code>), described below. Velocity has no CoreChatX reload command; configuration changes require a proxy restart.</p>
             <div class="fb-table-wrap" tabindex="0" aria-label="Scrollable table">
               <table class="fb-table--striped fb-table--comfortable">
                 <thead><tr><th>Command</th><th>Permission (default)</th><th>Behavior</th></tr></thead>
                 <tbody>
+                  <tr><td><code>/ccxstorage &lt;status|check|backup|migrate|rollback|history&gt;</code></td><td><code>corechatx.command.storage</code> (<code>op</code>)</td><td>Inspect and back up storage; migration/rollback changes are console-only. <a href="#storage-maintenance">Platform-specific syntax</a>.</td></tr>
                   <tr><td><code>/corechatx</code> or <code>/ccx</code></td><td><code>corechatx.command.corechatx</code> (<code>true</code>)</td><td>Shows only the root subcommands the sender can use.</td></tr>
                   <tr><td><code>/corechatx reload</code></td><td><code>corechatx.command.reload</code> (<code>op</code>)</td><td>Reloads supported Paper settings, messages, channels, features, and enabled integrations.</td></tr>
                   <tr><td><code>/corechatx settings</code></td><td><code>corechatx.command.settings</code> (<code>true</code>)</td><td>Opens the same player GUI as <code>/chatsettings</code>.</td></tr>
@@ -2340,6 +2485,18 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
               </table>
             </div>
             <p>Each shortcut configured in <code>channels.yml</code> creates <code>/shortcut</code> and <code>/shortcut &lt;message&gt;</code>. It uses the channel's normal access and send permissions.</p>
+            <h3 id="velocity-commands">Velocity commands</h3>
+            <div class="fb-table-wrap" tabindex="0" aria-label="Scrollable Velocity command table">
+              <table class="fb-table--striped fb-table--comfortable">
+                <thead><tr><th>Command</th><th>Permission</th><th>Behavior</th></tr></thead>
+                <tbody>
+                  <tr><td><code>/ccxstorage &lt;status|check|backup|migrate|rollback|history&gt;</code></td><td><code>corechatx.command.storage</code></td><td>Inspect, back up, or recover proxy storage. Checks and backups select a scope; transitions require console and <code>--all-scopes</code>. See <a href="#storage-maintenance">storage syntax</a>.</td></tr>
+                  <tr><td><code>/broadcast &lt;message&gt;</code></td><td><code>corechatx.command.broadcast</code></td><td>With exactly one group, broadcasts to that group. Alias: <code>/bc</code>.</td></tr>
+                  <tr><td><code>/broadcast &lt;group|all&gt; &lt;message&gt;</code></td><td><code>corechatx.command.broadcast</code></td><td>With multiple groups, choose an exact group or <code>all</code>. Delivery uses backends with connected players.</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p>Velocity checks permissions on the proxy command source; Paper's <code>op</code> defaults do not assign proxy permissions. Grant nodes through your Velocity permission provider. Storage recovery is available before normal routing; broadcast requires routing to be ready.</p>
           </section>
           <section class="fb-doc-section" id="9-permission-reference">
             <span id="permissions" class="corechatx-anchor-alias" aria-hidden="true"></span>
@@ -2375,7 +2532,7 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
               <li>individual nickname styles are <code>corechatx.nick.format.obfuscated</code>, <code>corechatx.nick.format.bold</code>, <code>corechatx.nick.format.strikethrough</code>, <code>corechatx.nick.format.underline</code>, <code>corechatx.nick.format.italic</code>, and <code>corechatx.nick.format.reset</code></li>
             </ul>
             <p>Command permissions and defaults are listed in the command table above. Player-facing commands default to <code>true</code>; staff, moderation, reload, item-cache, cross-player nickname, and Discord administration permissions default to <code>op</code>.</p>
-          </section>
+          <p><code>corechatx.command.storage</code> defaults to <code>op</code> on Paper for inspection and backups; Velocity uses the proxy permission provider. Operators still cannot perform migration or rollback state changes from a player command; use the console.</p></section>
           <section class="fb-doc-section" id="10-practical-admin-notes">
             <span id="limits" class="corechatx-anchor-alias" aria-hidden="true"></span>
             <h2>10. Practical Admin Notes</h2>
@@ -2383,7 +2540,7 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
               <li>Keep <code>messages.yml</code> as the main wording file unless you actively need locale-specific overrides.</li>
               <li>Use LuckPerms for rank titles/prefixes, and use CoreChatX for layout.</li>
               <li>Keep <code>group-formats</code> keyed to the LuckPerms primary group in lowercase.</li>
-              <li>CoreChatX currently saves data in YAML; the SQL settings are reserved for future use.</li>
+              <li>CoreChatX defaults to YAML and supports explicit MySQL storage. Use <a href="#storage-maintenance">the maintenance workflow</a> to migrate existing data; the legacy SQL keys do not enable a database.</li>
               <li>Give every Paper server in a Velocity network a unique <code>server-id</code>.</li>
               <li>If a custom permission in <code>channels.yml</code>, <code>pings.yml</code>, or <code>privacy.yml</code> is invalid, CoreChatX reports it and disables only that option. An invalid keyword permission disables only that keyword.</li>
               <li>Deleting files such as <code>playerdata.yml</code> or <code>mutedata.yml</code> deletes live player or server data.</li>
@@ -2391,7 +2548,7 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
             </ul>
             <p>Recommended setup:</p>
             <ul>
-              <li>restart after changing <code>config.yml -&gt; deployment.*</code> or Velocity <code>network-channel</code> values</li>
+              <li>restart after changing Paper mode, server ID, network group, storage settings, or any Velocity configuration</li>
               <li>define each chat format in one place instead of repeating it across several plugins</li>
               <li>configure Discord and Telegram access for each CoreChatX channel in <code>channels.yml</code></li>
               <li>use PlaceholderAPI only in formats created by the server owner</li>
@@ -2403,14 +2560,15 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
             <span id="troubleshooting" class="corechatx-anchor-alias" aria-hidden="true"></span>
             <h2>11. Troubleshooting Quick Reference</h2>
             <h3 id="startup-banner-does-not-appear">Startup banner does not appear</h3>
-            <p>Check that the Paper jar is installed on Paper and the Velocity jar is installed on Velocity. Also confirm Java 21 is in use and read the startup log for the loading error. A successful start prints the <code>CORECHATX</code> banner with the version and platform.</p>
+            <p>Check that the Paper jar is installed on Paper and the Velocity jar is installed on Velocity. Also confirm the required Java version is in use (21 for Paper 1.21.11; 25 for Paper 26.1/26.2) and read the startup log for the loading error. A successful start prints the <code>CORECHATX</code> banner with the version and platform.</p>
             <h3 id="corechatx-reload-does-not-apply-a-change"><code>/corechatx reload</code> does not apply a change</h3>
             <p>These settings require a restart:</p>
             <ul>
               <li><code>deployment.mode</code></li>
               <li><code>deployment.server-id</code></li>
               <li><code>deployment.network-channel</code></li>
-              <li>every setting in Velocity <code>velocity-config.properties</code>, <code>velocity-discord.yml</code>, and <code>velocity-messages.yml</code></li>
+              <li>Paper <code>storage.yml</code> backend, identity, and <code>storage.mysql.*</code> settings</li>
+              <li>every setting in Velocity <code>velocity-config.properties</code>, <code>velocity-storage.yml</code>, <code>velocity-discord.yml</code>, and <code>velocity-messages.yml</code></li>
             </ul>
             <p>Restart the affected Paper server or Velocity after changing any value listed above.</p>
             <h3 id="network-messages-do-not-cross-servers">Network messages do not cross servers</h3>
@@ -2513,6 +2671,7 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
             </ul>
             <p>An invalid permission disables only the affected option or keyword. You do not need to delete the whole configuration file.</p>
             <h3 id="a-runtime-data-file-looks-wrong">A saved data file looks wrong</h3>
+            <p>Paper rejects malformed or unreadable persistent YAML instead of opening an empty writable store. A failed player/global reload fences writes and shutdown flushes until the file is repaired and successfully reloaded. Keep the original file and use a verified backup or correct its syntax.</p>
             <p>Stop the server, back up the file, and then inspect it. Files such as <code>playerdata.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, <code>mutedata.yml</code>, and <code>discordlinks.yml</code> contain live data. Editing or deleting them changes saved player or server information.</p>
           </section>
           <section class="fb-doc-section" id="12-production-validation-checklist">
@@ -2561,7 +2720,7 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
       <div class="fb-container fb-container--wide fb-stack">
         <div class="fb-grid fb-grid--2">
           <div class="fb-flow">
-            <a class="fb-brand corechatx-brand" href="./index.html">
+            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
               <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
               <span>CoreChatX</span>
             </a>
@@ -2578,7 +2737,7 @@ plugins/corechatx/velocity-messages.yml</code></pre></div>
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.2.6 &middot; Java 21 &middot; Paper 1.21.11 &middot; Velocity</span>
+          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>
