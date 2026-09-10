@@ -3,6 +3,7 @@
 ## Public pages
 
 - `index.html` — Product overview, 2026.3.0 release summary and changelog link, Paper and Velocity bStats data, and related CoreX plugins.
+- `tags.html` — Static feature tags and 16 sourced plugin/module comparisons, use-case replacement boundaries, configuration links, and switching/data-import guidance; linked from shared navigation, Features, Documentation, and the sitemap.
 - `features.html` — Chat, channel-persistence preferences, private messages, moderation, integrations, YAML/MySQL storage, and network support.
 - `installation.html` — Paper/Velocity and version-specific Java requirements, coordinated protocol-29 upgrade, YAML/MySQL migration and backup ownership, integrations, and validation checks.
 - `configuration.html` — Paper and Velocity configuration and bundled examples, storage maintenance grammar, channel persistence, Discord admission and `{link_command}` message templates, commands on both platforms, runtime-data fields and ordering markers, safe configuration regeneration, strict YAML load failures, cold proxy mute enforcement, optional Modrinth stable/preview notices for OP players, permissions, and troubleshooting. Bundled examples match the 2026.3.0 release; existing section anchors are retained.
@@ -18,11 +19,12 @@
 - `assets/corechatx-logo.svg` — Header, footer, favicon, and social preview logo.
 - `assets/vendor/framebasecss/` — FrameBaseCSS distribution and license.
 - `assets/vendor/highlightjs/` — Highlight.js distribution, properties module, and license.
-- `assets/styles.css` — CoreChatX layouts, related-plugin cards, bStats presentation, responsive adjustments, and migration guide text wrapping, panel spacing, and single-column walkthrough width.
+- `assets/styles.css` — CoreChatX layouts, related-plugin cards, bStats presentation, responsive adjustments, comparison tags/cards, and migration guide text wrapping, panel spacing, and single-column walkthrough width.
 - `assets/site.js` — Responsive navigation and syntax highlighting.
 
 ## Publication
 
+- `googlee11c6bb42d6e0aeb.html` — Google Search Console ownership-verification response; preserve its exact contents and root URL, separate from public documentation pages.
 - `CNAME` — GitHub Pages custom domain.
 - `robots.txt` — Crawler rules and sitemap location.
 - `sitemap.xml` — Public page URLs.

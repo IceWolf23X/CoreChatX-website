@@ -279,3 +279,50 @@ html {
   padding-inline-start: var(--fb-space-4);
   border-inline-start: 3px solid var(--fb-color-success);
 }
+
+/* Keep comparison tags readable and selectable on narrow screens. */
+.corechatx-comparison-tags {
+  gap: var(--fb-space-2);
+  margin-block: var(--fb-space-4);
+}
+
+.corechatx-comparison-tag {
+  display: inline-block;
+  max-width: 100%;
+  padding: var(--fb-space-2) var(--fb-space-3);
+  border: 1px solid var(--fb-color-border);
+  border-radius: var(--fb-radius-sm);
+  background: var(--fb-color-surface-alt);
+  color: var(--fb-color-primary);
+  font-size: var(--fb-font-size-sm);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.corechatx-comparison-tag:hover,
+.corechatx-comparison-tag:focus-visible {
+  border-color: var(--fb-color-primary);
+  background: var(--fb-color-hover-surface);
+  text-decoration: underline;
+}
+
+/* Separate each replacement's scope and sources without adding a wide table. */
+.corechatx-comparison-card {
+  min-width: 0;
+}
+
+.corechatx-comparison-links {
+  padding-top: var(--fb-space-3);
+  border-top: 1px solid var(--fb-color-border);
+  font-size: var(--fb-font-size-sm);
+}
+
+.corechatx-comparisons :not(pre) > code {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+.corechatx-comparisons h3 {
+  overflow-wrap: anywhere;
+}

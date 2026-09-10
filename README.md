@@ -7,6 +7,7 @@ Static website for CoreChatX, available at:
 ## Pages
 
 - `index.html`: product overview, latest release, live bStats data, and related CoreX plugins.
+- `tags.html`: feature tags and sourced comparisons explaining which roles CoreChatX can replace, with explicit differences and switching guidance.
 - `features.html`: chat, channels, player settings, moderation, integrations, and Velocity support.
 - `installation.html`: Paper and Velocity installation and first setup.
 - `configuration.html`: Paper and Velocity configuration reference.
