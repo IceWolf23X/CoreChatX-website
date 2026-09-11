@@ -326,3 +326,8 @@ html {
 .corechatx-comparisons h3 {
   overflow-wrap: anywhere;
 }
+
+/* Separate the closing action buttons from the preceding information panel. */
+.corechatx-comparisons .fb-callout + .fb-cluster {
+  margin-block-start: var(--fb-space-4);
+}
