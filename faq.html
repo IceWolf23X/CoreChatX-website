@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.3.0 FAQ for installation, Velocity networks, chat formatting, player controls, ChatItems, Discord, Telegram, and saved data.">
+    <meta name="description" content="CoreChatX 2026.3.0.1-hotfix FAQ for installation, Velocity networks, chat formatting, player controls, ChatItems, Discord, Telegram, and saved data.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/faq.html">
     <meta property="og:type" content="article">
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -173,7 +173,7 @@
 
           <details>
             <summary>Can CoreChatX save data in SQL?</summary>
-            <div class="fb-details-body"><p>Yes. Version 2026.3.0 supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="./migration.html">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
+            <div class="fb-details-body"><p>Yes. Version 2026.3.0.1-hotfix supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="./migration.html">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
           </details>
           <details>
             <summary>Which data should I back up?</summary>
@@ -181,7 +181,7 @@
           </details>
           <details>
             <summary>Why does chat say runtime data is temporarily unavailable just after connecting?</summary>
-            <div class="fb-details-body"><p>With mute enforcement enabled, a proxy backend waits for the player's authoritative mute state before allowing public chat or private messages. Retry once it loads. If the message persists, check the Paper-to-Velocity connection and the storage owner's status and logs.</p></div>
+            <div class="fb-details-body"><p>Since 2026.3.0.1-hotfix, Paper requests player and moderation state automatically on join or backend switch instead of waiting for the first chat attempt. With mute enforcement enabled, public chat and private messages still wait for confirmed authoritative moderation state if loading is slow or unavailable. Retry once it loads. If the message persists, check the Paper-to-Velocity connection and the storage owner's status and logs.</p></div>
           </details>
           <details>
             <summary>Why is network chat not crossing servers?</summary>
@@ -221,7 +221,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

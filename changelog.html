@@ -3,20 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Complete CoreChatX 2026.3.0 changes since 2026.2.6: MySQL storage, migration, channel preferences, and runtime fixes.">
+    <meta name="description" content="CoreChatX 2026.3.0.1-hotfix release notes: proxy join fixes, clearer console banners, and hotfix update detection, with the complete 2026.3.0 history.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/changelog.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="CoreChatX 2026.3.0 Changelog">
-    <meta property="og:description" content="All player and administrator changes since 2026.2.6, including MySQL migration and upgrade requirements.">
+    <meta property="og:title" content="CoreChatX 2026.3.0.1-hotfix Changelog">
+    <meta property="og:description" content="Latest hotfix changes and the complete 2026.3.0 history, including upgrade and MySQL migration instructions.">
     <meta property="og:url" content="https://wiki-corechatx.icewolf23x.dev/changelog.html">
     <meta property="og:image" content="https://wiki-corechatx.icewolf23x.dev/assets/corechatx-logo.svg">
     <meta name="twitter:card" content="summary">
-    <title>CoreChatX 2026.3.0 Changelog</title>
+    <title>CoreChatX 2026.3.0.1-hotfix Changelog</title>
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -43,8 +43,33 @@
     </header>
 
     <main id="main">
-      <header class="fb-section"><div class="fb-container fb-container--wide fb-stack"><p class="fb-eyebrow">Release notes</p><h1>CoreChatX 2026.3.0</h1><p class="fb-lead">All player and administrator changes since 2026.2.6.</p><div class="fb-cluster"><a class="fb-button" href="./installation.html#existing">Upgrade instructions</a><a class="fb-button fb-button--secondary" href="./migration.html">YAML to MySQL migration</a></div></div></header>
+      <header class="fb-section"><div class="fb-container fb-container--wide fb-stack"><p class="fb-eyebrow">Release notes</p><h1>CoreChatX release notes</h1><p class="fb-lead">2026.3.0.1-hotfix: proxy join fixes and clearer console notices. The complete 2026.3.0 changelog follows below.</p><div class="fb-cluster"><a class="fb-button" href="#release-2026-3-0-1-hotfix">Latest hotfix</a><a class="fb-button fb-button--secondary" href="#release-2026-3-0">2026.3.0 history</a><a class="fb-button fb-button--secondary" href="./installation.html#existing">Upgrade instructions</a><a class="fb-button fb-button--secondary" href="./migration.html">YAML to MySQL migration</a></div></div></header>
+      <section class="fb-section"><article class="fb-container fb-container--wide fb-flow" aria-labelledby="release-2026-3-0-1-hotfix">
+<h2 id="release-2026-3-0-1-hotfix">2026.3.0.1-hotfix</h2>
+<h3 id="hotfix-changed">Changed</h3>
+<ul>
+<li>Paper and Velocity now display prominent, colored console banners for Modrinth updates: green for recommended stable releases and yellow for experimental alpha/beta builds, with installed/available versions and the download link.</li>
+<li>Added the <a href="https://wiki-corechatx.icewolf23x.dev/">CoreChatX wiki</a> link to the Paper and Velocity startup banners.</li>
+</ul>
+<h3 id="hotfix-fixed">Fixed</h3>
+<ul>
+<li>Fixed the first public chat message after joining or switching a Velocity backend being rejected because moderation data was only requested when the player tried to chat. Paper now loads player settings, privacy, channel, mute and global state proactively on join, with bounded read retries. Chat remains protected while authoritative moderation data is unavailable.</li>
+<li>Fixed delayed proxy join callbacks applying display changes or first-join announcements to a disconnected or replaced player session. Accepted-join effects now wait for confirmed player and moderation data.</li>
+<li>Fixed proxy request timeouts and first-join warnings reporting only <code>null</code>. Diagnostics now identify the operation, request, backend and player; timed-out writes are not automatically retried because they may already have committed.</li>
+<li>Fixed the Modrinth update checker rejecting four-part hotfix versions such as <code>2026.3.0.1-hotfix</code>. This build orders hotfix revisions numerically and continues to detect later stable, beta and alpha versions.</li>
+</ul>
+<h3 id="hotfix-compatibility">Compatibility</h3>
+<ul>
+<li>Updating from <code>2026.3.0</code> requires no configuration conversion or MySQL schema migration. Existing YAML/MySQL data and protocol <code>29</code> are unchanged.</li>
+</ul>
+<h3 id="hotfix-migration">Migration</h3>
+<ul>
+<li><strong>Stop the affected servers and back up every file and subfolder in the CoreChatX plugin folders before replacing the JARs; also back up MySQL when used.</strong> Install the matching hotfix JAR on Velocity and each participating Paper backend, then restart. Download this hotfix manually: the update checker in the older <code>2026.3.0</code> build does not recognize this version format. For upgrades from <code>2026.2.6</code> that also move YAML data to MySQL, follow the <a href="https://wiki-corechatx.icewolf23x.dev/migration.html">step-by-step migration guide</a>.</li>
+</ul>
+</article></section>
       <section class="fb-section"><article class="fb-container fb-container--wide fb-flow">
+<h2 id="release-2026-3-0">2026.3.0</h2>
+<p>All player and administrator changes since 2026.2.6.</p>
 <h2 id="added">Added</h2>
 <ul>
 <li>Added asynchronous Modrinth update checks after startup and every 24 hours by default. Console and OP players receive stable-update recommendations and separate experimental alpha/beta announcements; no automatic installation occurs.</li>
@@ -150,7 +175,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

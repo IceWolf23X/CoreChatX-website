@@ -3,12 +3,12 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Compare Minecraft chat plugins by use case: formatting, channels, moderation, item previews, and Discord. See what CoreChatX can replace and what differs.">
+    <meta name="description" content="Compare 24 Minecraft chat plugins and modules: formatting, channels, staff chat, moderation, previews, bubbles, and Discord. Includes setup examples and limits.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/tags.html">
     <meta property="og:type" content="website">
     <meta property="og:title" content="Minecraft Chat Plugin Comparisons — CoreChatX">
-    <meta property="og:description" content="Compare Minecraft chat plugins by use case: formatting, channels, moderation, item previews, and Discord. See what CoreChatX can replace and what differs.">
+    <meta property="og:description" content="Compare 24 Minecraft chat plugins and modules: formatting, channels, staff chat, moderation, previews, bubbles, and Discord. Includes setup examples and limits.">
     <meta property="og:url" content="https://wiki-corechatx.icewolf23x.dev/tags.html">
     <meta property="og:image" content="https://wiki-corechatx.icewolf23x.dev/assets/corechatx-logo.svg">
     <meta name="twitter:card" content="summary">
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -48,7 +48,7 @@
           <p class="fb-eyebrow">Plugin tags &amp; comparisons</p>
           <h1>Which plugins can CoreChatX replace?</h1>
           <p class="fb-lead">Find a plugin you already know and see how CoreChatX handles the same job. Compare formatting, channels, private messages, moderation, item previews, and Discord connections.</p>
-          <p>Each comparison names the features CoreChatX can take over and the differences to check before switching.</p>
+          <p>Browse <strong>24 plugin and module comparisons</strong>, find the configuration for each job, and check what you should keep before switching.</p>
           <div class="fb-cluster">
             <a class="fb-button" href="#plugin-index">Find your plugin</a>
             <a class="fb-button fb-button--secondary" href="./installation.html">Install CoreChatX</a>
@@ -60,12 +60,17 @@
         <aside class="fb-doc-sidebar fb-doc-nav-panel corechatx-toc" aria-label="Page contents">
           <strong>Compare by use case</strong>
           <a href="#plugin-index">Tags and plugin index</a>
+          <a href="#coverage">Find the job you want to replace</a>
           <a href="#formatting">Chat formatting</a>
           <a href="#channels">Channels and network chat</a>
           <a href="#moderation">Chat moderation</a>
           <a href="#previews">Item previews and interactive chat</a>
           <a href="#discord">Discord bridges and account linking</a>
+          <a href="#appearance">Chat colors and overhead bubbles</a>
           <a href="#communication">Communication tools inside larger suites</a>
+          <a href="#examples">Practical configuration examples</a>
+          <a href="#keep-installed">Plugins you may still need</a>
+          <a href="#switching-questions">Common replacement questions</a>
           <a href="#before-switching">Before switching</a>
         </aside>
 
@@ -79,33 +84,64 @@
                 <a class="corechatx-comparison-tag" href="#moderation">Chat moderation</a>
                 <a class="corechatx-comparison-tag" href="#previews">Item previews and interactive chat</a>
                 <a class="corechatx-comparison-tag" href="#discord">Discord bridges and account linking</a>
+                <a class="corechatx-comparison-tag" href="#appearance">Chat colors and overhead bubbles</a>
                 <a class="corechatx-comparison-tag" href="#communication">Communication tools inside larger suites</a>
               </div>
             </nav>
-            <h3>Plugin index</h3>
+            <h3>Plugin index (A–Z)</h3>
             <nav aria-label="Plugin comparisons">
               <div class="fb-cluster corechatx-comparison-tags">
-                <a class="corechatx-comparison-tag" href="#essentialsx-chat">EssentialsX Chat</a>
-                <a class="corechatx-comparison-tag" href="#lpc">LPC / LuckPermsChat</a>
-                <a class="corechatx-comparison-tag" href="#deluxechat">DeluxeChat</a>
-                <a class="corechatx-comparison-tag" href="#chatex">ChatEx</a>
-                <a class="corechatx-comparison-tag" href="#venturechat">VentureChat</a>
-                <a class="corechatx-comparison-tag" href="#huskchat">HuskChat</a>
+                <a class="corechatx-comparison-tag" href="#bungee-chat">Bungee Chat</a>
                 <a class="corechatx-comparison-tag" href="#carbonchat">Carbon Chat</a>
-                <a class="corechatx-comparison-tag" href="#chatcontrol">ChatControl</a>
                 <a class="corechatx-comparison-tag" href="#chat-manager">Chat Manager (Crazy-Crew)</a>
+                <a class="corechatx-comparison-tag" href="#chatbubbles">ChatBubbles (thetealviper)</a>
+                <a class="corechatx-comparison-tag" href="#chatchat">ChatChat (HelpChat)</a>
+                <a class="corechatx-comparison-tag" href="#chatcolor">ChatColor / ChatColor2</a>
+                <a class="corechatx-comparison-tag" href="#chatcontrol">ChatControl</a>
+                <a class="corechatx-comparison-tag" href="#chatex">ChatEx</a>
                 <a class="corechatx-comparison-tag" href="#chatitem">ChatItem</a>
-                <a class="corechatx-comparison-tag" href="#interactivechat">InteractiveChat</a>
-                <a class="corechatx-comparison-tag" href="#interactivechat-discordsrv">InteractiveChat DiscordSRV Addon</a>
+                <a class="corechatx-comparison-tag" href="#cmi">CMI — chat and communication</a>
+                <a class="corechatx-comparison-tag" href="#deluxechat">DeluxeChat</a>
                 <a class="corechatx-comparison-tag" href="#discordsrv">DiscordSRV</a>
+                <a class="corechatx-comparison-tag" href="#essentialsx-chat">EssentialsX Chat</a>
                 <a class="corechatx-comparison-tag" href="#essentialsx-discord">EssentialsX Discord / Discord Link</a>
                 <a class="corechatx-comparison-tag" href="#essentialsx">EssentialsX — communication commands</a>
-                <a class="corechatx-comparison-tag" href="#cmi">CMI — chat and communication</a>
+                <a class="corechatx-comparison-tag" href="#herochat">Herochat</a>
+                <a class="corechatx-comparison-tag" href="#huskchat">HuskChat</a>
+                <a class="corechatx-comparison-tag" href="#interactivechat-discordsrv">InteractiveChat DiscordSRV Addon</a>
+                <a class="corechatx-comparison-tag" href="#interactivechat">InteractiveChat</a>
+                <a class="corechatx-comparison-tag" href="#lpc">LPC / LuckPermsChat</a>
+                <a class="corechatx-comparison-tag" href="#multichat">MultiChat</a>
+                <a class="corechatx-comparison-tag" href="#staffchatreloaded">StaffChatReloaded (Xdlob9)</a>
+                <a class="corechatx-comparison-tag" href="#ultimatechat">UltimateChat / UChat</a>
+                <a class="corechatx-comparison-tag" href="#venturechat">VentureChat</a>
               </div>
             </nav>
             <div class="fb-callout fb-callout--info">
-              <p><strong>Scope:</strong> these comparisons cover CoreChatX <strong>2026.3.0</strong> on supported Paper servers and Velocity networks. They describe replacements for specific uses, rather than identical commands, APIs, configuration files, or every feature in another plugin.</p>
+              <p><strong>Scope:</strong> these comparisons cover CoreChatX <strong>2026.3.0.1-hotfix</strong> on supported Paper servers and Velocity networks. They describe replacements for specific uses, rather than identical commands, APIs, configuration files, or every feature in another plugin.</p>
               <p>Based on the linked project documentation, reviewed on <time datetime="2026-09-11">11 September 2026</time>. Check the version you use before switching. Plugin names identify independent projects; inclusion does not imply affiliation or endorsement.</p>
+            </div>
+          </section>
+
+          <section class="fb-doc-section" id="coverage">
+            <h2>Start with the job you want to replace.</h2>
+            <p>You do not need every CoreChatX feature. Match the functions you currently use to the settings below, then read the relevant plugin comparisons for differences.</p>
+            <p id="coverage-scroll-help"><small>On smaller screens, scroll the table sideways to read all three columns. With a keyboard, focus the table and use the arrow keys.</small></p>
+            <div class="fb-table-wrap corechatx-coverage-table" role="region" aria-label="Feature replacement map" aria-describedby="coverage-scroll-help" tabindex="0">
+              <table class="fb-table fb-table--comfortable">
+                <caption>CoreChatX 2026.3.0.1-hotfix replacement map</caption>
+                <thead><tr><th scope="col">Your current job</th><th scope="col">CoreChatX configuration</th><th scope="col">Check before replacing it</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row"><a href="#formatting">Ranks and chat layout</a></th><td><a href="./configuration.html#4-2-chat-yml">chat.yml</a> and per-channel formats</td><td>Keep the permission and placeholder providers; convert the format syntax.</td></tr>
+                  <tr><th scope="row"><a href="#channels">Global, local, and staff channels</a></th><td><a href="./configuration.html#4-4-channels-yml">channels.yml</a>: scope, access, shortcuts, and bridge exports</td><td>Permission-based channels do not recreate towns, factions, or player-created parties.</td></tr>
+                  <tr><th scope="row"><a href="#communication">PMs, replies, ignores, and social spy</a></th><td><a href="./configuration.html#commands">Commands</a>, <a href="./configuration.html#4-6-privacy-yml">privacy.yml</a>, and player settings</td><td>Choose one command owner. Review staff bypass and transfer requirements for old player data.</td></tr>
+                  <tr><th scope="row"><a href="#moderation">Mutes and basic spam controls</a></th><td><a href="./configuration.html#4-7-moderation-yml">moderation.yml</a>, chat cooldowns, and <a href="./configuration.html#4-8-filter-yml">filter.yml</a></td><td>Word censoring is not regex scripting, a ban system, or sign/command filtering.</td></tr>
+                  <tr><th scope="row"><a href="#previews">Item and inventory sharing</a></th><td><a href="./configuration.html#4-9-chatitems-yml">chatitems.yml</a></td><td>Snapshots are temporary and read-only. Other plugins' addons and APIs are not imported.</td></tr>
+                  <tr><th scope="row"><a href="#example-keywords">Clickable chat keywords</a></th><td><a href="./configuration.html#4-9-1-keywords-yml">keywords.yml</a>: tokens, renderers, permissions, and channels</td><td>Configure each token and its destination. A click action does not implement the command it runs.</td></tr>
+                  <tr><th scope="row"><a href="#appearance">Overhead player chat</a></th><td><a href="./configuration.html#4-9-2-chatbubbles-yml">chatbubbles.yml</a> and per-channel controls</td><td>Bubbles stay on the local backend; NPC dialogue and general holograms are separate.</td></tr>
+                  <tr><th scope="row"><a href="#discord">Discord chat and account linking</a></th><td><a href="./configuration.html#4-10-discord-yml">Paper discord.yml</a> or <a href="./configuration.html#6-3-velocity-discord-yml">Velocity discord.yml</a></td><td>Use the correct bot owner for your deployment. Role admission is not bidirectional rank synchronization.</td></tr>
+                </tbody>
+              </table>
             </div>
           </section>
 
@@ -168,6 +204,48 @@
               <p><strong>How CoreChatX replaces this use:</strong> CoreChatX covers those communication roles with channel scopes, player privacy controls, moderation, ChatItem previews, and mentions. Velocity routes messages between Paper servers in the same CoreChatX group.</p>
               <p><strong>Scope and differences:</strong> Carbon's Redis/NATS/RabbitMQ transport, party system, and dedicated Towny, FactionsUUID, or mcMMO channels are not CoreChatX features. Permission-based channels do not automatically recreate town, faction, or party membership.</p>
               <p class="corechatx-comparison-links"><a href="https://modrinth.com/plugin/carbon">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./features.html#network">CoreChatX setup and features</a></p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="chatchat" aria-labelledby="chatchat-title">
+              <h3 id="chatchat-title">ChatChat (HelpChat)</h3>
+              <p><strong>Used for:</strong> Chat channels with permissions, radius limits, MiniMessage formats, private messaging, and mentions.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> CoreChatX combines channel access and scopes in <code>channels.yml</code> with public-chat formats, PMs, mentions, and interactive items. A channel shortcut can select the active channel or send a single message to it.</p>
+              <p><strong>Scope and differences:</strong> ChatChat format priorities, format parts, and channel options use their own configuration model. Recreate them in CoreChatX; permission-based channels do not automatically reproduce Towny town or nation membership.</p>
+              <p class="corechatx-comparison-links"><a href="https://github.com/HelpChat/ChatChat/blob/main/plugin/src/main/resources/channels.yml">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./configuration.html#4-4-channels-yml">CoreChatX setup and features</a></p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="herochat" aria-labelledby="herochat-title">
+              <h3 id="herochat-title">Herochat</h3>
+              <p><strong>Used for:</strong> Channel-based chat with distance limits, private messages, custom formats, and channel moderation.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> CoreChatX covers administrator-defined global, local, staff, and custom channels. Configure who may send and receive, give channels shortcuts, and let players choose or hide accessible channels.</p>
+              <p><strong>Scope and differences:</strong> Herochat channel ownership, moderators, passwords, and channel-specific bans or mutes are a different model. CoreChatX channels are configured by the server administrator, and its player mutes are not per-channel moderation.</p>
+              <p class="corechatx-comparison-links"><a href="https://www.spigotmc.org/resources/herochat.19264/">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./features.html#channels">CoreChatX setup and features</a></p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="multichat" aria-labelledby="multichat-title">
+              <h3 id="multichat-title">MultiChat</h3>
+              <p><strong>Used for:</strong> BungeeCord network chat with backend prefixes, private messages, staff streams, player-created group chats, and moderation.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> CoreChatX can handle cross-server public chat, one-to-one PMs, staff channels, ignores, mutes, and announcements on Paper plus Velocity. Keep matching channel definitions on the participating backends.</p>
+              <p><strong>Scope and differences:</strong> MultiChat player-created group chats, regex actions, and BungeeCord/Sponge integrations are not reproduced by a CoreChatX network group. A CoreChatX group separates network routing and saved data; it is not a player-managed chat room.</p>
+              <p class="corechatx-comparison-links"><a href="https://www.spigotmc.org/resources/multichat-full-rgb-colour-support.26204/">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./installation.html#velocity">CoreChatX setup and features</a></p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="ultimatechat" aria-labelledby="ultimatechat-title">
+              <h3 id="ultimatechat-title">UltimateChat / UChat</h3>
+              <p><strong>Used for:</strong> Formatted chat channels with cross-server messaging and optional integrations, including Discord.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> CoreChatX provides channel formats, local or network scopes, permission checks, and its own Discord bridge. The Paper and Velocity configuration defines the routes used for a CoreChatX network.</p>
+              <p><strong>Scope and differences:</strong> UltimateChat has its own API and BungeeCord, Redis, and Sponge setup paths. CoreChatX uses its supported Paper/Velocity architecture; existing UChat integrations and transport configuration cannot be reused unchanged.</p>
+              <p class="corechatx-comparison-links"><a href="https://github.com/FabioZumbi12/UltimateChat">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./features.html#network">CoreChatX setup and features</a></p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="bungee-chat" aria-labelledby="bungee-chat-title">
+              <h3 id="bungee-chat-title">Bungee Chat</h3>
+              <p><strong>Used for:</strong> Network-wide communication on BungeeCord, including global, private, and help messages.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> CoreChatX can take over cross-server public chat and private messages through Velocity, with custom permission-restricted channels for staff communication.</p>
+              <p><strong>Scope and differences:</strong> This requires the CoreChatX Velocity plugin and Paper plugins on the backends. It is not a JAR swap on BungeeCord. Recreate commands and permissions, and assess any help-message workflow separately from ordinary channel chat.</p>
+              <p class="corechatx-comparison-links"><a href="https://github.com/AuraDevelopmentTeam/BungeeChat2">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./installation.html#velocity">CoreChatX setup and features</a></p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="staffchatreloaded" aria-labelledby="staffchatreloaded-title">
+              <h3 id="staffchatreloaded-title">StaffChatReloaded (Xdlob9)</h3>
+              <p><strong>Used for:</strong> Four private staff-chat channels with configurable messages, RGB formatting, and PlaceholderAPI support.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> Create staff, moderator, administrator, or other channels in CoreChatX, each with its own send/receive permissions, shortcut, and format. Use <code>NETWORK</code> when authorized staff on other backends in the same group should receive messages.</p>
+              <p><strong>Scope and differences:</strong> Recreate each access rule explicitly; a familiar channel name does not transfer permissions. Review bridge exports and disable bubbles for private staff conversations. This comparison refers to Xdlob9's StaffChatReloaded project.</p>
+              <p class="corechatx-comparison-links"><a href="https://www.spigotmc.org/resources/staffchatreloaded-1-12-1-21-11-4-types-of-chat-channels.51565/">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./configuration.html#4-4-channels-yml">CoreChatX setup and features</a></p>
             </section>
             </div>
           </section>
@@ -242,6 +320,27 @@
             </div>
           </section>
 
+          <section class="fb-doc-section" id="appearance">
+            <h2>Chat colors and overhead bubbles</h2>
+            <p>Message appearance, nickname colors, and text above players are separate features. Choose the parts your server needs without assuming one setting controls all three.</p>
+            <div class="fb-stack">
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="chatbubbles" aria-labelledby="chatbubbles-title">
+              <h3 id="chatbubbles-title">ChatBubbles (thetealviper)</h3>
+              <p><strong>Used for:</strong> Displaying chat above players, with hologram-provider support and integrations such as Citizens and Factions.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> CoreChatX has built-in overhead player-chat bubbles. Configure duration, distance, height, line length, and appearance in <code>chatbubbles.yml</code>, then control availability by channel, permission, and player preference.</p>
+              <p><strong>Scope and differences:</strong> CoreChatX bubbles are local to the Paper backend. They do not replace a general hologram plugin, NPC dialogue, or ChatBubbles-specific Citizens/Factions integrations. This comparison refers to thetealviper's plugin, not similarly named client mods.</p>
+              <p class="corechatx-comparison-links"><a href="https://www.spigotmc.org/resources/chatbubbles-1-21-factions-citizens-compatible-placeholderapi.49387/">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./configuration.html#4-9-2-chatbubbles-yml">CoreChatX setup and features</a></p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-comparison-card" id="chatcolor" aria-labelledby="chatcolor-title">
+              <h3 id="chatcolor-title">ChatColor / ChatColor2</h3>
+              <p><strong>Used for:</strong> Letting players select colors and styles for their chat messages.</p>
+              <p><strong>How CoreChatX replaces this use:</strong> CoreChatX covers permission-controlled color codes in player messages and administrator-defined MiniMessage colors in group or channel formats. It also has separate nickname-color permissions.</p>
+              <p><strong>Scope and differences:</strong> This overlaps with colored chat, but does not reproduce a dedicated saved chat-color selection system. A colored nickname is not a saved message-color preference. Keep a separate color-selection solution if that exact player workflow is required, and check how it interacts with the active formatter.</p>
+              <p class="corechatx-comparison-links"><a href="https://github.com/sulphi-fox/ChatColor2">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./configuration.html#permissions">CoreChatX setup and features</a></p>
+            </section>
+            </div>
+          </section>
+
           <section class="fb-doc-section" id="communication">
             <h2>Communication tools inside larger suites</h2>
             <p>Keep the rest of an administration suite when you still use it. Only move the communication features you actually want CoreChatX to manage.</p>
@@ -260,6 +359,126 @@
               <p><strong>Scope and differences:</strong> This does not replace CMI's economy, portals, kits, holograms, inventory editing, or other administration features. CMI's regex filters and command spying are also separate from CoreChatX's word censoring and PM social spy. Configure ownership of overlapping features explicitly.</p>
               <p class="corechatx-comparison-links"><a href="https://www.zrips.net/cmi/">Official project documentation</a> <span aria-hidden="true">&middot;</span> <a href="./features.html#players">CoreChatX setup and features</a></p>
             </section>
+            </div>
+          </section>
+
+          <section class="fb-doc-section" id="examples">
+            <h2>What does replacing a feature look like?</h2>
+            <p>These four independent examples show how to configure common uses after <a href="./installation.html">installing CoreChatX</a>. Pick the ones you need; they are not a complete installation or migration procedure.</p>
+            <div class="fb-callout fb-callout--info">
+              <p><strong>Back up every file in the plugin folder before editing.</strong> These are partial examples: edit or merge the shown keys into the generated files, keep unrelated settings, and never add a second <code>channels:</code> or <code>keywords:</code> root. Use spaces for YAML indentation.</p>
+              <p>On a network, apply the intended Paper settings to each participating backend and keep matching channel IDs. The Velocity setup and network groups must already be configured. For these examples, stop the affected server before editing, start it again afterward, and check the result with an ordinary player and a staff account.</p>
+            </div>
+            <div class="fb-stack corechatx-example-list">
+            <section class="fb-card fb-card--subtle corechatx-example-card" id="example-formatting" aria-labelledby="example-formatting-title">
+              <h3 id="example-formatting-title">1. Give global chat a consistent layout</h3>
+              <p>A simple replacement for a chat-formatting module. This sets the global channel format directly, so a primary-group format in <code>chat.yml</code> will not override it.</p>
+              <p><strong>File:</strong> <code>plugins/CoreChatX/channels.yml</code> on Paper. Edit the existing keys shown here.</p>
+              <div class="fb-code-block"><pre><code class="language-yaml">channels:
+  global:
+    format: &quot;{rank_prefix}&lt;white&gt;{player_nickname}&lt;/white&gt;&lt;dark_gray&gt; » &lt;/dark_gray&gt;{message}&quot;</code></pre></div>
+              <p><strong>Expected result:</strong> global messages show the LuckPerms rank prefix, player nickname, and message. Keep the LuckPerms hook enabled if you want that prefix. For different layouts by rank, leave the channel format empty and configure <code>public-chat.group-formats</code> in <code>chat.yml</code> instead. The order is channel format, primary-group format, then the general public-chat format.</p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-example-card" id="example-staff" aria-labelledby="example-staff-title">
+              <h3 id="example-staff-title">2. Create a staff-only chat shortcut</h3>
+              <p>An example for replacing a dedicated staff-chat channel. Use an unused shortcut name if another plugin already owns <code>/sc</code>.</p>
+              <p><strong>File:</strong> <code>plugins/CoreChatX/channels.yml</code> on Paper. Edit the existing keys shown here.</p>
+              <div class="fb-code-block"><pre><code class="language-yaml">channels:
+  staff:
+    enabled: true
+    default: false
+    shortcut: &quot;sc&quot;
+    scope: &quot;NETWORK&quot;
+    permission-send: &quot;corechatx.channel.staff&quot;
+    permission-receive: &quot;corechatx.staff&quot;
+    allow-chat-bubbles: false
+    export-to-bridges: false
+    format: &quot;&lt;red&gt;[Staff]&lt;/red&gt; {player_nickname}&lt;dark_gray&gt; » &lt;/dark_gray&gt;{message}&quot;</code></pre></div>
+              <p><strong>Access:</strong> grant staff the two configured permission nodes; review <code>corechatx.staff</code> because other CoreChatX features also use it. For a narrowly scoped custom chat, you can choose your own send/receive nodes instead. Also grant <code>corechatx.command.channel</code> for channel commands, including the shortcut.<br><strong>Expected result:</strong> <code>/sc</code> selects staff chat, while <code>/sc message</code> sends one staff message without changing the active channel. Authorized staff in the same CoreChatX network group can receive it. This example disables outgoing bridge exports and overhead bubbles; do not configure a Discord inbound route to this channel unless you intend to provide that access too.</p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-example-card" id="example-keywords" aria-labelledby="example-keywords-title">
+              <h3 id="example-keywords-title">3. Turn a rules token into a clickable link</h3>
+              <p>A small replacement for an interactive keyword feature. Replace the example URL with your real rules page; the token remains visible as ordinary text where keyword rendering is not available.</p>
+              <p><strong>File:</strong> <code>plugins/CoreChatX/keywords.yml</code> on Paper. Edit the existing keys shown here.</p>
+              <div class="fb-code-block"><pre><code class="language-yaml">keywords:
+  rules:
+    enabled: true
+    tokens: [&quot;[rules]&quot;]
+    renderer: &quot;&lt;yellow&gt;&lt;hover:show_text:&#x27;&lt;gray&gt;Open the server rules&lt;/gray&gt;&#x27;&gt;&lt;click:open_url:&#x27;https://example.com/rules&#x27;&gt;[Rules]&lt;/click&gt;&lt;/hover&gt;&lt;/yellow&gt;&quot;
+    allow-placeholderapi: false
+    permission: &quot;&quot;
+    enabled-channels: []
+    disabled-channels: []</code></pre></div>
+              <p><strong>Expected result:</strong> sending <code>[rules]</code> in supported CoreChatX chat produces a clickable <code>[Rules]</code> link with hover text. The empty permission allows all players; set a permission or channel allowlist if the token should be restricted. Minecraft may ask the player to confirm opening the link.</p>
+            </section>
+            <section class="fb-card fb-card--subtle corechatx-example-card" id="example-bubbles" aria-labelledby="example-bubbles-title">
+              <h3 id="example-bubbles-title">4. Keep overhead bubbles close to the player</h3>
+              <p>A replacement for the nearby-player speech-bubble use case. This example keeps staff conversations out of bubbles and limits the visible distance.</p>
+              <p><strong>File:</strong> <code>plugins/CoreChatX/chatbubbles.yml</code> on Paper. Edit the existing keys shown here.</p>
+              <div class="fb-code-block"><pre><code class="language-yaml">enabled: true
+default-enabled: true
+permission: &quot;corechatx.chatbubbles.use&quot;
+disabled-channels: [&quot;staff&quot;]
+max-visible-distance: 24
+max-line-length: 28
+max-plain-length: 80
+base-duration-ticks: 80
+max-duration-ticks: 160</code></pre></div>
+              <p><strong>Expected result:</strong> eligible player messages create nearby overhead bubbles on that backend. Grant <code>corechatx.chatbubbles.use</code>, allow bubbles in the channel, and enable them in the player's <code>/ccxsettings</code>. <code>default-enabled</code> sets the default for a new preference; it does not overwrite a player's saved choice. Keep any other channel restrictions from your existing file.</p>
+            </section>
+            </div>
+          </section>
+
+          <section class="fb-doc-section" id="keep-installed">
+            <h2>Which plugins might you still keep?</h2>
+            <p>A plugin can provide information that CoreChatX displays without being replaced by CoreChatX. These are common complementary roles.</p>
+            <div class="fb-stack">
+              <section class="fb-card fb-card--subtle" aria-labelledby="keep-luckperms">
+                <h3 id="keep-luckperms">LuckPerms: permissions and ranks</h3>
+                <p>Keep LuckPerms to assign groups, permissions, and metadata. CoreChatX reads the primary group and prefix to format chat; it does not become your permissions manager. LPC and LuckPerms have different roles.</p>
+                <p><a href="https://luckperms.net/wiki/Home">LuckPerms documentation</a> <span aria-hidden="true">&middot;</span> <a href="./configuration.html#4-1-config-yml">CoreChatX hooks</a></p>
+              </section>
+              <section class="fb-card fb-card--subtle" aria-labelledby="keep-placeholderapi">
+                <h3 id="keep-placeholderapi">PlaceholderAPI: values from other plugins</h3>
+                <p>Keep PlaceholderAPI and the expansions required by your chosen templates. CoreChatX's own placeholders work independently, but an external placeholder needs its provider and expansion where the Paper format is rendered.</p>
+                <p><a href="https://wiki.placeholderapi.com/">PlaceholderAPI documentation</a> <span aria-hidden="true">&middot;</span> <a href="./configuration.html#4-2-chat-yml">CoreChatX formatting</a></p>
+              </section>
+              <section class="fb-card fb-card--subtle" aria-labelledby="keep-tab">
+                <h3 id="keep-tab">TAB: the player list</h3>
+                <p>A rank prefix in chat does not configure the player list. Keep TAB when you use its tab-list formatting and other display features. Decide separately how names should appear in chat and outside it.</p>
+                <p><a href="https://github.com/NEZNAMY/TAB/wiki/Feature-guide:-Tablist-name-formatting">TAB formatting documentation</a></p>
+              </section>
+              <section class="fb-card fb-card--subtle" aria-labelledby="keep-deluxetags">
+                <h3 id="keep-deluxetags">DeluxeTags: selectable cosmetic tags</h3>
+                <p>Keep DeluxeTags if players unlock and choose a cosmetic tag from its menu. CoreChatX can render external placeholder values, but its nickname settings and rank formats do not provide that tag collection or selector. Follow DeluxeTags' PlaceholderAPI setup when using a separate chat formatter.</p>
+                <p><a href="https://wiki.helpch.at/helpchat-plugins/deluxetags">DeluxeTags documentation</a> <span aria-hidden="true">&middot;</span> <a href="./configuration.html#4-2-chat-yml">CoreChatX formatting</a></p>
+              </section>
+            </div>
+          </section>
+
+          <section class="fb-doc-section" id="switching-questions">
+            <h2>Common replacement questions</h2>
+            <div class="fb-stack">
+              <details>
+                <summary>Can I install CoreChatX alongside my existing chat plugin?</summary>
+                <div class="fb-details-body"><p>Retain other plugins for the functions you still need, but give each chat function one owner. Two formatters or Discord routes handling the same message can produce duplicate output or conflicting behavior. Follow the other plugin's documentation to disable overlapping modules and resolve shared command names before enabling the replacement.</p></div>
+              </details>
+              <details>
+                <summary>Can I reuse my old YAML, permissions, and player data?</summary>
+                <div class="fb-details-body"><p>Use old files as a reference, not as CoreChatX configuration. Recreate templates and permissions with the <a href="./configuration.html">CoreChatX reference</a>. There is no automatic importer for the compared plugins' nicknames, ignores, mutes, or account links. Keep a complete backup and decide how each saved setting will be restored or recreated before switching.</p></div>
+              </details>
+              <details>
+                <summary>Do I need MySQL, Redis, or a client mod?</summary>
+                <div class="fb-details-body"><p>CoreChatX uses YAML by default and offers MySQL as an optional storage backend. MySQL is not required just to use channels, previews, or the supported Velocity network setup. CoreChatX does not require Redis for its network transport or a client mod for its standard chat features. Supported Paper and Velocity versions still matter; follow the <a href="./installation.html">installation guide</a>.</p></div>
+              </details>
+              <details>
+                <summary>Can players choose which settings stay enabled?</summary>
+                <div class="fb-details-body"><p><code>/ccxsettings</code> exposes player preferences such as private-message availability and chat bubbles. Players can choose whether their active channel persists or returns to the default after disconnecting, and can hide accessible channels with the relevant commands. Permissions and server configuration still control which features they may use; these preferences do not grant staff access.</p></div>
+              </details>
+              <details>
+                <summary>Does replacing several plugins guarantee better performance?</summary>
+                <div class="fb-details-body"><p>No. A smaller plugin list does not by itself establish lower CPU, memory, or disk use. This page compares functions and configuration boundaries. Performance depends on the enabled features, traffic, integrations, and deployment; assess it on your own server.</p></div>
+              </details>
             </div>
           </section>
 
@@ -305,7 +524,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.3.0 is a complete chat plugin for Paper servers and Velocity networks, with channels, private messages, moderation, ChatItems, player settings, Discord, and Telegram.">
+    <meta name="description" content="CoreChatX 2026.3.0.1-hotfix is a complete chat plugin for Paper servers and Velocity networks, with channels, private messages, moderation, ChatItems, player settings, Discord, and Telegram.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/">
     <meta property="og:type" content="website">
@@ -18,7 +18,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -190,20 +190,19 @@
           <div class="fb-card corechatx-release">
             <div>
               <p class="fb-eyebrow">Latest update</p>
-              <p class="corechatx-release-version">2026.3.0</p>
+              <p class="corechatx-release-version">2026.3.0.1<wbr>-hotfix</p>
             </div>
             <div>
-              <h2>MySQL storage, recovery tools, and a channel choice for every player.</h2>
+              <h2>Proxy join fixes and clearer update notices.</h2>
               <ul class="fb-flow">
-                <li>Choose YAML or MySQL for player preferences, privacy, moderation, and Discord links.</li>
-                <li>Use <code>/ccxstorage</code> to validate, back up, migrate, and recover saved data.</li>
-                <li>The <code>/ccxsettings</code> compass selects Persistent or Non persistent channels.</li>
-                <li>Reloads retain proxy settings and reconnect Discord asynchronously; mandatory linking denies entry when linking is unavailable.</li>
-                <li>Migration retries recover after verified aborts, and linked offline Discord senders retain their saved identity on MySQL.</li>
+                <li>Paper requests player and moderation data when joining or switching backends, before the first chat attempt.</li>
+                <li>Delayed join callbacks cannot affect a disconnected or replaced session; proxy timeout messages include useful context.</li>
+                <li>Stable and experimental updates have separate colored console banners, and startup banners link to the wiki.</li>
+                <li>The update checker now understands four-part hotfix versions and later releases.</li>
               </ul>
-              <p>Update Paper and Velocity together. Back up every file in the plugin folders before following the <a href="./migration.html">YAML-to-MySQL migration guide</a>; follow its <a href="./migration.html#validation-scope">preparation checks</a> to rehearse migration and rollback with an isolated copy of your own data.</p>
+              <p>Back up the complete plugin folders and any MySQL data, then update Paper and Velocity together. Existing 2026.3.0 configurations and storage formats stay compatible. Download this hotfix manually: the older update checker does not recognize this version format.</p>
               <div class="fb-cluster">
-                <a class="fb-button" href="./changelog.html">Read the complete 2026.3.0 changelog</a>
+                <a class="fb-button" href="./changelog.html#release-2026-3-0-1-hotfix">Read the hotfix changelog</a>
                 <a class="fb-button fb-button--secondary" href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">View downloads</a>
               </div>
             </div>
@@ -345,7 +344,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

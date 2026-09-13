@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Complete CoreChatX 2026.3.0 installation guide for one Paper server or a multi-server Velocity network, including first startup, integrations, backups, and final checks.">
+    <meta name="description" content="Complete CoreChatX 2026.3.0.1-hotfix installation guide for one Paper server or a multi-server Velocity network, including first startup, integrations, backups, and final checks.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/installation.html">
     <meta property="og:type" content="article">
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -267,9 +267,18 @@ player-directory.tab-entries=true</code></pre></div>
 
           <section class="fb-doc-section" id="existing"><p class="fb-eyebrow">7. Existing installations</p>
             <h2>Upgrade the whole network and preserve authoritative data.</h2>
-            <ol><li>Stop the affected servers and back up plugin configuration, live YAML or database data, and any storage journals.</li><li>Replace Paper and Velocity JARs together. Version 2026.3.0 uses protocol 29; mixed builds cannot exchange the new player state correctly.</li><li>Keep YAML if you do not need a database. Legacy <code>storage.sql.*</code> settings do not enable MySQL.</li><li>For existing YAML-to-MySQL data, configure connection settings and use the confirmed <code>/ccxstorage</code> plan/execute workflow. Change the backend only when instructed, then restart.</li><li>Schema V003 preserves existing players' Persistent choice. With <code>schema-auto-migrate: false</code>, arrange the schema upgrade before startup. Older builds reject schema 3.</li><li>For MySQL-to-YAML rollback, export the latest database data through the rollback workflow; do not replace it with a stale pre-migration archive.</li></ol>
+            <h3>From 2026.3.0 to 2026.3.0.1-hotfix</h3>
+            <ol>
+              <li>Stop the affected servers. Back up every file and subfolder in the CoreChatX plugin folders and back up MySQL if used.</li>
+              <li>Download the hotfix manually from <a href="https://modrinth.com/plugin/corechatx/versions">Modrinth</a>: the older 2026.3.0 update checker does not recognize four-part hotfix versions.</li>
+              <li>Replace the CoreChatX JAR on Velocity and each participating Paper backend with the matching hotfix JAR. Keep only one CoreChatX JAR per server and leave configuration, runtime files, database and journals intact.</li>
+              <li>Start Velocity first, then its Paper backends; for standalone, start Paper. Verify that the startup banner shows 2026.3.0.1-hotfix, then check chat and player settings.</li>
+            </ol>
+            <p>This hotfix keeps protocol 29 and the existing storage schema. An installation already on 2026.3.0 needs no configuration conversion or new YAML-to-MySQL migration.</p>
+            <h3>From 2026.2.6 or earlier</h3>
+            <ol><li>Stop the affected servers and back up plugin configuration, live YAML or database data, and any storage journals.</li><li>Replace Paper and Velocity JARs together. Version 2026.3.0.1-hotfix uses protocol 29; mixed builds cannot exchange the new player state correctly.</li><li>Keep YAML if you do not need a database. Legacy <code>storage.sql.*</code> settings do not enable MySQL.</li><li>For existing YAML-to-MySQL data, configure connection settings and use the confirmed <code>/ccxstorage</code> plan/execute workflow. Change the backend only when instructed, then restart.</li><li>Schema V003 preserves existing players' Persistent choice. With <code>schema-auto-migrate: false</code>, arrange the schema upgrade before startup. Older builds reject schema 3.</li><li>For MySQL-to-YAML rollback, export the latest database data through the rollback workflow; do not replace it with a stale pre-migration archive.</li></ol>
             <p>Only recreate individual configuration files when needed. Preserve <code>storage.yml</code> or <code>velocity-storage.yml</code> and restore the active backend/identity before booting; their defaults select YAML. Never remove player data or transition journals as configuration cleanup.</p>
-            <div class="fb-callout fb-callout--info"><p>Back up the complete plugin folders and rehearse migration and rollback with an isolated copy of your own data before opening the server. Follow the <a href="./migration.html#validation-scope">preparation checks</a> and the <a href="./migration.html">2026.2.6 YAML to 2026.3.0 MySQL guide</a>, then review the <a href="./changelog.html">complete release notes</a>.</p></div>
+            <div class="fb-callout fb-callout--info"><p>Back up the complete plugin folders and rehearse migration and rollback with an isolated copy of your own data before opening the server. Follow the <a href="./migration.html#validation-scope">preparation checks</a> and the <a href="./migration.html">2026.2.6 YAML to 2026.3.0.1-hotfix MySQL guide</a>, then review the <a href="./changelog.html">complete release notes</a>.</p></div>
           </section>
 
           <section class="fb-doc-section" id="backup">
@@ -373,7 +382,7 @@ player-directory.tab-entries=true</code></pre></div>
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

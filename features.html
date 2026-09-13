@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Explore CoreChatX 2026.3.0 features: public chat, channels, private messages, ChatItems, player settings, moderation, Discord, Telegram, and Velocity networking.">
+    <meta name="description" content="Explore CoreChatX 2026.3.0.1-hotfix features: public chat, channels, private messages, ChatItems, player settings, moderation, Discord, Telegram, and Velocity networking.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/features.html">
     <meta property="og:type" content="website">
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -282,11 +282,11 @@
               <div class="fb-card fb-card--subtle"><h3>Storage checks, backups, and migration</h3><p><code>/ccxstorage</code> validates saved data, creates and verifies checksummed backups, and plans YAML-to-MySQL migration or latest-state rollback. Confirmation tokens and recovery journals protect transitions. <a href="./configuration.html#storage-maintenance">Read the operator workflow</a>.</p></div>
               <div class="fb-card fb-card--subtle">
                 <h3>Modrinth update notifications</h3>
-                <p>Optional background checks notify console and OP players when a compatible newer release is available. Stable releases are recommended; alpha and beta builds are announced separately for testing. Checks run after startup and every 24 hours by default, without installing files. <a href="./configuration.html#4-1-config-yml">Configure update checks</a>.</p>
+                <p>Optional background checks notify console and OP players when a compatible newer release is available. Stable releases are recommended with green console banners; alpha and beta builds use separate yellow experimental banners. Four-part hotfix versions are supported. Checks run after startup and every 24 hours by default, without installing files. <a href="./configuration.html#4-1-config-yml">Configure update checks</a>.</p>
               </div>
               <div class="fb-card fb-card--subtle">
                 <h3>Clear startup information</h3>
-                <p>The startup message shows the CoreChatX version and whether the Paper or Velocity jar is running. Permissions use <code>corechatx.*</code>, and the default network group is <code>corechatx:main</code>.</p>
+                <p>The startup banner shows the CoreChatX version, the Paper or Velocity platform, and links to GitHub and this wiki. Permissions use <code>corechatx.*</code>, and the default network group is <code>corechatx:main</code>.</p>
               </div>
               <div class="fb-card fb-card--subtle">
                 <h3>Configuration and data safety</h3>
@@ -332,7 +332,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

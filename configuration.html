@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Complete CoreChatX 2026.3.0 configuration guide with every Paper and Velocity file, default value, explanation, command, permission, limit, and troubleshooting step.">
+    <meta name="description" content="Complete CoreChatX 2026.3.0.1-hotfix configuration guide with every Paper and Velocity file, default value, explanation, command, permission, limit, and troubleshooting step.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/configuration.html">
     <meta property="og:type" content="article">
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -45,7 +45,7 @@
     <main id="main" class="fb-main">
       <header class="fb-doc-header corechatx-page-hero">
         <div class="fb-container fb-container--wide">
-          <p class="fb-eyebrow">Complete guide for 2026.3.0</p>
+          <p class="fb-eyebrow">Complete guide for 2026.3.0.1-hotfix</p>
           <h1>Every configuration file and setting, explained.</h1>
           <p class="fb-lead">Use the index to open a Paper or Velocity file, check its default values, understand what each option changes, or find commands, permissions, and troubleshooting help.</p>
           <div class="fb-cluster">
@@ -256,7 +256,7 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
               <li>Do not install the Paper jar on Velocity, and do not install the Velocity jar on Paper.</li>
             </ul>
           <p>Paper starts and stops Discord asynchronously. A successful <code>/corechatx reload</code> does not wait for bot token verification or gateway readiness; Minecraft commands remain available while Discord reconnects. Retired connections cannot reactivate the previous bridge.</p>
-          <p>Ordinary Paper reloads retain proxy player mirrors and pending requests, then refresh cached/online state asynchronously. Existing values remain readable until the refresh completes. Editing mode, server ID, or network channel retains the active boot identity and logs a restart-required warning.</p><p>Install matching Paper and Velocity 2026.3.0 JARs together: protocol 29 carries the new preference and storage operations.</p></section>
+          <p>Ordinary Paper reloads retain proxy player mirrors and pending requests, then refresh cached/online state asynchronously. Existing values remain readable until the refresh completes. Editing mode, server ID, or network channel retains the active boot identity and logs a restart-required warning.</p><p>Install matching Paper and Velocity 2026.3.0.1-hotfix JARs together: protocol 29 carries the new preference and storage operations.</p><p>On join and backend switch, Paper requests player settings, privacy, channels, mute and global state from Velocity on the next server tick, with up to three read attempts. Join display updates and first-join announcements wait for confirmation. Chat remains protected if moderation data cannot be confirmed; check the proxy connection and storage logs if temporary-unavailability feedback persists.</p></section>
           <section class="fb-doc-section" id="3-quick-install-patterns">
             <h2>3. Quick Install Patterns</h2>
             <h3 id="standalone-paper">Standalone Paper</h3>
@@ -363,6 +363,8 @@ data/groups/&lt;encoded-channel&gt;/global-state.yml</code></pre></div>
               <li><code>update-check.enabled</code> controls the checker. A background check runs about 10 seconds after activation, then every <code>update-check.interval-hours</code> (default 24, clamped to 1–168).</li>
               <li>Console and online OP players receive new notices. OP players joining later receive the cached result without another HTTP request. Only stable releases are recommended; newer alpha/beta builds are labeled experimental, and previews superseded by a stable release are omitted.</li>
               <li>Paper filters by its loader and exact Minecraft version. Velocity filters by its own loader and logs to console; review backend compatibility before upgrading.</li>
+              <li>Paper and Velocity consoles use green stable-update banners and yellow experimental alpha/beta banners. They show installed/available versions and the download link; player messages remain configurable.</li>
+              <li>Numeric hotfix revisions such as <code>2026.3.0.1-hotfix</code> are supported. The older <code>2026.3.0</code> checker does not recognize this format, so download this first hotfix manually.</li>
               <li>Paper reload applies these settings; Velocity requires restart. Customize player wording in <code>messages.yml</code> under <code>updates.stable</code> and <code>updates.preview</code>.</li>
             </ul>
             <p>Purpose:</p>
@@ -1730,7 +1732,7 @@ storage:
               <li><code>schema-auto-migrate: true</code> installs or resumes required schema versions under an exclusive lock. Version <code>V003</code> adds the channel-persistence preference with a true default. With automatic migration disabled, missing versions prevent startup.</li>
             </ul>
             <h3 id="storage-maintenance">Storage maintenance and migration</h3>
-            <p>Upgrading existing YAML data? Follow the <a href="./migration.html">2026.2.6 to 2026.3.0 MySQL migration guide</a> for the complete preparation, platform-specific commands, activation checks, rollback, and recovery sequence.</p>
+            <p>Upgrading existing YAML data? Follow the <a href="./migration.html">2026.2.6 to 2026.3.0.1-hotfix MySQL migration guide</a> for the complete preparation, platform-specific commands, activation checks, rollback, and recovery sequence.</p>
             <p><code>/ccxstorage</code> is available on Paper and Velocity, including recovery mode. Inspection and backups require <code>corechatx.command.storage</code> (default <code>op</code> on Paper; granted through the proxy permission provider on Velocity). Migration and rollback changes are console-only.</p>
             <div class="fb-code-block"><pre><code class="language-plaintext nohighlight"># Paper standalone examples
 /ccxstorage status
@@ -2765,7 +2767,7 @@ plugins/corechatx/velocity-storage.yml</code></pre></div>
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>
