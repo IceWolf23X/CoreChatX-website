@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.3.0.1-hotfix is a complete chat plugin for Paper servers and Velocity networks, with channels, private messages, moderation, ChatItems, player settings, Discord, and Telegram.">
+    <meta name="description" content="CoreChatX 2026.3.1 is a complete chat plugin for Paper servers and Velocity networks, with channels, private messages, moderation, ChatItems, player settings, Discord, and Telegram.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/">
     <meta property="og:type" content="website">
@@ -18,7 +18,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.1">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -190,19 +190,21 @@
           <div class="fb-card corechatx-release">
             <div>
               <p class="fb-eyebrow">Latest update</p>
-              <p class="corechatx-release-version">2026.3.0.1<wbr>-hotfix</p>
+              <p class="corechatx-release-version">2026.3.1</p>
             </div>
             <div>
-              <h2>Proxy join fixes and clearer update notices.</h2>
+              <h2>Optional progress, event sharing, and vanish privacy.</h2>
               <ul class="fb-flow">
-                <li>Paper requests player and moderation data when joining or switching backends, before the first chat attempt.</li>
-                <li>Delayed join callbacks cannot affect a disconnected or replaced session; proxy timeout messages include useful context.</li>
-                <li>Stable and experimental updates have separate colored console banners, and startup banners link to the wiki.</li>
-                <li>The update checker now understands four-part hotfix versions and later releases.</li>
+                <li>Optionally synchronize full Minecraft advancement progress across Paper backends in one Velocity group.</li>
+                <li>Existing criteria merge progressively as players visit backends, while explicit revocations remain durable.</li>
+                <li>Historical progress restores silently, so it does not repeat rewards, toasts, XP, loot, or functions.</li>
+                <li>Optionally relay visible death announcements across participating backends without affecting Discord death mirrors.</li>
+                <li>Suppress hidden players' join, first-join, quit, and connection-mirror messages through optional PremiumVanish hooks on Paper and Velocity.</li>
               </ul>
-              <p>Back up the complete plugin folders and any MySQL data, then update Paper and Velocity together. Existing 2026.3.0 configurations and storage formats stay compatible. Download this hotfix manually: the older update checker does not recognize this version format.</p>
+              <p>Advancement synchronization and network death relay are disabled by default. The PremiumVanish hook is enabled by default but changes nothing unless PremiumVanish is installed. Back up the complete plugin folders, worlds, and any MySQL data before enabling advancement synchronization, then update Velocity and every participating Paper backend together.</p>
               <div class="fb-cluster">
-                <a class="fb-button" href="./changelog.html#release-2026-3-0-1-hotfix">Read the hotfix changelog</a>
+                <a class="fb-button" href="./changelog.html#release-2026-3-1">Read the 2026.3.1 changelog</a>
+                <a class="fb-button fb-button--secondary" href="./advancement-sync.html">Set up advancement sync</a>
                 <a class="fb-button fb-button--secondary" href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">View downloads</a>
               </div>
             </div>
@@ -344,7 +346,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.1 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>

@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.3.0.1-hotfix FAQ for installation, Velocity networks, chat formatting, player controls, ChatItems, Discord, Telegram, and saved data.">
+    <meta name="description" content="CoreChatX 2026.3.1 FAQ for installation, Velocity networks, chat formatting, player controls, ChatItems, integrations, and saved data.">
     <meta name="theme-color" content="#2F3235">
     <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/faq.html">
     <meta property="og:type" content="article">
@@ -16,7 +16,7 @@
     <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
     <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.0.1-hotfix">
+    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.1">
   </head>
   <body>
     <a class="fb-skip-link" href="#main">Skip to content</a>
@@ -157,6 +157,10 @@
             <div class="fb-details-body"><p>With <code>account-linking.require-linked-to-play</code> enabled, no. Unavailable linking or failed code creation denies entry with a temporary-unavailability message. <code>deny-if-unverifiable</code> applies only to role verification for players who already have a link.</p></div>
           </details>
           <details>
+            <summary>Can PremiumVanish hide CoreChatX join and quit announcements?</summary>
+            <div class="fb-details-body"><p>Yes. Leave <code>hooks.premiumvanish</code> enabled and install PremiumVanish on Paper for local announcements or on Velocity for proxy-owned network announcements. Hidden join, first-join and quit messages and their configured connection mirrors are suppressed, while first-join records and counters remain correct. Follow PremiumVanish's own backend/proxy synchronization instructions; the hook does not hide TAB, player lists, chat, or other events and does not create fake announcements when vanish changes.</p></div>
+          </details>
+          <details>
             <summary>How does Telegram receive messages?</summary>
             <div class="fb-details-body"><p>CoreChatX checks the Telegram Bot API for new messages and sends replies through the same API. You only need a bot token and the chat or topic IDs used by your routes.</p></div>
           </details>
@@ -173,7 +177,7 @@
 
           <details>
             <summary>Can CoreChatX save data in SQL?</summary>
-            <div class="fb-details-body"><p>Yes. Version 2026.3.0.1-hotfix supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="./migration.html">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
+            <div class="fb-details-body"><p>Yes. Version 2026.3.1 supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="./migration.html">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
           </details>
           <details>
             <summary>Which data should I back up?</summary>
@@ -221,7 +225,7 @@
         </div>
         <div class="fb-cluster corechatx-footer-meta">
           <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.0.1-hotfix &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
+          <span>Version 2026.3.1 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
           <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
         </div>
       </div>
