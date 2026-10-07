@@ -30,8 +30,8 @@ window.COREX_LANDING = {
     platforms: ['Standalone Paper', 'Velocity networks'],
     preview: {
       assetKey: 'heroPreview',
-      ariaLabel: 'In-game chat preview',
-      topLeft: 'CORECHATX / IN-GAME',
+      ariaLabel: 'CoreChatX plugin preview',
+      topLeft: 'CORECHATX / PLUGIN',
       placeholderLabel: 'SCREENSHOT PLACEHOLDER',
       placeholderTitle: 'A space for your server.',
       placeholderText: 'Your in-game chat screenshot belongs here.',

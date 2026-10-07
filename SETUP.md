@@ -14,7 +14,7 @@ Le pagine del sito rimangono in inglese; questa guida operativa è in italiano.
 
 Per consultare il sito o modificare testi/immagini non servono Node.js, Python, npm, un server o una compilazione. I file JavaScript sono normali script locali, non moduli che devono essere caricati con `fetch()`.
 
-La gallery arriva volutamente **vuota**, con il placeholder già previsto: non sono inclusi screenshot di gioco inventati. Aggiungi i tuoi file seguendo il punto 3.
+La preview usa temporaneamente il **logo del plugin** come immagine fissa. Sostituisci la sua voce in `images` con i tuoi screenshot seguendo il punto 3.
 
 ## 2. Dove si modifica ogni cosa
 

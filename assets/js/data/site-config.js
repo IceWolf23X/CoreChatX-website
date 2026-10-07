@@ -42,10 +42,11 @@ window.COREX_SITE = {
 
   assets: {
     heroPreview: {
-      /* Upload actual screenshots to assets/img/, then add their relative paths.
+      /* Use the plugin logo temporarily; replace it with actual screenshots when available.
        * 0 valid images = placeholder; 1 = static image; 2+ = automatic gallery.
        * The commented paths below are examples, not bundled screenshot files. */
       images: [
+        { src: 'assets/img/corechatx-logo.png', alt: 'CoreChatX plugin logo' },
         // { src: 'assets/img/chat-01.webp', alt: 'Public chat', caption: 'Public chat with mentions.' },
         // { src: 'assets/img/chat-02.webp', alt: 'Item preview', caption: 'Share a saved item preview.' }
       ],
@@ -56,7 +57,7 @@ window.COREX_SITE = {
       objectFit: 'contain',   // 'contain' shows the whole image; 'cover' may crop it.
       /* Backwards-compatible single-image source, used only if images is empty. */
       src: '',
-      alt: 'CoreChatX public chat running in Minecraft'
+      alt: 'CoreChatX plugin logo'
     }
   },
 

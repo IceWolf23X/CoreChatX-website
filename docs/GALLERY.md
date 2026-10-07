@@ -20,7 +20,7 @@ heroPreview: {
 }
 ```
 
-The paths are examples, not supplied game screenshots. The shipped configuration is empty so the original placeholder remains. An image list can also contain path strings, but objects are preferable because they provide meaningful `alt` text and optional captions. Per-image `objectFit` overrides the gallery default.
+The paths are examples, not supplied game screenshots. The current CoreChatX configuration uses the bundled plugin logo as a temporary static image until game screenshots are available. Replace that entry in `images` when adding screenshots. An image list can also contain path strings, but objects are preferable because they provide meaningful `alt` text and optional captions. Per-image `objectFit` overrides the gallery default.
 
 An empty or absent `images` list falls back to the previous `src`/`alt` single-image settings. A nonempty list takes precedence. To remove all images, empty both `images` and `src`.
 

@@ -8,7 +8,7 @@ No package installation is required. Node.js 22 runs the generation tools and te
 - `index.html` — Landing, hash-routed wiki and GitHub Releases application shell; loads the data, generated snapshots and runtime scripts.
 - `reference.html` — Independent configuration/command reference shell using the same content and renderers.
 - `assets/js/boot.js`, `assets/js/app.js`, `assets/js/docs.js`, `assets/js/search.js`, `assets/js/utils.js` — Theme initialization, route/view lifecycle, documentation navigation, search and shared browser helpers.
-- `assets/js/data/site-config.js` — Public product identity, colors, gallery settings and release source `IceWolf23X/CoreChatX-website`; contains no credentials.
+- `assets/js/data/site-config.js` — Public product identity, colors, gallery settings (currently the bundled plugin logo as a temporary static hero image) and release source `IceWolf23X/CoreChatX-website`; contains no credentials.
 - `assets/js/data/landing-content.js`, `assets/js/data/docs-content.js`, `assets/js/data/ui-text.js` — Landing sections, wiki catalog/metadata and interface text. `docs-content.js` points articles to their external HTML bodies; configuration articles reference the generated config bundle.
 - `assets/content/docs/guides/` — Complete installation, advancement, FAQ, comparisons and two independent 15-step storage-migration/recovery guides, imported from production and verified for 2026.3.2.
 - `assets/content/docs/reference/changelog.html` — 28 release-note entries through 2026.3.2; historical wording stays version-specific. Existing public GitHub download metadata remains separate.
