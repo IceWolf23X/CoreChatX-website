@@ -1,358 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="CoreChatX 2026.3.1 is a complete chat plugin for Paper servers and Velocity networks, with channels, private messages, moderation, ChatItems, player settings, Discord, and Telegram.">
-    <meta name="theme-color" content="#2F3235">
-    <link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="CoreChatX — Complete chat plugin">
-    <meta property="og:description" content="Chat, channels, private messages, moderation, player settings, Discord, and Telegram for Paper and Velocity.">
-    <meta property="og:url" content="https://wiki-corechatx.icewolf23x.dev/">
-    <meta property="og:image" content="https://wiki-corechatx.icewolf23x.dev/assets/corechatx-logo.svg">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="CoreChatX — Complete chat plugin">
-    <meta name="twitter:description" content="Chat, channels, private messages, moderation, ChatItems, Discord, and Telegram in one plugin.">
-    <title>CoreChatX — Chat Plugin for Minecraft Servers</title>
-    <link rel="icon" type="image/svg+xml" href="./assets/corechatx-logo.svg">
-    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase.min.css">
-    <link rel="stylesheet" href="./assets/vendor/framebasecss/framebase-highlight.min.css">
-    <link rel="stylesheet" href="./assets/styles.css?v=2026.3.1">
-  </head>
-  <body>
-    <a class="fb-skip-link" href="#main">Skip to content</a>
-    <header class="fb-site-header fb-site-header--sticky">
-      <div class="fb-container fb-container--wide fb-navbar">
-        <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
-          <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
-          <span>CoreChatX</span>
-        </a>
-        <button class="fb-button fb-button--ghost fb-nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>Menu</button>
-        <nav class="fb-nav-panel fb-nav-region" id="site-navigation" data-nav-panel data-open="false" aria-label="Main navigation">
-          <ul class="fb-nav">
-            <li><a href="./index.html" aria-current="page">Overview</a></li>
-            <li><a href="./features.html">Features</a></li>
-            <li><a href="./tags.html">Compare</a></li>
-            <li><a href="./installation.html">Setup</a></li>
-            <li><a href="./docs.html">Documentation</a></li>
-            <li><a href="./faq.html">FAQ</a></li>
-            <li><a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a></li>
-            <li><a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a></li>
-          </ul>
-        </nav>
-      </div>
-    </header>
-
-    <main id="main" class="fb-main">
-      <section class="fb-hero-section">
-        <div class="fb-container fb-container--wide fb-hero corechatx-hero">
-          <div class="fb-hero-copy">
-            <p class="fb-eyebrow">One plugin for server chat</p>
-            <h1 class="fb-display">Manage your server chat from one place.</h1>
-            <p class="fb-lead">
-              CoreChatX brings together public chat, channels, private messages,
-              mentions, moderation, player settings, ChatItems, Discord, and Telegram.
-              Use it on one Paper server or across a Velocity network.
-            </p>
-            <div class="fb-cluster">
-              <a class="fb-button" href="./installation.html">Choose your setup</a>
-              <a class="fb-button fb-button--secondary" href="./features.html">Explore features</a>
-            </div>
-            <ul class="fb-cluster corechatx-facts">
-              <li>Java 21 / 25</li>
-              <li>Paper 1.21.11 - 26.2</li>
-              <li>Optional Velocity support</li>
-              <li>YAML or MySQL storage</li>
-            </ul>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="fb-section">
-        <div class="fb-container fb-container--wide">
-          <div class="fb-section-header">
-            <p class="fb-eyebrow">What CoreChatX includes</p>
-            <h2>Everything you need to manage player communication.</h2>
-            <p>
-              Set up how messages look, where they are sent, what players can control,
-              and which tools are available to staff.
-            </p>
-          </div>
-
-          <div class="fb-stack">
-            <div class="fb-grid fb-grid--2 corechatx-feature-grid">
-            <article class="fb-card">
-              <header class="fb-flow">
-                <span class="fb-badge fb-badge--primary">Chat features</span>
-                <h3>Messages, channels, and player names</h3>
-                <p>Control how players talk to each other and how messages appear.</p>
-              </header>
-              <div class="fb-stack">
-                <div class="fb-card fb-card--subtle">
-                  <h3>Chat, channels, and formatting</h3>
-                  <p>Customize chat formats, rank prefixes, placeholders, local chat, and network-wide channels.</p>
-                </div>
-                <div class="fb-card fb-card--subtle">
-                  <h3>Private messages and player names</h3>
-                  <p>Private messages, replies, ignore controls, player preferences, nicknames, and real-name lookup.</p>
-                </div>
-                <div class="fb-card fb-card--subtle">
-                  <h3>Mentions and interactive content</h3>
-                  <p>Player mentions, custom pings, clickable keywords, item previews, and optional chat bubbles.</p>
-                </div>
-              </div>
-            </article>
-
-            <article class="fb-card">
-              <header class="fb-flow">
-                <span class="fb-badge fb-badge--primary">Server management</span>
-                <h3>Moderation, player settings, and integrations</h3>
-                <p>Give players useful controls and staff the tools they need.</p>
-              </header>
-              <div class="fb-stack">
-                <div class="fb-card fb-card--subtle">
-                  <h3>Moderation and privacy</h3>
-                  <p>Mutes, chat clearing, anti-repeat, anti-caps, filtering, staff bypasses, and configurable ignore behavior.</p>
-                </div>
-                <div class="fb-card fb-card--subtle">
-                  <h3>Player settings</h3>
-                  <p>Players can manage notifications, private messages, language, bubbles, hidden channels, and privacy.</p>
-                </div>
-                <div class="fb-card fb-card--subtle">
-                  <h3>Optional Discord and Telegram connections</h3>
-                  <p>Send selected Minecraft channels to Discord or Telegram and receive messages back in game.</p>
-                </div>
-              </div>
-            </article>
-            </div>
-
-            <div class="fb-cluster">
-              <a class="fb-button fb-button--secondary" href="./features.html">See all features</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="fb-section fb-section--muted">
-        <div class="fb-container fb-container--wide">
-          <div class="fb-section-header">
-            <p class="fb-eyebrow">Two operating modes</p>
-            <h2>Start with one Paper server. Add Velocity when the network needs it.</h2>
-          </div>
-          <div class="fb-table-wrap" tabindex="0" aria-label="Setup comparison table">
-            <table class="fb-table--striped fb-table--comfortable">
-              <thead>
-                <tr>
-                  <th>Area</th>
-                  <th>Standalone Paper</th>
-                  <th>Paper + Velocity</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Files to install</td>
-                  <td>Paper jar on the server</td>
-                  <td>Paper jar on every server and Velocity jar on the proxy</td>
-                </tr>
-                <tr>
-                  <td>Where shared settings are saved</td>
-                  <td>On the Paper server</td>
-                  <td>On Velocity, separated by server group</td>
-                </tr>
-                <tr>
-                  <td>Channels and PMs</td>
-                  <td>Local to the Paper server</td>
-                  <td>Network channels and private messages can cross Paper servers in the same group</td>
-                </tr>
-                <tr>
-                  <td>Discord</td>
-                  <td>Configured on Paper</td>
-                  <td>Configured on Velocity for chat, account linking, and Discord role requirements</td>
-                </tr>
-                <tr>
-                  <td>Telegram</td>
-                  <td>Configured on Paper</td>
-                  <td>Configured on the Paper server that sends the message</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="fb-cluster">
-            <a class="fb-button" href="./installation.html">Read the setup guide</a>
-          </div>
-        </div>
-      </section>
-
-      <section class="fb-section" id="latest-update">
-        <div class="fb-container fb-container--wide">
-          <div class="fb-card corechatx-release">
-            <div>
-              <p class="fb-eyebrow">Latest update</p>
-              <p class="corechatx-release-version">2026.3.1</p>
-            </div>
-            <div>
-              <h2>Optional progress, event sharing, and vanish privacy.</h2>
-              <ul class="fb-flow">
-                <li>Optionally synchronize full Minecraft advancement progress across Paper backends in one Velocity group.</li>
-                <li>Existing criteria merge progressively as players visit backends, while explicit revocations remain durable.</li>
-                <li>Historical progress restores silently, so it does not repeat rewards, toasts, XP, loot, or functions.</li>
-                <li>Optionally relay visible death announcements across participating backends without affecting Discord death mirrors.</li>
-                <li>Suppress hidden players' join, first-join, quit, and connection-mirror messages through optional PremiumVanish hooks on Paper and Velocity.</li>
-              </ul>
-              <p>Advancement synchronization and network death relay are disabled by default. The PremiumVanish hook is enabled by default but changes nothing unless PremiumVanish is installed. Back up the complete plugin folders, worlds, and any MySQL data before enabling advancement synchronization, then update Velocity and every participating Paper backend together.</p>
-              <div class="fb-cluster">
-                <a class="fb-button" href="./changelog.html#release-2026-3-1">Read the 2026.3.1 changelog</a>
-                <a class="fb-button fb-button--secondary" href="./advancement-sync.html">Set up advancement sync</a>
-                <a class="fb-button fb-button--secondary" href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">View downloads</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="fb-section fb-section--muted" aria-labelledby="usage-heading">
-        <div class="fb-container fb-container--wide">
-          <div class="fb-section-header">
-            <p class="fb-eyebrow">Usage statistics</p>
-            <h2 id="usage-heading">Live bStats data for Paper and Velocity.</h2>
-          </div>
-          <div class="fb-stack">
-            <div class="fb-grid corechatx-metrics">
-              <article class="fb-card">
-              <h3>Paper / Purpur</h3>
-              <div class="corechatx-metric-badges">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-servers.svg" alt="Current Paper and Purpur server count" loading="lazy">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-players.svg" alt="Current Paper and Purpur player count" loading="lazy">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-record-servers.svg" alt="Paper and Purpur server record" loading="lazy">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-record-players.svg" alt="Paper and Purpur player record" loading="lazy">
-              </div>
-              <img class="corechatx-metric-chart" src="https://icewolf23x.github.io/CoreX-Badges/corechatx/paper-chart.svg" alt="Paper and Purpur bStats usage chart" loading="lazy">
-              </article>
-              <article class="fb-card">
-              <h3>Velocity</h3>
-              <div class="corechatx-metric-badges">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-servers.svg" alt="Current Velocity server count" loading="lazy">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-players.svg" alt="Current Velocity player count" loading="lazy">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-record-servers.svg" alt="Velocity server record" loading="lazy">
-                <img src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-record-players.svg" alt="Velocity player record" loading="lazy">
-              </div>
-              <img class="corechatx-metric-chart" src="https://icewolf23x.github.io/CoreX-Badges/corechatx/velocity-chart.svg" alt="Velocity bStats usage chart" loading="lazy">
-              </article>
-            </div>
-            <p class="fb-callout fb-callout--info">
-              View the source dashboards on
-              <a href="https://bstats.org/plugin/bukkit/CoreChatX-paper" target="_blank" rel="noopener noreferrer">Paper bStats</a>
-              and
-              <a href="https://bstats.org/plugin/velocity/CoreChatX-velocity" target="_blank" rel="noopener noreferrer">Velocity bStats</a>.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section class="fb-section" aria-labelledby="also-try-heading">
-        <div class="fb-container fb-container--wide">
-          <div class="fb-section-header">
-            <p class="fb-eyebrow">Also try</p>
-            <h2 id="also-try-heading">More focused plugins for Paper servers.</h2>
-            <p>Explore the other CoreX plugins for progression, player support, and configurable mining behavior.</p>
-          </div>
-          <div class="fb-grid corechatx-plugin-grid">
-            <a class="fb-card fb-card--interactive corechatx-link-card corechatx-plugin-card" href="https://icewolf23x.github.io/CoreArmorX-website/" target="_blank" rel="noopener noreferrer">
-              <div class="corechatx-plugin-card-brand">
-                <img class="corechatx-plugin-card-logo" src="https://icewolf23x.github.io/CoreArmorX-website/assets/corearmorx-logo.svg" alt="" width="48" height="48" loading="lazy">
-                <h3>CoreArmorX</h3>
-              </div>
-              <p>Controlled armor crafting progression and configurable visual skins for netherite armor.</p>
-              <span class="corechatx-link-card-action">Visit CoreArmorX</span>
-            </a>
-            <a class="fb-card fb-card--interactive corechatx-link-card corechatx-plugin-card" href="https://icewolf23x.github.io/CoreCaseX-website/" target="_blank" rel="noopener noreferrer">
-              <div class="corechatx-plugin-card-brand">
-                <img class="corechatx-plugin-card-logo" src="https://icewolf23x.github.io/CoreCaseX-website/assets/corecasex-logo.svg" alt="" width="48" height="48" loading="lazy">
-                <h3>CoreCaseX</h3>
-              </div>
-              <p>Structured in-game reports, support requests, evidence, replies, and staff case management.</p>
-              <span class="corechatx-link-card-action">Visit CoreCaseX</span>
-            </a>
-            <a class="fb-card fb-card--interactive corechatx-link-card corechatx-plugin-card" href="https://icewolf23x.github.io/CoreExtractionX-website/" target="_blank" rel="noopener noreferrer">
-              <div class="corechatx-plugin-card-brand">
-                <img class="corechatx-plugin-card-logo" src="https://icewolf23x.github.io/CoreExtractionX-website/assets/coreextractionx-logo.svg" alt="" width="48" height="48" loading="lazy">
-                <h3>CoreExtractionX</h3>
-              </div>
-              <p>Configurable block extraction rules with natural-drop preservation or additional item drops.</p>
-              <span class="corechatx-link-card-action">Visit CoreExtractionX</span>
-            </a>
-            <a class="fb-card fb-card--interactive corechatx-link-card corechatx-plugin-card" href="https://icewolf23x.github.io/CoreToolsX-website/" target="_blank" rel="noopener noreferrer">
-              <div class="corechatx-plugin-card-brand">
-                <img class="corechatx-plugin-card-logo" src="https://icewolf23x.github.io/CoreToolsX-website/assets/coretoolsx-logo.svg" alt="" width="48" height="48" loading="lazy">
-                <h3>CoreToolsX</h3>
-              </div>
-              <p>Controlled tool crafting progression and configurable visual skins for netherite tools.</p>
-              <span class="corechatx-link-card-action">Visit CoreToolsX</span>
-            </a>
-            <a class="fb-card fb-card--interactive corechatx-link-card corechatx-plugin-card" href="https://icewolf23x.github.io/CoreStructuresX-website/" target="_blank" rel="noopener noreferrer">
-              <div class="corechatx-plugin-card-brand">
-                <img class="corechatx-plugin-card-logo" src="https://icewolf23x.github.io/CoreStructuresX-website/assets/corestructuresx-logo.svg" alt="" width="48" height="48" loading="lazy">
-                <h3>CoreStructuresX</h3>
-              </div>
-              <p>Validated WorldEdit/FAWE schematic packs, persistent instances, and controlled modular expansion.</p>
-              <span class="corechatx-link-card-action">Visit CoreStructuresX</span>
-            </a>
-          </div>
-        </div>
-      </section>
-
-      <section class="fb-section fb-section--muted">
-        <div class="fb-container fb-container--wide fb-split-grid">
-          <div>
-            <p class="fb-eyebrow">Ready to install?</p>
-            <h2>Install the right jar in the right place.</h2>
-          </div>
-          <div>
-            <p class="fb-lead">
-              Choose between one Paper server and a Velocity network, install the correct
-              jar files, then configure the features you want to use.
-            </p>
-            <div class="fb-cluster">
-              <a class="fb-button" href="./installation.html">Installation</a>
-              <a class="fb-button fb-button--secondary" href="./docs.html">Documentation</a>
-              <a class="fb-button fb-button--secondary" href="./faq.html">Common questions</a>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="fb-site-footer">
-      <div class="fb-container fb-container--wide fb-stack">
-        <div class="fb-grid fb-grid--2">
-          <div class="fb-flow">
-            <a class="fb-brand corechatx-brand" href="./index.html" aria-label="CoreChatX home">
-              <img src="./assets/corechatx-logo.svg" alt="" width="36" height="36">
-              <span>CoreChatX</span>
-            </a>
-            <p>Chat and communication for Paper servers and Velocity networks.</p>
-          </div>
-          <nav class="fb-cluster" aria-label="Footer navigation">
-            <a href="./features.html">Features</a>
-            <a href="./tags.html">Compare plugins</a>
-            <a href="./installation.html">Setup</a>
-            <a href="./docs.html">Documentation</a>
-            <a href="./faq.html">FAQ</a>
-            <a href="https://github.com/IceWolf23X/CoreChatX" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://modrinth.com/plugin/corechatx/versions" target="_blank" rel="noopener noreferrer">Download</a>
-          </nav>
-        </div>
-        <div class="fb-cluster corechatx-footer-meta">
-          <span>Copyright 2026 CoreChatX.</span>
-          <span>Version 2026.3.1 &middot; Java 21 / 25 &middot; Paper 1.21.11 - 26.2 &middot; Velocity</span>
-          <a href="https://github.com/IceWolf23X/FrameBaseCSS" target="_blank" rel="noopener noreferrer">Powered by FrameBaseCSS</a>
-        </div>
-      </div>
-    </footer>
-    <script src="./assets/vendor/highlightjs/highlight.min.js"></script>
-    <script src="./assets/vendor/highlightjs/languages/properties.min.js"></script>
-    <script src="./assets/site.js"></script>
-  </body>
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="CoreChatX 2026.3.2: chat, channels, private messages and community bridges for Paper and Velocity, with complete setup and configuration guides.">
+<meta name="theme-color" content="#fcfcfb">
+<title>CoreChatX | Chat for Paper and Velocity</title>
+<link id="site-favicon" rel="icon" type="image/png" href="assets/img/corechatx-logo.png">
+<script src="assets/js/data/site-config.js"></script>
+<script src="assets/js/boot.js"></script>
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/landing.css">
+<link rel="stylesheet" href="assets/css/docs.css">
+<link rel="stylesheet" href="assets/css/syntax-highlight.css">
+<link rel="stylesheet" href="assets/css/releases.css">
+<link rel="stylesheet" href="assets/css/ultrawide.css">
+<script src="assets/js/data/ui-text.js" defer></script>
+<script src="assets/js/data/landing-content.js" defer></script>
+<script src="assets/js/data/docs-content.js" defer></script>
+<script src="assets/js/generated/docs-bodies.js" defer></script>
+<script src="assets/js/generated/config-files.js" defer></script>
+<script src="assets/js/generated/releases.js" defer></script>
+<script src="assets/js/utils.js" defer></script>
+<script src="assets/vendor/highlightjs/highlight.min.js" defer></script>
+<script src="assets/vendor/highlightjs/languages/properties.min.js" defer></script>
+<script src="assets/js/core/syntax-highlight.js" defer></script>
+<script src="assets/js/core/renderer.js" defer></script>
+<script src="assets/js/core/config-renderer.js" defer></script>
+<script src="assets/js/core/releases-core.js" defer></script>
+<script src="assets/js/core/github-releases.js" defer></script>
+<script src="assets/js/core/releases-renderer.js" defer></script>
+<script src="assets/js/docs.js" defer></script>
+<script src="assets/js/search.js" defer></script>
+<script src="assets/js/core/preview-gallery.js" defer></script>
+<script src="assets/js/app.js" defer></script>
+<link rel="stylesheet" href="assets/css/gallery.css">
+<link rel="canonical" href="https://wiki-corechatx.icewolf23x.dev/">
+</head>
+<body>
+<svg aria-hidden="true" height="0" style="position:absolute;overflow:hidden" width="0" xmlns="http://www.w3.org/2000/svg"><defs><symbol id="i-arrow" viewbox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"></path></symbol><symbol id="i-arrow-left" viewbox="0 0 24 24"><path d="M19 12H5m6-6-6 6 6 6"></path></symbol><symbol id="i-chevron" viewbox="0 0 24 24"><path d="m9 5 7 7-7 7"></path></symbol><symbol id="i-external" viewbox="0 0 24 24"><path d="M14 3h7v7m0-7L10 14"></path><path d="M10 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-5"></path></symbol><symbol id="i-download" viewbox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M4 16v4h16v-4"></path></symbol><symbol id="i-moon" viewbox="0 0 24 24"><path d="M20.3 15.6A9 9 0 0 1 8.4 3.7a9 9 0 1 0 11.9 11.9Z"></path></symbol><symbol id="i-sun" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"></path></symbol><symbol id="i-menu" viewbox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"></path></symbol><symbol id="i-close" viewbox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"></path></symbol><symbol id="i-search" viewbox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"></circle><path d="m16 16 4 4"></path></symbol><symbol id="i-book" viewbox="0 0 24 24"><path d="M12 5c-3-2-6-2-10-1v15c4-1 7-1 10 1m0-15c3-2 6-2 10-1v15c-4-1-7-1-10 1V5Z"></path></symbol><symbol id="i-layers" viewbox="0 0 24 24"><path d="m12 3 10 5-10 5L2 8l10-5Zm-10 9 10 5 10-5M2 16l10 5 10-5"></path></symbol><symbol id="i-compass" viewbox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m16 8-2.5 5.5L8 16l2.5-5.5L16 8Z"></path></symbol><symbol id="i-server" viewbox="0 0 24 24"><rect height="7" rx="2" width="18" x="3" y="3"></rect><rect height="7" rx="2" width="18" x="3" y="14"></rect><path d="M7 6.5h.01M7 17.5h.01M11 6.5h6M11 17.5h6"></path></symbol><symbol id="i-network" viewbox="0 0 24 24"><rect height="6" rx="1" width="6" x="9" y="2"></rect><rect height="6" rx="1" width="6" x="2" y="16"></rect><rect height="6" rx="1" width="6" x="16" y="16"></rect><path d="M12 8v4m-7 4v-4h14v4"></path></symbol><symbol id="i-database" viewbox="0 0 24 24"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5v14c0 4 18 4 18 0V5M3 12c0 4 18 4 18 0"></path></symbol><symbol id="i-file" viewbox="0 0 24 24"><path d="M14 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9l-7-7Z"></path><path d="M14 2v7h7M7 13h10M7 17h7"></path></symbol><symbol id="i-code" viewbox="0 0 24 24"><path d="m8 6-6 6 6 6m8-12 6 6-6 6M14 3l-4 18"></path></symbol><symbol id="i-message" viewbox="0 0 24 24"><path d="M21 14a3 3 0 0 1-3 3H8l-5 4V5a3 3 0 0 1 3-3h12a3 3 0 0 1 3 3v9Z"></path><path d="M7 7h10M7 11h6"></path></symbol><symbol id="i-mail" viewbox="0 0 24 24"><rect height="16" rx="2" width="20" x="2" y="4"></rect><path d="m2 6 10 7L22 6"></path></symbol><symbol id="i-bell" viewbox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4"></path></symbol><symbol id="i-box" viewbox="0 0 24 24"><path d="m12 2 10 5v10l-10 5-10-5V7l10-5ZM2 7l10 5 10-5M12 12v10M7 4.5l10 5"></path></symbol><symbol id="i-shield" viewbox="0 0 24 24"><path d="m12 2 9 4v6c0 6-9 10-9 10S3 18 3 12V6l9-4Z"></path><path d="m8 12 3 3 5-6"></path></symbol><symbol id="i-sliders" viewbox="0 0 24 24"><path d="M4 21v-7m0-4V3M12 21v-3m0-4V3M20 21v-9m0-4V3M1 10h6m2 8h6m2-10h6"></path></symbol><symbol id="i-hash" viewbox="0 0 24 24"><path d="M5 8h16M3 16h16M11 3 7 21M17 3l-4 18"></path></symbol><symbol id="i-user" viewbox="0 0 24 24"><circle cx="12" cy="7" r="4"></circle><path d="M4 21v-2a8 8 0 0 1 16 0v2"></path></symbol><symbol id="i-users" viewbox="0 0 24 24"><path d="M16 21v-2a6 6 0 0 0-12 0v2m16-1v-2a5 5 0 0 0-3-4"></path><circle cx="10" cy="6" r="4"></circle><path d="M17 2a4 4 0 0 1 0 8"></path></symbol><symbol id="i-globe" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><ellipse cx="12" cy="12" rx="4" ry="10"></ellipse><path d="M2 12h20"></path></symbol><symbol id="i-bridge" viewbox="0 0 24 24"><path d="M3 7v14m18-14v14M3 12c6 5 12 5 18 0M6 14v5m4-3v3m4-3v3m4-5v5M1 19h22"></path><path d="M3 7a3 3 0 0 1 3-3h1m14 3a3 3 0 0 0-3-3h-1"></path></symbol><symbol id="i-discord" viewbox="0 0 24 24"><path d="M8 5 4 6 2 17l5 3 1-2m8-13 4 1 2 11-5 3-1-2M8 5l1-2m7 2-1-2M7 17c3 2 7 2 10 0M6 7c4-2 8-2 12 0"></path><circle cx="8" cy="12" r="1"></circle><circle cx="16" cy="12" r="1"></circle></symbol><symbol id="i-send" viewbox="0 0 24 24"><path d="m22 2-7 20-4-9L2 9 22 2ZM22 2 11 13"></path></symbol><symbol id="i-cursor" viewbox="0 0 24 24"><path d="m4 3 16 9-7 2-3 7L4 3Z"></path></symbol><symbol id="i-lock" viewbox="0 0 24 24"><rect height="12" rx="2" width="16" x="4" y="10"></rect><path d="M8 10V6a4 4 0 0 1 8 0v4M12 15v3"></path></symbol><symbol id="i-key" viewbox="0 0 24 24"><circle cx="8" cy="8" r="5"></circle><path d="m11.5 11.5 9 9M17 17l3-3m-6 0 3-3"></path></symbol><symbol id="i-check" viewbox="0 0 24 24"><path d="m5 12 4 4L19 6"></path></symbol><symbol id="i-help" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M9 8a3 3 0 1 1 5 2c-1 1-2 1-2 4m0 3h.01"></path></symbol><symbol id="i-info" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 11v6m0-10h.01"></path></symbol><symbol id="i-terminal" viewbox="0 0 24 24"><rect height="18" rx="2" width="20" x="2" y="3"></rect><path d="m6 8 4 4-4 4m7 0h5"></path></symbol><symbol id="i-image" viewbox="0 0 24 24"><rect height="18" rx="3" width="18" x="3" y="3"></rect><circle cx="8" cy="8" r="1.5"></circle><path d="m3 17 5-5 4 4 4-6 5 7"></path></symbol><symbol id="i-copy" viewbox="0 0 24 24"><rect height="13" rx="2" width="13" x="8" y="8"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></symbol><symbol id="i-list" viewbox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"></path></symbol><symbol id="i-print" viewbox="0 0 24 24"><path d="M6 9V2h12v7M6 17H3V9h18v8h-3M6 14h12v8H6zM17 11h.01"></path></symbol><symbol id="i-github" viewbox="0 0 24 24"><path d="M9 19c-4 1-4-2-6-2m15 4v-4a4 4 0 0 0-1-3c3-1 5-2 5-6a5 5 0 0 0-1-3 5 5 0 0 0 0-3s-1 0-4 2a14 14 0 0 0-8 0C6 2 5 2 5 2a5 5 0 0 0 0 3 5 5 0 0 0-1 3c0 4 2 5 5 6a4 4 0 0 0-1 3v4"></path></symbol></defs></svg>
+<div id="app-root"></div>
+</body>
 </html>

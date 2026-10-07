@@ -1,0 +1,156 @@
+<header>
+<div>
+<p>Frequently asked questions</p>
+<h2>Clear answers to common questions.</h2>
+<p>These answers apply to CoreChatX 2026.3.2. Open the configuration reference when you need exact file names, settings, commands, or permissions.</p>
+</div>
+</header>
+<section>
+<div>
+<div><p>Platform and installation</p><h2>Install the correct file on each server.</h2></div>
+<details>
+<summary>What is CoreChatX?</summary>
+<div><p>CoreChatX is a chat plugin for Minecraft servers. It combines public chat, channels, private messages, replies, mentions, pings, ChatItems, moderation, player settings, Discord, Telegram, and optional Velocity network support.</p></div>
+</details>
+<details>
+<summary>What do I need to run CoreChatX?</summary>
+<div><p>CoreChatX requires Java 21 or newer and is built against Paper 1.21.11. Your Java runtime must also meet the selected Paper or Velocity release's requirement. Recorded live checks include Paper 26.2 build 112 and a bounded <code>2026.3.2</code> YAML lab on Paper 26.3 build 142 with Velocity 4.2.1-SNAPSHOT build 36 and Java 25; these checks do not guarantee every intermediate or future build. See the <a href="#/docs/guides/installation">installation requirements</a>.</p></div>
+</details>
+<details>
+<summary>Do I need Velocity?</summary>
+<div><p>No. One Paper server can use CoreChatX on its own. Add Velocity only if chat channels, private messages, player settings, or ChatItem previews must work across multiple Paper servers.</p></div>
+</details>
+<details>
+<summary>Which jar goes where?</summary>
+<div><p>Place <code>corechatx-paper-&lt;version&gt;.jar</code> in the <code>plugins/</code> folder of every Paper server that uses CoreChatX. Place <code>corechatx-velocity-&lt;version&gt;.jar</code> in Velocity's <code>plugins/</code> folder.</p></div>
+</details>
+<details>
+<summary>Why do deployment changes require a restart?</summary>
+<div><p>The mode, server ID, and network group decide how each server connects to CoreChatX, so they are read when the server starts. Restart after changing them. For normal Paper changes such as messages, channels, moderation, and integrations, use <code>/corechatx reload</code>.</p></div>
+</details>
+</div>
+</section>
+<section>
+<div>
+<div><p>Chat and player controls</p><h2>Choose who can talk, where messages go, and what players can change.</h2></div>
+<details>
+<summary>Does CoreChatX support MiniMessage and PlaceholderAPI?</summary>
+<div><p>Yes. You can use MiniMessage and PlaceholderAPI in formats created by the server owner. Players cannot put arbitrary PlaceholderAPI values in their own messages. Install PlaceholderAPI and the expansions you use on every Paper server that displays those values. For Velocity-owned formats, install PAPIProxyBridge on Velocity and its Bukkit component plus PlaceholderAPI on every participating backend; installing only the proxy component is insufficient.</p></div>
+</details>
+<details>
+<summary>What do the NETWORK, SERVER, and LOCAL_RADIUS channel types mean?</summary>
+<div><p><code>NETWORK</code> sends chat across Paper servers in the same Velocity group. <code>SERVER</code> keeps chat on the current Paper server. <code>LOCAL_RADIUS</code> sends it only to nearby players in the same world. Without Velocity, <code>NETWORK</code> stays on the local server.</p></div>
+</details>
+<details>
+<summary>Can players hide a channel without losing permission?</summary>
+<div><p>Yes. <code>/hidechannel &lt;channel&gt; [minutes]</code> hides a channel permanently or for a chosen number of minutes. The player cannot send or receive messages in that channel until the timer ends or they use <code>/unhidechannel</code>. On a Velocity network, the choice follows the player between Paper servers.</p></div>
+</details>
+<details>
+<summary>What does ignoring another player affect?</summary>
+<div><p>Ignoring a player blocks their private messages unless the sender has the configured staff bypass and <code>private-messages.allow-staff-bypass</code> is enabled in <code>privacy.yml</code>. Public chat can remain unaffected, suppress only mention and custom-ping notifications, or hide the ignored sender’s messages. Each channel may inherit or override the global public-chat mode.</p></div>
+</details>
+<details>
+<summary>Can I return to the default channel every time I reconnect?</summary>
+<div><p>Yes. Open <code>/ccxsettings</code> and click the Channel compass to choose <strong>Non persistent</strong>. The current channel stays active until your next connection, including after a restart. <strong>Persistent</strong> keeps the last channel and remains the default. Proxy backend transfers do not reset the channel during the same connection.</p></div>
+</details>
+<details>
+<summary>Do nicknames replace the real Minecraft identity?</summary>
+<div><p>No. A nickname changes only the name shown in chat. Permissions and staff commands still use the player's real Minecraft account. Use <code>/realname</code> to find the account behind a nickname.</p></div>
+</details>
+<details>
+<summary>Do private messages work across servers?</summary>
+<div><p>Yes, when both players are in Paper servers connected to the same CoreChatX Velocity group. Players in a different group cannot be reached through that private-message route.</p></div>
+</details>
+</div>
+</section>
+<section>
+<div>
+<div><p>ChatItems and notifications</p><h2>Share useful information directly in chat.</h2></div>
+<details>
+<summary>What can a ChatItem preview contain?</summary>
+<div><p>Players can share a held item, shulker contents, armor, hotbar, inventory, or ender chest. CoreChatX saves a temporary copy when the message is sent, so later inventory changes do not alter the preview.</p></div>
+</details>
+<details>
+<summary>Do ChatItems work across different Paper servers?</summary>
+<div><p>Yes. When a player on another Paper server clicks the preview, CoreChatX retrieves the saved item data from the server where it was shared. If the preview has expired or is unavailable, the player sees the normal expired-preview message.</p></div>
+</details>
+<details>
+<summary>Can Discord display ChatItem images?</summary>
+<div><p>Yes. Enable Discord ChatItem images and allow both ChatItems and Discord export for that Minecraft channel. Inventories can include buttons for viewing individual items. If Discord cannot create the image, the in-game preview still works.</p></div>
+</details>
+<details>
+<summary>Why is a Discord ChatItem image temporarily unavailable after startup or reload?</summary>
+<div><p>CoreChatX prepares the renderer asset stack asynchronously. Discord images can be unavailable until that preparation completes, while native in-game previews remain independent. If the problem persists, inspect the item-cache status and resource-pack diagnostics.</p></div>
+</details>
+<details>
+<summary>Do chat bubbles cross the network?</summary>
+<div><p>No. A bubble is visible only on the Paper server where the sender is playing. Its visibility still follows the configured channel, world, distance, duration, and player settings.</p></div>
+</details>
+</div>
+</section>
+<section>
+<div>
+<div><p>Discord and Telegram</p><h2>Connect only the services you want to use.</h2></div>
+<details>
+<summary>Where should the Discord bot run?</summary>
+<div><p>For one Paper server, configure the bot on Paper. For a Velocity network, configure the main bot on Velocity for chat, account linking, Discord role requirements, and network-wide features. A Paper server may use a separate bot token only for its local console connection.</p></div>
+</details>
+<details>
+<summary>Which Discord intents are required?</summary>
+<div><p>Enable <strong>Message Content</strong> if Discord messages must appear in Minecraft. Enable <strong>Server Members Intent</strong> if players must have a Discord role to join or if CoreChatX must react when that role is removed.</p></div>
+</details>
+<details>
+<summary>What happens when a linked player loses the final allowed Discord role?</summary>
+<div><p>CoreChatX disconnects the affected online player and blocks reconnection until the configured requirement is satisfied again. This applies to standalone Paper and Velocity when role admission is configured correctly.</p></div>
+</details>
+<details>
+<summary>Can an unlinked player join if the Discord bot is unavailable?</summary>
+<div><p>With <code>account-linking.require-linked-to-play</code> enabled, no. Unavailable linking or failed code creation denies entry with a temporary-unavailability message. <code>deny-if-unverifiable</code> applies only to role verification for players who already have a link.</p></div>
+</details>
+<details>
+<summary>Can PremiumVanish hide CoreChatX join and quit announcements?</summary>
+<div><p>Yes. Leave <code>hooks.premiumvanish</code> enabled and install PremiumVanish on Paper for local announcements or on Velocity for proxy-owned network announcements. Hidden join, first-join and quit messages and their configured connection mirrors are suppressed, while first-join records and counters remain correct. Follow PremiumVanish's own backend/proxy synchronization instructions; the hook does not hide TAB, player lists, chat, or other events and does not create fake announcements when vanish changes.</p></div>
+</details>
+<details>
+<summary>How does Telegram receive messages?</summary>
+<div><p>CoreChatX checks the Telegram Bot API for new messages and sends replies through the same API. You only need a bot token and the chat or topic IDs used by your routes.</p></div>
+</details>
+<details>
+<summary>Can Telegram route forum topics?</summary>
+<div><p>Yes. Add the forum topic's <code>message-thread-id</code> to the route. For incoming messages, use both the chat ID and topic ID.</p></div>
+</details>
+<details>
+<summary>Why is an unmapped Telegram chat ignored?</summary>
+<div><p>CoreChatX 2026.3.2 accepts Telegram inbound messages only from explicit chat or chat/topic routes by default. Add the source to <code>telegram.inbound.routes</code>. Set <code>telegram.inbound.allow-unmapped-chats: true</code> only when you intentionally want every other reachable source to use the legacy <code>default-channel</code> fallback. Telegram and other generic remote senders can activate only custom pings with a blank <code>use-permission</code>.</p></div>
+</details>
+</div>
+</section>
+<section>
+<div>
+<div><p>Saved data and troubleshooting</p><h2>Protect player data and check the basic settings first.</h2></div>
+<details>
+<summary>Can CoreChatX save data in SQL?</summary>
+<div><p>Yes. CoreChatX 2026.3.2 supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="#/docs/guides/migration">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
+</details>
+<details>
+<summary>Which data should I back up?</summary>
+<div><p>Back up the owning plugin folder and all configuration/recovery journals. With YAML, include Paper's runtime files or Velocity's complete <code>data/groups/</code> directory. With MySQL, also back up the database and create a verified <code>/ccxstorage backup mysql</code> export; Velocity needs a scope selection.</p></div>
+</details>
+<details>
+<summary>Why does chat say runtime data is temporarily unavailable just after connecting?</summary>
+<div><p>Since 2026.3.0.1-hotfix, Paper requests player and moderation state automatically on join or backend switch instead of waiting for the first chat attempt. With mute enforcement enabled, public chat and private messages still wait for confirmed authoritative moderation state if loading is slow or unavailable. Retry once it loads. If the message persists, check the Paper-to-Velocity connection and the storage owner's status and logs.</p></div>
+</details>
+<details>
+<summary>Why is network chat not crossing servers?</summary>
+<div><p>Check that every Paper server uses <code>PROXY</code> mode, enables network features, and uses the same network group as Velocity. Its <code>deployment.server-id</code> must match the registered Velocity backend name. With multiple groups, every participating backend needs a matching <code>backend-groups.*</code> entry. The chat channel must also use <code>scope: NETWORK</code>, and every participant must run matching protocol-30 builds.</p></div>
+</details>
+<details>
+<summary>Why did a configuration file regenerate?</summary>
+<div><p>CoreChatX recreates a missing configuration file with default settings when it starts. Be careful: files containing player settings, mutes, ignores, nicknames, or linked accounts are live data. Deleting those files deletes that saved information.</p></div>
+</details>
+<details>
+<summary>Where is the complete command and permission reference?</summary>
+<div><p>See the <a href="#/docs/reference/command-reference">command table</a> and <a href="#/docs/reference/permission-reference">permission families</a> in the configuration reference.</p></div>
+</details>
+</div>
+</section>

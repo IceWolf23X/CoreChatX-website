@@ -1,0 +1,1376 @@
+<header><div><p>Release notes</p><h2>CoreChatX release notes</h2><p>CoreChatX 2026.3.2 adds workload safeguards and stronger validation for chat, bridges and network traffic. The complete release history follows below; older entries describe their own versions.</p><div><a href="#/docs/reference/changelog~release-2026-3-2">Latest release</a> · <a href="#/docs/guides/advancement-sync">Advancement setup</a> · <a href="#/docs/guides/installation~existing">Upgrade instructions</a> · <a href="#/docs/guides/migration">YAML to MySQL migration</a></div></div></header><section><h2 id="release-2026-3-2">2026.3.2</h2>
+<h3 id="release-2026-3-2-changed">Changed</h3>
+<ul>
+<li>ChatItem previews and remote PMs now limit overlapping requests, with customizable busy feedback in <code>chatitems.yml</code> and <code>messages.yml</code>. Older previews may expire early under heavy load. Forwarded PMs consume the configured cooldown even if later rejected or timed out.</li>
+<li>Discord console logging now recovers from stalled requests, and ChatItem disk-cache limits remain enforced across reloads, with memory fallback on cache errors. Image transfers and Discord/Telegram exports also have workload limits and timeouts; overloaded exports may be dropped while Minecraft chat continues.</li>
+</ul>
+<h3 id="release-2026-3-2-safety">Safety</h3>
+<ul>
+<li>Strengthened Velocity backend/player validation, Discord account-link updates and chat-text handling. Added stricter checks for runtime libraries, downloaded assets and custom resource packs; invalid libraries block Velocity startup, failed asset updates keep the working cache, and oversized textures may need resizing.</li>
+</ul>
+<h3 id="release-2026-3-2-migration">Migration</h3>
+<ul>
+<li><strong>Update Velocity and all participating Paper backends together.</strong> Stop Paper backends before Velocity, install matching <code>2026.3.2</code> JARs everywhere, then start Velocity first. Mixed <code>2026.3.1</code>/<code>2026.3.2</code> networks are incompatible. No database migration is required when upgrading from <code>2026.3.1</code>.</li>
+<li>Ensure Paper <code>deployment.server-id</code> matches its registered Velocity backend name. For multiple groups, add <code>backend-groups.&lt;server&gt;=&lt;network-channel&gt;</code> in <code>velocity-config.properties</code> for every participating backend and match its Paper <code>deployment.network-channel</code>; these mappings are optional with one group.</li>
+<li>Telegram now accepts incoming messages only from explicitly mapped chats/topics in <code>telegram.inbound.routes</code>. Set <code>telegram.inbound.allow-unmapped-chats: true</code> to restore the previous <code>default-channel</code> fallback. Custom pings from Telegram or other generic remote sources require an empty <code>use-permission</code>.</li>
+</ul>
+</section>
+
+<section aria-label="Release archive navigation"><div>
+<p>Release history from 2026.1.0 to 2026.3.2, newest first. Historical entries describe the behavior and configuration of that version; use the <a href="#/docs/guides/installation~existing">current upgrade instructions</a> when updating.</p>
+<details><summary>Jump to a version (28 releases)</summary><div><a href="#/docs/reference/changelog~release-2026-3-2">2026.3.2</a> · <a href="#/docs/reference/changelog~release-2026-3-1">2026.3.1</a> · <a href="#/docs/reference/changelog~release-2026-3-0-1-hotfix">2026.3.0.1-hotfix</a> · <a href="#/docs/reference/changelog~release-2026-3-0">2026.3.0</a> · <a href="#/docs/reference/changelog~release-2026-2-6">2026.2.6</a> · <a href="#/docs/reference/changelog~release-2026-2-5">2026.2.5</a> · <a href="#/docs/reference/changelog~release-2026-2-4">2026.2.4</a> · <a href="#/docs/reference/changelog~release-2026-2-3">2026.2.3</a> · <a href="#/docs/reference/changelog~release-2026-2-2">2026.2.2</a> · <a href="#/docs/reference/changelog~release-2026-2-1-7">2026.2.1.7</a> · <a href="#/docs/reference/changelog~release-2026-2-1-6">2026.2.1.6</a> · <a href="#/docs/reference/changelog~release-2026-2-1-5">2026.2.1.5</a> · <a href="#/docs/reference/changelog~release-2026-2-1">2026.2.1</a> · <a href="#/docs/reference/changelog~release-2026-2-0-2">2026.2.0.2</a> · <a href="#/docs/reference/changelog~release-2026-2-0">2026.2.0</a> · <a href="#/docs/reference/changelog~release-2026-1-8-1">2026.1.8.1</a> · <a href="#/docs/reference/changelog~release-2026-1-8">2026.1.8</a> · <a href="#/docs/reference/changelog~release-2026-1-7-1">2026.1.7.1</a> · <a href="#/docs/reference/changelog~release-2026-1-7">2026.1.7</a> · <a href="#/docs/reference/changelog~release-2026-1-6-2">2026.1.6.2</a> · <a href="#/docs/reference/changelog~release-2026-1-6-1">2026.1.6.1</a> · <a href="#/docs/reference/changelog~release-2026-1-6">2026.1.6</a> · <a href="#/docs/reference/changelog~release-2026-1-5">2026.1.5</a> · <a href="#/docs/reference/changelog~release-2026-1-4">2026.1.4</a> · <a href="#/docs/reference/changelog~release-2026-1-3">2026.1.3</a> · <a href="#/docs/reference/changelog~release-2026-1-2">2026.1.2</a> · <a href="#/docs/reference/changelog~release-2026-1-1">2026.1.1</a> · <a href="#/docs/reference/changelog~release-2026-1-0">2026.1.0</a> · </div></details>
+</div></section>
+<section><article aria-labelledby="release-2026-3-1">
+<h2 id="release-2026-3-1">2026.3.1</h2>
+<h3>Added</h3>
+<ul>
+<li>Added optional full advancement synchronization between Paper backends in the same Velocity group. The proxy stores criteria, partial progress and completion dates in YAML or MySQL, progressively merging each player's existing progress as they visit each backend. Explicit revocations stay revoked when older backend data is imported.</li>
+<li>Historical advancement progress restores without repeating chat announcements, toasts, XP, items or reward functions. New completions can announce live across participating backends; inventories, XP balances, statistics and recipe books are not synchronized.</li>
+<li>Added <code>death-messages.network-enabled</code> to relay public death messages within the same Velocity group. It respects the source world's death-message rule and excludes hidden, cancelled and team-restricted messages; local death messages remain unchanged.</li>
+<li>Added optional <code>PremiumVanish</code> hooks on standalone Paper and Velocity. Hidden players' join, first-join and quit announcements are suppressed, including configured connection-message mirrors; accepted first joins and counters are still recorded.</li>
+</ul>
+<h3>Configuration</h3>
+<ul>
+<li>Advancement synchronization and network death messages are disabled by default. Advancement synchronization requires <code>advancement-sync.enabled</code> on Paper and <code>velocity-advancements.properties</code> on Velocity, explicit backend-to-group pins and a unique secret per backend. Its authenticated endpoint saves independently of online plugin-message carriers. Use HTTPS or an encrypted tunnel between separate machines; endpoint settings require a restart. Disable other plugins' advancement synchronization first. See the <a href="#/docs/guides/advancement-sync">setup guide</a>.</li>
+<li><code>hooks.premiumvanish</code> is enabled by default in Paper <code>config.yml</code> and Velocity <code>velocity-config.properties</code>. Install PremiumVanish on Velocity for proxy-owned network announcements. Paper hook changes apply through <code>/corechatx reload</code>; Velocity changes require a restart.</li>
+</ul>
+<h3>Migration</h3>
+<ul>
+<li><strong>Before updating, stop the affected servers and back up every file and subfolder in their plugin folders, the complete Minecraft worlds and the CoreChatX database when MySQL is used.</strong> Stop Paper backends before Velocity so final saves can finish. Install matching <code>2026.3.1</code> JARs on the proxy and all participating backends, then start Velocity first.</li>
+<li>MySQL adds schema migration <code>V004</code> and <code>ccx_player_advancements</code>, including installations that leave advancement synchronization disabled. The normal schema auto-migration applies it at startup; if <code>schema-auto-migrate=false</code>, arrange the schema upgrade before boot. Older builds reject schema version 4: reverting only the JAR is not a database downgrade.</li>
+<li>Canonical backups that contain advancement records now use format <code>3</code> and retain that progress through Velocity YAML-to-MySQL migration and rollback. This release still reads format <code>1</code> and <code>2</code> backups; snapshots without advancement records keep their existing format. Keep pre-update backups for downgrades, and retain each backend's existing world files until the required player visits have imported their progress.</li>
+</ul>
+<h2 id="release-2026-3-0-1-hotfix">2026.3.0.1-hotfix</h2>
+<h3 id="hotfix-changed">Changed</h3>
+<ul>
+<li>Paper and Velocity now display prominent, colored console banners for Modrinth updates: green for recommended stable releases and yellow for experimental alpha/beta builds, with installed/available versions and the download link.</li>
+<li>Added the <a href="#/docs/reference/changelog">CoreChatX wiki</a> link to the Paper and Velocity startup banners.</li>
+</ul>
+<h3 id="hotfix-fixed">Fixed</h3>
+<ul>
+<li>Fixed the first public chat message after joining or switching a Velocity backend being rejected because moderation data was only requested when the player tried to chat. Paper now loads player settings, privacy, channel, mute and global state proactively on join, with bounded read retries. Chat remains protected while authoritative moderation data is unavailable.</li>
+<li>Fixed delayed proxy join callbacks applying display changes or first-join announcements to a disconnected or replaced player session. Accepted-join effects now wait for confirmed player and moderation data.</li>
+<li>Fixed proxy request timeouts and first-join warnings reporting only <code>null</code>. Diagnostics now identify the operation, request, backend and player; timed-out writes are not automatically retried because they may already have committed.</li>
+<li>Fixed the Modrinth update checker rejecting four-part hotfix versions such as <code>2026.3.0.1-hotfix</code>. This build orders hotfix revisions numerically and continues to detect later stable, beta and alpha versions.</li>
+</ul>
+<h3 id="hotfix-compatibility">Compatibility</h3>
+<ul>
+<li>Updating from <code>2026.3.0</code> requires no configuration conversion or MySQL schema migration. Existing YAML/MySQL data and protocol <code>29</code> are unchanged.</li>
+</ul>
+<h3 id="hotfix-migration">Migration</h3>
+<ul>
+<li><strong>Stop the affected servers and back up every file and subfolder in the CoreChatX plugin folders before replacing the JARs; also back up MySQL when used.</strong> Install the matching hotfix JAR on Velocity and each participating Paper backend, then restart. Download this hotfix manually: the update checker in the older <code>2026.3.0</code> build does not recognize this version format. For upgrades from <code>2026.2.6</code> that also move YAML data to MySQL, follow the <a href="#/docs/guides/migration">step-by-step migration guide</a>.</li>
+</ul>
+</article></section>
+<section><article>
+<h2 id="release-2026-3-0">2026.3.0</h2>
+<p>All player and administrator changes since 2026.2.6.</p>
+<h2 id="added">Added</h2>
+<ul>
+<li>Added asynchronous Modrinth update checks after startup and every 24 hours by default. Console and OP players receive stable-update recommendations and separate experimental alpha/beta announcements; no automatic installation occurs.</li>
+<li>Optional <code>MYSQL</code> runtime storage for standalone Paper and Velocity: preferences, nicknames, statistics, active/hidden channels, ignores, mutes, global state, Discord links, unlink records and pending codes. <code>YAML</code> remains the default; Velocity keeps each network group separate.</li>
+<li>Added <code>/ccxstorage</code> on Paper and Velocity for health checks, file/database validation, checksummed backups, migration plans, parity checks, history, resume and abort. Confirmations and durable journals protect migration/rollback; unfinished transitions keep affected gameplay storage unavailable.</li>
+<li>Added the <strong>Channel</strong> compass in <code>/ccxsettings</code> and <code>/chatsettings</code>: <code>Persistent</code> keeps the last channel; <code>Non persistent</code> restores the configured default on reconnect, including after restarts. Changing the preference leaves the current channel unchanged, as do proxy backend transfers within the same connection.</li>
+</ul>
+<h2 id="changed">Changed</h2>
+<ul>
+<li>Settings, nickname, channel, ignore and moderation changes now report success after authority confirmation. Single-setting updates preserve other preferences; <code>/ignore</code> and <code>/unignore</code> apply the requested final state and enforce saved-list limits. A response timeout does not cancel an accepted database write.</li>
+<li>With <code>MYSQL</code>, Paper loads complete player state before admission. Gameplay storage waits for database readiness and ownership checks; failures never silently select YAML. A database lease prevents two live processes from writing the same scope.</li>
+</ul>
+<h2 id="fixed">Fixed</h2>
+<h3>Storage and recovery</h3>
+<ul>
+<li>Fixed <code>/ccxstorage migrate files-to-mysql abort</code> deleting rows that a planned/failed run never imported. Abort now preserves later imports and refuses deletion when imported contents have changed.</li>
+<li>Fixed recovery accepting run IDs from another namespace or scope. Migration operations now enforce the configured owner, preventing cross-group changes.</li>
+<li>Fixed Paper treating malformed persistent YAML as empty data and overwriting it. Startup reports the error; failed player/global reloads block writes and shutdown flushes until the file is repaired and successfully reloaded.</li>
+<li>Fixed older concurrent YAML snapshots replacing newer data. Write failures now reach callers, and maintenance drains accepted writes—including timed-out requests—before migration or rollback.</li>
+<li>Fixed writes retaining authority after waiting on locks past lease expiry. Shutdown also resolves queued operations and late completions, preventing expired owners from writing and callers from waiting indefinitely.</li>
+<li>Fixed migration/rollback retries after a successful abort being mistaken for completed cutovers. Verified aborts can be retried without deleting journals; Velocity also supports cancelling unexecuted plans and safely repeating interrupted aborts.</li>
+<li>Fixed MySQL startup deadlocks when network groups initialize separate scopes concurrently. Duplicate owners of the same scope remain rejected.</li>
+<li>Fixed YAML saves after MySQL-to-YAML rollback dropping <code>runtime-updated-at</code>, regressing player aggregate versions and breaking canonical backup parity.</li>
+<li>Fixed MySQL startup checksum mismatches from packaged migration line endings. JARs preserve the original migration bytes; never edit database checksums to bypass validation.</li>
+</ul>
+<h3>Player state and moderation</h3>
+<ul>
+<li>Fixed delayed proxy mute lookups clearing newer mutes or leaving backend caches incorrectly cleared.</li>
+<li>Fixed proxy public chat and PMs bypassing mutes before the player state loaded. With mute enforcement enabled, messages receive temporary-unavailability feedback until the authoritative mute lookup completes.</li>
+<li>Fixed simultaneous Velocity YAML nickname changes assigning the same visible name to different players. Full player updates and <code>/nick</code> enforce normalized nickname ownership atomically.</li>
+<li>Fixed late completions overwriting newer settings, channels, statistics, mutes, global state or Discord links/unlinks. Old quit cleanup no longer evicts newer login state; delayed code reads cannot restore invalidated Discord codes.</li>
+<li>Fixed <code>/chatmute</code> overwriting the first-join counter and concurrent settings/ignore changes replacing unrelated values.</li>
+<li>Fixed <code>/corechatx reload</code> temporarily resetting proxy preferences or statistics. Hydrated mirrors and pending requests survive reload, then refresh after transport registration. Deployment and storage identity changes still require restart.</li>
+</ul>
+<h3>Discord and integrations</h3>
+<ul>
+<li>Fixed link instructions showing <code>/link</code> with custom Discord command names. Minecraft code help, required-link admission and Discord DMs now use the configured standalone/proxy command.</li>
+<li>Fixed the first inbound Discord message showing an unresolved linked-player nickname before proxy player state loaded.</li>
+<li>Fixed mandatory Discord linking admitting unlinked players when commands were unavailable or code creation failed. <code>account-linking.require-linked-to-play</code> now denies entry; Velocity checks before backend entry. <code>deny-if-unverifiable</code> only controls role checks for already linked players.</li>
+<li>Fixed Velocity Discord console feedback missing messages sent through current or typed Adventure calls.</li>
+<li>Reduced resource-pack fingerprint string copying during Discord ChatItem image initialization, cutting avoidable Paper startup/reload work while preserving the cache fingerprint format.</li>
+<li>Fixed Discord token verification and gateway shutdown blocking Paper startup or <code>/corechatx reload</code>. Reconnection is asynchronous; retired connections and queued role callbacks cannot revive the old bridge.</li>
+<li>Fixed linked Discord messages being dropped on standalone MySQL after the Minecraft player quit or the server restarted. Offline nickname/staff checks load saved settings asynchronously, honor <code>allow-offline-linked-players</code> and deny delivery when settings are unavailable.</li>
+</ul>
+<h3>Chat and menus</h3>
+<ul>
+<li>Fixed dragging items into the temporary <code>/ccxsettings</code> inventory and losing them when the menu closed.</li>
+<li>Fixed cross-server PM timeouts silently discarding pending deliveries. Each affected sender is now notified once.</li>
+<li>Fixed inbound bridge and outbound Telegram length limits splitting emoji UTF-16 pairs.</li>
+</ul>
+<h2 id="configuration">Configuration</h2>
+<ul>
+<li>Added <code>update-check.enabled</code> and <code>update-check.interval-hours</code> to Paper <code>config.yml</code> and Velocity <code>velocity-config.properties</code>. Customize OP notices through <code>messages.yml</code> keys <code>updates.stable</code> and <code>updates.preview</code>; Velocity notifications are console-only.</li>
+<li>Added <code>{link_command}</code>, the configured Discord command name without <code>/</code>, to linking messages. Use <code>/{link_command} code:{code}</code>; standalone Paper or Velocity supplies <code>account-linking.link-command-name</code>. Exact older stock messages adapt automatically; customized messages need the placeholder added manually.</li>
+<li>Paper <code>storage.yml</code> and Velocity <code>velocity-storage.yml</code> now configure <code>storage.backend</code>, stable namespace/scope, MySQL connections/TLS, bounded pools/executors, timeouts, leases and <code>schema-auto-migrate</code>. Supply credentials through <code>storage.mysql.password-env</code>; TLS defaults to <code>VERIFY_IDENTITY</code>.</li>
+<li>Added saved <code>persistent-channel-enabled</code>, defaulting to <code>true</code> for existing players, and <code>link-check-unavailable-kick</code> in Paper Discord messages and Velocity account-linking messages.</li>
+</ul>
+<h2 id="permissions">Permissions</h2>
+<ul>
+<li>Added <code>corechatx.command.storage</code> for inspection and backups: default <code>op</code> on Paper; grant it through the permission provider on Velocity. Migration/rollback changes remain console-only, including for operators. Velocity transitions require <code>--all-scopes</code>.</li>
+</ul>
+<h2 id="compatibility">Compatibility</h2>
+<ul>
+<li>Paper and Velocity JARs include the MySQL runtime and JDBC driver. Install only the matching platform JAR; separate storage-module, HikariCP or Connector/J installs are unnecessary. YAML-only setups need no database.</li>
+</ul>
+<h2 id="migration">Migration</h2>
+<ul>
+<li><strong>Before updating, stop the affected servers and back up every file and subfolder in the CoreChatX plugin folders</strong>, including configuration, player data, credentials, journals and backups. Keep the old JARs separately; also back up MySQL when used.</li>
+<li>The website includes a <a href="#/docs/guides/migration">2026.2.6 YAML → 2026.3.0 MySQL migration guide</a> for standalone Paper and Velocity: backups, configuration, verified migration, activation, rollback and interruption recovery.</li>
+<li>Rehearse migration and rollback with an isolated copy of your own data and retain complete backups before switching your live server to MySQL.</li>
+<li>Upgrade Velocity and every participating Paper backend together. Protocol <code>29</code> cannot reliably exchange complete runtime state and mutations with older JARs.</li>
+<li>Legacy <code>storage.sql.*</code> never enabled MySQL. Use <code>storage.backend: MYSQL</code> and <code>storage.mysql.*</code>; existing YAML data requires <code>/ccxstorage migrate files-to-mysql plan</code> and confirmed execute/restart. Changing the backend alone does not migrate data.</li>
+<li>Schema <code>V003</code> adds persistent channels as the default for existing players. With <code>schema-auto-migrate: false</code>, arrange the schema upgrade before startup. Older builds reject schema <code>3</code>; replacing the JAR cannot downgrade the database.</li>
+<li>Keep corrected 2026.3.0 JARs after abort: older builds cannot read the <code>ABORTED</code> local journal state. Use each new plan's run IDs and tokens; never delete journals or alter checksums to force a retry.</li>
+<li>Use <code>/ccxstorage rollback mysql-to-files</code> to export current MySQL data before returning to YAML; never overwrite newer data with a pre-migration backup. Canonical format <code>1</code> remains readable; non-persistent channel preferences require format <code>2</code> and its matching newer build.</li>
+</ul>
+<h2 id="known-issues">Known issues</h2>
+<ul>
+<li>Discord rate limits can delay channel-topic updates after rapid joins/restarts. Chat and linking continue while topic updates retry.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-6">
+<h2 id="release-2026-2-6">2026.2.6</h2>
+<h3 id="release-2026-2-6-added">Added</h3>
+<ul>
+<li>Added <code>/hidechannel &lt;channel&gt; [minutes]</code> and <code>/unhidechannel &lt;channel&gt;</code> so players can hide an accessible channel permanently or for a positive number of minutes without receiving or accidentally sending messages there.</li>
+</ul>
+<h3 id="release-2026-2-6-fixed">Fixed</h3>
+<ul>
+<li>Fixed Discord role-whitelist revocation: removing a linked member's final allowed role, or removing the member from the configured guild, now disconnects the online player on standalone Paper and Velocity and blocks reconnection until access is restored. Enable Discord's privileged <strong>Server Members Intent</strong> whenever <code>account-linking.required-play-roles</code> is active.</li>
+<li>Fixed <code>/chatsettings</code> using repositories and menu services created before <code>/corechatx reload</code>, which could write preferences to obsolete runtime state.</li>
+<li>Fixed <code>/reply</code> retaining direct and inverse conversation targets after a player leaves, preventing stale targets from carrying into a later session.</li>
+<li>Fixed Velocity replay leaving an offline backend with an obsolete Discord link after an unlink aged out of the seven-day runtime cache or the proxy restarted; unlink tombstones are now durable and timestamp-ordered so newer relinks still win.</li>
+<li>Fixed Discord player-list commands accessing Bukkit player and nickname state from JDA threads; Paper now captures an immutable player snapshot on the main thread before building the Discord response.</li>
+<li>Fixed concurrent Discord link, unlink, pruning, and replay updates on Velocity so direct and inverse routing state remain consistent under simultaneous events.</li>
+</ul>
+<h3 id="release-2026-2-6-permissions">Permissions</h3>
+<ul>
+<li>Added <code>corechatx.command.hidechannel</code> and <code>corechatx.command.unhidechannel</code>, both enabled for players by default.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-5">
+<h2 id="release-2026-2-5">2026.2.5</h2>
+<h3 id="release-2026-2-5-added">Added</h3>
+<ul>
+<li>Added bStats metrics for Paper and Velocity.</li>
+<li>Added configurable public-chat <code>/ignore</code> behavior through <code>ignore.public-chat-mode</code> and per-channel <code>channels.&lt;id&gt;.ignore.public-chat-mode</code>.</li>
+</ul>
+<h3 id="release-2026-2-5-fixed">Fixed</h3>
+<ul>
+<li>Fixed the JDA <code>Login Successful!</code> info log appearing between CoreChatX startup messages when the Discord bot starts.</li>
+<li>Fixed public mention and custom-ping ignore handling so <code>notifications-only</code> blocks notifications from ignored players while keeping their public chat messages visible.</li>
+<li>Fixed <code>hide-message</code> public-chat ignore mode so ignored players' public channel messages are not delivered to the viewer, including network and Discord bridge deliveries.</li>
+<li>Fixed legacy formatting permission checks so denied nodes such as <code>corechatx.format.color.aqua</code> can reliably block matching <code>&amp;</code> color codes.</li>
+<li>Fixed denied legacy formatting codes being converted anyway after a second formatting pass.</li>
+</ul>
+<h3 id="release-2026-2-5-configuration">Configuration</h3>
+<p><code>privacy.yml</code> now supports:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>ignore:
+  public-chat-mode: "notifications-only"
+</code></pre></div></div>
+<p><code>channels.yml</code> now supports per-channel overrides:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>channels:
+  global:
+    ignore:
+      public-chat-mode: "inherit"
+</code></pre></div></div>
+<p>Valid public-chat ignore modes are <code>off</code>, <code>notifications-only</code> and <code>hide-message</code>. Per-channel overrides also support <code>inherit</code>.</p>
+<h3 id="release-2026-2-5-permissions">Permissions</h3>
+<ul>
+<li>Added <code>corechatx.format.color</code>, <code>corechatx.format.color.*</code>, <code>corechatx.format.style</code> and <code>corechatx.format.style.*</code> as group permission nodes for player-authored legacy formatting.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-4">
+<h2 id="release-2026-2-4">2026.2.4</h2>
+<h3 id="release-2026-2-4-added">Added</h3>
+<ul>
+<li>Added batched Discord console live logs for Paper and Velocity. CoreChatX now edits the latest bot log message until the configured size limit is reached, then sends a new silent message.</li>
+<li>Added real Velocity proxy console live-log support through <code>discord.console.live-log</code>.</li>
+<li>Added <code>nicknames.allow-special-characters</code>, default <code>false</code>, to keep <code>/nick</code> visible text limited to <code>A-Z</code>, <code>a-z</code>, <code>0-9</code> and <code>_</code> unless explicitly enabled.</li>
+<li>Added per-event Discord mirror overrides under <code>discord.event-messages.events.death</code> and <code>discord.event-messages.events.advancement</code>.</li>
+<li>Added ChatItem snapshot references to cross-server private messages so <code>/msg</code> and <code>/reply</code> can carry inspectable ChatItem previews through Velocity.</li>
+</ul>
+<h3 id="release-2026-2-4-changed">Changed</h3>
+<ul>
+<li>Discord console live logs now use <code>discord.console.live-log-format.*</code> for <code>max-message-chars</code>, <code>monospace</code>, <code>line-prefix</code>, <code>date-format</code> and <code>hour-format</code>.</li>
+<li><code>/msg</code> and <code>/reply</code> now render configured ChatItem tokens such as <code>[i]</code>, <code>[item]</code>, <code>[inv]</code> and related aliases instead of sending them as plain text.</li>
+<li>Discord item detail tooltips now resolve MiniMessage tags, including formatting and gradients, before the image renderer draws the tooltip text.</li>
+<li><code>/msg</code> tab completion now includes matching custom nicknames and avoids suggesting the sender's own real name or nickname.</li>
+<li>Network chat completion entries now include plain custom nicknames, with support for <code>@nickname</code> completions.</li>
+<li>Velocity Discord nickname sync now includes the configured Minecraft nickname prefix when the player has a custom nickname, while keeping the real-name fallback unprefixed.</li>
+<li>Velocity third-party library logs now use the CoreChatX startup banner style and summarize present, missing and downloaded libraries without duplicate status lines.</li>
+</ul>
+<h3 id="release-2026-2-4-fixed">Fixed</h3>
+<ul>
+<li>Fixed Discord inbound messages after a restart sometimes reaching Minecraft without the linked player's LuckPerms prefix. CoreChatX now waits for async LuckPerms user data before final delivery.</li>
+<li>Fixed linked Discord inbound permission checks for offline linked players by resolving channel send permission and mute-chat bypass through async LuckPerms checks.</li>
+<li>Fixed private-message target lookup so custom nicknames can resolve to the real Minecraft username before local or cross-server delivery.</li>
+<li>Fixed Velocity private-message ChatItem routing so remote preview requests can be forwarded back to the backend that owns the original snapshot.</li>
+<li>Fixed Discord ChatItem selected-item actions so expired or unavailable previews return a Discord message instead of leaving the interaction pending.</li>
+<li>Fixed Velocity Discord inbound fanout so a message that cannot be delivered to any backend in the CoreChatX group returns a clear failure instead of failing silently.</li>
+<li>Fixed Velocity Discord console command replies so commands with no output no longer send the debug-style <code>Command executed. No command output was captured.</code> message, and translatable Velocity command output such as <code>!glist all</code> is rendered as readable text instead of raw translation keys.</li>
+<li>Fixed <code>discord.connection-messages.channels</code> fallback semantics so empty lists fall back to <code>discord.default-channel-id</code>, and the configured values are treated as Discord channel IDs.</li>
+<li>Fixed Velocity Discord inbound handling so route dispatch runs through the Velocity scheduler when the proxy runtime is available.</li>
+</ul>
+<h3 id="release-2026-2-4-configuration">Configuration</h3>
+<p>New or changed default keys:</p>
+<ul>
+<li><code>config.yml -&gt; nicknames.allow-special-characters</code></li>
+<li><code>discord.yml -&gt; discord.console.live-log-format.max-message-chars</code></li>
+<li><code>discord.yml -&gt; discord.console.live-log-format.monospace</code></li>
+<li><code>discord.yml -&gt; discord.console.live-log-format.line-prefix</code></li>
+<li><code>discord.yml -&gt; discord.console.live-log-format.date-format</code></li>
+<li><code>discord.yml -&gt; discord.console.live-log-format.hour-format</code></li>
+<li><code>discord.yml -&gt; discord.event-messages.events.death</code></li>
+<li><code>discord.yml -&gt; discord.event-messages.events.advancement</code></li>
+<li><code>velocity-discord.yml -&gt; discord.console.live-log-format.max-message-chars</code></li>
+<li><code>velocity-discord.yml -&gt; discord.console.live-log-format.monospace</code></li>
+<li><code>velocity-discord.yml -&gt; discord.console.live-log-format.line-prefix</code></li>
+<li><code>velocity-discord.yml -&gt; discord.console.live-log-format.date-format</code></li>
+<li><code>velocity-discord.yml -&gt; discord.console.live-log-format.hour-format</code></li>
+<li><code>velocity-discord.yml -&gt; discord.event-messages.events.death</code></li>
+<li><code>velocity-discord.yml -&gt; discord.event-messages.events.advancement</code></li>
+</ul>
+<h3 id="release-2026-2-4-compatibility">Compatibility</h3>
+<ul>
+<li>CoreChatX proxy protocol is now version <code>27</code>; update Paper and Velocity jars together.</li>
+<li>Velocity third-party libraries are expected under the lowercase plugin data folder path <code>plugins/corechatx/libs</code>.</li>
+</ul>
+<h3 id="release-2026-2-4-migration">Migration</h3>
+<ul>
+<li>If <code>discord.connection-messages.channels</code> is configured, keep Discord channel IDs in that list.</li>
+<li>If you customized <code>death-format</code>, <code>advancement-format</code>, <code>death-color</code>, <code>advancement-color</code>, <code>death-description</code> or <code>advancement-description</code>, move those values into the matching <code>discord.event-messages.events.&lt;event&gt;</code> section.</li>
+<li>Review <code>discord.console.live-log-format.*</code> if Discord console logging is enabled, especially if you do not want monospace code blocks or timestamp prefixes.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-3">
+<h2 id="release-2026-2-3">2026.2.3</h2>
+<h3 id="release-2026-2-3-added">Added</h3>
+<ul>
+<li>Added channel command shortcuts through <code>channels.&lt;id&gt;.shortcut</code>.
+<ul>
+<li>Running <code>/shortcut</code> switches the player to that CoreChatX channel.</li>
+<li>Running <code>/shortcut &lt;message&gt;</code> sends one message to that channel without changing the player's active channel.</li>
+</ul>
+</li>
+<li>Added Discord nickname sync with <code>account-linking.sync-mc-name</code> for both Paper <code>STANDALONE</code> and Velocity <code>PROXY</code>. Linked Discord members can have their Discord nickname updated to the Minecraft nickname, falling back to the real player name when no custom nickname is set.</li>
+<li>Added Discord event mirrors through <code>discord.event-messages</code> for death and advancement messages.
+<ul>
+<li>Paper <code>STANDALONE</code> can send the event embeds directly.</li>
+<li>Velocity <code>PROXY</code> can send the accepted backend events once per CoreChatX group.</li>
+</ul>
+</li>
+<li>Added Discord server status embeds through <code>discord.server-status</code>.
+<ul>
+<li>Paper <code>STANDALONE</code> can announce clean server startup/shutdown.</li>
+<li>Velocity <code>PROXY</code> can announce proxy startup/shutdown and backend online/offline state changes from <code>backend-groups.*</code>.</li>
+<li><code>proxy</code>, <code>default</code>, and <code>servers.&lt;id&gt;</code> entries can override channels, titles, descriptions, colors, and enabled flags.</li>
+</ul>
+</li>
+<li>Added <code>/corechatx itemcache &lt;warmup|status|cancel&gt;</code> with <code>corechatx.command.itemcache</code> to pre-render Discord ChatItem item icons into cache.</li>
+<li>Added ChatItem token placeholders for in-game token formats: <code>{token}</code>, <code>{name}</code>, <code>{material}</code>, and <code>{amount}</code>. <code>{name}</code> uses <code>custom_name</code>, then <code>item_name</code>, then the material fallback.</li>
+<li>Added <code>LICENSE</code> and <code>THIRD-PARTY-NOTICES.md</code> to document CoreChatX proprietary code and the third-party dependency notice summary.</li>
+</ul>
+<h3 id="release-2026-2-3-changed">Changed</h3>
+<ul>
+<li>Removed shaded jar packaging. Paper now declares external runtime libraries through <code>plugin.yml</code> <code>libraries</code>, while Velocity downloads its external third-party jars into <code>plugins/CoreChatX/libs</code> and logs whether libraries were downloaded or already present.</li>
+<li>Discord ChatItem renders now default to <code>discord-images.render.scale: 8</code>, <code>single-item-details-scale: 8</code>, and <code>single-item-details-icon-multiplier: 4</code>.</li>
+<li>Velocity PlaceholderAPI resolution through <code>PAPIProxyBridge</code> now times out after 3 seconds and falls back to the original text instead of waiting indefinitely.</li>
+</ul>
+<h3 id="release-2026-2-3-fixed">Fixed</h3>
+<ul>
+<li>Fixed mentions and ping notifications for channels the target player cannot read. If the mentioned player cannot receive the channel, CoreChatX no longer pings them and no longer renders the name as an <code>@</code> mention.</li>
+<li>Fixed Discord selected-item inspection hanging forever when the selected snapshot expired or the selected item could not be rendered. Discord now receives the configured <code>expired-message</code> or <code>unavailable-message</code>.</li>
+<li>Fixed intermittent missing Discord ChatItem previews in <code>PROXY</code> mode by sending preview packets on the server thread, allowing empty failure packets, retrying failed Discord image sends, and completing chunk transfers only once all chunks are available.</li>
+<li>Fixed enchanted books in Discord item rendering by including stored enchantments from <code>EnchantmentStorageMeta</code>, so stored enchants can appear in tooltip data and trigger enchanted rendering.</li>
+<li>Fixed Velocity Discord inbound delivery so backend plugin-message send failures are caught and logged per backend instead of silently breaking delivery.</li>
+<li>Fixed Velocity connection-message routing so proxy join/quit fanout handles backend send failures and keeps group join tracking consistent.</li>
+<li>Fixed Velocity YAML default synchronization for keys that existed with a <code>null</code> value, so missing defaults can be restored more consistently.</li>
+</ul>
+<h3 id="release-2026-2-3-configuration">Configuration</h3>
+<p>New or changed default keys:</p>
+<ul>
+<li><code>channels.&lt;id&gt;.shortcut</code></li>
+<li><code>chatitems.yml -&gt; tokens.item.token-format</code> placeholders: <code>{token}</code>, <code>{name}</code>, <code>{material}</code>, <code>{amount}</code></li>
+<li><code>chatitems.yml -&gt; discord-images.render.scale: 8</code></li>
+<li><code>chatitems.yml -&gt; discord-images.render.single-item-details-scale: 8</code></li>
+<li><code>chatitems.yml -&gt; discord-images.render.single-item-details-icon-multiplier: 4</code></li>
+<li><code>account-linking.sync-mc-name</code></li>
+<li><code>discord.event-messages</code></li>
+<li><code>discord.server-status</code></li>
+</ul>
+<p><code>plugin.yml</code> now includes:</p>
+<ul>
+<li>Paper runtime <code>libraries</code></li>
+<li><code>corechatx.command.itemcache</code></li>
+</ul>
+<h3 id="release-2026-2-3-migration">Migration</h3>
+<ul>
+<li>Review <code>discord.connection-messages.channels</code> if you enabled Discord join/quit mirrors. Values must now be Discord channel IDs, not CoreChatX channel IDs.</li>
+<li>Review <code>discord.server-status</code>, <code>discord.event-messages</code>, and <code>account-linking.sync-mc-name</code> before enabling them, especially on Velocity networks.</li>
+<li>Existing configs should receive missing default keys automatically, but server owners should still compare <code>channels.yml</code>, <code>chatitems.yml</code>, <code>discord.yml</code>, and <code>velocity-discord.yml</code> with the new defaults.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-2">
+<h2 id="release-2026-2-2">2026.2.2</h2>
+<h3 id="release-2026-2-2-added">Added</h3>
+<ul>
+<li>Added Discord image rendering for ChatItem tokens sent from Minecraft: <code>[item]</code>, <code>[i]</code>, <code>[armor]</code>, <code>[hotbar]</code>, <code>[inventory]</code>, <code>[inv]</code>, <code>[enderchest]</code>, <code>[ender]</code>, <code>[ec]</code>, and shulker previews from <code>[item]</code>.
+<ul>
+<li>In <code>STANDALONE</code>, Paper renders and sends the Discord attachment directly.</li>
+<li>In <code>PROXY</code>, Paper renders the snapshot and Velocity sends the final Discord embed/attachment for the correct proxy group.</li>
+</ul>
+</li>
+<li>Added interactive Discord item inspection for non-<code>[item]</code> snapshots. Inventory-like renders can show dropdown menus; selecting an entry sends an ephemeral single-item preview to that Discord user. The menu expires with the same lifetime as the in-game ChatItem preview token.</li>
+<li>Added Minecraft-style single item renders for Discord <code>[item]</code> previews. The generated image uses the Minecraft bitmap font, tooltip background, custom names, lore, enchantments, potion effects, attributes, armor trims, durability, and item icon rendering instead of plain Discord embed text.</li>
+<li>Added Discord handling for inbound attachments. Discord images/files now appear in Minecraft as clickable <code>[filename]</code> components with hover text and an open-url click action; messages with only attachments are forwarded too.</li>
+<li>Added Discord console support:
+<ul>
+<li><code>discord.console</code> in Paper <code>discord.yml</code> can run a standalone or per-backend console bot.</li>
+<li><code>discord.console</code> in Velocity <code>velocity-discord.yml</code> can run proxy console commands from Discord.</li>
+<li><code>command-prefix: ""</code> is allowed and makes every message in the console channel execute as a command.</li>
+</ul>
+</li>
+<li>Added Discord <code>player-list</code> command support for both Paper <code>STANDALONE</code> and Velocity <code>PROXY</code>.
+<ul>
+<li>Text command default: <code>!playerlist</code>.</li>
+<li>Slash command default: <code>/playerlist</code>.</li>
+<li>Velocity resolves the target proxy group from <code>discord.inbound.channel-routes</code>.</li>
+</ul>
+</li>
+<li>Added Discord text channel description updates through <code>discord.channel-description</code>.
+<ul>
+<li>Paper <code>STANDALONE</code>: updates standalone channel topics.</li>
+<li>Velocity <code>PROXY</code>: updates text channel topics per configured <code>network-channel</code>.</li>
+<li>Internal placeholders: <code>{online}</code> and <code>{online_in_group}</code>.</li>
+<li>PlaceholderAPI placeholders are supported on Paper; Velocity can resolve them through <code>PAPIProxyBridge</code> when installed.</li>
+</ul>
+</li>
+<li>Added Velocity-owned join/quit/first-join announcements for <code>deployment.mode: PROXY</code>.
+<ul>
+<li>Velocity now decides join/quit based on proxy group entry, group switch, and proxy disconnect.</li>
+<li>Switching backend inside the same CoreChatX group does not announce join/quit.</li>
+<li>Switching between groups sends quit to the old group and join to the new group.</li>
+</ul>
+</li>
+<li>Added group-wide broadcast routing in <code>PROXY</code> mode. Paper <code>/broadcast &lt;message&gt;</code> now fans out to the current Velocity group instead of only the local backend, and Velocity also provides <code>/broadcast</code>.</li>
+<li>Added player head rendering support for name-only profile components such as <code>minecraft:player_head[minecraft:profile="IceWolf23X"]</code>, in addition to heads that already contain texture properties.</li>
+</ul>
+<h3 id="release-2026-2-2-changed">Changed</h3>
+<ul>
+<li>ChatItem in-game previews now use more compact layouts for single/small snapshots:
+<ul>
+<li><code>[item]</code> opens a 5-slot hopper preview with the item centered.</li>
+<li><code>[armor]</code> opens a 5-slot hopper preview with helmet, chestplate, leggings, boots, and offhand.</li>
+<li><code>[inventory]</code>, <code>[hotbar]</code>, <code>[enderchest]</code>, and shulker previews keep their existing snapshot sizes.</li>
+</ul>
+</li>
+<li>Velocity Discord bridge output can resolve PlaceholderAPI placeholders through optional <code>PAPIProxyBridge</code> for Velocity-side formats such as player list rows, channel descriptions, join/quit messages, and fallback Discord formats.</li>
+<li>Paper <code>discord.yml</code> is now clearly split by runtime responsibility:
+<ul>
+<li><code>STANDALONE</code> owns Discord bridge, account linking, login gates, player list, channel descriptions, and console.</li>
+<li><code>PROXY</code> keeps bridge/account-linking/login gates on Velocity, while Paper can still run a console-only backend bot if configured.</li>
+</ul>
+</li>
+</ul>
+<h3 id="release-2026-2-2-fixed">Fixed</h3>
+<ul>
+<li><p>Fixed PlaceholderAPI placeholders staying unresolved in cross-server messages when the message had to be routed through Velocity.</p>
+</li>
+<li><p>Fixed proxy join/quit symptoms where quit messages could be missing, duplicated, or formatted differently depending on which backend still had players online.</p>
+</li>
+<li><p>Fixed Minecraft-to-Discord raw mention abuse. Players typing raw Discord mention syntax like <code>&lt;@...&gt;</code>, role mentions, <code>@everyone</code>, or <code>@here</code> can now be blocked from pinging Discord users/roles.</p>
+</li>
+<li><p>Fixed Discord inbound attachment forwarding so attachment-only Discord messages are no longer dropped before reaching Minecraft.</p>
+</li>
+<li><p>Fixed config synchronization behavior so missing default keys are added back to Paper YAML configs and Velocity YAML/properties configs instead of requiring a clean file for every new option.</p>
+</li>
+</ul>
+<h3 id="release-2026-2-2-configuration">Configuration</h3>
+<p><code>chatitems.yml</code> now supports Discord image rendering and item menu configuration:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord-images:
+  enabled: true
+  max-images-per-message: 3
+  embed:
+    title:
+      item: "{item_name}"
+      armor: "{player_nickname}'s armor"
+      hotbar: "{player_nickname}'s hotbar"
+      inventory: "{player_nickname}'s inventory"
+      enderchest: "{player_nickname}'s ender chest"
+      shulker: "{player_nickname}'s shulker"
+    description:
+      item:
+        - "{enchantments}"
+        - "{attributes}"
+        - "{potion_effects}"
+        - "{lore}"
+        - "{armor_trim}"
+        - "{banner_patterns}"
+        - "{unbreakable}"
+        - "{can_place_on}"
+        - "{can_break}"
+        - "{book_metadata}"
+        - "{firework_data}"
+        - "{durability_line}"
+      armor: []
+      hotbar: []
+      inventory: []
+      enderchest: []
+      shulker: []
+  item-menu:
+    enabled: true
+    placeholder: "Inspect an item"
+    label-format: "Slot {slot}: {item_display_name}"
+    description-format: "x{amount} - {material}"
+    expired-message: "This ChatItem preview has expired."
+    unavailable-message: "That item preview is unavailable."
+  render:
+    scale: 5
+    single-item-details-scale: 5
+    single-item-details-icon-multiplier: 3
+  assets:
+    minecraft-version: "auto"
+    download-vanilla-assets: true
+    resource-packs: []
+</code></pre></div></div>
+<ul>
+<li><code>discord-images.embed.title.*</code>: controls Discord embed titles; for <code>[item]</code>, the title is rendered into the PNG tooltip panel.</li>
+<li><code>discord-images.embed.description.item</code>: controls single-item tooltip details. Empty metadata placeholders are skipped, so missing lore/enchantments/durability do not leave unwanted blank detail sections.</li>
+<li><code>discord-images.item-menu.*</code>: controls the Discord dropdown menu shown under multi-item snapshots.</li>
+<li><code>discord-images.render.scale</code>: pixel scale for inventory-like renders.</li>
+<li><code>discord-images.render.single-item-details-scale</code>: pixel scale for the single-item tooltip text/background.</li>
+<li><code>discord-images.render.single-item-details-icon-multiplier</code>: multiplier applied only to the item icon in the single-item details panel.</li>
+<li><code>discord-images.assets.resource-packs</code>: optional resource pack zip/folder paths used before vanilla fallback assets.</li>
+</ul>
+<p><code>discord.yml</code> and <code>velocity-discord.yml</code> now include:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  prevent-mentions-from-minecraft: true
+  connection-messages:
+    enabled: false
+    join-format: ""
+    first-join-format: ""
+    quit-format: ""
+    embed:
+      enabled: false
+      join-color: "#57F287"
+      first-join-color: "#57F287"
+      quit-color: "#ED4245"
+      join-description: ""
+      first-join-description: ""
+      quit-description: ""
+  console:
+    enabled: false
+    channel-id: ""
+    command-prefix: "!"
+  player-list:
+    enabled: false
+    command: "!playerlist"
+    register-slash-command: true
+    slash-command-name: "playerlist"
+  channel-description:
+    enabled: false
+    interval-seconds: 300
+    triggers:
+      on-connection: true
+      on-disconnection: true
+      event-debounce-seconds: 5
+    entries: []
+</code></pre></div></div>
+<p>Velocity <code>velocity-discord.yml</code> also supports group-aware options:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>account-linking:
+  required-play-roles:
+    groups:
+      # corechatx:survival:
+      #   enabled: true
+      #   role-ids:
+      #     - "123456789012345678"
+
+discord:
+  channel-description:
+    triggers:
+      on-group-change: true
+    entries:
+      # - channel-id: "123456789012345678"
+      #   network-channel: "corechatx:survival"
+      #   description: "Players {online_in_group}/{online}"
+  inbound:
+    channel-routes:
+      # "123456789012345678":
+      #   channel: "global"
+      #   network-channel: "corechatx:survival"
+      #   require-linked: inherit
+</code></pre></div></div>
+<p>New Velocity message file:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code># velocity-messages.yml
+nicknames:
+  prefix: ""
+
+first-join:
+  enabled: true
+  counter-enabled: true
+
+join-quit:
+  join-enabled: true
+  quit-enabled: true
+  join: "&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;green&gt;+&lt;/green&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;"
+  quit: "&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;red&gt;-&lt;/red&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;"
+  first-join: "&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;"
+</code></pre></div></div>
+<p><code>config.yml</code> join/quit comments now clarify that <code>join-quit.mode: NETWORK</code> is Velocity-owned in <code>PROXY</code> mode and uses <code>velocity-messages.yml</code>.</p>
+<h3 id="release-2026-2-2-commands">Commands</h3>
+<ul>
+<li>Changed Paper <code>/broadcast &lt;message&gt;</code> in <code>PROXY</code> mode to route through Velocity to the backend group instead of sending only on the local backend.</li>
+<li>Added Velocity <code>/broadcast</code>:
+<ul>
+<li>with one configured group: <code>/broadcast &lt;message&gt;</code>;</li>
+<li>with multiple groups: <code>/broadcast &lt;group&gt; &lt;message&gt;</code>;</li>
+<li>group can be <code>all</code> to broadcast to every CoreChatX group.</li>
+</ul>
+</li>
+<li>Added Discord <code>!playerlist</code> and <code>/playerlist</code> when <code>discord.player-list.enabled: true</code>.</li>
+</ul>
+<h3 id="release-2026-2-2-compatibility">Compatibility</h3>
+<ul>
+<li>Paper and Velocity must both be updated to <code>2026.2.2</code>. The CoreChatX plugin-message protocol is <code>26</code> in this release and older proxy/backend builds are not compatible.</li>
+<li><code>PAPIProxyBridge</code> is optional on Velocity. Without it, CoreChatX still works, but Velocity-side PlaceholderAPI placeholders cannot be resolved and only CoreChatX internal placeholders such as <code>{online}</code> and <code>{online_in_group}</code> are available.</li>
+<li>No vanilla Minecraft assets are bundled inside the plugin jar. Discord item rendering uses cached/downloaded vanilla assets and optional resource packs from <code>chatitems.yml</code>.</li>
+</ul>
+<h3 id="release-2026-2-2-safety">Safety</h3>
+<ul>
+<li><code>discord.prevent-mentions-from-minecraft: true</code> prevents Minecraft players from triggering Discord user, role, <code>@everyone</code>, or <code>@here</code> pings through the bridge.</li>
+<li>Discord console commands are controlled by <code>discord.console.allowed-user-ids</code> and <code>discord.console.allowed-role-ids</code>; empty lists mean anyone with write access to the console channel can run commands.</li>
+<li>Discord channel description updates are interval-based and event-debounced to avoid excessive Discord channel metadata updates during mass joins/quits.</li>
+</ul>
+<h3 id="release-2026-2-2-migration">Migration</h3>
+<ul>
+<li>A clean config review is strongly recommended for <code>2026.2.2</code>, especially <code>chatitems.yml</code>, <code>discord.yml</code>, <code>velocity-discord.yml</code>, and the new <code>velocity-messages.yml</code>.</li>
+<li>Existing configs should receive missing default keys automatically, but server owners should still compare the new defaults because several Discord features are split between Paper <code>STANDALONE</code> and Velocity <code>PROXY</code>.</li>
+<li>In <code>PROXY</code> mode, configure Discord bridge/account-linking/login gates/player-list/channel descriptions on Velocity. Paper <code>discord.yml</code> is still useful for standalone setups and optional backend console-only bots.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-1-7">
+<h2 id="release-2026-2-1-7">2026.2.1.7</h2>
+<h3 id="release-2026-2-1-7-added">Added</h3>
+<ul>
+<li>Added Discord custom emoji expansion for Minecraft-to-Discord messages. When a Minecraft player sends text such as <code>:custom_hello:</code>, CoreChatX resolves the matching custom emoji from the target Discord guild and sends <code>&lt;:custom_hello:emoji_id&gt;</code> to Discord.</li>
+</ul>
+<h3 id="release-2026-2-1-7-changed">Changed</h3>
+<ul>
+<li>Custom emoji expansion is applied only to Discord outbound text. The in-game Minecraft message remains unchanged, so players still see the original <code>:emoji_name:</code> text in Minecraft.</li>
+<li>Velocity now enables Discord guild expression caching for the proxy Discord bot so custom emoji names can be resolved from the target Discord channel's guild in <code>PROXY</code> mode.</li>
+</ul>
+<h3 id="release-2026-2-1-7-compatibility">Compatibility</h3>
+<ul>
+<li>No config changes are required. Existing <code>discord.yml</code> and <code>velocity-discord.yml</code> files continue to work without new keys.</li>
+<li>Paper <code>STANDALONE</code> and Velocity <code>PROXY</code> both support the custom emoji replacement path.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-1-6">
+<h2 id="release-2026-2-1-6">2026.2.1.6</h2>
+<h3 id="release-2026-2-1-6-fixed">Fixed</h3>
+<ul>
+<li>Fixed cross-server network chat formats leaving PlaceholderAPI placeholders unresolved on receiving backends. Placeholders such as <code>%luckperms_prefix%</code>, <code>%luckperms_primary_group_name%</code>, <code>%player_world%</code>, <code>%player_ping%</code> and other sender-scoped placeholders are now resolved on the backend where the player sends the message before Velocity redistributes it.</li>
+<li>Fixed remote network chat display so receiving backends use the full sender-rendered chat component instead of rebuilding the chat line without the original Bukkit player context.</li>
+</ul>
+<h3 id="release-2026-2-1-6-compatibility">Compatibility</h3>
+<ul>
+<li>Paper and Velocity CoreChatX jars must be updated together. The plugin-message protocol is now <code>22</code>; mixed Paper/Velocity versions are not supported.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-1-5">
+<h2 id="release-2026-2-1-5">2026.2.1.5</h2>
+<h3 id="release-2026-2-1-5-added">Added</h3>
+<ul>
+<li>Added Discord player-list commands:
+<ul>
+<li>Paper <code>discord.yml -&gt; discord.player-list.*</code> for <code>STANDALONE</code> servers.</li>
+<li>Velocity <code>velocity-discord.yml -&gt; discord.player-list.*</code> for <code>PROXY</code> networks.</li>
+<li>Supports text command <code>!playerlist</code>, optional slash command <code>/playerlist</code>, <code>CHANNEL</code> / <code>DM</code> / <code>EPHEMERAL</code> visibility, embed color/title, <code>max-players</code>, <code>line-format</code> and <code>more-format</code>.</li>
+</ul>
+</li>
+<li>Added Velocity <code>/broadcast</code> support. With one CoreChatX group the syntax is <code>/broadcast &lt;message&gt;</code>; with multiple groups the syntax is <code>/broadcast &lt;group|all&gt; &lt;message&gt;</code>.</li>
+<li>Added proxy-routed Paper broadcasts. In <code>deployment.mode: PROXY</code>, Paper <code>/broadcast</code> now routes through Velocity to the whole CoreChatX group instead of only the current backend.</li>
+<li>Added <code>velocity-messages.yml</code> as the Velocity-side source of truth for <code>PROXY</code> network join, quit and first-join formats.</li>
+</ul>
+<h3 id="release-2026-2-1-5-changed">Changed</h3>
+<ul>
+<li>In <code>PROXY</code> mode, <code>join-quit.mode: "NETWORK"</code> is now fully Velocity-owned. Paper no longer renders or mirrors network join/quit messages; Velocity decides proxy join, proxy quit, same-group switch suppression and cross-group switch announcements.</li>
+<li>Velocity connection messages now render MiniMessage formats directly from <code>velocity-messages.yml</code>, including <code>{player_name}</code>, <code>{player_nickname}</code> and <code>{count}</code>.</li>
+<li>Discord <code>/link &lt;code&gt;</code> on Velocity now refuses ambiguous link codes if the same pending code exists in more than one CoreChatX group.</li>
+<li>Existing <code>velocity-config.properties</code>, <code>velocity-discord.yml</code> and <code>velocity-messages.yml</code> files now receive missing bundled default keys on startup instead of only being created when absent.</li>
+<li>The Velocity startup banner now points to <code>https://github.com/IceWolf23X/CoreChatX-issues</code>.</li>
+</ul>
+<h3 id="release-2026-2-1-5-fixed">Fixed</h3>
+<ul>
+<li>Fixed proxy <code>join/quit</code> edge cases where disconnect messages could be missing, duplicated, or sent with fallback plain formatting when players switched backend or disconnected with other players online.</li>
+<li>Fixed switching from a CoreChatX group to an unmapped backend so the old group receives the correct quit announcement.</li>
+<li>Fixed required Discord link/role pre-checks on Velocity failing open when a backend group cannot be resolved. When the login gate is active and the target backend is not mapped, Velocity now denies the login and logs the missing <code>backend-groups.&lt;server&gt;</code> mapping.</li>
+<li>Fixed duplicate plain nicknames in <code>PROXY</code> by adding Velocity-side validation before saving player settings. A custom nickname can no longer collide with another stored custom nickname or with another online player's real name in the same group.</li>
+<li>Fixed Discord player-list output sanitization so configured nicknames, server names and templates are plain, mention-safe Discord text.</li>
+<li>Fixed Minecraft-to-Discord mention safety for raw Discord mention tokens when <code>discord.prevent-mentions-from-minecraft: true</code> is enabled.</li>
+</ul>
+<h3 id="release-2026-2-1-5-configuration">Configuration</h3>
+<p><code>discord.yml</code> now includes standalone player-list settings:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  player-list:
+    enabled: false
+    command: "!playerlist"
+    register-slash-command: true
+    slash-command-name: "playerlist"
+    response-visibility: "CHANNEL"
+    max-players: 80
+    embed:
+      color: "#5865F2"
+      title: "Online players ({count})"
+      empty-description: "No players are currently online."
+      line-format: "- {player_nickname}"
+      more-format: "... and {hidden_count} more."
+</code></pre></div></div>
+<p><code>velocity-discord.yml</code> now includes proxy player-list settings:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  player-list:
+    enabled: false
+    command: "!playerlist"
+    register-slash-command: true
+    slash-command-name: "playerlist"
+    response-visibility: "CHANNEL"
+    max-players: 80
+    embed:
+      color: "#5865F2"
+      title: "Online players ({count})"
+      empty-description: "No players are currently online."
+      line-format: "- {player_nickname} - {server}"
+      more-format: "... and {hidden_count} more."
+</code></pre></div></div>
+<p><code>velocity-messages.yml</code> is new:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>nicknames:
+  prefix: ""
+
+first-join:
+  enabled: true
+  counter-enabled: true
+
+join-quit:
+  join-enabled: true
+  quit-enabled: true
+  join: "&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;green&gt;+&lt;/green&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;"
+  quit: "&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;red&gt;-&lt;/red&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;"
+  first-join: "&lt;dark_gray&gt;[&lt;/dark_gray&gt;&lt;gradient:#79d6b8:#5aa9ff&gt;Welcome&lt;/gradient&gt;&lt;dark_gray&gt;]&lt;/dark_gray&gt; &lt;white&gt;{player_nickname}&lt;/white&gt;&lt;gray&gt; is joining for the first time as player &lt;/gray&gt;&lt;white&gt;#{count}&lt;/white&gt;&lt;gray&gt;.&lt;/gray&gt;"
+</code></pre></div></div>
+<h3 id="release-2026-2-1-5-permissions">Permissions</h3>
+<ul>
+<li>Velocity <code>/broadcast</code> uses the existing <code>corechatx.command.broadcast</code> permission.</li>
+</ul>
+<h3 id="release-2026-2-1-5-compatibility">Compatibility</h3>
+<ul>
+<li>Paper and Velocity CoreChatX jars must be updated together. The plugin-message protocol is now <code>21</code>; mixed Paper/Velocity versions are not supported.</li>
+</ul>
+<h3 id="release-2026-2-1-5-migration">Migration</h3>
+<ul>
+<li>A clean setup is still recommended for the <code>2026.2.x</code> line, especially on proxy networks. Regenerate fresh Paper and Velocity config files, then manually reapply server-specific values such as <code>deployment.*</code>, <code>network-channel</code>, <code>backend-groups.*</code>, channel formats, Discord token, Discord routes and required Discord role IDs.</li>
+<li>In <code>PROXY</code>, configure network join/quit/first-join messages in <code>velocity-messages.yml</code>. Paper <code>messages.yml</code> remains the source for <code>STANDALONE</code> and local-only Paper announcements.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-1">
+<h2 id="release-2026-2-1">2026.2.1</h2>
+<h3 id="release-2026-2-1-added">Added</h3>
+<ul>
+<li>Added Velocity-owned runtime data authority for <code>PROXY</code> deployments. Player settings, nicknames, ignore lists, active channels, mutes, global state, first-join count, Discord links and pending link codes are stored per Velocity <code>network-channel</code> group.</li>
+<li>Added Velocity-side Discord bot ownership through <code>plugins/corechatx/velocity-discord.yml</code> for proxy networks. In <code>PROXY</code>, Discord bridge I/O, Discord account linking, required-link-to-play and required-role-to-play are handled by Velocity.</li>
+<li>Added group-specific Discord required role gates through <code>account-linking.required-play-roles.groups.&lt;network-channel&gt;</code>, so separate CoreChatX proxy groups can require different Discord roles.</li>
+<li>Added optional Paper backend Discord console-only bots in <code>PROXY</code> mode through <code>discord.yml -&gt; discord.console.*</code>, intended for per-backend console access with separate bot tokens.</li>
+<li>Added configurable Discord join/quit/first-join mirrors with plain text or embed output, including separate join, first-join and quit descriptions and colors.</li>
+<li>Added CoreChatX PlaceholderAPI values:
+<ul>
+<li><code>%corechatx_player_nickname%</code> returns the same visual value as CoreChatX <code>{player_nickname}</code>.</li>
+<li><code>%corechatx_first_join_date%</code> returns the player's recorded first join date.</li>
+<li><code>%corechatx_messages_count%</code> returns the player's persisted public message count.</li>
+</ul>
+</li>
+</ul>
+<h3 id="release-2026-2-1-changed">Changed</h3>
+<ul>
+<li>In <code>PROXY</code>, Paper backends act as runtime/cache clients for cross-server data and send writes to Velocity instead of persisting network runtime state locally.</li>
+<li>Join, quit and first-join network announcements are coordinated through Velocity in <code>PROXY</code> mode, so backend switches inside the same CoreChatX group do not create extra connection messages.</li>
+<li>Required Discord link/role checks can be decided before the player fully enters a backend when Velocity can resolve the target backend group through <code>backend-groups.&lt;velocity-server-name&gt;</code>.</li>
+<li>Minecraft -&gt; Discord messages in proxy mode are rendered by Paper, then delivered by the Velocity Discord bot. Discord -&gt; Minecraft messages are read by Velocity and routed to the configured CoreChatX group/channel.</li>
+<li>Minecraft-to-Discord bridge output can prevent raw Discord mention syntax from pinging users, roles, <code>@everyone</code> or <code>@here</code>.</li>
+</ul>
+<h3 id="release-2026-2-1-fixed">Fixed</h3>
+<ul>
+<li>Fixed the previous proxy limitation where a backend without online players could miss Discord link state and incorrectly kick a linked player after a server switch.</li>
+<li>Fixed Velocity Discord link-state replay on backend switch so previously empty backends get delayed retry replays instead of an immediate failed replay warning while plugin messaging is not ready yet.</li>
+<li>Fixed the previous Discord role-check limitation that required a backend authority server with an online player carrier. Velocity now checks Discord roles directly.</li>
+<li>Fixed the first join after a proxy/backend restart sometimes using the real player name instead of the saved CoreChatX nickname in proxy-level connection messages.</li>
+<li>Fixed duplicate Discord join/quit mirrors when multiple exported CoreChatX channels mapped to the same Discord target.</li>
+<li>Fixed proxy runtime player-state cache reads re-sending unnecessary <code>GET_PLAYER_STATE</code> requests after the state was already cached, reducing duplicate proxy data traffic during repeated settings/nickname lookups.</li>
+<li>Fixed Discord and Telegram outbound bridge messages showing raw MiniMessage tags from formatted labels, bridge templates, nicknames or rank prefixes. Values like <code>&lt;color:#e8481D&gt;[LIVER]&lt;/color&gt;</code> now appear as <code>[LIVER]</code>.</li>
+<li>Fixed legacy and hex formatting leaking into external bridge output from identity fields. Values like <code>&amp;b&amp;lIce</code>, <code>&amp;3&amp;lUser</code> and <code>&amp;#ff0000Rank</code> are now sent as plain text.</li>
+<li>Fixed <code>deployment.mode</code> changes during <code>/corechatx reload</code> partially switching storage authority without a full restart.</li>
+</ul>
+<h3 id="release-2026-2-1-configuration">Configuration</h3>
+<p><code>velocity-config.properties</code> supports backend group pins for pre-backend login gates:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>network-channel=corechatx:survival,corechatx:minigames
+backend-groups.survival-1=corechatx:survival
+backend-groups.minigames-1=corechatx:minigames
+</code></pre></div></div>
+<p><code>velocity-discord.yml</code> owns proxy Discord setup:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>account-linking:
+  enabled: true
+  require-linked-to-play: true
+  required-play-roles:
+    enabled: true
+    guild-id: "123456789012345678"
+    role-ids:
+      - "234567890123456789"
+    groups:
+      "corechatx:survival":
+        role-ids:
+          - "345678901234567890"
+
+discord:
+  enabled: true
+  bot-token: "your-token"
+  inbound:
+    channel-routes:
+      "456789012345678901":
+        channel: "global"
+        network-channel: "corechatx:survival"
+</code></pre></div></div>
+<h3 id="release-2026-2-1-safety">Safety</h3>
+<ul>
+<li>Bridge formatting cleanup applies to labels and identity/template fragments. Player message content in <code>{plain_text}</code> is preserved, so normal text such as <code>R&amp;D</code> or links in angle brackets is not stripped.</li>
+</ul>
+<h3 id="release-2026-2-1-compatibility">Compatibility</h3>
+<ul>
+<li>Paper and Velocity CoreChatX jars must be updated together. The plugin-message protocol changed for the new proxy data authority and mixed-version Paper/Velocity networks are not supported.</li>
+</ul>
+<h3 id="release-2026-2-1-migration">Migration</h3>
+<ul>
+<li>A clean setup is recommended for <code>2026.2.1</code>, especially on existing Velocity networks. Regenerate fresh Paper and Velocity config files, then manually reapply values such as <code>deployment.*</code>, channel formats, Discord token, Discord routes and required role IDs.</li>
+<li>In <code>PROXY</code>, do not treat old Paper backend runtime YAML files as authoritative network data. Velocity now owns cross-server runtime/user state under <code>plugins/corechatx/data/groups/&lt;encoded-channel&gt;/</code>.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-0-2">
+<h2 id="release-2026-2-0-2">2026.2.0.2</h2>
+<h3 id="release-2026-2-0-2-fixed">Fixed</h3>
+<ul>
+<li>Fixed proxy runtime player-state cache reads re-sending unnecessary <code>GET_PLAYER_STATE</code> requests after the state was already cached, reducing duplicate proxy data traffic during repeated settings/nickname lookups.</li>
+<li>Fixed Velocity Discord link-state replay on backend switch so previously empty backends get delayed retry replays instead of an immediate failed replay warning while plugin messaging is not ready yet.</li>
+<li>Fixed Discord and Telegram outbound bridge messages showing raw MiniMessage tags from formatted labels, bridge templates, nicknames, or rank prefixes. Values like <code>&lt;color:#e8481D&gt;[LIVER]&lt;/color&gt;</code> now appear as <code>[LIVER]</code>.</li>
+<li>Fixed legacy and hex formatting leaking into external bridge output from identity fields. Values like <code>&amp;b&amp;lIce</code>, <code>&amp;3&amp;lUser</code>, and <code>&amp;#ff0000Rank</code> are now sent as plain text.</li>
+</ul>
+<h3 id="release-2026-2-0-2-safety">Safety</h3>
+<ul>
+<li>Bridge formatting cleanup only applies to labels and identity/template fragments. Player message content in <code>{plain_text}</code> is preserved, so normal text such as <code>R&amp;D</code> or links in angle brackets is not stripped.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-2-0">
+<h2 id="release-2026-2-0">2026.2.0</h2>
+<h3 id="release-2026-2-0-added">Added</h3>
+<ul>
+<li>Added Velocity-owned runtime data authority for <code>PROXY</code> deployments. Player settings, nicknames, ignore lists, active channels, mutes, global state, first-join count, Discord links and pending link codes are now stored per Velocity <code>network-channel</code> group.</li>
+<li>Added Velocity-side Discord bot support through <code>plugins/corechatx/velocity-discord.yml</code> for proxy networks. In <code>PROXY</code>, Discord bridge I/O, Discord account linking, required-link-to-play and required-role-to-play are handled by Velocity.</li>
+<li>Added group-specific Discord required role gates through <code>account-linking.required-play-roles.groups.&lt;network-channel&gt;</code>, so separate CoreChatX proxy groups can require different Discord roles.</li>
+<li>Added PlaceholderAPI placeholder <code>%corechatx_player_nickname%</code>, matching CoreChatX <code>{player_nickname}</code> output.</li>
+</ul>
+<h3 id="release-2026-2-0-changed">Changed</h3>
+<ul>
+<li>In <code>PROXY</code>, Paper backends now act as runtime/cache clients for cross-server data and send writes to Velocity instead of persisting network runtime state locally.</li>
+<li>Required Discord link/role checks can now be decided before the player fully enters a backend when Velocity can resolve the target backend group through <code>backend-groups.&lt;velocity-server-name&gt;</code>.</li>
+<li>Minecraft -&gt; Discord messages in proxy mode are rendered by Paper, then delivered by the Velocity Discord bot. Discord -&gt; Minecraft messages are read by Velocity and routed to the configured CoreChatX group/channel.</li>
+</ul>
+<h3 id="release-2026-2-0-fixed">Fixed</h3>
+<ul>
+<li>Fixed the previous proxy limitation where a backend without online players could miss Discord link state and incorrectly kick a linked player after a server switch.</li>
+<li>Fixed the previous Discord role-check limitation that required a backend authority server with an online player carrier. Velocity now checks Discord roles directly.</li>
+</ul>
+<h3 id="release-2026-2-0-configuration">Configuration</h3>
+<p><code>velocity-config.properties</code> now supports backend group pins for pre-backend login gates:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>network-channel=corechatx:survival,corechatx:minigames
+backend-groups.survival-1=corechatx:survival
+backend-groups.minigames-1=corechatx:minigames
+</code></pre></div></div>
+<p><code>velocity-discord.yml</code> now owns proxy Discord setup:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>account-linking:
+  enabled: true
+  require-linked-to-play: true
+  required-play-roles:
+    enabled: true
+    guild-id: "123456789012345678"
+    role-ids:
+      - "234567890123456789"
+    groups:
+      "corechatx:survival":
+        role-ids:
+          - "345678901234567890"
+
+discord:
+  enabled: true
+  bot-token: "your-token"
+  inbound:
+    channel-routes:
+      "456789012345678901":
+        channel: "global"
+        network-channel: "corechatx:survival"
+</code></pre></div></div>
+<h3 id="release-2026-2-0-compatibility">Compatibility</h3>
+<ul>
+<li>Paper and Velocity CoreChatX jars must be updated together. The plugin-message protocol changed for the new proxy data authority and mixed-version Paper/Velocity networks are not supported.</li>
+</ul>
+<h3 id="release-2026-2-0-migration">Migration</h3>
+<ul>
+<li>A clean setup is recommended for <code>2026.2.0</code>, especially on existing Velocity networks. Regenerate fresh Paper and Velocity config files, then manually reapply values such as <code>deployment.*</code>, channel formats, Discord token, Discord routes and required role IDs.</li>
+<li>In <code>PROXY</code>, do not treat old Paper backend runtime YAML files as authoritative network data. Velocity now owns cross-server runtime/user state under <code>plugins/corechatx/data/groups/&lt;encoded-channel&gt;/</code>.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-8-1">
+<h2 id="release-2026-1-8-1">2026.1.8.1</h2>
+<h3 id="release-2026-1-8-1-added">Added</h3>
+<ul>
+<li>Added optional Discord role enforcement for <code>discord.inbound.account-linking.require-linked-to-play</code>: linked players can now be required to have at least one configured Discord role before they are allowed to play.</li>
+</ul>
+<h3 id="release-2026-1-8-1-configuration">Configuration</h3>
+<p><code>discord.yml</code> now supports:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  inbound:
+    account-linking:
+      required-play-roles:
+        enabled: false
+        guild-id: ""
+        role-ids: []
+        deny-if-unverifiable: true
+</code></pre></div></div>
+<p><code>messages.yml</code> now supports the kick messages used by the role gate:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  missing-required-role-kick: "&lt;red&gt;Your Discord account is linked, but you do not have the required Discord role to play.&lt;/red&gt;"
+  role-check-unavailable-kick: "&lt;red&gt;Discord role verification is temporarily unavailable. Try again later.&lt;/red&gt;"
+</code></pre></div></div>
+<h3 id="release-2026-1-8-1-safety">Safety</h3>
+<ul>
+<li>Role checks run at every join and do not unlink accounts when a Discord role is lost; the player is simply blocked until the required role is restored.</li>
+<li>Role-gate kicks suppress first-join, join, state-sync, and quit messages, matching the existing <code>require-linked-to-play</code> behavior.</li>
+</ul>
+<h3 id="release-2026-1-8-1-compatibility">Compatibility</h3>
+<ul>
+<li>No CoreChatX plugin-message protocol bump is required for this hotfix.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-8">
+<h2 id="release-2026-1-8">2026.1.8</h2>
+<h3 id="release-2026-1-8-added">Added</h3>
+<ul>
+<li>Added optional Discord-Minecraft account linking for Discord inbound chat, with Minecraft <code>/discord link</code>, <code>/discord unlink</code>, <code>/discord linked</code>, admin link override, Discord <code>/link code:&lt;code&gt;</code>, Discord <code>/unlink</code>, persistent <code>discordlinks.yml</code>, and same-proxy-group sync.</li>
+<li>Added linked Discord inbound identity rendering: linked Discord users can be shown with their Minecraft real name, CoreChatX nickname, and Minecraft rank data instead of Discord-only identity.</li>
+<li>Added optional linked-user enforcement for Discord inbound, including blocked unlinked messages, optional Discord message deletion, optional DM feedback, Minecraft mute checks, and CoreChatX channel send-permission checks.</li>
+<li>Added optional Discord link-to-play enforcement. When <code>discord.inbound.account-linking.require-linked-to-play</code> is <code>true</code>, unlinked Minecraft players are kicked after joining with a temporary Discord <code>/link code:&lt;code&gt;</code> in the kick reason.</li>
+</ul>
+<h3 id="release-2026-1-8-changed">Changed</h3>
+<ul>
+<li>Player mention suggestions now include custom nicknames as well as real Minecraft usernames, including players online on other backends in the same Velocity <code>network-channel</code> group.</li>
+<li>Mention tokens now display the custom nickname when a tagged player has one, while still resolving the player identity safely.</li>
+<li><code>/realname &lt;nickname&gt;</code> tab completion now includes custom nicknames from the whole current proxy group, not only the current backend.</li>
+</ul>
+<h3 id="release-2026-1-8-fixed">Fixed</h3>
+<ul>
+<li>Fixed settings updates such as PM toggles, GUI toggles, and locale changes so they preserve the saved custom nickname instead of clearing it.</li>
+<li>Fixed Discord link sync ordering so stale remote <code>LINK</code>, <code>UNLINK</code>, or pending-code packets cannot overwrite newer account-link state between backends in the same proxy group.</li>
+</ul>
+<h3 id="release-2026-1-8-configuration">Configuration</h3>
+<p><code>discord.yml</code> now supports:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  inbound:
+    account-linking:
+      enabled: false
+      require-linked: false
+      require-linked-to-play: false
+    route-overrides: {}
+</code></pre></div></div>
+<p><code>channels.yml</code> Discord sections now support per-channel inbound account-link overrides:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  require-linked-inbound: "inherit"
+</code></pre></div></div>
+<p><code>messages.yml</code> now supports the kick message shown to unlinked players:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  link-required-kick: "&lt;red&gt;You must link your Discord account to play.&lt;/red&gt;\n&lt;gray&gt;Use Discord command &lt;/gray&gt;&lt;white&gt;/link code:{code}&lt;/white&gt;&lt;gray&gt; within &lt;/gray&gt;&lt;white&gt;{minutes}&lt;/white&gt;&lt;gray&gt; minute(s).&lt;/gray&gt;"
+</code></pre></div></div>
+<h3 id="release-2026-1-8-compatibility">Compatibility</h3>
+<ul>
+<li>CoreChatX plugin-message protocol is now <code>13</code>. Paper and Velocity must both run <code>2026.1.8</code>; mixed proxy/backend versions are not supported.</li>
+</ul>
+<h3 id="release-2026-1-8-safety">Safety</h3>
+<ul>
+<li>Link-to-play joins do not publish normal join, first-join, state-sync, or quit messages for players that are immediately kicked for missing Discord linking.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-7-1">
+<h2 id="release-2026-1-7-1">2026.1.7.1</h2>
+<h3 id="release-2026-1-7-1-added">Added</h3>
+<ul>
+<li>Added Discord-Minecraft account linking for the Discord inbound bridge. When enabled, unlinked Discord users can be blocked from routed Minecraft chat channels, their Discord message can be deleted, and they can receive a DM with linking instructions.</li>
+<li>Added <code>discordlinks.yml</code> storage for one-to-one Minecraft UUID and Discord user ID links, including temporary link codes generated in-game and confirmed from Discord.</li>
+</ul>
+<h3 id="release-2026-1-7-1-configuration">Configuration</h3>
+<ul>
+<li><code>discord.yml</code> now supports <code>discord.inbound.account-linking.*</code> for <code>enabled</code>, <code>require-linked</code>, message deletion, DM notices, code expiry, offline linked players, Minecraft mute enforcement, and channel send-permission enforcement.</li>
+<li><code>discord.yml</code> route overrides and <code>channels.yml</code> channel overrides can require or skip linked accounts with <code>true</code>, <code>false</code>, or <code>inherit</code>.</li>
+</ul>
+<h3 id="release-2026-1-7-1-commands">Commands</h3>
+<ul>
+<li>Added Minecraft commands: <code>/discord link</code>, <code>/discord unlink</code>, <code>/discord linked</code>, <code>/discord linkadmin &lt;player&gt; &lt;discord_user_id&gt;</code>, and admin unlink through <code>/discord unlink &lt;player|discord_user_id&gt;</code>.</li>
+<li>Added Discord guild slash commands <code>/link code:&lt;code&gt;</code> and <code>/unlink</code> for confirming or removing a Discord account link.</li>
+</ul>
+<h3 id="release-2026-1-7-1-permissions">Permissions</h3>
+<ul>
+<li>Added <code>corechatx.command.discord.link</code>, <code>corechatx.command.discord.unlink</code>, <code>corechatx.command.discord.linked</code>, and <code>corechatx.command.discord.admin</code>.</li>
+</ul>
+<h3 id="release-2026-1-7-1-safety">Safety</h3>
+<ul>
+<li>Linked Discord inbound messages now use the linked Minecraft identity for <code>{sender_name}</code>, <code>{player_name}</code>, <code>{player_nickname}</code>, and <code>{rank_prefix}</code>, while <code>{discord_name}</code> and <code>{discord_id}</code> remain available for Discord identity.</li>
+<li>Linked Discord inbound messages can be blocked by Minecraft mute state, global chat mute, staff-channel state, and CoreChatX channel send permissions.</li>
+</ul>
+<h3 id="release-2026-1-7-1-compatibility">Compatibility</h3>
+<ul>
+<li>CoreChatX plugin-message protocol is now <code>12</code>. Paper and Velocity must both run <code>2026.1.7.1</code>; mixed proxy/backend versions are not supported.</li>
+<li>Discord link sync is routed only inside the current Velocity <code>network-channel</code> group and does not cross proxy groups.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-7">
+<h2 id="release-2026-1-7">2026.1.7</h2>
+<p>Consolidated release for the nickname refinements and the proxy-side state-sync hotfix previously prepared as <code>2026.1.6.1</code> and <code>2026.1.6.2</code>.</p>
+<h3 id="release-2026-1-7-nicknames">Nicknames</h3>
+<ul>
+<li>Split player display placeholders:
+<ul>
+<li><code>{player_name}</code> always resolves to the real Minecraft username.</li>
+<li><code>{player_nickname}</code> resolves to the custom nickname when set, otherwise the real username.</li>
+</ul>
+</li>
+<li>Added <code>nicknames.prefix</code> in <code>config.yml</code>.
+<ul>
+<li>The prefix is included directly in <code>{player_nickname}</code> only when a custom nickname exists.</li>
+</ul>
+</li>
+<li>Updated default chat, group chat, join/quit, first-join, and ChatItem preview titles to use <code>{player_nickname}</code> where a display name is intended.</li>
+<li>Added safe MiniMessage support to <code>/nick</code>.
+<ul>
+<li>Allowed: named colors, formats, hex colors, and gradients.</li>
+<li>Legacy <code>&amp;</code> codes and <code>&amp;#rrggbb</code> hex still work.</li>
+<li>Unsupported MiniMessage tags are stripped silently while keeping their text.</li>
+</ul>
+</li>
+<li>Added nickname permissions for hex and gradients:
+<ul>
+<li><code>corechatx.nick.color.hex</code></li>
+<li><code>corechatx.nick.color.gradient</code></li>
+<li><code>corechatx.nick.color</code> grants both children.</li>
+</ul>
+</li>
+<li>Added duplicate nickname protection.
+<ul>
+<li>Custom plain nicknames cannot duplicate another custom nickname or another player's real username.</li>
+<li>A player may still set their own real username as nickname text, useful for color-only setups.</li>
+</ul>
+</li>
+<li>Added <code>/realname &lt;nickname&gt;</code>.
+<ul>
+<li>Permission: <code>corechatx.command.realname</code></li>
+<li>Tab completion suggests only custom nickname plain text, without the configured prefix.</li>
+</ul>
+</li>
+</ul>
+<h3 id="release-2026-1-7-proxy-state-sync">Proxy State Sync</h3>
+<ul>
+<li>Fixed cross-server nickname state propagation inside the same Velocity channel group.</li>
+<li>Player state sync now fans out to the other registered backends in the same group, instead of only caching the update on the proxy.</li>
+<li>Player state sync remains group-isolated and does not cross into other <code>network-channel</code> groups.</li>
+<li>Stale or invalid state sync packets for players not currently online in the source group are ignored by Velocity.</li>
+</ul>
+<h3 id="release-2026-1-7-network-compatibility">Network Compatibility</h3>
+<ul>
+<li>The CoreChatX plugin-message protocol remains <code>11</code>.</li>
+<li>Network chat packets carry real username and nickname separately.</li>
+<li>Paper and Velocity should both run <code>2026.1.7</code>; mixed plugin/proxy versions are not supported for this release line.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-6-2">
+<h2 id="release-2026-1-6-2">2026.1.6.2</h2>
+<p>Hotfix release for proxy-side player state synchronization introduced around the nickname/network-group changes.</p>
+<h3 id="release-2026-1-6-2-fixed">Fixed</h3>
+<ul>
+<li>Fixed cross-server nickname state propagation inside the same Velocity channel group.</li>
+<li>Player state sync now fans out to the other registered backends in the same group, instead of only caching the update on the proxy.</li>
+<li>Player state sync remains group-isolated and does not cross into other <code>network-channel</code> groups.</li>
+<li>Stale or invalid state sync packets for players not currently online in the source group are ignored by Velocity.</li>
+</ul>
+<h3 id="release-2026-1-6-2-notes">Notes</h3>
+<ul>
+<li>Paper and Velocity should both run <code>2026.1.6.2</code>.</li>
+<li>This hotfix does not change website files or public config defaults.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-6-1">
+<h2 id="release-2026-1-6-1">2026.1.6.1</h2>
+<p>Hotfix release for the nickname system introduced in <code>2026.1.6</code>.</p>
+<h3 id="release-2026-1-6-1-fixed-changed">Fixed / Changed</h3>
+<ul>
+<li>Split player display placeholders:
+<ul>
+<li><code>{player_name}</code> now always resolves to the real Minecraft username.</li>
+<li><code>{player_nickname}</code> resolves to the custom nickname when set, otherwise the real username.</li>
+</ul>
+</li>
+<li>Added <code>nicknames.prefix</code> in <code>config.yml</code>.
+<ul>
+<li>The prefix is included directly in <code>{player_nickname}</code> only when a custom nickname exists.</li>
+</ul>
+</li>
+<li>Updated default chat, group chat, join/quit, first-join, and ChatItem preview titles to use <code>{player_nickname}</code> where a display name is intended.</li>
+<li>Added safe MiniMessage support to <code>/nick</code>.
+<ul>
+<li>Allowed: named colors, formats, hex colors, and gradients.</li>
+<li>Legacy <code>&amp;</code> codes and <code>&amp;#rrggbb</code> hex still work.</li>
+<li>Unsupported MiniMessage tags are stripped silently while keeping their text.</li>
+</ul>
+</li>
+<li>Added nickname permissions for hex and gradients:
+<ul>
+<li><code>corechatx.nick.color.hex</code></li>
+<li><code>corechatx.nick.color.gradient</code></li>
+<li><code>corechatx.nick.color</code> grants both children.</li>
+</ul>
+</li>
+<li>Added duplicate nickname protection.
+<ul>
+<li>Custom plain nicknames cannot duplicate another custom nickname or another player's real username.</li>
+<li>A player may still set their own real username as nickname text, useful for color-only setups.</li>
+</ul>
+</li>
+<li>Added <code>/realname &lt;nickname&gt;</code>.
+<ul>
+<li>Permission: <code>corechatx.command.realname</code></li>
+<li>Tab completion suggests only custom nickname plain text, without the configured prefix.</li>
+</ul>
+</li>
+</ul>
+<h3 id="release-2026-1-6-1-network-compatibility">Network Compatibility</h3>
+<ul>
+<li>Bumped the CoreChatX plugin-message protocol to <code>11</code>.</li>
+<li>Network chat packets now carry real username and nickname separately.</li>
+<li>Paper and Velocity must be updated together to <code>2026.1.6.1</code>; mixed protocol versions are intentionally not supported for this hotfix.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-6">
+<h2 id="release-2026-1-6">2026.1.6</h2>
+<h3 id="release-2026-1-6-added">Added</h3>
+<ul>
+<li>Added <code>join-quit.mode</code> in <code>config.yml</code> to choose how join, first-join, and quit messages are delivered.
+<ul>
+<li><code>LOCAL</code> keeps messages on the current Paper backend.</li>
+<li><code>NETWORK</code> forwards true network join/leave events through Velocity when proxy transport is available.</li>
+</ul>
+</li>
+<li>Added Velocity multi-channel proxy groups through the existing <code>velocity-config.properties -&gt; network-channel</code> key.
+<ul>
+<li>Legacy single-channel format still works: <code>network-channel=corechatx:main</code>.</li>
+<li>Multiple isolated groups use a comma-separated list: <code>network-channel=corechatx:survival,corechatx:minigames</code>.</li>
+<li>Each Paper backend joins the group matching its own <code>config.yml -&gt; deployment.network-channel</code>.</li>
+</ul>
+</li>
+<li>Added persistent <code>/nick</code> support on Paper.
+<ul>
+<li><code>/nick &lt;nickname&gt;</code> sets your nickname.</li>
+<li><code>/nick off</code>, <code>/nick clear</code>, and <code>/nick reset</code> clear it.</li>
+<li><code>/nick &lt;player&gt; &lt;nickname|off&gt;</code> lets permitted staff change another online player's nickname.</li>
+</ul>
+</li>
+</ul>
+<h3 id="release-2026-1-6-changed">Changed</h3>
+<ul>
+<li>Velocity routing is now isolated per configured network channel.
+<ul>
+<li>Network chat, private messages, player directory, TAB/completions, state sync, ChatItem snapshot routing, and join/leave routing stay inside the source channel group.</li>
+<li>Private message lookup now searches only players known inside the same proxy group, not the whole proxy.</li>
+<li>ChatItem snapshot cache and pending routes are naturally isolated because each channel has its own router.</li>
+</ul>
+</li>
+<li>Velocity now learns backend group membership from plugin messages and a lightweight registration handshake.
+<ul>
+<li>Paper still does not need a new config field.</li>
+<li>If a backend starts sending CoreChatX packets on another configured channel, Velocity moves it to that group and logs the change.</li>
+</ul>
+</li>
+<li>Network join/leave messages now understand group boundaries.
+<ul>
+<li>Moving between backend servers inside the same group does not emit fake quit/join announcements.</li>
+<li>Moving between different CoreChatX proxy groups emits quit in the old group and join in the new group.</li>
+<li>Proxy disconnect emits quit only in the player's last known group.</li>
+</ul>
+</li>
+</ul>
+<h3 id="release-2026-1-6-nicknames">Nicknames</h3>
+<ul>
+<li>Nicknames are persisted in player data and synchronized through CoreChatX state sync in proxy mode.</li>
+<li>Chat, PMs, spy output, broadcasts, join/quit/first-join messages, and network chat display the nickname when one is set.</li>
+<li>Real player identity remains unchanged: lookup, replies, ignores, privacy, routing, and state sync still use UUIDs and real Minecraft names internally.</li>
+<li>Added dedicated permissions:
+<ul>
+<li><code>corechatx.command.nick</code></li>
+<li><code>corechatx.command.nick.others</code></li>
+<li><code>corechatx.nick.color</code></li>
+<li><code>corechatx.nick.format</code></li>
+</ul>
+</li>
+<li>Added per-code nickname permissions so server owners can allow specific colors or styles only.
+<ul>
+<li>Example color child: <code>corechatx.nick.color.red</code></li>
+<li>Example format child: <code>corechatx.nick.format.bold</code></li>
+</ul>
+</li>
+<li>Added <code>nicknames.change-only-colors</code> in <code>config.yml</code>.
+<ul>
+<li><code>false</code> lets <code>/nick IceWolf</code> change the visible text.</li>
+<li><code>true</code> only allows color/style changes while the visible text stays exactly the player's real Minecraft username.</li>
+</ul>
+</li>
+</ul>
+<h3 id="release-2026-1-6-configuration">Configuration</h3>
+<p><code>config.yml</code> now includes:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>nicknames:
+  # false = /nick can change the visible name text and styling, for example IceWolf23X -&gt; IceWolf.
+  # true = /nick can only change allowed colors/styles; the visible text after removing formatting must stay exactly the real Minecraft username.
+  # Example with true: IceWolf23X may use &amp;cIceWolf23X, but not &amp;cIceWolf.
+  change-only-colors: false
+
+join-quit:
+  # LOCAL = announce only on the current Paper backend.
+  # NETWORK = in PROXY mode, announce true network join/leave through the Velocity module.
+  mode: "LOCAL"
+  join-enabled: true
+  quit-enabled: true
+</code></pre></div></div>
+<p><code>velocity-config.properties</code> now supports a list:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code># Comma-separate values to split this proxy into isolated CoreChatX network groups.
+# Each Paper backend joins the group matching its deployment.network-channel.
+network-channel=corechatx:main
+</code></pre></div></div>
+<p>Example multi-group setup:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>network-channel=corechatx:survival,corechatx:minigames
+</code></pre></div></div>
+<p>Paper backends still use:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>deployment:
+  network-channel: "corechatx:survival"
+</code></pre></div></div>
+<h3 id="release-2026-1-6-compatibility">Compatibility</h3>
+<ul>
+<li>Existing single-channel Velocity installs keep their previous behavior.</li>
+<li>Existing Paper configs do not need a new deployment key.</li>
+<li>Existing nickname-free player data remains valid.</li>
+<li>The player state sync decoder accepts the previous protocol shape for compatibility and treats missing nickname data as blank.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-5">
+<h2 id="release-2026-1-5">2026.1.5</h2>
+<h3 id="release-2026-1-5-fixed">Fixed</h3>
+<ul>
+<li>Discord -&gt; Minecraft player mentions are now controlled by the target channel's <code>allow-mentions.from-discord</code> setting.</li>
+<li>Discord custom pings such as <code>@staff</code> now require at least one matching Discord role ID configured in <code>pings.yml</code>.</li>
+<li>Custom pings with missing or empty <code>discord-roles</code> now stay as plain text when used from Discord and do not notify Minecraft players.</li>
+<li>Minecraft custom pings still use <code>use-permission</code>; existing <code>receive-permission</code> checks still apply to Minecraft recipients.</li>
+<li>Telegram inbound mentions are now controlled by <code>allow-mentions.from-telegram</code>.</li>
+<li>Network chat from other Minecraft servers remains treated as Minecraft-originated and uses <code>allow-mentions.from-minecraft</code>.</li>
+</ul>
+<h3 id="release-2026-1-5-configuration">Configuration</h3>
+<p><code>channels.yml</code> now uses source-specific mention gates:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>allow-mentions:
+  from-minecraft: true
+  from-discord: true
+  from-telegram: true
+</code></pre></div></div>
+<p><code>pings.yml</code> custom pings now support Discord role allow-lists:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>custom-pings:
+  staff:
+    trigger: "@staff"
+    use-permission: "corechatx.ping.use.staff"
+    receive-permission: "corechatx.staff"
+    discord-roles:
+      - "123456789012345678"
+    bypass-toggle: true
+    token-format: "&lt;#ff8f8f&gt;{trigger}&lt;/#ff8f8f&gt;"
+</code></pre></div></div>
+<p>Empty <code>discord-roles: []</code> means the ping cannot be activated from Discord.</p>
+<h3 id="release-2026-1-5-migration">Migration</h3>
+<ul>
+<li>Existing scalar values like <code>allow-mentions: true</code> or <code>allow-mentions: false</code> are replaced at startup with the new nested default section.</li>
+<li>Existing nested source values are preserved, and missing nested keys are added automatically.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-4">
+<h2 id="release-2026-1-4">2026.1.4</h2>
+<h3 id="release-2026-1-4-fixed">Fixed</h3>
+<ul>
+<li>Discord -&gt; Minecraft messages no longer force a hardcoded <code>[Discord]</code> sender prefix.</li>
+<li>Discord -&gt; Minecraft messages can now be fully formatted from <code>discord.inbound.format</code>.</li>
+<li>Discord bridge formats can now be overridden per channel from <code>channels.yml</code>.</li>
+<li>Telegram bridge formats can now be overridden per channel from <code>channels.yml</code>.</li>
+<li>Discord -&gt; Minecraft messages now expose <code>{rank_prefix}</code> as the sender's highest Discord role name.</li>
+<li>Added <code>{role_color}</code> for Discord -&gt; Minecraft messages. It resolves to the highest colored Discord role and can be used as a MiniMessage color tag.</li>
+<li>Added <code>{channel_prefix}</code> for Discord -&gt; Minecraft messages so custom channel tags can be kept in <code>discord.inbound.format</code>.</li>
+<li>PlaceholderAPI placeholders are now processed in <code>discord.format</code> for Minecraft -&gt; Discord messages.</li>
+<li>Minecraft -&gt; Discord <code>discord.format</code> now supports <code>{rank_prefix}</code>.</li>
+<li>Minecraft formatting codes from LuckPerms or PlaceholderAPI prefixes are stripped before messages are sent to Discord or Telegram, while the actual message text is preserved.</li>
+<li>Telegram outbound formats also support <code>{rank_prefix}</code> if the token is used.</li>
+<li>Inbound bridge logging now handles unexpected/unknown source ids without throwing.</li>
+</ul>
+<h3 id="release-2026-1-4-configuration">Configuration</h3>
+<p>Discord -&gt; Minecraft messages are now controlled by one format key:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  inbound:
+    format: "{channel_prefix}[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}"
+</code></pre></div></div>
+<p>Per-channel bridge formats can be set in <code>channels.yml</code>:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>channels:
+  mod:
+    discord:
+      outbound-format: "[MOD] {rank_prefix}{sender_name}: {plain_text}"
+      inbound-format: "{channel_prefix}[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}"
+    telegram:
+      outbound-format: "[MOD] {rank_prefix}{sender_name}: {plain_text}"
+      inbound-format: "{channel_prefix}[Telegram] {sender_name}: {plain_text}"
+</code></pre></div></div>
+<p>If a per-channel format is blank, CoreChatX falls back to the matching global bridge format.</p>
+<p>Available inbound tokens:</p>
+<ul>
+<li><code>{source}</code>: display source name, for example <code>Discord</code> or <code>Telegram</code></li>
+<li><code>{source_type}</code>: raw source id, for example <code>discord</code></li>
+<li><code>{channel_id}</code>: CoreChatX channel id</li>
+<li><code>{channel_prefix}</code>: prefix extracted from the channel format, or the configured channel prefix fallback</li>
+<li><code>{sender_name}</code>: bridge sender display name</li>
+<li><code>{rank_prefix}</code>: Discord sender's highest role name, blank for Telegram</li>
+<li><code>{role_color}</code>: MiniMessage color tag from the highest colored Discord role, or <code>white</code></li>
+<li><code>{plain_text}</code> / <code>{message}</code>: sanitized message content</li>
+</ul>
+<p>Example with role-colored prefix and message:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  inbound:
+    format: "{channel_prefix}&lt;dark_gray&gt;[Discord]&lt;/dark_gray&gt; {role_color}{rank_prefix}&lt;/role_color&gt; &lt;white&gt;{sender_name}&lt;/white&gt;: {role_color}{plain_text}&lt;/role_color&gt;"
+</code></pre></div></div>
+<p>Minecraft -&gt; Discord formats can now use PlaceholderAPI placeholders and <code>{rank_prefix}</code>:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  format: "[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}"
+</code></pre></div></div>
+<h3 id="release-2026-1-4-safety">Safety</h3>
+<ul>
+<li>Bridge formats are now validated on config load.</li>
+<li>Unknown placeholders and invalid inbound MiniMessage syntax produce warnings instead of failing startup.</li>
+<li>The outbound formatter strips formatting from templates and rank prefixes, but preserves literal ampersands in the real chat message.</li>
+</ul>
+</article></section>
+<section><article aria-labelledby="release-2026-1-3">
+<h2 id="release-2026-1-3">2026.1.3</h2>
+<p id="release-2026-1-3-corechatx-config-manager-changes">CoreChatX Config Manager Changes</p>
+<h3 id="release-2026-1-3-added">Added</h3>
+<ul>
+<li>Added automatic default-key synchronization for Paper YAML configuration files.</li>
+<li>When a config file exists but is missing a key from the bundled default, CoreChatX now writes that missing key back into the real file.</li>
+<li>Existing configured values are preserved and are not overwritten by bundled defaults.</li>
+<li>Missing nested sections and empty map sections are restored, including values such as route maps and channel overrides.</li>
+<li>The default locale file <code>locales/en_us.yml</code> is also synchronized from bundled defaults.</li>
+<li>Velocity <code>velocity-config.properties</code> now appends missing bundled default properties when the file exists but is incomplete.</li>
+</ul>
+<h3 id="release-2026-1-3-safety-rules">Safety Rules</h3>
+<ul>
+<li>Invalid or unparsable YAML files are not rewritten automatically.</li>
+<li>Runtime data files such as <code>playerdata.yml</code>, <code>state.yml</code>, <code>channeldata.yml</code>, <code>ignoredata.yml</code>, and <code>mutedata.yml</code> are not treated as normal admin config for default-key synchronization.</li>
+<li>Velocity properties are appended instead of rewriting the whole file, so existing comments and values stay intact.</li>
+</ul>
+<h3 id="release-2026-1-3-technical">Technical</h3>
+<ul>
+<li>Added <code>DefaultConfigSynchronizer</code> as the Paper-side central YAML loader/synchronizer.</li>
+<li>Updated Paper config loading paths to use the synchronizer through <code>ConfigurationService</code>, <code>ConfigRegistry</code>, and the default locale loader.</li>
+<li>Added regression coverage for restoring missing nested defaults without overwriting existing values.</li>
+<li>Added missing-property synchronization to the Velocity bootstrap config loader.</li>
+</ul>
+<p><a href="https://modrinth.com/plugin/corechatx/version/m99frxwX">Original release notes on Modrinth</a></p>
+</article></section>
+<section><article aria-labelledby="release-2026-1-2">
+<h2 id="release-2026-1-2">2026.1.2</h2>
+<h3 id="release-2026-1-2-fixed">Fixed</h3>
+<ul>
+<li>Discord -&gt; Minecraft messages no longer force a hardcoded <code>[Discord]</code> sender prefix.</li>
+<li>Discord -&gt; Minecraft messages can now be fully formatted from <code>discord.inbound.format</code>.</li>
+<li>Discord -&gt; Minecraft messages now expose <code>{rank_prefix}</code> as the sender's highest Discord role name.</li>
+<li>Added <code>{role_color}</code> for Discord -&gt; Minecraft messages. It resolves to the highest Discord role color and can be used as a MiniMessage color tag.</li>
+<li>PlaceholderAPI placeholders are now processed in <code>discord.format</code> for Minecraft -&gt; Discord messages.</li>
+<li>Minecraft -&gt; Discord <code>discord.format</code> now supports <code>{rank_prefix}</code>.</li>
+<li>Telegram outbound formats also support <code>{rank_prefix}</code> if the token is used.</li>
+</ul>
+<h3 id="release-2026-1-2-configuration">Configuration</h3>
+<p>Discord -&gt; Minecraft messages are now controlled by one format key:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  inbound:
+    format: "[Discord] {role_color}{rank_prefix}&lt;/role_color&gt;{sender_name}: {plain_text}"
+</code></pre></div></div>
+<p>Available Discord inbound tokens:</p>
+<ul>
+<li><code>{source}</code>: display source name, for example <code>Discord</code></li>
+<li><code>{source_type}</code>: raw source id, for example <code>discord</code></li>
+<li><code>{sender_name}</code>: Discord sender display name</li>
+<li><code>{rank_prefix}</code>: highest Discord role name</li>
+<li><code>{role_color}</code>: MiniMessage color tag from the highest Discord role color, or <code>white</code></li>
+<li><code>{plain_text}</code> / <code>{message}</code>: sanitized message content</li>
+</ul>
+<p>Example with role-colored prefix and message:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  inbound:
+    format: "&lt;dark_gray&gt;[Discord]&lt;/dark_gray&gt; {role_color}{rank_prefix}&lt;/role_color&gt; &lt;white&gt;{sender_name}&lt;/white&gt;: {role_color}{plain_text}&lt;/role_color&gt;"
+</code></pre></div></div>
+<p>Minecraft -&gt; Discord formats can now use PlaceholderAPI placeholders and <code>{rank_prefix}</code>:</p>
+<div><div class="code-block"><div class="code-header"><span>Plain text</span><div><button aria-expanded="false" class="expand-code" type="button">Expand</button><button aria-label="Copy code" class="copy-code" type="button">Copy</button></div></div><pre tabindex="0"><code>discord:
+  format: "[{source_server}] [{channel_id}] {rank_prefix}{sender_name}: {plain_text}"
+</code></pre></div></div>
+<p><a href="https://modrinth.com/plugin/corechatx/version/yWWIv9lW">Original release notes on Modrinth</a></p>
+</article></section>
+<section><article aria-labelledby="release-2026-1-1">
+<h2 id="release-2026-1-1">2026.1.1</h2>
+<h3 id="release-2026-1-1-fixed">Fixed</h3>
+<ul>
+<li>Fixed a chat formatting crash when PlaceholderAPI or other plugins returned legacy Minecraft formatting codes inside MiniMessage chat formats.</li>
+<li>Added support for converting legacy <code>&amp;</code> and <code>§</code> formatting codes into MiniMessage before rendering.</li>
+<li>Added support for legacy hex color formats such as <code>&amp;#ffa200</code>, <code>&amp;x&amp;f&amp;f&amp;a&amp;2&amp;0&amp;0</code>, and <code>§x§f§f§a§2§0§0</code>.</li>
+<li>Fixed compatibility with EssentialsX nicknames generated with legacy hex colors, which could previously cause public chat messages to fail rendering.</li>
+</ul>
+<h3 id="release-2026-1-1-technical">Technical</h3>
+<ul>
+<li>Added regression tests for legacy formatting conversion and Essentials-style hex nicknames.</li>
+<li>Improved sanitization of legacy hex formatting in chat-related text paths.</li>
+</ul>
+<p><a href="https://modrinth.com/plugin/corechatx/version/Si7hYmBF">Original release notes on Modrinth</a></p>
+</article></section>
+<section><article aria-labelledby="release-2026-1-0">
+<h2 id="release-2026-1-0">2026.1.0</h2>
+<h3 id="release-2026-1-0-paper">Paper</h3>
+<p>Paper Version upload to modrinth</p>
+<h3 id="release-2026-1-0-velocity">Velocity</h3>
+<p>Velocity Version upload to Modrinth</p>
+<p><a href="https://modrinth.com/plugin/corechatx/version/wONYhCt1">Original release notes on Modrinth</a></p>
+</article></section>

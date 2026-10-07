@@ -1,0 +1,22 @@
+<header><div>
+<div id="overview"><p><strong>Before anything else, back up every file in the CoreChatX plugin folder.</strong> Stop the affected servers normally and copy the complete folder, including every file and subfolder, to a separate location. Standalone: <code>plugins/CoreChatX/</code>. Network: <code>plugins/corechatx/</code> on Velocity, including all of <code>data/groups/</code>, plus <code>plugins/CoreChatX/</code> on every Paper server. Keep the old JARs too.</p></div>
+<p>Existing CoreChatX YAML → 2026.3.2 MySQL</p>
+<h2>Choose your complete migration guide.</h2>
+<p>Choose once. Each guide contains its own backup, setup, commands, activation, checks, and reopening instructions in a single numbered sequence.</p>
+</div></header>
+<div><article>
+<section><span aria-hidden="true" id="prepare"></span><span aria-hidden="true" id="upgrade"></span><span aria-hidden="true" id="configure"></span><span aria-hidden="true" id="cutover"></span><span aria-hidden="true" id="validate"></span>
+<h2 id="sequence">Which installation do you use?</h2>
+<div>
+<div><h3 id="paper">Standalone Paper</h3><p>CoreChatX uses <code>STANDALONE</code> mode on one Paper server. You will work in that Paper server's console.</p><a href="#/docs/guides/migration-paper">Open the full Paper guide</a></div>
+<div><h3 id="velocity">Velocity network</h3><p>CoreChatX runs on Velocity, with Paper servers in <code>PROXY</code> mode. Use this guide even if the proxy has only one Paper server.</p><a href="#/docs/guides/migration-velocity">Open the full Velocity guide</a></div>
+</div>
+<p>Both guides start at step 1 and finish at step 15. You do not need to combine instructions from the two pages. MySQL is optional: CoreChatX 2026.3.2 continues to support YAML. Upgrade to matching <code>2026.3.2</code> platform JARs before running the migration; the storage transition itself does not require a new schema beyond V004 already introduced in <code>2026.3.1</code>.</p>
+<div id="validation-scope"><p><strong>Prepare using your own data.</strong> Rehearse with an isolated copy of your installation and a separate database, keeping ordinary players and live integration traffic away from that copy. Each guide includes the preparation and verification instructions where you need them.</p></div>
+</section>
+<section><h2 id="recovery">Looking for recovery or a return to YAML?</h2>
+<span aria-hidden="true" id="rollback"></span>
+<p>If an operation failed or you want to return to YAML, use your platform’s reference below. These references are outside the normal successful migration sequence:</p>
+<ul><li><a href="#/docs/guides/migration-paper~optional-help">Standalone Paper recovery and rollback</a></li><li><a href="#/docs/guides/migration-velocity~optional-help">Velocity recovery and rollback</a></li></ul>
+</section>
+</article></div>

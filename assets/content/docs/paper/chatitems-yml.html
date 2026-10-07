@@ -1,0 +1,47 @@
+<h2 class="reference-section" id="purpose">Purpose:<a aria-label="Link to Purpose:" class="heading-anchor" href="#/docs/paper/chatitems-yml~purpose">#</a></h2>
+<ul>
+<li>token aliases</li>
+<li>permission nodes per token family</li>
+<li>visible token formatting</li>
+<li>preview expiration</li>
+<li>preview inventory titles</li>
+<li>Discord PNG rendering and embed text for ChatItem snapshots</li>
+<li>Discord item-inspection dropdowns</li>
+<li>vanilla/resource-pack asset resolution and render scaling</li>
+<li>cross-server snapshot request size and timeout limits</li>
+</ul>
+<h2 class="reference-section" id="current-bundled-default">Current bundled default:<a aria-label="Link to Current bundled default:" class="heading-anchor" href="#/docs/paper/chatitems-yml~current-bundled-default">#</a></h2>
+<div class="config-file-mount" data-config-file="paper/chatitems.yml"></div>
+<h2 class="reference-section" id="behavior-notes">Behavior notes:<a aria-label="Link to Behavior notes:" class="heading-anchor" href="#/docs/paper/chatitems-yml~behavior-notes">#</a></h2>
+<ul>
+<li>Minecraft previews are immutable snapshots captured when the message is accepted; expiration or reload makes old preview links fail closed</li>
+<li><code>discord-images.enabled</code> controls only rendered Discord attachments; in-game ChatItem tokens and clickable previews remain available</li>
+<li>Discord rendering uses locally cached vanilla client assets and optional resource packs; relative pack paths are resolved from <code>plugins/CoreChatX/</code></li>
+<li>non-item Discord snapshots can expose an item selector whose response is ephemeral to the selecting Discord user</li>
+<li><code>/corechatx itemcache warmup|status|cancel</code> manages the asynchronous render cache warmup and requires <code>corechatx.command.itemcache</code> for players</li>
+<li>if the sender lacks the required permission, the token stays plain text</li>
+<li>snapshots are runtime objects and are cleared on reload/restart</li>
+<li>multiple ChatItem tokens in the same player message share one snapshot UUID/bundle; each token click carries the requested view, such as <code>item</code>, <code>armor</code>, or <code>inventory</code></li>
+<li>snapshot UUIDs are treated as short-lived capability ids: anyone who received the rendered chat component can open the available preview views until it expires, but ids are random, not listed, and not persisted</li>
+<li>in proxy mode, chat packets carry only lightweight ChatItem bundle refs; on click, Velocity requests the full bundle from the source backend and forwards the response to the requesting backend</li>
+<li>Velocity can cache a returned remote bundle until it expires, so later clicks on other views from the same message do not have to ask the source backend again</li>
+<li>because current per-message parsing shares one bundle, normal chat generally emits one bundle ref even when the message contains several ChatItem tokens; <code>network.max-snapshots-per-message</code> remains a defensive protocol bound</li>
+<li>if the remote bundle is missing, expired, rejected, or not returned before <code>network.request-timeout-seconds</code>, the player receives the normal expired-preview feedback</li>
+<li>oversized or invalid ChatItem bundle payloads are rejected without blocking the chat message itself</li>
+<li><code>network.max-compressed-bytes</code>, <code>network.max-uncompressed-bytes</code>, and <code>network.max-item-bytes</code> protect Paper-side bundle serialization and import during remote click handling</li>
+<li><code>network.request-timeout-seconds</code> is clamped to at least <code>1</code></li>
+<li>ChatItem byte limits are clamped to at least <code>1024</code> bytes</li>
+<li><code>discord-images.item-menu.busy-message</code> is the ephemeral response for duplicate or overloaded item-menu clicks; admission allows one in-flight preview per Discord user, one per menu/slot, and <code>32</code> total per instance before defer, rendering, or backend publication begins</li>
+<li>item-menu work has a fixed <code>30</code>-second deadline, shortened when the menu expires; success, failure, timeout, reload, and shutdown release its reservation</li>
+<li>Paper and the single Velocity bot each retain at most <code>256</code> historical menus. FIFO eviction under load can expire a menu before <code>previews.expire-after-minutes</code>; the configured expired feedback is then used</li>
+<li>Paper retains at most <code>1,024</code> snapshot UUIDs, <code>32</code> per owner, and <code>16,384</code> structural units. Expired or individually oversized snapshots are rejected; owner-oldest and then global-oldest entries are evicted when full</li>
+<li>Velocity accepts a full remote snapshot only as the response to a pending source/requester request. Unsolicited, wrong-source, duplicate, and conflicting late publications fail closed instead of replacing a current cached snapshot</li>
+<li>Velocity retains at most <code>1,000</code> remote snapshot payloads and <code>5,000</code> routes. Discord image transfer is also bounded to <code>64</code> unfinished transfers and <code>32 MiB</code> globally, with <code>16</code> transfers and <code>8 MiB</code> per backend</li>
+<li>renderer preparation runs asynchronously after startup and reload. Discord images can be temporarily unavailable while assets prepare, but in-game previews remain available; proxy backends prepare renderers even without a local Discord bot because Velocity can request their images</li>
+<li>vanilla client downloads are staged with a <code>256 MiB</code> compressed cap, Mojang SHA-1 and size verification, <code>8 MiB</code> metadata cap, <code>30</code>-second metadata deadline, and three-minute client deadline. Extraction permits at most <code>100,000</code> entries, <code>32 MiB</code> per expanded entry, and <code>512 MiB</code> expanded total</li>
+<li>custom resource-pack assets are limited to <code>8 MiB</code> each, metadata to <code>256 KiB</code>, listings to <code>100,000</code> entries and <code>16 MiB</code> of index data, directory depth and overlays to <code>64</code>, and ZIP files to <code>512 MiB</code>. Rejected assets fall through to lower-priority packs or verified vanilla assets when available</li>
+<li>PNG preflight limits each axis to <code>4,096</code> pixels, total pixels to <code>4,194,304</code>, and decoded working data and inflater output to <code>64 MiB</code> each</li>
+<li>the shared base-icon cache keeps <code>512</code> memory entries and up to <code>512 MiB</code> on disk under <code>chatitem-renderer/render-cache</code>. Ordinary reload clears memory but preserves disk accounting; filesystem inspection or cleanup failure disables disk caching while rendering continues in memory</li>
+<li>do not share the render-cache directory with another active instance or redirect it through symbolic links or reparse points. Repair an inaccessible cache filesystem and restart to create a fresh disk-cache owner</li>
+</ul>
+<hr/>

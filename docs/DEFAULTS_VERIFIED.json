@@ -1,0 +1,143 @@
+{
+  "verifiedOn": "2026-10-07",
+  "pluginVersion": "2026.3.2",
+  "sourceRepository": "IceWolf23X/CoreChatX-plugin",
+  "sourceRef": "master",
+  "sourceCommit": "9d1ef37bd266f18e7451d61db7e8ebaf91a055c2",
+  "verification": "All 19 allow-listed defaults were copied from the exact committed Git blobs at this commit. The local Windows plugin checkout was also checked for LF-normalized semantic equality. Git blob identities, byte sizes and SHA-256 describe the committed release defaults. The separately generated advancement template was compared with the runtime default. No live server configuration or credentials were copied.",
+  "files": [
+    {
+      "file": "paper/config.yml",
+      "gitBlobSha": "eca75aa4bc35fce11ca36785a6c3c9cf453b8686",
+      "bytes": 4586,
+      "sha256": "eda6d0d40857adbcd3fbb6709c21f15e9d66a56ede14263fa0599c730023d86a",
+      "options": 43
+    },
+    {
+      "file": "paper/messages.yml",
+      "gitBlobSha": "ac530487f310c81feb34c1e84981ef1f7aad05cc",
+      "bytes": 11036,
+      "sha256": "5457bf941ba8b39484e8cebeea2d39bf04f549f9ef4b5cf53f2c744b47336eb7",
+      "options": 125
+    },
+    {
+      "file": "paper/chat.yml",
+      "gitBlobSha": "61139c1430e539905eef3c6c00637cb1d03dc818",
+      "bytes": 2613,
+      "sha256": "a443ca776b4e050865eb48aef2d58c94fe67fd294df54b36a1361137267d25f2",
+      "options": 22
+    },
+    {
+      "file": "paper/pings.yml",
+      "gitBlobSha": "4efa7a6138ec6d5f24e3de76fb2edb8515f080c4",
+      "bytes": 1497,
+      "sha256": "92b698630eb0537e4b13cec4787b79df0b500093491dcd1c79a6219b18726939",
+      "options": 25
+    },
+    {
+      "file": "paper/filter.yml",
+      "gitBlobSha": "45f7ba7efcef89e0c2bd346a0ebfea09bc3d3205",
+      "bytes": 251,
+      "sha256": "0086ac73ded19bf70ca01240078d4eda52393634f1b882579ef4a3c2dca2735e",
+      "options": 6
+    },
+    {
+      "file": "paper/chatitems.yml",
+      "gitBlobSha": "2e7fa7428d7a4450f86e063522d48850e40d3502",
+      "bytes": 8185,
+      "sha256": "566abf3889433fa49128693d97fc0acb789481ab407da9bc6dcf8d5cb6939c53",
+      "options": 71
+    },
+    {
+      "file": "paper/keywords.yml",
+      "gitBlobSha": "c9359b7bf9059e5cccd20c50644059142e013fbc",
+      "bytes": 776,
+      "sha256": "6dff8931256f6ff8454cb8219da58e45801a2b8fcca58f85cd4e52c4175dbdab",
+      "options": 17
+    },
+    {
+      "file": "paper/chatbubbles.yml",
+      "gitBlobSha": "5860cee821896389b1de06f6a5cc35d3330930ea",
+      "bytes": 603,
+      "sha256": "c4af8b42d752a180c1dbb1dd3039aab0a72baa2e09df0a4424ceae81429bb6f8",
+      "options": 25
+    },
+    {
+      "file": "paper/channels.yml",
+      "gitBlobSha": "f6af2e8fb066d4f4be50c15bf19d13470a324c36",
+      "bytes": 4285,
+      "sha256": "001e7301f1adc3ce00e1c93b5e9e72bd77799fdbfd6174be599c2b6f5ba8d3b6",
+      "options": 74
+    },
+    {
+      "file": "paper/privacy.yml",
+      "gitBlobSha": "3efbe6d380a2a11d0e6a453af149a301a3555b9a",
+      "bytes": 1244,
+      "sha256": "d8b9ed33fbf859442dc662e3d9dfd80d491914174cfe08128d055cd49186faf1",
+      "options": 9
+    },
+    {
+      "file": "paper/moderation.yml",
+      "gitBlobSha": "de421805e662251fad4cffb33744c8a03d6da897",
+      "bytes": 343,
+      "sha256": "e2ecdc1723cfd88b1e748ffe1f69a5c384d85bad37aeaf3c348a966dbb95134f",
+      "options": 14
+    },
+    {
+      "file": "paper/storage.yml",
+      "gitBlobSha": "fa95b1a0e201d5c239dc6e9de5670c39d194838c",
+      "bytes": 1334,
+      "sha256": "f5e9649df63c741848598a50a100f558d0100440903198d8465e7c1f1c6d678c",
+      "options": 28
+    },
+    {
+      "file": "paper/discord.yml",
+      "gitBlobSha": "5653ecf39aef59686a79213a4711111079889a14",
+      "bytes": 13043,
+      "sha256": "d562a034bad79fdb5e4d222acc44822295b8c29139cc9554f9e10e8f55094865",
+      "options": 139
+    },
+    {
+      "file": "paper/telegram.yml",
+      "gitBlobSha": "979a2651cc7807b8b6a4a5ffa3cc067fefcdfec2",
+      "bytes": 1814,
+      "sha256": "1a40519e9450acf96127c91bcef97ab08832e2dab84a75cb2f2e0fa10f02fbb7",
+      "options": 25
+    },
+    {
+      "file": "paper/locales/en_us.yml",
+      "gitBlobSha": "9496866f6d7aa9548cd42e3f35dd981674babd72",
+      "bytes": 851,
+      "sha256": "02d9199ca26ebe0c35f02ac6cc6825ffd8d817caccd2a887f2148aa9ae12e897",
+      "options": 17
+    },
+    {
+      "file": "velocity/velocity-config.properties",
+      "gitBlobSha": "ddee32e32844a42669aba0f676c3a2d670c69772",
+      "bytes": 2138,
+      "sha256": "cd99a9d6d5c618df5b442cc598d2f9a541e7eb065cf15850d6edab1f9edda4c4",
+      "options": 6
+    },
+    {
+      "file": "velocity/velocity-discord.yml",
+      "gitBlobSha": "12da12553dbcd575c173acbb5c009c816046fd49",
+      "bytes": 14410,
+      "sha256": "0f53d8c69647cd66973a718071cad4d80bbb19fc5d89d037ad311336993e684e",
+      "options": 162
+    },
+    {
+      "file": "velocity/velocity-messages.yml",
+      "gitBlobSha": "57a4d513f4f758a73dfa36be965ace1450bd718e",
+      "bytes": 1784,
+      "sha256": "0cf449c85d2dd0464a244255acd62b192c7ff50d945ff25f3ec3058dacfa723a",
+      "options": 11
+    },
+    {
+      "file": "velocity/velocity-storage.yml",
+      "gitBlobSha": "ab14c58e3f8a1d80556e363a13cb10d4722d97b2",
+      "bytes": 973,
+      "sha256": "31d22bf11eb52b7b4c1aaa222a2985385dd8275aa34ef4f7f453d47e974c47cf",
+      "options": 25
+    }
+  ]
+}

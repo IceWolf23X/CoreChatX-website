@@ -1,0 +1,252 @@
+<header>
+<div>
+<p>Complete feature overview</p>
+<h2>All your server communication tools in one plugin.</h2>
+<p>CoreChatX combines chat, channels, private messages, player settings, moderation, interactive content, and optional Discord or Telegram connections. One product supports standalone Paper and Velocity networks, with platform-specific ownership: chat bubbles remain local to Paper, Telegram remains Paper-owned, proxy-mode Discord is Velocity-owned, and advancement synchronization is a Velocity-network feature.</p>
+<div>
+<a href="#/docs/guides/installation">Choose your setup</a>
+<a href="#/docs/instructions">Open configuration</a>
+<a href="#/docs/guides/plugin-comparisons">Compare plugins</a>
+</div>
+</div>
+</header>
+<div>
+<article>
+<section>
+<p>Feature overview</p>
+<h2 id="suite">Features work together without extra setup between plugins.</h2>
+<p>A channel can have its own format, permissions, mentions, item previews, and Discord or Telegram connection. Player settings such as ignores and notifications apply wherever they are relevant, including across connected Paper servers.</p>
+<div aria-label="Scrollable table" tabindex="0">
+<div aria-label="Scrollable reference table" class="table-scroll" role="region" tabindex="0"><table>
+<thead>
+<tr><th>Area</th><th>What it includes</th><th>What you can control</th></tr>
+</thead>
+<tbody>
+<tr><td>Chat</td><td>Public chat, private messages, replies, and announcements</td><td>Appearance, permissions, filters, and who receives each message</td></tr>
+<tr><td>Channels</td><td>Global, server-only, local, staff, and custom channels</td><td>Access, shortcuts, interactive features, Discord, and Telegram</td></tr>
+<tr><td>Player settings</td><td>Notifications, nicknames, language, ignores, and hidden channels</td><td>Which options players can change for themselves</td></tr>
+<tr><td>Staff tools</td><td>Mutes, chat clearing, social spy, filters, and bypass permissions</td><td>How staff manage chat and handle rule-breaking</td></tr>
+</tbody>
+</table></div>
+</div>
+<div>
+<p><strong>Requirements:</strong> CoreChatX requires Java 21 or newer and is built against Paper 1.21.11. The runtime must also meet the selected Paper or Velocity release's requirement. Recorded checks on Paper 26.2 and the bounded <code>2026.3.2</code> Paper 26.3 / Velocity 4.2.1-SNAPSHOT YAML lab are verification evidence, not a blanket guarantee for every build. <a href="#/docs/guides/installation">Setup requirements</a>.</p>
+</div>
+</section>
+<section>
+<p>Chat and nicknames</p>
+<h2 id="chat">Customize chat without giving players unsafe formatting access.</h2>
+<p>Use MiniMessage templates to control how chat looks. Players can use only the colors and styles you explicitly allow through permissions; they cannot insert arbitrary MiniMessage tags.</p>
+<div>
+<div>
+<h3>Flexible chat presentation</h3>
+<p>Create default, rank-specific, and channel-specific formats with LuckPerms prefixes and PlaceholderAPI values. You can also customize join, quit, first-join, broadcast, private-message, and moderation messages.</p>
+</div>
+<div>
+<h3>PlaceholderAPI integration</h3>
+<p>Show player data, economy values, worlds, progress, or server statistics in formats. Install the expansion for each placeholder you use on every Paper server that displays it.</p>
+</div>
+<div>
+<h3>Persistent nicknames</h3>
+<p><code>/nick</code> changes the name shown in chat without changing the player's real Minecraft account. You can limit nickname length and characters and prevent duplicate or misleading names.</p>
+</div>
+<div>
+<h3>Granular nickname formatting</h3>
+<p>Use separate permissions for standard colors, hex colors, gradients, and styles. Staff can use <code>/realname</code> to find the account behind a nickname, and linked Discord nicknames can be updated automatically.</p>
+</div>
+</div>
+</section>
+<section>
+<p>Channels</p>
+<h2 id="channels">Create a separate chat for every purpose.</h2>
+<p>Set up global, local, staff, network-wide, rank-based, or custom channels. Each channel controls who can send and receive, how messages look, which interactive features work, and whether messages are forwarded to Discord or Telegram.</p>
+<div aria-label="Scrollable table" tabindex="0">
+<div aria-label="Scrollable reference table" class="table-scroll" role="region" tabindex="0"><table>
+<thead><tr><th>Scope</th><th>Delivery</th><th>Typical use</th></tr></thead>
+<tbody>
+<tr><td><code>NETWORK</code></td><td>Across Paper servers in the same Velocity group; local on a standalone server</td><td>Global or staff network chat</td></tr>
+<tr><td><code>SERVER</code></td><td>Current Paper server only</td><td>Server-specific communication</td></tr>
+<tr><td><code>LOCAL_RADIUS</code></td><td>Nearby recipients in the configured world radius</td><td>Local or roleplay chat</td></tr>
+</tbody>
+</table></div>
+</div>
+<ul>
+<li>Send and receive permissions are independent.</li>
+<li>Channel commands such as <code>/g</code> can switch the active channel or send one message without switching.</li>
+<li>Channels independently enable mentions, ChatItems, chat bubbles, Discord export, and Telegram export.</li>
+<li>Public-chat ignore settings can use the global choice or a different choice for one channel.</li>
+<li><code>/hidechannel &lt;channel&gt; [minutes]</code> supports timed or permanent personal hiding; <code>/unhidechannel</code> restores access.</li>
+</ul>
+<p>A hidden channel cannot be used or seen by that player until the timer ends or they unhide it. On a Velocity network, this choice follows the player between connected Paper servers.</p>
+</section>
+<section>
+<p>Private messages</p>
+<h2 id="private">Give players private chat with useful privacy controls.</h2>
+<ul>
+<li><code>/msg</code> with <code>/tell</code>, <code>/whisper</code>, and <code>/w</code> aliases.</li>
+<li><code>/reply</code> and <code>/r</code>; the previous recipient is cleared when a player leaves.</li>
+<li>Cross-server delivery between Paper servers in the same Velocity group.</li>
+<li>Players can enable or disable incoming private messages with <code>/pmtoggle</code>.</li>
+<li><code>/ignore</code>, <code>/unignore</code>, and <code>/ignorelist</code> for personal privacy.</li>
+<li>Optional cooldowns, clear delivery messages, moderation checks, and staff bypass permissions.</li>
+<li><code>/socialspy</code> and <code>/spy</code> for permitted staff.</li>
+</ul>
+<p>Private messages automatically use the same nicknames, ignores, mutes, player settings, and network groups as the rest of CoreChatX.</p>
+<p>Cross-server PM work is bounded: overlapping requests can receive busy feedback instead of building an unbounded queue. Once a forwarded PM is accepted for routing, it consumes the configured cooldown even if the remote destination later rejects it or the request times out.</p>
+</section>
+<section>
+<p>Interactive features</p>
+<h2 id="interactions">Make chat more useful with mentions, links, items, and bubbles.</h2>
+<div>
+<div>
+<h3>Mentions and custom pings</h3>
+<p>Mention a player by name or use custom triggers to play a sound and show an actionbar notification. Mentions can also work across Paper servers in the same Velocity group.</p>
+</div>
+<div>
+<h3>Interactive keywords</h3>
+<p>Turn text such as <code>[rules]</code>, <code>[store]</code>, or <code>[vote]</code> into a clickable link, command, suggestion, hover message, or copy button. You can limit each keyword by permission or channel.</p>
+</div>
+<div>
+<h3>ChatItem previews</h3>
+<p>Players can share a held item, shulker, armor, hotbar, inventory, or ender chest. CoreChatX saves a temporary copy when the message is sent, so the preview stays accurate even if the player's inventory changes later.</p>
+<p>Preview and Discord-menu history is bounded, so the oldest entries can expire early under sustained load. Remote Velocity previews retain source ownership and accept only correlated snapshot responses.</p>
+</div>
+<div>
+<h3>Discord ChatItem images</h3>
+<p>Discord can show shared items and inventories as images, including names, lore, enchantments, effects, trims, banners, books, fireworks, durability, and supported resource-pack textures. Inventory previews can include buttons for inspecting individual items.</p>
+<p>The renderer asset stack prepares asynchronously after startup or reload. Native Minecraft previews remain independent while Discord images are temporarily unavailable.</p>
+</div>
+<div>
+<h3>Chat bubbles</h3>
+<p>Optional chat bubbles appear above players and can control line wrapping, duration, viewing distance, worlds, sneaking, invisibility, and how recent messages are stacked. Bubbles stay on the Paper server where the player is located.</p>
+</div>
+<div>
+<p>Every interactive feature can be enabled separately and follows its permissions, allowed channels, ignore rules, and player notification settings.</p>
+</div>
+</div>
+</section>
+<section>
+<p>Player settings</p>
+<h2 id="players">Let players choose how they use chat.</h2>
+<p><code>/chatsettings</code> and <code>/ccxsettings</code> open the settings menu. Players can also use individual commands for common choices.</p>
+<div>
+<div>
+<h3>Saved preferences</h3>
+<p>Players can control ping sounds, actionbar notifications, private-message availability, chat bubbles, active channel, hidden channels, social spy where permitted, and mention notifications. The settings compass chooses <strong>Persistent</strong> (keep the last channel) or <strong>Non persistent</strong> (return to the configured default on reconnect, including after a restart). Backend transfers keep the current channel during the same proxy connection.</p>
+</div>
+<div>
+<h3>Ignore settings</h3>
+<p>Ignoring can remain PM-only, suppress public mention and custom-ping notifications, or hide public messages. Individual channels can inherit or override the global public-chat mode.</p>
+</div>
+<div>
+<h3>Locale support</h3>
+<p>Players can choose a language when you provide a matching language file. Any missing text automatically uses the main message file.</p>
+</div>
+<div>
+<h3>Works across a network</h3>
+<p>On one Paper server, preferences are saved locally. On a Velocity network, the same settings follow the player between Paper servers in the same group.</p>
+</div>
+</div>
+</section>
+<section>
+<p>Moderation and privacy</p>
+<h2 id="moderation">Give staff the tools to keep chat under control.</h2>
+<ul>
+<li><code>/mute</code> and <code>/unmute</code> for individual players.</li>
+<li><code>/mutechat</code> to temporarily stop public chat.</li>
+<li><code>/clearchat</code> for server-side chat clearing.</li>
+<li>Anti-repeat, optional anti-caps, and a censoring word filter.</li>
+<li>Configurable staff bypass permissions.</li>
+<li>Public-chat ignore modes: off, notifications only, or hide message.</li>
+<li>Per-channel ignore-mode overrides without changing PM blocking.</li>
+</ul>
+<p>These rules apply directly to CoreChatX chat, channels, and private messages, including communication across connected Paper servers.</p>
+</section>
+<section>
+<p>Discord and Telegram</p>
+<h2 id="bridges">Connect selected Minecraft channels to Discord or Telegram.</h2>
+<p>Both integrations are disabled by default. You choose which Minecraft channels can send messages outside the game and where incoming messages should appear.</p>
+<div>
+<div>
+<h3>Discord chat and events</h3>
+<p>Send messages in both directions for selected channels. You can also show joins, quits, first joins, deaths, advancements, proxy status, and Paper server status.</p>
+</div>
+<div>
+<h3>Account linking and Discord role requirements</h3>
+<p>Players can link their Minecraft and Discord accounts. You may require a linked account or an allowed Discord role to join; players who lose the required role are disconnected until access is restored.</p>
+</div>
+<div>
+<h3>Discord utilities</h3>
+<p>Configure player lists, slash commands, channel descriptions, online counts, status messages, console commands, live console output, and ChatItem images separately.</p>
+</div>
+<div>
+<h3>Telegram chat connection</h3>
+<p>Send messages in both directions through normal Telegram chats or forum topics by adding their chat and topic IDs. Inbound messages require an explicit route by default; the wider legacy default-channel fallback must be enabled deliberately.</p>
+</div>
+<div>
+<h3>Safe defaults</h3>
+<p>CoreChatX limits message sizes and concurrent bridge work, prevents unwanted Discord mentions from Minecraft, checks permissions, and stops integration tasks cleanly during reloads and shutdowns. If Paper bridge capacity is full, an external export can be dropped while Minecraft chat continues.</p>
+</div>
+<div>
+<h3>PremiumVanish connection privacy</h3>
+<p>Optional Paper and Velocity hooks suppress hidden players' join, first-join and quit announcements, including configured connection mirrors, while leaving first-join records and counters intact.</p>
+</div>
+</div>
+</section>
+<section>
+<p>Velocity networks</p>
+<h2 id="network">Keep chat and player settings consistent across servers.</h2>
+<p>Divide your Velocity network into CoreChatX groups. Paper servers in the same group share communication features and player settings, while separate groups remain independent.</p>
+<ul>
+<li>Network-wide channels and cross-server private messages.</li>
+<li>Player directory, name suggestions, TAB entries where available, mentions, and pings.</li>
+<li>Shared settings, nicknames, hidden channels, ignore lists, mutes, and reply targets.</li>
+<li>Clickable keywords and ChatItem previews across Paper servers.</li>
+<li>Group-specific joins, quits, first joins, player lists, status messages, and Discord channel descriptions.</li>
+<li>Discord account linking and role requirements managed from Velocity.</li>
+<li>Proxy-owned Discord and source-backend Telegram export without duplicate network messages.</li>
+<li>Optional full advancement progress synchronization, with one Velocity-owned YAML or MySQL authority per group.</li>
+<li>Optional public death-message relay between participating Paper backends in the same group.</li>
+<li>PremiumVanish-aware network connection announcements when PremiumVanish is installed on Velocity.</li>
+</ul>
+<p>When a player unlinks Discord, the change is kept even if one Paper server is offline and reconnects later. CoreChatX also rejects invalid or oversized network messages.</p>
+<div>
+<a href="#/docs/guides/installation">Configure a network</a>
+<a href="#/docs/velocity/introduction">Read Velocity configuration</a>
+<a href="#/docs/guides/advancement-sync">Advancement setup</a>
+</div>
+</section>
+<section>
+<p>Server management</p>
+<h2 id="operations">Clear tools for setup, reloads, and everyday administration.</h2>
+<p>CoreChatX provides clear startup information, configuration checks, safe data saving, and commands for both players and staff.</p>
+<div>
+<div><h3>Storage checks, backups, and migration</h3><p><code>/ccxstorage</code> validates saved data, creates and verifies checksummed backups, and plans YAML-to-MySQL migration or latest-state rollback. Confirmation tokens and recovery journals protect transitions. <a href="#/docs/paper/storage-yml">Read the operator workflow</a>.</p></div>
+<div>
+<h3>Modrinth update notifications</h3>
+<p>Optional background checks notify console and OP players when a compatible newer release is available. Stable releases are recommended with green console banners; alpha and beta builds use separate yellow experimental banners. Four-part hotfix versions are supported. Checks run after startup and every 24 hours by default, without installing files. <a href="#/docs/paper/config-yml">Configure update checks</a>.</p>
+</div>
+<div>
+<h3>Clear startup information</h3>
+<p>The startup banner shows the CoreChatX version, the Paper or Velocity platform, and links to GitHub and this wiki. Permissions use <code>corechatx.*</code>, and the default network group is <code>corechatx:main</code>.</p>
+</div>
+<div>
+<h3>Configuration and data safety</h3>
+<p>Choose YAML or MySQL in the owning server's storage configuration. Standalone Paper owns its data; Velocity owns each network group's data. MySQL connection failures never silently switch the server to YAML.</p>
+</div>
+<div>
+<h3>Safe reloads</h3>
+<p>Most Paper settings can be reloaded without restarting. Proxy settings and statistics remain available during reload, and cached state refreshes after transport registration. Deployment identity and database changes require restart. CoreChatX also clears old reply targets when players leave.</p>
+</div>
+<div>
+<h3>Commands for players and staff</h3>
+<p>Commands cover plugin status and reload, player settings, language, private messages, social spy, privacy, channels, pings, nicknames, Discord linking, broadcasts, moderation, chat clearing, and ChatItem cache management.</p>
+</div>
+<div>
+<a href="#/docs/reference/command-reference">Browse commands</a>
+<a href="#/docs/reference/permission-reference">Browse permissions</a>
+</div>
+</div>
+</section>
+</article>
+</div>

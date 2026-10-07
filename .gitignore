@@ -1,2 +1,24 @@
-# Local safety snapshots are never part of the published GitHub Pages site.
+.sync/
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+
+# Local publication/build files (never commit).
+_site/
+_site.tmp/
+.wip-publish-state.json
+.env
+.env.*
+*.pem
+*.key
+
+# Local project map.
+/CODE_INDEX.md
+
+# Optional local Windows launchers for first publication.
+/Publish-Wip.ps1
+/PUBBLICA-WIP.cmd
+
+# Preserve local historical main-site backups.
 CoreChatX-website-*-backup-*.zip
