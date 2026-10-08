@@ -1,4 +1,4 @@
-/* Applied before first paint. Product identity and theme tokens come from site-config.js. */
+/* Apply product identity and theme before first paint, preserving explicit standalone page metadata. */
 (function () {
   'use strict';
   var cfg = window.COREX_SITE || {};
@@ -24,9 +24,11 @@
   } catch (_) { /* local file storage may be denied; the current page still works. */ }
   apply(theme);
   document.documentElement.lang = brand.language || 'en';
-  if (brand.product) document.title = brand.product + (brand.tagline ? ' — ' + brand.tagline : '');
+  // Standalone generated pages already declare their own title and description.
+  var staticMeta = document.documentElement.hasAttribute('data-static-meta');
+  if (!staticMeta && brand.product) document.title = brand.product + (brand.tagline ? ' — ' + brand.tagline : '');
   var meta = document.querySelector('meta[name="description"]');
-  if (meta && brand.description) meta.content = brand.description;
+  if (!staticMeta && meta && brand.description) meta.content = brand.description;
   var favicon = document.getElementById('site-favicon');
   if (favicon && brand.favicon) favicon.href = brand.favicon;
   window.COREX_APPLY_THEME = apply;

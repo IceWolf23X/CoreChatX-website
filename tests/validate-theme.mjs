@@ -7,9 +7,11 @@ import { createHash } from 'node:crypto';
 import vm from 'node:vm';
 import { CONFIG_FILES } from '../tools/config-sync-map.mjs';
 import { buildDocsBundle } from '../tools/build-docs-bundle.mjs';
+import { buildPageMeta } from '../tools/build-page-meta.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 await buildDocsBundle(root, { check: true });
+await buildPageMeta(root, { check: true });
 const context = vm.createContext({ window: {} });
 for (const rel of [
   'assets/js/data/site-config.js',

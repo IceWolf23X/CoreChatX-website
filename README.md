@@ -116,3 +116,7 @@ Publish a release in **IceWolf23X/CoreChatX-website**, attach `papermc.jar` and/
 Edit `releases` in `site-config.js` to change repository, filename patterns or cache settings. Run `node tools/build-releases.mjs .` only to refresh the optional offline snapshot. The matching workflow runs on release events, daily or manually. Errors preserve the prior snapshot; an authoritative empty response removes old entries.
 
 **Full publishing and migration guide: [docs/GITHUB_RELEASES.md](docs/GITHUB_RELEASES.md).**
+
+## Privacy and sitemap
+
+See [Privacy and crawl-discovery maintenance](docs/PRIVACY_AND_SEO.md) for editable notice content, controller/contact, canonical page inventory and required generation checks.

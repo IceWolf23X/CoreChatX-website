@@ -330,3 +330,7 @@ Non inserire token nei JS: le release devono essere pubbliche.
 
 **Guida completa:** [docs/GITHUB_RELEASES.md](docs/GITHUB_RELEASES.md), con pattern degli
 asset, cache, errori, API, snapshot, trigger GitHub, migrazione dal vecchio folder e riuso CoreX.
+
+## Privacy and sitemap
+
+See [Privacy and crawl-discovery maintenance](docs/PRIVACY_AND_SEO.md) for editable notice content, controller/contact, canonical page inventory and required generation checks.

@@ -4,8 +4,11 @@ import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { buildDocsBundle } from './build-docs-bundle.mjs';
+import { buildPrivacyPage } from './build-privacy-page.mjs';
+import { buildSitemap } from './build-sitemap.mjs';
+import { buildPageMeta } from './build-page-meta.mjs';
 export const STATIC_ENTRIES = ['index.html', 'reference.html', 'assets', 'synced-configs'];
-export const OPTIONAL_ROOT_FILES = [
+export const OPTIONAL_ROOT_FILES = ['privacy.html',
   'features.html', 'installation.html', 'advancement-sync.html', 'migration.html',
   'migration-paper.html', 'migration-velocity.html', 'faq.html', 'tags.html',
   'changelog.html', 'docs.html', 'configuration.html', 'CNAME', 'robots.txt',
@@ -23,7 +26,7 @@ async function verifyTree(file) {
   else if (!stat.isFile()) throw new Error(`Unsupported public file type: ${file}`);
 }
 
-/** Package public assets after verifying any authored documentation matches its offline snapshot. */
+/** Package public assets only after authored documentation, privacy and crawler outputs pass freshness checks. */
 export async function preparePages(root) {
   root = path.resolve(root);
   // Include only named compatibility and hosting files when this checkout provides them.
@@ -31,6 +34,11 @@ export async function preparePages(root) {
   // Validate before touching the existing output. This also prevents symlink traversal.
   for (const entry of publicEntries) await verifyTree(path.join(root, entry));
   if (existsSync(path.join(root, 'assets/js/data/docs-content.js'))) await buildDocsBundle(root, { check: true });
+  if (existsSync(path.join(root, 'assets/content/privacy.json'))) await buildPrivacyPage(root, { check: true });
+  if (existsSync(path.join(root, 'assets/content/seo.json'))) {
+    await buildPageMeta(root, { check: true });
+    await buildSitemap(root, { check: true });
+  }
   const output = path.join(root, '_site');
   const staging = path.join(root, '_site.tmp');
   for (const dir of [output, staging]) {

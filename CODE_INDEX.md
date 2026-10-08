@@ -36,7 +36,7 @@ No package installation is required. Node.js 22 runs the generation tools and te
 - `tools/build-config-bundle.mjs` — Rebuilds the browser configuration snapshot from mapped files.
 - `tools/build-docs-bundle.mjs` — Assembles article HTML sources into the committed docs bundle; `--check` validates freshness without writing.
 - `tools/build-releases.mjs`, `tools/release-lib.mjs` — Refresh the public release fallback using the shared normalization contract.
-- `tools/prepare-pages.mjs` — `preparePages` validates the public tree, checks docs-bundle freshness when a catalog is present, and packages only allow-listed runtime HTML, assets, configuration defaults and optional production domain/crawler/ownership files into ignored `_site/` with build provenance.
+- `tools/prepare-pages.mjs` — `preparePages` validates the public tree, checks documentation, privacy and sitemap freshness when their sources are present, and packages only allow-listed runtime HTML, assets, configuration defaults and optional production domain/crawler/ownership files into ignored `_site/` with build provenance.
 - `tools/publish-wip.mjs` — Portable first-publication helper for a fresh folder; validates the site, refuses unrelated existing repositories and verifies Pages deployment without requiring Windows launchers.
 - `.github/workflows/deploy-pages.yml` — Node tests/validation, allow-listed artifact generation and Pages deployment, gated by `COREX_PAGES_ENABLED`.
 - `.github/workflows/sync-plugin-configs.yml` — Optional private-source synchronization from `master`; disabled until a repository-scoped `COREX_PLUGIN_READ_TOKEN` secret is configured.
@@ -63,4 +63,21 @@ Excluded: `.git/`, ignored `.sync/` private-source verification files, generated
 
 ## Main-site hosting identity
 
-- `CNAME`, `robots.txt`, `sitemap.xml`, `googlee11c6bb42d6e0aeb.html` — Preserved production domain, existing public entry URLs and exact ownership-verification response. Optional Pages artifact inputs; never imported from the WIP identity.
+- `CNAME`, `googlee11c6bb42d6e0aeb.html` — Preserved production domain and exact ownership-verification response; never imported from the WIP identity. `robots.txt` references the maintained canonical `sitemap.xml`, generated from the public page inventory.
+
+## Privacy notice and crawl discovery
+
+- `assets/content/privacy.json` — Editable English website notice, confirmed controller/contact, providers, retention criteria and rights; separate from the plugin documentation catalog.
+- `assets/content/seo.json` — Canonical maintained page inventory: home, full reference and privacy; excludes hash routes and compatibility redirects.
+- `assets/js/data/ui-text.js` — Shared `legal` destination/label used by landing, wiki, Releases and full-reference navigation.
+- `privacy.html`, `tools/build-privacy-page.mjs` — Generated static notice readable without JavaScript; uses public site identity/storage settings. `--check` validates freshness.
+- `assets/css/legal.css`, `assets/js/core/legal-page.js` — Scoped legal layout and existing theme preference; no additional network or storage services.
+- `sitemap.xml`, `robots.txt`, `tools/build-sitemap.mjs` — Deterministic canonical XML and crawler reference; preserves other robots directives, omits unverified modification dates.
+- `assets/js/boot.js` — Preserves standalone title, description and existing canonical while applying the shared theme.
+- `tools/prepare-pages.mjs`, `.github/workflows/deploy-pages.yml` — Package legal/crawler outputs, reject stale generated content and rebuild it in the optional Pages workflow.
+- `tests/legal-seo.test.mjs` — Authored-text escaping, stale-output preservation, invalid links/routes, crawler directives and Pages packaging contracts.
+- `docs/PRIVACY_AND_SEO.md` — Editing/build workflow, infrastructure evidence, references and operational boundaries.
+
+- `tools/build-page-meta.mjs` — Generates static product-specific home/reference title, description and canonical from `assets/content/seo.json` templates and site identity; preserves application shells and supports read-only freshness validation. Pages preflight/workflow include this contract.
+
+- `assets/js/app.js` — Restores the generated homepage title when returning from wiki or Releases, keeping authored initial and rendered metadata consistent.
