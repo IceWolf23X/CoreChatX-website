@@ -3,7 +3,7 @@ window.COREX_RELEASES = {
   "schemaVersion": 2,
   "provider": "github",
   "repository": "IceWolf23X/CoreChatX-website",
-  "generatedAt": "2026-10-07T20:52:04.290Z",
+  "generatedAt": "2026-10-14T08:42:26.589Z",
   "releases": [
     {
       "tag_name": "v2026.3.2",
@@ -20,7 +20,7 @@ window.COREX_RELEASES = {
           "size": 4547060,
           "digest": "sha256:71be34e1803e0f917bf08a78e23062534b831350916158333a7f820d1ed562a9",
           "browser_download_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/download/v2026.3.2/CoreChatX-Paper-2026.3.2.jar",
-          "download_count": 1
+          "download_count": 4
         },
         {
           "name": "CoreChatX-Velocity-2026.3.2.jar",
@@ -28,7 +28,7 @@ window.COREX_RELEASES = {
           "size": 3770512,
           "digest": "sha256:de1a98e2b614ef8ee8d2a93c91323bd7cb939ddf1edcc3cdc6695d754780f584",
           "browser_download_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/download/v2026.3.2/CoreChatX-Velocity-2026.3.2.jar",
-          "download_count": 1
+          "download_count": 2
         }
       ]
     },
