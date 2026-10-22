@@ -3,8 +3,35 @@ window.COREX_RELEASES = {
   "schemaVersion": 2,
   "provider": "github",
   "repository": "IceWolf23X/CoreChatX-website",
-  "generatedAt": "2026-10-14T08:42:26.589Z",
+  "generatedAt": "2026-10-22T16:00:26.417Z",
   "releases": [
+    {
+      "tag_name": "v2026.3.3",
+      "name": "CoreChatX 2026.3.3",
+      "body": "# CoreChatX 2026.3.3\r\n\r\n## Added\r\n\r\n- Added bStats `discord_integration` charts on Paper and Velocity and a `telegram_integration` chart on Paper to count configured integrations. The new chart values contain only status categories, without bot tokens, Discord/Telegram IDs, player identities, messages, or traffic volume. The existing global bStats opt-out is respected; Paper proxy backends report Discord as `Managed by Velocity`.\r\n\r\n## Fixed\r\n\r\n- Fixed Discord ChatItem images being generated for channels with `export-to-bridges: false`. Standalone and proxy servers now stop these exports before image preparation or sending while preserving local ChatItems and `allow-chatitems`.\r\n- Fixed overhead chat bubbles exposing messages from `STAFF` channels or channels with a non-empty `permission-receive`, even when bubble allowlists enabled them. Public-channel bubble settings continue to work as configured.\r\n- Fixed player-head ChatItem snapshots potentially blocking the Paper main thread during profile completion. Missing skins now use an immediate fallback while bounded asynchronous lookup, timeout, cache, and shutdown handling prepare a texture for a later capture.\r\n- Fixed Discord death messages bypassing Paper cancellation, `showDeathMessages`, blank-message checks, or the main scoreboard's death-message visibility. Discord and network deaths now share the same public eligibility rules; advancement announcements are unchanged.\r\n- Fixed PremiumVanish exposure through CoreChatX-managed Velocity TAB entries, chat completions, and shared backend directories. TAB and completions now use per-viewer visibility, public directories omit vanished players, hide/show and permission changes reconcile state, and cleanup preserves entries owned by other plugins.\r\n\r\n## Known issues\r\n\r\n- Public-channel bubbles still cannot enforce per-viewer ignore or hidden-channel rules, or a chat radius smaller than the bubble view distance. Disable bubbles for channels that require those audience restrictions.\r\n",
+      "html_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/tag/v2026.3.3",
+      "draft": false,
+      "prerelease": false,
+      "published_at": "2026-10-22T16:00:15Z",
+      "assets": [
+        {
+          "name": "CoreChatX-Paper-2026.3.3.jar",
+          "state": "uploaded",
+          "size": 4555981,
+          "digest": "sha256:ca81462172a2c182f416dd9fd3d94649156a2797ea54b1f2277e019ac7574a79",
+          "browser_download_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/download/v2026.3.3/CoreChatX-Paper-2026.3.3.jar",
+          "download_count": 0
+        },
+        {
+          "name": "CoreChatX-Velocity-2026.3.3.jar",
+          "state": "uploaded",
+          "size": 3777766,
+          "digest": "sha256:1ad0022d1996efb4a0c87215c65bbe8e85f39584ade744cabd30f96616b93cb6",
+          "browser_download_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/download/v2026.3.3/CoreChatX-Velocity-2026.3.3.jar",
+          "download_count": 0
+        }
+      ]
+    },
     {
       "tag_name": "v2026.3.2",
       "name": "CoreChatX 2026.3.2",
