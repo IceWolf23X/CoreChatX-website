@@ -3,8 +3,35 @@ window.COREX_RELEASES = {
   "schemaVersion": 2,
   "provider": "github",
   "repository": "IceWolf23X/CoreChatX-website",
-  "generatedAt": "2026-10-23T08:32:11.328Z",
+  "generatedAt": "2026-10-31T15:29:21.771Z",
   "releases": [
+    {
+      "tag_name": "v2026.3.4",
+      "name": "CoreChatX 2026.3.4",
+      "body": "# CoreChatX 2026.3.4\n\n## Added\n\n- Added public-chat autocomplete for online usernames and custom nicknames on standalone Paper, including `@name` suggestions. Suggestions update when players join, leave or change nicknames and respect per-viewer player visibility. Existing Velocity completions remain unchanged.\n- Added mention and custom-ping notifications to `/msg` and `/reply`, restricted to the conversation recipient and rechecked against their permissions and preferences. Keywords support the `private-messages` context.\n\n## Changed\n\n- `/msg` and `/reply` now apply the configured anti-repeat and anti-caps rules with their existing bypass permissions. Private-message repeat history is separate from public chat and records successful deliveries only.\n\n## Fixed\n\n- Fixed remote chat messages with missing, unknown, disabled or non-`NETWORK` channel IDs falling back to the receiving backend's default channel. These messages are now rejected instead of reaching an unintended audience.\n- Fixed optional PM notification failures leaving an already delivered message without updated reply targets, moderation history, cooldown or remote delivery confirmation. Failed sounds, pings, SocialSpy copies and console logging no longer interrupt the remaining post-delivery effects.\n- Fixed redundant `I` suffixes in ChatItem enchantment text when both the actual level and the server-defined maximum are 1. Other levels remain visible, including custom plugin/datapack enchantments and enchanted books.\n- Fixed excessive delays during the first ChatItem render caused by repeated full resource-pack scans while loading texture atlases. Atlas loading now reuses bounded file listings while preserving resource-pack precedence, path validation and fallback behavior.\n",
+      "html_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/tag/v2026.3.4",
+      "draft": false,
+      "prerelease": false,
+      "published_at": "2026-10-31T15:29:13Z",
+      "assets": [
+        {
+          "name": "CoreChatX-Paper-2026.3.4.jar",
+          "state": "uploaded",
+          "size": 4585104,
+          "digest": "sha256:9906d691a1806972cc8d869b3179d0097b63a69fa907f9c8f4a08633591fe5ad",
+          "browser_download_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/download/v2026.3.4/CoreChatX-Paper-2026.3.4.jar",
+          "download_count": 0
+        },
+        {
+          "name": "CoreChatX-Velocity-2026.3.4.jar",
+          "state": "uploaded",
+          "size": 3777768,
+          "digest": "sha256:4c83d69e6588c6e0b5e14bcb123c0e9dca57a347f057213990592240125f5725",
+          "browser_download_url": "https://github.com/IceWolf23X/CoreChatX-website/releases/download/v2026.3.4/CoreChatX-Velocity-2026.3.4.jar",
+          "download_count": 0
+        }
+      ]
+    },
     {
       "tag_name": "v2026.3.3",
       "name": "CoreChatX 2026.3.3",
