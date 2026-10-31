@@ -21,5 +21,9 @@ That keeps network chat cleaner and avoids stuffing heavy item data into the mai
 </ul>
 <p>Discord rendering is independent from the in-game preview: an asset/render failure does
 not remove the Minecraft ChatItem token.</p>
+<p>A channel with <code>export-to-bridges: false</code> stops Discord ChatItem image work before preparation or sending. The channel can still use local Minecraft ChatItems when <code>allow-chatitems</code> permits them.</p>
 <p>Renderer assets prepare asynchronously after startup or reload. Discord images can be temporarily unavailable until preparation finishes, while native in-game previews remain available. Oversized or invalid custom pack assets can fall back to a lower-priority pack or the verified vanilla cache.</p>
+<p>Player heads use texture data already present in the snapshot whenever possible. If a texture is missing, the current capture returns a fallback immediately while a bounded asynchronous lookup runs; a later capture can use the cached texture. Failed or timed-out lookups keep the fallback until <code>/corechatx reload</code> permits another lookup.</p>
+<p>ChatItem enchantment text omits the <code>I</code> suffix only when both the actual level and the server-defined maximum are 1. Other levels remain visible, including registered plugin/datapack enchantments and stored enchantments on enchanted books.</p>
+<p>Initial ChatItem rendering reuses bounded resource-pack file listings while loading texture atlases, avoiding repeated full scans. Resource-pack precedence, path validation and fallback behavior remain intact.</p>
 <hr/>

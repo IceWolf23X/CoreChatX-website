@@ -12,4 +12,5 @@
 <li>mention formatting based on the mentioned player</li>
 </ul>
 <p>Because mentions are part of CoreChatX itself, they can work with formatting, notifications, privacy choices, and Velocity network presence instead of pretending every server is isolated.</p>
+<p><code>/msg</code> and <code>/reply</code> share token rendering on standalone Paper and proxy backends: ChatItems, permission-controlled formatting, keywords and participant mentions. Mention text resolves only the sender or recipient; mention and custom-ping notifications target only the admitted recipient, never the sender, unrelated players or SocialSpy viewers. The receiving backend rechecks the recipient's permissions and preferences. Custom pings still require the sender's Bukkit <code>use-permission</code>; <code>bypass-toggle</code> can override only the recipient's ping toggles. The normal PM bell remains independent.</p>
 <hr/>

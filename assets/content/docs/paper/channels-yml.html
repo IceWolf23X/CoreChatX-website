@@ -19,6 +19,7 @@
 <li>blank shortcuts are disabled; duplicate shortcuts and names conflicting with an existing command are rejected with a warning</li>
 <li><code>ignore.public-chat-mode</code> accepts <code>inherit</code>, <code>off</code>, <code>notifications-only</code>, or <code>hide-message</code>; <code>inherit</code> uses the global value from <code>privacy.yml</code></li>
 <li><code>export-to-bridges: true</code> means locally-originating messages in that channel are eligible for Discord/Telegram outbound export</li>
+<li><code>export-to-bridges: false</code> also stops Discord ChatItem image preparation and sending for that channel; local Minecraft ChatItems remain controlled independently by <code>allow-chatitems</code></li>
 <li>in proxy mode, outbound bridge export is performed only from the source backend so a network message is not exported once per backend</li>
 <li><code>discord.outbound-format</code> and <code>telegram.outbound-format</code> override the global bridge export format for that channel</li>
 <li><code>discord.inbound-format</code> and <code>telegram.inbound-format</code> override how inbound bridge messages are displayed when routed to that channel</li>
@@ -27,4 +28,5 @@
 <li><code>/unhidechannel &lt;channel&gt;</code> restores visibility; its suggestions contain only the player's currently hidden channels</li>
 <li>hidden-channel state is stored in <code>playerdata.yml</code> for standalone mode and in proxy-owned player state for proxy mode</li>
 </ul>
+<p>Incoming network messages require the exact enabled <code>NETWORK</code> channel named in the packet. Missing, blank, unknown, disabled, <code>SERVER</code> and <code>LOCAL_RADIUS</code> channel IDs are rejected without falling back to the receiving backend's default channel or audience.</p>
 <hr/>

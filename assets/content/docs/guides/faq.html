@@ -2,7 +2,7 @@
 <div>
 <p>Frequently asked questions</p>
 <h2>Clear answers to common questions.</h2>
-<p>These answers apply to CoreChatX 2026.3.2. Open the configuration reference when you need exact file names, settings, commands, or permissions.</p>
+<p>These answers apply to CoreChatX 2026.3.4. Open the configuration reference when you need exact file names, settings, commands, or permissions.</p>
 </div>
 </header>
 <section>
@@ -109,7 +109,7 @@
 </details>
 <details>
 <summary>Can PremiumVanish hide CoreChatX join and quit announcements?</summary>
-<div><p>Yes. Leave <code>hooks.premiumvanish</code> enabled and install PremiumVanish on Paper for local announcements or on Velocity for proxy-owned network announcements. Hidden join, first-join and quit messages and their configured connection mirrors are suppressed, while first-join records and counters remain correct. Follow PremiumVanish's own backend/proxy synchronization instructions; the hook does not hide TAB, player lists, chat, or other events and does not create fake announcements when vanish changes.</p></div>
+<div><p>Yes. Leave <code>hooks.premiumvanish</code> enabled and install PremiumVanish on Paper for local announcements or on Velocity for proxy-owned network announcements. Hidden join, first-join and quit messages and their configured connection mirrors are suppressed, while first-join records and counters remain correct. On Velocity, CoreChatX also filters its own TAB entries and chat completions per viewer and omits vanished players from shared backend directories without removing entries owned by other plugins. Follow PremiumVanish's backend/proxy synchronization instructions; the hook does not filter ordinary chat or create fake announcements when vanish changes.</p></div>
 </details>
 <details>
 <summary>How does Telegram receive messages?</summary>
@@ -121,7 +121,7 @@
 </details>
 <details>
 <summary>Why is an unmapped Telegram chat ignored?</summary>
-<div><p>CoreChatX 2026.3.2 accepts Telegram inbound messages only from explicit chat or chat/topic routes by default. Add the source to <code>telegram.inbound.routes</code>. Set <code>telegram.inbound.allow-unmapped-chats: true</code> only when you intentionally want every other reachable source to use the legacy <code>default-channel</code> fallback. Telegram and other generic remote senders can activate only custom pings with a blank <code>use-permission</code>.</p></div>
+<div><p>CoreChatX 2026.3.4 accepts Telegram inbound messages only from explicit chat or chat/topic routes by default. Add the source to <code>telegram.inbound.routes</code>. Set <code>telegram.inbound.allow-unmapped-chats: true</code> only when you intentionally want every other reachable source to use the legacy <code>default-channel</code> fallback. Telegram and other generic remote senders can activate only custom pings with a blank <code>use-permission</code>.</p></div>
 </details>
 </div>
 </section>
@@ -130,7 +130,7 @@
 <div><p>Saved data and troubleshooting</p><h2>Protect player data and check the basic settings first.</h2></div>
 <details>
 <summary>Can CoreChatX save data in SQL?</summary>
-<div><p>Yes. CoreChatX 2026.3.2 supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="#/docs/guides/migration">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
+<div><p>Yes. CoreChatX 2026.3.4 supports MySQL on standalone Paper and on Velocity, while YAML remains the default. Configure <code>storage.yml</code> on standalone or <code>velocity-storage.yml</code> on Velocity. To move existing data, follow the <a href="#/docs/guides/migration">YAML-to-MySQL migration guide</a> using <code>/ccxstorage</code>; changing the backend setting alone does not migrate it.</p></div>
 </details>
 <details>
 <summary>Which data should I back up?</summary>

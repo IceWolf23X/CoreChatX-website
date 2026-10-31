@@ -1,5 +1,7 @@
 # Interactive keyword token configuration.
 # Each keyword replaces one or more literal aliases with one MiniMessage renderer.
+# /msg and /reply use the virtual channel id "private-messages" for enabled/disabled channel lists.
+# A non-empty enabled-channels list remains strict, so include "private-messages" explicitly when desired.
 
 keywords:
   discord:

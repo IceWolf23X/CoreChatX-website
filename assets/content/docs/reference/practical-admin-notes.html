@@ -8,6 +8,18 @@
 <li>If you delete runtime data files such as <code>playerdata.yml</code> or <code>mutedata.yml</code>, you are deleting live player/plugin state, not just decorative cache.</li>
 <li>CoreChatX starts bStats on Paper and Velocity; opt-out is controlled by the platform-wide bStats files (<code>plugins/bStats/config.yml</code> on Paper and <code>plugins/bStats/config.txt</code> on Velocity), not by a CoreChatX config key.</li>
 </ul>
+<h2 class="reference-section" id="bstats-integration-adoption">bStats integration adoption:<a aria-label="Link to bStats integration adoption:" class="heading-anchor" href="#/docs/reference/practical-admin-notes~bstats-integration-adoption">#</a></h2>
+<p>CoreChatX reports aggregate integration status through these <code>Simple Pie</code> charts:</p>
+<div aria-label="Scrollable reference table" class="table-scroll" role="region" tabindex="0"><table>
+<thead><tr><th>Platform</th><th>Chart ID</th><th>Categories</th></tr></thead>
+<tbody>
+<tr><td>Paper</td><td><code>discord_integration</code></td><td><code>Enabled</code>, <code>Disabled</code>, <code>Managed by Velocity</code></td></tr>
+<tr><td>Paper</td><td><code>telegram_integration</code></td><td><code>Enabled</code>, <code>Disabled</code></td></tr>
+<tr><td>Velocity</td><td><code>discord_integration</code></td><td><code>Enabled</code>, <code>Disabled</code></td></tr>
+</tbody>
+</table></div>
+<p><code>Enabled</code> means the integration is configured, not that a remote service is currently reachable or that messages were delivered. Paper proxy backends report Discord as <code>Managed by Velocity</code>; Paper values follow bridge changes applied by <code>/corechatx reload</code>, while configured Velocity adoption remains reportable during storage recovery.</p>
+<p>These charts contain only the fixed categories above. They do not include tokens, server or channel IDs, player identities, message text, connection results, or traffic volume. Servers using the platform-wide bStats opt-out do not contribute.</p>
 <h2 class="reference-section" id="operational-guidance">Operational guidance:<a aria-label="Link to Operational guidance:" class="heading-anchor" href="#/docs/reference/practical-admin-notes~operational-guidance">#</a></h2>
 <ul>
 <li>treat <code>config.yml -&gt; deployment.*</code> and <code>velocity-config.properties -&gt; network-channel</code> as boot identity, not casual reload settings</li>

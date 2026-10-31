@@ -18,4 +18,5 @@
 <li>in proxy mode, network chat and remote PMs transport the rendered component from the source backend</li>
 <li>invalid keyword definitions only disable themselves and log a warning</li>
 </ul>
+<p>In <code>/msg</code> and <code>/reply</code>, keywords use the explicit <code>private-messages</code> context. The usual <code>enabled-channels</code> and <code>disabled-channels</code> restrictions still apply; include that context in an allow-list when the keyword should work in PMs.</p>
 <hr/>

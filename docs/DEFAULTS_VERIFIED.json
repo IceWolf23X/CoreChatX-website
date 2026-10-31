@@ -1,10 +1,10 @@
 {
-  "verifiedOn": "2026-10-07",
-  "pluginVersion": "2026.3.2",
+  "verifiedOn": "2026-10-31",
+  "pluginVersion": "2026.3.4",
   "sourceRepository": "IceWolf23X/CoreChatX-plugin",
   "sourceRef": "master",
-  "sourceCommit": "9d1ef37bd266f18e7451d61db7e8ebaf91a055c2",
-  "verification": "All 19 allow-listed defaults were copied from the exact committed Git blobs at this commit. The local Windows plugin checkout was also checked for LF-normalized semantic equality. Git blob identities, byte sizes and SHA-256 describe the committed release defaults. The separately generated advancement template was compared with the runtime default. No live server configuration or credentials were copied.",
+  "sourceCommit": "3e120e246d8058925abd57c2ffa1030cf8d71cf5",
+  "verification": "All 19 allow-listed public defaults match the local 2026.3.4 plugin working tree after LF normalization. sourceCommit identifies the base commit, not a committed 2026.3.4 release. Blob identities, byte sizes and SHA-256 describe the published LF-normalized bytes. The separately generated advancement template retains its runtime-default values. No live server configuration or credentials were copied.",
   "files": [
     {
       "file": "paper/config.yml",
@@ -50,9 +50,9 @@
     },
     {
       "file": "paper/keywords.yml",
-      "gitBlobSha": "c9359b7bf9059e5cccd20c50644059142e013fbc",
-      "bytes": 776,
-      "sha256": "6dff8931256f6ff8454cb8219da58e45801a2b8fcca58f85cd4e52c4175dbdab",
+      "gitBlobSha": "86c4fda9722594241425ae7bd8c7c5e4e31bb97d",
+      "bytes": 983,
+      "sha256": "4f1a5c4749fbbce60b6cf3d0619dac3419e1d75835aba3385a3fde8a325b1304",
       "options": 17
     },
     {
@@ -78,9 +78,9 @@
     },
     {
       "file": "paper/moderation.yml",
-      "gitBlobSha": "de421805e662251fad4cffb33744c8a03d6da897",
-      "bytes": 343,
-      "sha256": "e2ecdc1723cfd88b1e748ffe1f69a5c384d85bad37aeaf3c348a966dbb95134f",
+      "gitBlobSha": "005a3f03a9e40faabbc7a0de48b4cf4e1f3f7ffa",
+      "bytes": 615,
+      "sha256": "22e2d7e6fc2ba5cd9116cefc1a60c7366e853ecc423e233b2af4be94d524ffd0",
       "options": 14
     },
     {
@@ -113,9 +113,9 @@
     },
     {
       "file": "velocity/velocity-config.properties",
-      "gitBlobSha": "ddee32e32844a42669aba0f676c3a2d670c69772",
-      "bytes": 2138,
-      "sha256": "cd99a9d6d5c618df5b442cc598d2f9a541e7eb065cf15850d6edab1f9edda4c4",
+      "gitBlobSha": "84b49ff6c4ef9ac2f5a12420e25ed74585611a15",
+      "bytes": 2141,
+      "sha256": "4e534035ec948e57b53f9d7ee2ce6baadee17148c3a8abbf11a64cc44808ae75",
       "options": 6
     },
     {
@@ -139,5 +139,6 @@
       "sha256": "31d22bf11eb52b7b4c1aaa222a2985385dd8275aa34ef4f7f453d47e974c47cf",
       "options": 25
     }
-  ]
+  ],
+  "sourceState": "local-working-tree"
 }

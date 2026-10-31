@@ -70,7 +70,7 @@ window.COREX_LANDING = {
       {
         icon: 'cursor',
         title: 'More than plain text.',
-        text: 'Rich formatting, mentions, custom pings and clickable keywords. Make every interaction feel like part of your server.',
+        text: 'Rich formatting, clickable keywords and recipient-only PM mentions and pings. Public-chat name suggestions also work on standalone Paper.',
         link: { label: 'Explore rich interactions', href: '#/docs/overview/interactive-keywords' }
       },
       {
@@ -94,7 +94,7 @@ window.COREX_LANDING = {
       {
         icon: 'message',
         title: 'Bring the chat into the world.',
-        text: 'Optional overhead chat bubbles with channel rules, player toggles, distance limits and automatic cleanup.',
+        text: 'Optional overhead bubbles for public channels, with player toggles and automatic cleanup. Staff and receive-restricted channels never create bubbles.',
         link: { label: 'Explore chat bubbles', href: '#/docs/overview/chat-bubbles' }
       }
     ],

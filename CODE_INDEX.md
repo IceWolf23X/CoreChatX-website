@@ -1,6 +1,6 @@
 # CoreChatX website code index
 
-Main-site repository `IceWolf23X/CoreChatX-website`, branch `main`; documentation targets plugin 2026.3.2. The runtime release source is the public `IceWolf23X/CoreChatX-website` repository. Pages publishes the root of `main`; the optional Actions artifact deployment is gated separately.
+Main-site repository `IceWolf23X/CoreChatX-website`, branch `main`; documentation targets plugin 2026.3.4. The runtime release source is the public `IceWolf23X/CoreChatX-website` repository. Pages publishes the root of `main`; the optional Actions artifact deployment is gated separately.
 No package installation is required. Node.js 22 runs the generation tools and tests.
 
 ## Runtime entry points and content
@@ -10,8 +10,8 @@ No package installation is required. Node.js 22 runs the generation tools and te
 - `assets/js/boot.js`, `assets/js/app.js`, `assets/js/docs.js`, `assets/js/search.js`, `assets/js/utils.js` — Theme initialization, route/view lifecycle, documentation navigation, search and shared browser helpers.
 - `assets/js/data/site-config.js` — Public product identity, colors, gallery settings (currently the bundled plugin logo as a temporary static hero image) and release source `IceWolf23X/CoreChatX-website`; contains no credentials.
 - `assets/js/data/landing-content.js`, `assets/js/data/docs-content.js`, `assets/js/data/ui-text.js` — Landing sections, wiki catalog/metadata and interface text. `docs-content.js` points articles to their external HTML bodies; configuration articles reference the generated config bundle.
-- `assets/content/docs/guides/` — Complete installation, advancement, FAQ, comparisons and two independent 15-step storage-migration/recovery guides, imported from production and verified for 2026.3.2.
-- `assets/content/docs/reference/changelog.html` — 28 release-note entries through 2026.3.2; historical wording stays version-specific. Existing public GitHub download metadata remains separate.
+- `assets/content/docs/guides/` — Complete installation, advancement, FAQ, comparisons and two independent 15-step storage-migration/recovery guides, maintained for 2026.3.4 while preserving version-specific recorded live checks. Current feature/configuration prose covers standalone nickname completions, Velocity ownership, participant-scoped PM rendering/moderation, strict NETWORK channel admission and ChatItem rendering changes.
+- `assets/content/docs/reference/changelog.html` — 30 release-note entries through 2026.3.4; historical wording stays version-specific. Existing public GitHub download metadata remains separate.
 - `assets/content/docs/**/*.html` — Readable source bodies for the 76 catalogued wiki articles, including stable in-page anchors; grouped here rather than indexed individually. Article directories may be nested by category/platform.
 - `assets/js/legacy-routes.js` and root `features.html`, `installation.html`, `configuration.html`, `advancement-sync.html`, `docs.html`, `faq.html`, `changelog.html`, `migration*.html`, `tags.html` — Compatibility entrypoints mapping previous production pages/bookmarks to maintained local wiki articles.
 - `assets/js/core/renderer.js`, `assets/js/core/config-renderer.js`, `assets/js/core/reference-renderer.js` — Content components, public configuration examples and reference rendering.
@@ -27,7 +27,7 @@ No package installation is required. Node.js 22 runs the generation tools and te
 - `assets/img/` — Bundled product logo and future public preview images.
 - `synced-configs/paper/`, `synced-configs/velocity/` — Allow-listed public plugin defaults, excluding player/state data.
 - `synced-configs/generated/velocity-advancements.properties` — Explicit template for a file produced by the Velocity runtime.
-- `synced-configs/.sync-state.json` — Source repository, reference and commit provenance.
+- `synced-configs/.sync-state.json` — Source repository, reference, base commit and local-working-tree provenance for the LF-normalized 2026.3.4 public defaults.
 
 ## Generation, validation and publication
 
@@ -57,6 +57,7 @@ No package installation is required. Node.js 22 runs the generation tools and te
 - `docs/ARCHITECTURE.md`, `docs/CUSTOMIZATION.md`, `docs/GALLERY.md`, `docs/GITHUB_RELEASES.md`, `docs/GITHUB_SYNC.md`, `docs/DEPLOY_WIP.md` — Runtime design and operating contracts.
 - `docs/examples/plugin-repository-notify.yml` — Optional private-source notification example; publication does not install it in the plugin repository.
 - `docs/*QA*`, `docs/*VERIF*`, `docs/qa-results.json` — Preparation-time evidence, not a substitute for a current deployment check.
+- `docs/DEFAULTS_VERIFIED.json` — Per-file hashes and blob identities of the 19 LF-normalized public defaults, with explicit 2026.3.4 working-tree provenance rather than a committed-release claim.
 - `CODE_INDEX.md` — This project map.
 
 Excluded: `.git/`, ignored `.sync/` private-source verification files, generated `_site/` and `_site.tmp/`, Python caches and local publication state. The production website and historical preview are separate repositories.
@@ -70,12 +71,12 @@ Excluded: `.git/`, ignored `.sync/` private-source verification files, generated
 - `assets/content/privacy.json` — Editable English website notice, confirmed controller/contact, providers, retention criteria and rights; separate from the plugin documentation catalog.
 - `assets/content/seo.json` — Canonical maintained page inventory: home, full reference and privacy; excludes hash routes and compatibility redirects.
 - `assets/js/data/ui-text.js` — Shared `legal` destination/label used by landing, wiki, Releases and full-reference navigation.
-- `privacy.html`, `tools/build-privacy-page.mjs` — Generated static notice readable without JavaScript; uses public site identity/storage settings. `--check` validates freshness.
+- `privacy.html`, `tools/build-privacy-page.mjs` â€” Generated static notice readable without JavaScript; uses public site identity/storage settings. `--check` validates freshness.
 - `assets/css/legal.css`, `assets/js/core/legal-page.js` — Scoped legal layout and existing theme preference; no additional network or storage services.
 - `sitemap.xml`, `robots.txt`, `tools/build-sitemap.mjs` — Deterministic canonical XML and crawler reference; preserves other robots directives, omits unverified modification dates.
 - `assets/js/boot.js` — Preserves standalone title, description and existing canonical while applying the shared theme.
 - `tools/prepare-pages.mjs`, `.github/workflows/deploy-pages.yml` — Package legal/crawler outputs, reject stale generated content and rebuild it in the optional Pages workflow.
-- `tests/legal-seo.test.mjs` — Authored-text escaping, stale-output preservation, invalid links/routes, crawler directives and Pages packaging contracts.
+- `tests/legal-seo.test.mjs` â€” Authored-text escaping, stale-output preservation, invalid links/routes, crawler directives and Pages packaging contracts.
 - `docs/PRIVACY_AND_SEO.md` — Editing/build workflow, infrastructure evidence, references and operational boundaries.
 
 - `tools/build-page-meta.mjs` — Generates static product-specific home/reference title, description and canonical from `assets/content/seo.json` templates and site identity; preserves application shells and supports read-only freshness validation. Pages preflight/workflow include this contract.

@@ -10,11 +10,14 @@ mutechat:
   enabled: true
 
 anti-repeat:
+  # Applies independently to accepted public chat and accepted /msg or /reply history.
+  # Rejected PMs are not remembered; PM history is cleared on quit, reload, and shutdown.
   enabled: true
   history-window: 3
   block-identical: true
 
 anti-caps:
+  # Applies to public chat and /msg or /reply after sender-authorized formatting is sanitized.
   enabled: false
   min-length: 8
   max-uppercase-ratio: 0.7

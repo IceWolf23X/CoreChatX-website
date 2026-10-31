@@ -12,13 +12,14 @@
 <li>bridge export without duplicate network messages</li>
 <li>proxy-owned Discord account linking, unlink tombstones, and role-based admission</li>
 <li>group-aware join/quit/first-join announcements</li>
-<li>PremiumVanish-aware connection announcements when PremiumVanish is installed on Velocity</li>
+<li>PremiumVanish-aware connection announcements, per-viewer CoreChatX TAB entries and chat completions, and vanished-player omission from shared directories when PremiumVanish is installed on Velocity</li>
 <li>group-aware Discord player lists, channel descriptions, and event/status messages</li>
 </ul>
 <p>Velocity isolates runtime state by configured CoreChatX network group. Persistent unlink
 tombstones ensure that a backend returning after cache eviction, proxy restart, or more
 than seven days offline still receives an authoritative unlink instead of retaining a
 stale Discord association.</p>
+<p>PremiumVanish visibility applies only to entries managed by CoreChatX. TAB rows owned by other plugins are preserved, while hide/show events and periodic reconciliation keep CoreChatX projections current.</p>
 <p>This is where the "one suite" approach matters most.
 A network setup should not require a separate plugin stack on every backend just to make messages, toggles, mentions, and PMs understand that players moved servers.</p>
 <hr/>

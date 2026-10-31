@@ -19,7 +19,7 @@ On startup, CoreChatX prints a <code>CORECHATX</code> banner with version, autho
 <li>every backend has <code>deployment.network-features-allowed: true</code></li>
 <li>every backend <code>deployment.network-channel</code> is present in Velocity <code>velocity-config.properties -&gt; network-channel</code></li>
 <li>when multiple groups are configured, every participating backend has a matching <code>backend-groups.&lt;server&gt;</code> assignment</li>
-<li>Velocity and all participating Paper backends run matching CoreChatX <code>2026.3.2</code> protocol-30 builds</li>
+<li>Velocity and all participating Paper backends run matching CoreChatX <code>2026.3.4</code> protocol-30 builds</li>
 <li>the Velocity jar is installed and started</li>
 <li>at least one eligible player connection exists for plugin-message transport when Paper needs a packet carrier</li>
 </ul>
@@ -93,6 +93,7 @@ Mention token PlaceholderAPI context is the mentioned player, using <code>Offlin
 <p>Cross-server ChatItems use lightweight refs in chat and on-demand snapshot retrieval through Velocity.
 They intentionally avoid embedding a full inventory payload into every chat packet.</p>
 <h2 id="discord-chatitem-images-do-not-render">Discord ChatItem images do not render<a aria-label="Link to Discord ChatItem images do not render" class="heading-anchor" href="#/docs/reference/troubleshooting-quick-reference~discord-chatitem-images-do-not-render">#</a></h2>
+<p>Player-head profiles without an available texture resolve asynchronously. The current capture can show a fallback head; a later capture uses the resolved texture. Failed or timed-out lookups retain a cached fallback until <code>/corechatx reload</code> permits another lookup. Snapshot capture never waits for network-backed profile completion.</p>
 <h2 class="reference-section" id="verify-8">Verify:<a aria-label="Link to Verify:" class="heading-anchor" href="#/docs/reference/troubleshooting-quick-reference~verify-8">#</a></h2>
 <ul>
 <li><code>chatitems.yml -&gt; discord-images.enabled: true</code></li>

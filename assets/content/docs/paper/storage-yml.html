@@ -44,7 +44,7 @@
 </ul>
 <h2 class="reference-section" id="schema-and-lease-policy">Schema and lease policy:<a aria-label="Link to Schema and lease policy:" class="heading-anchor" href="#/docs/paper/storage-yml~schema-and-lease-policy">#</a></h2>
 <ul>
-<li><code>schema-auto-migrate: true</code> installs or resumes the checksummed V1 runtime schema, V2 migration-control extension, V3 channel-persistence preference, and V4 advancement records under an exclusive database lock; CoreChatX 2026.3.1 and later, including 2026.3.2, require V4 even when advancement sync is disabled</li>
+<li><code>schema-auto-migrate: true</code> installs or resumes the checksummed V1 runtime schema, V2 migration-control extension, V3 channel-persistence preference, and V4 advancement records under an exclusive database lock; CoreChatX 2026.3.1 and later, including 2026.3.4, require V4 even when advancement sync is disabled</li>
 <li>history is journaled as <code>RUNNING</code>, <code>SUCCESS</code>, or <code>FAILED</code>; final table/column/engine/unique-index verification occurs before <code>SUCCESS</code></li>
 <li><code>schema-auto-migrate: false</code> refuses startup when a required version is missing; externally managed schemas must include V1 through V4 before boot</li>
 <li><code>lease-duration-ms</code> and <code>lease-renew-interval-ms</code> use database time; another live owner for the same scope is rejected and expired takeover receives a newer fencing token</li>

@@ -69,7 +69,7 @@
 <li>set <code>deployment.network-features-allowed: true</code> on each backend that should participate in cross-server features</li>
 <li>restart the affected Paper backends and Velocity after changing identity or network channel values</li>
 </ul>
-<p>For a <code>2026.3.2</code> network upgrade, stop Paper backends before Velocity, preserve all plugin folders, worlds and the database when used, install matching Paper and Velocity JARs, then start Velocity first. Mixed <code>2026.3.1</code>/<code>2026.3.2</code> networks are incompatible; the upgrade itself adds no database migration beyond the V004 schema already required by <code>2026.3.1</code>. Follow the <a href="#/docs/guides/installation~existing">complete upgrade procedure</a> before reopening player access.</p>
+<p>For a <code>2026.3.4</code> network upgrade, stop Paper backends before Velocity, preserve all plugin folders, worlds and the database when used, install matching Paper and Velocity JARs, then start Velocity first. Mixed <code>2026.3.1</code>/<code>2026.3.4</code> networks are incompatible; the upgrade itself adds no database migration beyond the V004 schema already required by <code>2026.3.1</code>. Follow the <a href="#/docs/guides/installation~existing">complete upgrade procedure</a> before reopening player access.</p>
 <h2 class="reference-section" id="for-bridge-installs">For bridge installs:<a aria-label="Link to For bridge installs:" class="heading-anchor" href="#/docs/instructions/quick-install-patterns~for-bridge-installs">#</a></h2>
 <ul>
 <li>keep <code>deployment.bridges-allowed: true</code></li>
@@ -98,3 +98,4 @@
 <li>accept that expired or rejected snapshots should fail closed with a normal expired-preview message</li>
 </ul>
 <hr/>
+<p>On standalone Paper, public-chat suggestions include online account names and plain custom nicknames, including <code>@name</code> forms. Suggestions follow joins, departures, nickname changes and per-viewer Bukkit visibility. Velocity retains ownership of chat completions in <code>PROXY</code> mode. Nickname mention matching and <code>/msg</code> target completion keep their existing behavior.</p><p>Incoming network messages require the exact enabled <code>NETWORK</code> channel named in the packet. Missing, blank, unknown, disabled, <code>SERVER</code> and <code>LOCAL_RADIUS</code> channel IDs are rejected without falling back to the receiving backend's default channel or audience.</p>

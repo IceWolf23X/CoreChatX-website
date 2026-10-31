@@ -24,6 +24,7 @@ synchronization, silent historical restoration, revocations, cross-backend advan
 and death announcements, and YAML/MySQL persistence. The <a href="#/docs/guides/advancement-sync">advancement guide</a>
 records these cases and their boundaries.</p>
 <p>The separate <code>2026.3.2</code> patch verification used Paper 26.3 build 142, Velocity 4.2.1-SNAPSHOT build 36, Java 25, two authenticated clients, and YAML authority. It confirmed bounded reload completion, native and remote preview behavior, network delivery, and durable final advancement writes after more than 30 seconds of inactivity. That session executed no real-MySQL cases and no live Discord or Telegram delivery.</p>
+<p>The <code>2026.3.3</code> automated release gate passed all 1,356 tests on Java 21, including 50 real-MySQL integration cases, with no failures, errors or skipped tests. This is automated regression and packaging coverage; no new authenticated gameplay, live Discord/Telegram delivery or live PremiumVanish-provider check was performed for this version. The earlier laboratory results below remain specific to their recorded builds.</p>
 <p>These laboratory results apply to the recorded builds and scenarios. Validation with
 production data, measured production capacity, and exhaustive configuration/datapack
 coverage remain unverified. Telegram runtime checks were excluded from the recorded

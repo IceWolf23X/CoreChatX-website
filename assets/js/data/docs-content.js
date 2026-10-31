@@ -5,7 +5,7 @@ window.COREX_DOCS = {
     "product": "CoreChatX",
     "articleCount": 76,
     "editingModel": "Article HTML is maintained in assets/content/docs/. This file contains the catalog; tools/build-docs-bundle.mjs assembles the offline bodies.",
-    "pluginVersion": "2026.3.2"
+    "pluginVersion": "2026.3.4"
   },
   "groups": [
     {
@@ -731,7 +731,7 @@ window.COREX_DOCS = {
       "id": "guides/installation",
       "group": "guides",
       "title": "Installation and upgrades",
-      "description": "Platform requirements, dependency placement, first start and upgrades to 2026.3.2.",
+      "description": "Platform requirements, dependency placement, first start and upgrades to 2026.3.4.",
       "icon": "book",
       "bodyFile": "assets/content/docs/guides/installation.html"
     },
@@ -787,7 +787,7 @@ window.COREX_DOCS = {
       "id": "reference/changelog",
       "group": "reference",
       "title": "Release changelog",
-      "description": "Release notes from 2026.1.0 through 2026.3.2, newest first.",
+      "description": "Release notes from 2026.1.0 through 2026.3.4, newest first.",
       "icon": "book",
       "bodyFile": "assets/content/docs/reference/changelog.html"
     }

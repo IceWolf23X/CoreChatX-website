@@ -49,6 +49,7 @@
 <div>
 <h3>Persistent nicknames</h3>
 <p><code>/nick</code> changes the name shown in chat without changing the player's real Minecraft account. You can limit nickname length and characters and prevent duplicate or misleading names.</p>
+<p>On standalone Paper, public-chat suggestions include online account names and plain custom nicknames, including <code>@name</code> forms. Suggestions follow joins, departures, nickname changes and per-viewer Bukkit visibility. Velocity retains ownership of chat completions in <code>PROXY</code> mode. Nickname mention matching and <code>/msg</code> target completion keep their existing behavior.</p>
 </div>
 <div>
 <h3>Granular nickname formatting</h3>
@@ -78,6 +79,8 @@
 <li><code>/hidechannel &lt;channel&gt; [minutes]</code> supports timed or permanent personal hiding; <code>/unhidechannel</code> restores access.</li>
 </ul>
 <p>A hidden channel cannot be used or seen by that player until the timer ends or they unhide it. On a Velocity network, this choice follows the player between connected Paper servers.</p>
+
+<p>Incoming network messages require the exact enabled <code>NETWORK</code> channel named in the packet. Missing, blank, unknown, disabled, <code>SERVER</code> and <code>LOCAL_RADIUS</code> channel IDs are rejected without falling back to the receiving backend's default channel or audience.</p>
 </section>
 <section>
 <p>Private messages</p>
@@ -93,6 +96,11 @@
 </ul>
 <p>Private messages automatically use the same nicknames, ignores, mutes, player settings, and network groups as the rest of CoreChatX.</p>
 <p>Cross-server PM work is bounded: overlapping requests can receive busy feedback instead of building an unbounded queue. Once a forwarded PM is accepted for routing, it consumes the configured cooldown even if the remote destination later rejects it or the request times out.</p>
+
+<p><code>/msg</code> and <code>/reply</code> share token rendering on standalone Paper and proxy backends: ChatItems, permission-controlled formatting, keywords and participant mentions. Mention text resolves only the sender or recipient; mention and custom-ping notifications target only the admitted recipient, never the sender, unrelated players or SocialSpy viewers. The receiving backend rechecks the recipient's permissions and preferences. Custom pings still require the sender's Bukkit <code>use-permission</code>; <code>bypass-toggle</code> can override only the recipient's ping toggles. The normal PM bell remains independent.</p>
+<p>In <code>/msg</code> and <code>/reply</code>, keywords use the explicit <code>private-messages</code> context. The usual <code>enabled-channels</code> and <code>disabled-channels</code> restrictions still apply; include that context in an allow-list when the keyword should work in PMs.</p>
+<p>PMs apply the configured anti-repeat and anti-caps rules and their existing bypass permissions. PM repeat history is separate from public chat and records only accepted local deliveries or successful remote delivery results; quit, reload and shutdown clear it. Remote rejection does not enter repeat history, although a configured cooldown is consumed when transport accepts publication.</p>
+<p>Once target text is delivered, reply targets, moderation history, cooldown state and remote delivery confirmation are established before optional notifications. A failed sound, ping, SocialSpy copy or console log does not undo delivery or interrupt the remaining effects. Diagnostics are bounded and do not log private text.</p>
 </section>
 <section>
 <p>Interactive features</p>
@@ -124,6 +132,9 @@
 <p>Every interactive feature can be enabled separately and follows its permissions, allowed channels, ignore rules, and player notification settings.</p>
 </div>
 </div>
+
+<p>ChatItem enchantment text omits the <code>I</code> suffix only when both the actual level and the server-defined maximum are 1. Other levels remain visible, including registered plugin/datapack enchantments and stored enchantments on enchanted books.</p>
+<p>Initial ChatItem rendering reuses bounded resource-pack file listings while loading texture atlases, avoiding repeated full scans. Resource-pack precedence, path validation and fallback behavior remain intact.</p>
 </section>
 <section>
 <p>Player settings</p>
@@ -189,7 +200,7 @@
 </div>
 <div>
 <h3>PremiumVanish connection privacy</h3>
-<p>Optional Paper and Velocity hooks suppress hidden players' join, first-join and quit announcements, including configured connection mirrors, while leaving first-join records and counters intact.</p>
+<p>Optional Paper and Velocity hooks suppress hidden players' join, first-join and quit announcements, including configured connection mirrors, while leaving first-join records and counters intact. On Velocity, the hook also filters CoreChatX-managed TAB entries and chat completions per viewer and omits vanished players from shared backend directories without removing entries owned by other plugins.</p>
 </div>
 </div>
 </section>
@@ -207,7 +218,7 @@
 <li>Proxy-owned Discord and source-backend Telegram export without duplicate network messages.</li>
 <li>Optional full advancement progress synchronization, with one Velocity-owned YAML or MySQL authority per group.</li>
 <li>Optional public death-message relay between participating Paper backends in the same group.</li>
-<li>PremiumVanish-aware network connection announcements when PremiumVanish is installed on Velocity.</li>
+<li>PremiumVanish-aware network announcements, per-viewer CoreChatX TAB/completion visibility, and vanished-player omission from shared directories when PremiumVanish is installed on Velocity.</li>
 </ul>
 <p>When a player unlinks Discord, the change is kept even if one Paper server is offline and reconnects later. CoreChatX also rejects invalid or oversized network messages.</p>
 <div>

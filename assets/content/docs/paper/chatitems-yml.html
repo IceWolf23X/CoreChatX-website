@@ -44,4 +44,6 @@
 <li>the shared base-icon cache keeps <code>512</code> memory entries and up to <code>512 MiB</code> on disk under <code>chatitem-renderer/render-cache</code>. Ordinary reload clears memory but preserves disk accounting; filesystem inspection or cleanup failure disables disk caching while rendering continues in memory</li>
 <li>do not share the render-cache directory with another active instance or redirect it through symbolic links or reparse points. Repair an inaccessible cache filesystem and restart to create a fresh disk-cache owner</li>
 </ul>
+<p>ChatItem enchantment text omits the <code>I</code> suffix only when both the actual level and the server-defined maximum are 1. Other levels remain visible, including registered plugin/datapack enchantments and stored enchantments on enchanted books.</p>
+<p>Initial ChatItem rendering reuses bounded resource-pack file listings while loading texture atlases, avoiding repeated full scans. Resource-pack precedence, path validation and fallback behavior remain intact.</p>
 <hr/>

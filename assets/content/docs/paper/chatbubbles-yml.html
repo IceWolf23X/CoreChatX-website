@@ -13,6 +13,8 @@
 <li>bubbles are created only after public chat passes normal CoreChatX checks</li>
 <li>the bubble text is derived from the already processed message body, not raw input</li>
 <li><code>allow-chat-bubbles: false</code> in <code>channels.yml</code> disables bubbles for that channel</li>
+<li>channels with <code>scope: STAFF</code> or a non-empty <code>permission-receive</code> never create bubbles, regardless of <code>enabled-channels</code> or <code>allow-chat-bubbles: true</code>; a channel that restricts only sending remains eligible</li>
+<li>public-channel bubbles do not enforce per-viewer ignore or hidden-channel rules, or a chat radius smaller than the bubble view distance; disable bubbles on channels that require those recipient-specific limits</li>
 <li>player settings include a persistent chat bubbles toggle</li>
 <li>in proxy mode, bubbles stay local to the Paper backend where the sender physically is</li>
 <li>bubble entities are removed on expiry, player quit, reload, and plugin disable</li>

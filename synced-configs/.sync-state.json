@@ -2,6 +2,9 @@
   "schemaVersion": 1,
   "sourceRepository": "IceWolf23X/CoreChatX-plugin",
   "sourceRef": "master",
-  "sourceCommit": "9d1ef37bd266f18e7451d61db7e8ebaf91a055c2",
-  "filesChanged": 18
+  "sourceCommit": "3e120e246d8058925abd57c2ffa1030cf8d71cf5",
+  "filesChanged": 18,
+  "sourceVersion": "2026.3.4",
+  "sourceState": "local-working-tree",
+  "lineEndingPolicy": "LF-normalized public defaults"
 }

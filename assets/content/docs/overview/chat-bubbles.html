@@ -12,7 +12,8 @@
 <li>distance-based visibility</li>
 <li>cleanup on quit, reload, and shutdown</li>
 </ul>
-<p>Chat bubbles use the already processed message, so filtering, channels, mentions, and keywords have already done their job.</p>
+<p>Chat bubbles use the already processed message. Channels with <code>STAFF</code> scope or a non-empty receive permission never create bubbles, even when explicitly included in the bubble allowlist; <code>allow-chat-bubbles: false</code> and disabled-channel filters remain authoritative.</p>
+<p>Public-channel bubbles are globally tracked entities with their own view distance. They do not enforce per-viewer ignore or hidden-channel rules, or a chat radius smaller than the bubble view range. Disable bubbles for a channel when those audience restrictions must also apply to overhead text.</p>
 <p>On a network, bubbles stay local to the server where the sender is physically playing.
 That keeps the feature useful without pretending an overhead bubble can float across servers.</p>
 <hr/>

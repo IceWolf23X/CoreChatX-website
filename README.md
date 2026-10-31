@@ -1,12 +1,12 @@
 # CoreChatX Website
 
-**Primary website: [CoreChatX](https://wiki-corechatx.icewolf23x.dev/).** This repository contains the CoreChatX 2026.3.2 landing page, wiki, configuration reference and public release catalog. Keep the repository history, CNAME and ownership-verification response when updating the site.
+**Primary website: [CoreChatX](https://wiki-corechatx.icewolf23x.dev/).** This repository contains the CoreChatX 2026.3.4 landing page, wiki, configuration reference and public release catalog. Keep the repository history, CNAME and ownership-verification response when updating the site.
 
 GitHub Pages currently publishes the root of `main` using its branch-based build. The included Actions deployment workflow is optional and gated by `COREX_PAGES_ENABLED`; switching to it also requires choosing GitHub Actions as the Pages source. Do not run the WIP first-publication helper to recreate this existing repository.
 
-The 19 published plugin defaults come from `IceWolf23X/CoreChatX-plugin`, branch `master`, commit `9d1ef37bd266f18e7451d61db7e8ebaf91a055c2`. Future private-source synchronization requires the separate `COREX_PLUGIN_READ_TOKEN` secret; its workflow stays disabled until that credential is configured.
+The 19 published plugin defaults are verified against the local `2026.3.4` working tree of `IceWolf23X/CoreChatX-plugin`, based on branch `master`, commit `3e120e246d8058925abd57c2ffa1030cf8d71cf5`. `docs/DEFAULTS_VERIFIED.json` records the current LF-normalized public bytes; the base commit alone does not describe the uncommitted release changes. Future private-source synchronization requires the separate `COREX_PLUGIN_READ_TOKEN` secret; its workflow stays disabled until that credential is configured.
 
-The documentation targets **CoreChatX 2026.3.2**. The complete installation, advancement and storage-migration guides are bundled in the wiki, alongside the release changelog. Previous public `.html` URLs redirect to their corresponding wiki articles and sections.
+The documentation targets **CoreChatX 2026.3.4**. The complete installation, advancement and storage-migration guides are bundled in the wiki, alongside the release changelog. Previous public `.html` URLs redirect to their corresponding wiki articles and sections.
 
 The download catalog reads the actual public GitHub Releases from `IceWolf23X/CoreChatX-website`, including their published metadata and assets. The release catalog is independent of the private plugin source and uses public metadata without browser credentials.
 
