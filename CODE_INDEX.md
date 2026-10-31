@@ -71,12 +71,12 @@ Excluded: `.git/`, ignored `.sync/` private-source verification files, generated
 - `assets/content/privacy.json` — Editable English website notice, confirmed controller/contact, providers, retention criteria and rights; separate from the plugin documentation catalog.
 - `assets/content/seo.json` — Canonical maintained page inventory: home, full reference and privacy; excludes hash routes and compatibility redirects.
 - `assets/js/data/ui-text.js` — Shared `legal` destination/label used by landing, wiki, Releases and full-reference navigation.
-- `privacy.html`, `tools/build-privacy-page.mjs` â€” Generated static notice readable without JavaScript; uses public site identity/storage settings. `--check` validates freshness.
+- `privacy.html`, `tools/build-privacy-page.mjs` — Generated static notice readable without JavaScript; uses public site identity/storage settings. `--check` validates freshness.
 - `assets/css/legal.css`, `assets/js/core/legal-page.js` — Scoped legal layout and existing theme preference; no additional network or storage services.
 - `sitemap.xml`, `robots.txt`, `tools/build-sitemap.mjs` — Deterministic canonical XML and crawler reference; preserves other robots directives, omits unverified modification dates.
 - `assets/js/boot.js` — Preserves standalone title, description and existing canonical while applying the shared theme.
 - `tools/prepare-pages.mjs`, `.github/workflows/deploy-pages.yml` — Package legal/crawler outputs, reject stale generated content and rebuild it in the optional Pages workflow.
-- `tests/legal-seo.test.mjs` â€” Authored-text escaping, stale-output preservation, invalid links/routes, crawler directives and Pages packaging contracts.
+- `tests/legal-seo.test.mjs` — Authored-text escaping, stale-output preservation, invalid links/routes, crawler directives and Pages packaging contracts.
 - `docs/PRIVACY_AND_SEO.md` — Editing/build workflow, infrastructure evidence, references and operational boundaries.
 
 - `tools/build-page-meta.mjs` — Generates static product-specific home/reference title, description and canonical from `assets/content/seo.json` templates and site identity; preserves application shells and supports read-only freshness validation. Pages preflight/workflow include this contract.
